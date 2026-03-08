@@ -1,0 +1,131 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Benoît",
+  "scopeName": "source.benoit",
+  "patterns": [
+    { "include": "#comment" },
+    { "include": "#test-assertion" },
+    { "include": "#use-import" },
+    { "include": "#match-block" },
+    { "include": "#match-arm" },
+    { "include": "#async-function" },
+    { "include": "#function-definition" },
+    { "include": "#binding" },
+    { "include": "#each-loop" },
+    { "include": "#conditional" },
+    { "include": "#string-interpolation" },
+    { "include": "#string" },
+    { "include": "#number" },
+    { "include": "#operator" },
+    { "include": "#constant" },
+    { "include": "#function-call" }
+  ],
+  "repository": {
+    "comment": {
+      "match": "--.*$",
+      "name": "comment.line.double-dash.benoit"
+    },
+    "test-assertion": {
+      "match": "^\\s*\\S+.*\\s+(==|!=)\\s+.+$",
+      "name": "meta.assertion.benoit",
+      "patterns": [
+        {
+          "match": "==|!=",
+          "name": "keyword.operator.assertion.benoit"
+        }
+      ]
+    },
+    "use-import": {
+      "match": "^\\s*(use)\\s+(\\w+)\\.(\\w+)",
+      "captures": {
+        "1": { "name": "keyword.control.import.benoit" },
+        "2": { "name": "entity.name.module.benoit" },
+        "3": { "name": "entity.name.function.benoit" }
+      }
+    },
+    "match-block": {
+      "match": "\\b(match)\\b",
+      "name": "keyword.control.match.benoit"
+    },
+    "match-arm": {
+      "match": "^\\s*(\\|)\\s*(\\S+)(?:\\s+(when)\\s+(.+?))?\\s*(=>)\\s*(.+)$",
+      "captures": {
+        "1": { "name": "punctuation.separator.arm.benoit" },
+        "2": { "name": "constant.other.pattern.benoit" },
+        "3": { "name": "keyword.control.when.benoit" },
+        "4": { "name": "meta.guard.benoit" },
+        "5": { "name": "punctuation.separator.arrow.benoit" },
+        "6": { "name": "meta.arm-body.benoit" }
+      }
+    },
+    "async-function": {
+      "match": "^\\s*(async)\\s+(_?\\w+)",
+      "captures": {
+        "1": { "name": "storage.modifier.async.benoit" },
+        "2": { "name": "entity.name.function.benoit" }
+      }
+    },
+    "function-definition": {
+      "match": "^\\s*(_?\\w+)\\s+(?=[\\w,=]+\\s*->|->)",
+      "captures": {
+        "1": { "name": "entity.name.function.benoit" }
+      }
+    },
+    "binding": {
+      "match": "^\\s*(\\w+)\\s*:\\s*",
+      "captures": {
+        "1": { "name": "variable.other.binding.benoit" }
+      }
+    },
+    "each-loop": {
+      "match": "\\b(each)\\b",
+      "name": "keyword.control.each.benoit"
+    },
+    "conditional": {
+      "match": "(\\?)(\\s*->)?",
+      "captures": {
+        "1": { "name": "keyword.operator.conditional.benoit" },
+        "2": { "name": "keyword.operator.arrow.benoit" }
+      }
+    },
+    "string-interpolation": {
+      "begin": "\"(?=[^\"]*\\{)",
+      "end": "\"",
+      "name": "string.interpolated.benoit",
+      "patterns": [
+        {
+          "begin": "\\{",
+          "end": "\\}",
+          "name": "meta.interpolation.benoit",
+          "beginCaptures": { "0": { "name": "punctuation.section.interpolation.begin.benoit" } },
+          "endCaptures": { "0": { "name": "punctuation.section.interpolation.end.benoit" } },
+          "patterns": [
+            { "include": "source.benoit" }
+          ]
+        }
+      ]
+    },
+    "string": {
+      "match": "\"[^\"]*\"",
+      "name": "string.quoted.double.benoit"
+    },
+    "number": {
+      "match": "\\b\\d+(\\.\\d+)?\\b",
+      "name": "constant.numeric.benoit"
+    },
+    "operator": {
+      "match": "->|\\|>|\\|\\||=>|\\.\\.",
+      "name": "keyword.operator.benoit"
+    },
+    "constant": {
+      "match": "\\b(true|false|null|undefined|await)\\b",
+      "name": "constant.language.benoit"
+    },
+    "function-call": {
+      "match": "\\b(\\w+)\\s*\\(",
+      "captures": {
+        "1": { "name": "entity.name.function.call.benoit" }
+      }
+    }
+  }
+}
