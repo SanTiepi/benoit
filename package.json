@@ -20,7 +20,8 @@
     "./distance": "./src/distance.mjs",
     "./decompose": "./src/decompose.mjs",
     "./contract": "./src/contract.mjs",
-    "./query": "./src/query.mjs"
+    "./query": "./src/query.mjs",
+    "./core": "./src/core.mjs"
   },
   "bin": {
     "benoit": "bin/benoit.mjs"
