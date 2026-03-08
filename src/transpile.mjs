@@ -570,5 +570,10 @@ function transformExpression(expr) {
   if (expr.includes(" | ")) {
     expr = expr.replace(/\s\|\s/g, " || ");
   }
+  // String interpolation: "Hello {name}" -> `Hello ${name}`
+  expr = expr.replace(/"([^"]*\{[^}]+\}[^"]*)"/g, (_, content) => {
+    const interpolated = content.replace(/\{([^}]+)\}/g, '${$1}');
+    return '`' + interpolated + '`';
+  });
   return expr;
 }
