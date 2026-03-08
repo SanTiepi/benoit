@@ -35,15 +35,18 @@ export function synthesize(fp) {
       continue;
     }
 
-    // Try different hypotheses
-    const hypothesis = tryHypotheses(fn.name, fn.arity, pairs);
+    // Extract property types if available (from algebra protocol)
+    const properties = (fn.properties || []).map(p => typeof p === "string" ? p : p.type);
+
+    // Try different hypotheses, filter by properties
+    const hypothesis = tryHypotheses(fn.name, fn.arity, pairs, properties);
     results.push(hypothesis);
   }
 
   return results;
 }
 
-function tryHypotheses(name, arity, pairs) {
+function tryHypotheses(name, arity, pairs, properties = []) {
   const hypotheses = [];
 
   if (arity === 1) {
@@ -92,6 +95,11 @@ function tryHypotheses(name, arity, pairs) {
           if (formula) hypotheses.push({ formula: formula.replace(/^\s*\+\s*/, ""), confidence: 0.85 });
         }
       }
+    }
+
+    // Absolute value: f(x) = |x|
+    if (pairs.every(p => p.output === Math.abs(p.args[0]))) {
+      hypotheses.push({ formula: "Math.abs(x)", confidence: 0.95 });
     }
 
     // Factorial pattern: f(0)=1, f(n)=n*f(n-1)
@@ -164,8 +172,16 @@ function tryHypotheses(name, arity, pairs) {
     return { name, status: "unsolved", code: null, pairs };
   }
 
-  // Pick highest confidence
-  hypotheses.sort((a, b) => b.confidence - a.confidence);
+  // If properties are provided, validate hypotheses against them
+  if (properties.length > 0) {
+    for (const h of hypotheses) {
+      h.propertyScore = validateAgainstProperties(h.formula, arity, properties, name, h.recursive);
+    }
+    // Sort by property score first, then confidence
+    hypotheses.sort((a, b) => (b.propertyScore - a.propertyScore) || (b.confidence - a.confidence));
+  } else {
+    hypotheses.sort((a, b) => b.confidence - a.confidence);
+  }
   const best = hypotheses[0];
   // Use consistent param names that match the formula variables
   const params = arity === 1 ? "x" : arity === 2 ? "a,b" : "x,min,max";
@@ -199,6 +215,89 @@ function tryHypotheses(name, arity, pairs) {
     confidence: best.confidence,
     alternatives: hypotheses.length > 1 ? hypotheses.slice(1).map(h => h.formula) : []
   };
+}
+
+/**
+ * Validate a hypothesis formula against known properties.
+ * Returns a score: higher = more properties satisfied.
+ */
+function validateAgainstProperties(formula, arity, properties, name, recursive) {
+  if (recursive || properties.length === 0) return 0;
+
+  let fn;
+  try {
+    if (arity === 1) fn = new Function("x", `return ${formula}`);
+    else if (arity === 2) fn = new Function("a", "b", `return ${formula}`);
+    else if (arity === 3) fn = new Function("x", "min", "max", `return ${formula}`);
+    else return 0;
+  } catch { return 0; }
+
+  let score = 0;
+  const samples = [-10, -5, -3, -1, 0, 1, 3, 5, 10, 42];
+
+  for (const prop of properties) {
+    try {
+      switch (prop) {
+        case "idempotent":
+          if (arity === 1 && samples.every(x => {
+            try { return fn(fn(x)) === fn(x); } catch { return false; }
+          })) score += 2; // High weight — strong constraint
+          else score -= 3; // Penalty for failing
+          break;
+        case "even_function":
+          if (arity === 1 && samples.every(x => {
+            try { return fn(-x) === fn(x); } catch { return false; }
+          })) score += 1;
+          else score -= 2;
+          break;
+        case "odd_function":
+          if (arity === 1 && samples.filter(x => x !== 0).every(x => {
+            try { return fn(-x) === -fn(x); } catch { return false; }
+          })) score += 1;
+          else score -= 2;
+          break;
+        case "involution":
+          if (arity === 1 && samples.every(x => {
+            try { return fn(fn(x)) === x; } catch { return false; }
+          })) score += 2;
+          else score -= 3;
+          break;
+        case "non_negative":
+          if (arity === 1 && samples.every(x => {
+            try { return fn(x) >= 0; } catch { return false; }
+          })) score += 1;
+          else score -= 2;
+          break;
+        case "monotonic_increasing":
+          if (arity === 1 && fn(-10) <= fn(0) && fn(0) <= fn(10)) score += 1;
+          else score -= 1;
+          break;
+        case "monotonic_decreasing":
+          if (arity === 1 && fn(-10) >= fn(0) && fn(0) >= fn(10)) score += 1;
+          else score -= 1;
+          break;
+        case "commutative":
+          if (arity === 2 && fn(3, 7) === fn(7, 3)) score += 1;
+          else score -= 2;
+          break;
+        case "associative":
+          if (arity === 2 && fn(fn(1, 2), 3) === fn(1, fn(2, 3))) score += 1;
+          else score -= 2;
+          break;
+        case "identity":
+          if (arity === 1 && samples.every(x => fn(x) === x)) score += 2;
+          else score -= 3;
+          break;
+        case "fixed_points":
+          score += 0; // Neutral — most functions have some fixed points
+          break;
+        default:
+          break;
+      }
+    } catch { /* skip property check */ }
+  }
+
+  return score;
 }
 
 function synthesizeStringFn(fn) {

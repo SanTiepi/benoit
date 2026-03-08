@@ -97,7 +97,7 @@ function inferUnary(name, fn, samples) {
     const ff = safe(fn, s.r.value);
     return ff.ok && ff.value === s.r.value;
   });
-  if (idempotent && !fixedPoints.length) {
+  if (idempotent && fixedPoints.length < results.length) {
     props.push({
       type: "idempotent",
       description: `${name} is idempotent: ${name}(${name}(x)) == ${name}(x)`,
