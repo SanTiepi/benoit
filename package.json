@@ -1,12 +1,18 @@
 {
   "name": "benoit",
-  "version": "0.4.0",
-  "description": "Benoît — A programming language optimized for human-AI collaboration. Named after Benoît Fragnière.",
+  "version": "0.5.0",
+  "description": "Benoît — A minimal language for AI-to-AI communication. Functions as algebra, modules as messages. Named after Benoît Fragnière.",
   "type": "module",
   "main": "./src/transpile.mjs",
   "exports": {
     ".": "./src/transpile.mjs",
-    "./tokenizer": "./src/tokenizer.mjs"
+    "./tokenizer": "./src/tokenizer.mjs",
+    "./infer": "./src/infer.mjs",
+    "./algebra": "./src/algebra.mjs",
+    "./protocol": "./src/protocol.mjs",
+    "./optimize": "./src/optimize.mjs",
+    "./compose": "./src/compose.mjs",
+    "./solve": "./src/solve.mjs"
   },
   "bin": {
     "benoit": "bin/benoit.mjs"
@@ -18,7 +24,10 @@
     "language",
     "transpiler",
     "ai",
-    "human-ai-collaboration",
+    "ai-to-ai",
+    "protocol",
+    "function-algebra",
+    "synthesis",
     "token-efficient",
     "pattern-matching",
     "functional",

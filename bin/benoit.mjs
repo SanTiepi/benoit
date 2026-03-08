@@ -17,6 +17,10 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { estimateTokens, compare, noiseAnalysis } from "../src/tokenizer.mjs";
 import { startRepl } from "../src/repl.mjs";
+import { infer } from "../src/infer.mjs";
+import { optimize } from "../src/optimize.mjs";
+import { encode, exchange } from "../src/protocol.mjs";
+import { composeModules } from "../src/compose.mjs";
 
 const [,, command, ...files] = process.argv;
 
@@ -24,7 +28,7 @@ if (command === "repl") {
   startRepl();
 } else if (!command || !files.length) {
   console.log(`
-  Benoît v0.4.0 — A programming language for human-AI collaboration
+  Benoît v0.5.0 — A programming language for human-AI collaboration
   En mémoire de Benoît Fragnière
 
   Usage:
@@ -35,8 +39,38 @@ if (command === "repl") {
     benoit stats <file.ben>       Token/noise analysis
     benoit watch <file.ben>       Watch and re-run on change
     benoit repl                   Interactive REPL session
+
+    benoit infer <file.ben>       Discover algebraic properties
+    benoit optimize <file.ben>    Self-optimize using discovered rules
+    benoit encode <file.ben>      Encode module for AI-to-AI transmission
+    benoit exchange <file.ben>    Full encode → decode → verify cycle
+    benoit compose <a.ben> <b.ben> Compose modules, find cross-module algebra
   `);
   process.exit(0);
+} else if (command === "compose") {
+  if (files.length < 2) {
+    console.error("compose requires at least 2 files");
+    process.exit(1);
+  }
+  const sources = files.map(f => readFileSync(f, "utf8"));
+  const result = composeModules(...sources);
+  console.log(`Modules composed: ${result.modulesComposed}`);
+  console.log(`Functions: ${result.stats.totalFunctions}`);
+  console.log(`Cross-module equivalences: ${result.stats.crossEquivalences}`);
+  console.log(`Cross-module inverses: ${result.stats.crossInverses}`);
+  console.log(`Cross-module compositions: ${result.stats.crossCompositions}`);
+  if (result.crossModule.equivalences.length > 0) {
+    console.log("\nEquivalences:");
+    for (const eq of result.crossModule.equivalences) {
+      console.log(`  ${eq.functionA} ≡ ${eq.functionB}`);
+    }
+  }
+  if (result.crossModule.inverses.length > 0) {
+    console.log("\nInverse pairs:");
+    for (const inv of result.crossModule.inverses) {
+      console.log(`  ${inv.f} ↔ ${inv.g}`);
+    }
+  }
 } else {
 
 for (const file of files) {
@@ -219,6 +253,55 @@ for (const file of files) {
       console.log(`  JS:     ${result.original_tokens} tokens, ${jsNoise.noise_pct}% noise`);
       console.log(`  Saving: ${result.savings_pct}% tokens`);
       console.log(`  Density: ${result.density_ratio}x`);
+      break;
+    }
+
+    case "infer": {
+      const blocks = src.split("\n\n").filter(b => b.trim());
+      for (const block of blocks) {
+        const defLine = block.split("\n").find(l => l.match(/^\w+\s+[\w,\s]+?\s*->/));
+        if (!defLine) continue;
+        try {
+          const result = infer(defLine);
+          console.log(`${result.name}:`);
+          if (result.properties.length === 0) {
+            console.log("  (no properties discovered)");
+          } else {
+            for (const p of result.properties) {
+              console.log(`  ${p.type}${p.evidence ? " — " + p.evidence.join(", ") : ""}`);
+            }
+          }
+        } catch (e) { console.log(`  error: ${e.message}`); }
+      }
+      break;
+    }
+
+    case "optimize": {
+      const result = optimize(src);
+      console.log(result.optimized);
+      if (result.stats.optimizations > 0) {
+        console.error(`\n--- ${result.stats.optimizations} optimizations applied ---`);
+        for (const [type, count] of Object.entries(result.stats.byType)) {
+          console.error(`  ${type}: ${count}`);
+        }
+      }
+      break;
+    }
+
+    case "encode": {
+      const msg = encode(src);
+      console.log(JSON.stringify(msg, null, 2));
+      break;
+    }
+
+    case "exchange": {
+      const result = exchange(src);
+      console.log(`Functions: ${result.summary.functionsTransmitted}`);
+      console.log(`Properties: ${result.summary.propertiesTransmitted}`);
+      console.log(`Surprises: ${result.summary.surprisesTransmitted}`);
+      console.log(`Source code transmitted: ${result.summary.sourceCodeTransmitted}`);
+      console.log(`Verification: ${result.summary.verificationRate}`);
+      console.log(`Message size: ${result.messageSize} chars (source: ${result.sourceSize} chars)`);
       break;
     }
 
