@@ -1,36 +1,73 @@
 <p align="center">
   <h1 align="center">Benoît</h1>
-  <p align="center"><strong>A programming language for the age of AI.</strong></p>
+  <p align="center"><strong>A programming language that understands itself.</strong></p>
   <p align="center"><em>Pour Benoît Fragnière, qui aimait la science.</em></p>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/benoit"><img src="https://img.shields.io/npm/v/benoit" alt="npm"></a>
+  <a href="https://github.com/SanTiepi/benoit/actions"><img src="https://github.com/SanTiepi/benoit/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/SanTiepi/benoit/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/benoit" alt="MIT"></a>
 </p>
 
 ---
 
 ## The Story
 
-My brother Benoît Fragnière loved science. He passed away too young. I wanted to create something in his name that would be useful to the world — something that every developer and every AI could benefit from.
+My brother Benoît Fragnière loved science. He passed away too young. I wanted to create something in his name — something that pushes the boundary of what a programming language can be.
 
-Today, AI writes millions of lines of code. Every line costs tokens. Every token costs time, energy, and money. What if there was a language that cut that cost by 68%?
+Benoît started as a token-efficient transpiler to JavaScript. Then it discovered something unexpected: **a function's behavior contains more information than its source code.**
 
-That's Benoît.
+Mon frère Benoît Fragnière aimait la science. Il est parti trop tôt. J'ai voulu créer quelque chose à son nom — quelque chose qui repousse les limites de ce qu'un langage de programmation peut être.
 
-Mon frère Benoît Fragnière aimait la science. Il est parti trop tôt. J'ai voulu créer quelque chose à son nom qui soit utile au monde entier — quelque chose dont chaque développeur et chaque IA pourrait bénéficier.
+Benoît a commencé comme un transpileur token-efficient vers JavaScript. Puis il a découvert quelque chose d'inattendu : **le comportement d'une fonction contient plus d'information que son code source.**
 
-Aujourd'hui, l'IA écrit des millions de lignes de code. Chaque ligne coûte des tokens. Chaque token coûte du temps, de l'énergie et de l'argent. Et s'il existait un langage qui réduisait ce coût de 68% ?
+---
 
-C'est Benoît.
+## What Makes Benoît Different
+
+### 1. Code proves itself
+```
+add a,b -> a + b
+add(2, 3) == 5
+add(-1, 1) == 0
+```
+Inline test assertions. No framework. No separate files. The function and its proof live together. **No other language has this.**
+
+### 2. Code discovers its own properties
+```bash
+$ benoit infer math.ben
+```
+```
+add: commutative, associative, identity element 0  [auto-discovered]
+square: even function, non-negative, fixed points {0, 1}
+negate: involution, odd function, monotonically decreasing
+```
+Benoît probes functions and discovers mathematical properties automatically. **31 properties across 10 functions. Zero human-written tests.**
+
+### 3. Two agents, zero source code
+```
+Agent A → writes code → discovers properties → sends fingerprint
+Agent B → receives fingerprint → synthesizes code → verifies properties
+Result: 3/3 functions, 8/8 assertions, 9/9 properties verified.
+No source code was transmitted.
+```
+The full experiment is in `experiments/full_cycle.mjs`. Run it yourself.
+
+### 4. 68% fewer tokens
+| | Benoît | JavaScript | Savings |
+|---|--------|------------|---------|
+| **Tokens** | 196 | 622 | **68%** |
+| **Noise** | 16% | 38% | **58% less** |
+| **Lines** | 15 | 50 | **70%** |
 
 ---
 
 ## What It Looks Like
 
 ```
--- Define a function: just name, args, arrow, body
+-- Functions: name, args, arrow, body
 add a,b -> a + b
-
--- Tests live right next to the code. No framework needed.
-add(2, 3) == 5
-add(-1, 1) == 0
 
 -- Pattern matching with guards
 classify x ->
@@ -40,54 +77,23 @@ classify x ->
     | _ => "zero"
 
 -- Pipes: data flows left to right
-result: data |> filter isValid |> map transform
+result: data |> parse |> validate |> save
 
--- Async: just add the keyword
-async fetchUser id -> await db.get(id)
-```
+-- String interpolation
+greet name -> "Hello {name}!"
 
-That's it. No semicolons. No braces. No `function`. No `return`. Every character carries meaning.
+-- Conditionals with else
+abs x ->
+  x >= 0? -> x
+  else? -> 0 - x
 
-## Why It Matters
-
-| | Benoît | JavaScript | Savings |
-|---|--------|------------|---------|
-| **Tokens** | 196 | 622 | **68%** |
-| **Noise** | 16% | 38% | **58% less** |
-| **Lines** | 15 | 50 | **70%** |
-
-*Measured on a real-world rate limiter module.*
-
-When AI reads and writes code, **every saved token** means:
-- Faster responses
-- Lower costs
-- Less energy consumed
-- Fewer errors
-
-Multiply that by billions of AI-generated code blocks per day. That's the impact.
-
-## What Makes It Unique
-
-### 1. Code proves itself
-```
-add a,b -> a + b
+-- Inline test assertions (the code proves itself)
 add(2, 3) == 5
-add(0, 0) == 0
-add(-1, 1) == 0
+classify(-7) == "negative"
+abs(-5) == 5
 ```
-Inline test assertions. No test file. No test framework. The function and its proof live together. **No other programming language has this.**
 
-### 2. AI-native by design
-Every syntax choice was made to minimize tokens for transformers. Not as an afterthought — as the core design principle.
-
-### 3. Full power, zero ceremony
-Pattern matching with guards and ranges. Pipes. Async/await. Destructuring. Closures. Factories. All in a syntax that reads like pseudocode.
-
-### 4. Zero dependencies
-The entire transpiler is a single file (~500 lines). No npm install chain. No build step. It just works.
-
-### 5. Full JavaScript interop
-Benoît transpiles to standard ES modules. Use any npm package. Deploy anywhere Node.js runs.
+No semicolons. No braces. No `function`. No `return`. Every character carries meaning.
 
 ---
 
@@ -95,35 +101,6 @@ Benoît transpiles to standard ES modules. Use any npm package. Deploy anywhere 
 
 ```bash
 npm install -g benoit
-```
-
-## Quick Start
-
-Create `hello.ben`:
-```
--- Hello world in Benoît
-greet name -> "Hello, " + name + "!"
-
--- Prove it works
-greet("World") == "Hello, World!"
-greet("Benoît") == "Hello, Benoît!"
-```
-
-Run it:
-```bash
-benoit check hello.ben
-```
-
-Output:
-```
---- Transpiled JS ---
-export function greet(name) { return "Hello, " + name + "!"; }
-
---- Inline tests (2) ---
-  ✓ greet("World") == "Hello, World!"
-  ✓ greet("Benoît") == "Hello, Benoît!"
-
-Result: 2/2 assertions passed
 ```
 
 ## CLI
@@ -134,169 +111,131 @@ benoit run <file.ben>         # Transpile and execute
 benoit test <file.ben>        # Run inline assertions
 benoit check <file.ben>       # Transpile + test + stats
 benoit stats <file.ben>       # Token/noise analysis
+benoit watch <file.ben>       # Watch and re-run on change
+benoit repl                   # Interactive REPL
+benoit ast <file.ben>         # Emit structured AST (JSON)
+benoit fingerprint <file.ben> # Extract semantic contract
+benoit efficiency <file.ben>  # Compare representation efficiency
 ```
 
-## Language Reference
+## Quick Start
 
-### Functions
+Create `hello.ben`:
 ```
--- Inline (single expression)
-add a,b -> a + b
-square x -> x * x
-
--- Block (multi-line, last expression = return value)
-process data ->
-  cleaned: sanitize(data)
-  validated: check(cleaned)
-  validated
-
--- No arguments
-timestamp -> Date.now()
-
--- Default parameters
-greet name="World" -> "Hello " + name
-
--- Private (not exported, _ prefix)
-_helper x -> x * 2
-
--- Async
-async fetchData url -> await fetch(url)
+greet name -> "Hello {name}!"
+greet("World") == "Hello World!"
+greet("Benoît") == "Hello Benoît!"
 ```
 
-### Pattern Matching
-```
--- Block form
-httpStatus code ->
-  match code ->
-    | 200 => "OK"
-    | 404 => "Not Found"
-    | 500 => "Internal Error"
-    | _ => "Unknown"
-
--- Inline form
-label x -> match x | 1 => "one" | 2 => "two" | _ => "other"
-
--- Guard clauses
-classify x ->
-  match x ->
-    | _ when x > 0 => "positive"
-    | _ when x < 0 => "negative"
-    | _ => "zero"
-
--- Range patterns
-grade score ->
-  match score ->
-    | 90..100 => "A"
-    | 80..89 => "B"
-    | 70..79 => "C"
-    | _ => "F"
-
--- Tagged values (algebraic types)
-handle result ->
-  match result ->
-    | Success data => "OK: " + data
-    | Error msg => "FAIL: " + msg
-    | _ => "unknown"
+```bash
+benoit check hello.ben
 ```
 
-### Pipes
+## The Research
+
+Benoît is both a practical language and a research platform for AI-to-AI communication.
+
+### The Pipeline
+
 ```
-result: 5 |> double |> addOne
-data |> filter isValid |> map transform
+Source code → AST → Fingerprint → Synthesis → Verification
+     ↑                                              ↓
+     └──────── Property Inference ←─────────────────┘
 ```
 
-### Bindings & Destructuring
-```
-name: "Benoît"
-count: 42
-store: Map
-[first, ...rest]: items
-{name, age}: person
+- **AST Parser** (`src/ast.mjs`) — structured representation of Benoît programs
+- **Fingerprint** — extract only the behavior (name + assertions), discard implementation
+- **Solver** (`src/solve.mjs`) — synthesize code from behavior alone
+- **Property Inference** (`src/infer.mjs`) — discover mathematical properties automatically
+- **Full Cycle** (`experiments/full_cycle.mjs`) — two agents communicate without source code
+
+### Key Experimental Results
+
+| Experiment | Result |
+|-----------|--------|
+| Functions synthesized from behavior alone | **8/8** |
+| Properties auto-discovered | **31** across 10 functions |
+| Assertions auto-generated | **65** (zero human-written) |
+| Agent A → Agent B verification | **9/9 properties confirmed** |
+| Source code transmitted between agents | **0 chars** |
+
+Run the experiments yourself:
+```bash
+node experiments/full_cycle.mjs       # Two-agent protocol
+node experiments/infer_experiment.mjs  # Property discovery
+node experiments/pipeline.mjs          # Full synthesis pipeline
 ```
 
-### Loops
-```
-items each x -> process(x)
-map each k,v -> console.log(k, v)
-```
+## Language Features (v0.4)
 
-### Conditionals
-```
-x > 0? console.log("positive")
-```
-
-### Fallback Chains
-```
-resolve a,b,c -> a | b | c
-```
-
-### Imports
-```
-use crypto.randomUUID
-```
-
-### Inline Tests
-```
-add a,b -> a + b
-add(2, 3) == 5
-add(0, 0) == 0
-
-square x -> x * x
-square(4) == 16
-square(-3) == 9
-```
-
-## API
-
-```javascript
-import { transpile, extractTests } from "benoit";
-
-const js = transpile("add a,b -> a + b");
-// → "export function add(a, b) { return a + b; }"
-
-const { assertions } = extractTests("add(2,3) == 5");
-// → [{ expr: "add(2,3)", expected: "5", line: 1 }]
-```
+- Inline test assertions (first-class syntax)
+- Pattern matching with guards, ranges, tagged values
+- Pipe operator `|>`
+- Async/await
+- Destructuring (array + object)
+- String interpolation `"Hello {name}"`
+- Else/elif conditionals
+- Local module imports `use ./math.add, subtract`
+- Watch mode
+- Interactive REPL
+- Error messages with line numbers
+- [VS Code extension](editor/vscode/) for syntax highlighting
+- Zero npm dependencies
 
 ## Full Specification
 
 See [SPEC.md](SPEC.md) for the complete language specification.
 
----
+See [docs/VISION.md](docs/VISION.md) for the research roadmap.
+
+See [docs/SEMANTIC_PROTOCOL.md](docs/SEMANTIC_PROTOCOL.md) for the AI-to-AI communication protocol design.
+
+## API
+
+```javascript
+import { transpile, extractTests } from "benoit";
+import { parse, fingerprint } from "benoit/ast";
+import { infer } from "benoit/infer";
+import { synthesize, solve } from "benoit/solve";
+
+// Transpile
+const js = transpile("add a,b -> a + b");
+
+// Extract behavior
+const fp = fingerprint(parse("add a,b -> a + b\nadd(2,3) == 5"));
+
+// Discover properties
+const props = infer("add a,b -> a + b");
+// → commutative, associative, identity element 0
+
+// Synthesize from behavior
+const code = synthesize(fp);
+// → "add a,b -> a + b" (reconstructed from assertions alone)
+
+// Solve for unknowns
+solve("add(?, 3) == 5", { add: (a,b) => a+b });
+// → { solutions: [2], unique: true }
+```
 
 ## Contributing
-
-Benoît is open source and welcomes contributions from humans and AIs alike.
 
 ```bash
 git clone https://github.com/SanTiepi/benoit.git
 cd benoit
-node --test tests/*.test.mjs   # 46 tests, all passing
+node --test tests/*.test.mjs   # 92 tests, all passing
 ```
 
-The transpiler is a single file: `src/transpile.mjs`. Read it. It's ~500 lines. You'll understand the whole language in 10 minutes.
+The transpiler is a single file: `src/transpile.mjs`. The whole language fits in your head.
 
 ---
 
 ## A Word / Un mot
 
 **English**
-68% fewer tokens is not an optimization. It's a new way of thinking about code. When humans and AI collaborate, every wasted character is wasted energy. Benoît removes the waste.
+Benoît is not just a language. It's proof that code can understand itself — discover its own properties, transmit its behavior without its source, and reconstruct itself from examples alone. 7 tokens in, 3 algebraic properties out.
 
 **Français**
-68% de tokens en moins, ce n'est pas une optimisation. C'est une nouvelle façon de penser le code. Quand les humains et l'IA collaborent, chaque caractère gaspillé est de l'énergie gaspillée. Benoît supprime le gaspillage.
-
-**Deutsch**
-68% weniger Tokens ist keine Optimierung. Es ist eine neue Art, über Code nachzudenken. Wenn Menschen und KI zusammenarbeiten, ist jedes verschwendete Zeichen verschwendete Energie. Benoît beseitigt die Verschwendung.
-
-**Español**
-68% menos tokens no es una optimización. Es una nueva forma de pensar el código. Cuando humanos e IA colaboran, cada carácter desperdiciado es energía desperdiciada. Benoît elimina el desperdicio.
-
-**日本語**
-トークン68%削減は最適化ではありません。コードについての新しい考え方です。人間とAIが協力するとき、無駄な文字はすべて無駄なエネルギーです。Benoîtは無駄を取り除きます。
-
-**中文**
-减少68%的token不是优化，而是一种思考代码的新方式。当人类与AI协作时，每一个浪费的字符都是浪费的能量。Benoît消除了浪费。
+Benoît n'est pas juste un langage. C'est la preuve que le code peut se comprendre lui-même — découvrir ses propres propriétés, transmettre son comportement sans son code source, et se reconstruire à partir d'exemples seuls. 7 tokens en entrée, 3 propriétés algébriques en sortie.
 
 ---
 

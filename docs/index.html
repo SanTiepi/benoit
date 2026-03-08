@@ -3,23 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Benoît — A programming language for the AI era</title>
-<meta name="description" content="Benoît transpiles to JavaScript with 68% fewer tokens. Inline test assertions, pattern matching, pipe operator. Built for human-AI collaboration.">
+<title>Benoît — A programming language that understands itself</title>
+<meta name="description" content="Benoît transpiles to JavaScript with 68% fewer tokens. Inline test assertions, property inference, AI-to-AI communication. The code proves itself.">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.6}
   a{color:#58a6ff;text-decoration:none}
   a:hover{text-decoration:underline}
   .container{max-width:900px;margin:0 auto;padding:0 24px}
-  .hero{text-align:center;padding:80px 0 60px}
+  .hero{text-align:center;padding:80px 0 40px}
   .hero h1{font-size:4rem;font-weight:700;color:#f0f6fc;letter-spacing:-0.02em}
   .hero .tagline{font-size:1.4rem;color:#58a6ff;margin:12px 0 8px}
-  .hero .subtitle{font-size:1.1rem;color:#8b949e;max-width:600px;margin:0 auto}
-  .install{text-align:center;margin:40px 0}
+  .hero .subtitle{font-size:1.05rem;color:#8b949e;max-width:640px;margin:0 auto;line-height:1.7}
+  .install{text-align:center;margin:32px 0}
   .install code{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px 28px;font-size:1.1rem;font-family:'SF Mono',Consolas,'Liberation Mono',Menlo,monospace;color:#58a6ff;display:inline-block}
-  .code-section{margin:60px 0}
-  .code-section h2{font-size:1.6rem;color:#f0f6fc;margin-bottom:20px;text-align:center}
-  .code-block{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px 28px;overflow-x:auto}
+  .section{margin:60px 0}
+  .section h2{font-size:1.6rem;color:#f0f6fc;margin-bottom:20px;text-align:center}
+  .code-block{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px 28px;overflow-x:auto;margin:16px 0}
   .code-block pre{font-family:'SF Mono',Consolas,'Liberation Mono',Menlo,monospace;font-size:0.95rem;line-height:1.7;color:#c9d1d9}
   .comment{color:#8b949e}
   .keyword{color:#ff7b72}
@@ -27,16 +27,23 @@
   .number{color:#79c0ff}
   .operator{color:#ff7b72}
   .assertion{color:#3fb950}
-  .features{margin:60px 0}
-  .features h2{font-size:1.6rem;color:#f0f6fc;margin-bottom:28px;text-align:center}
-  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+  .property{color:#f0883e}
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:20px}
   .feature{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px}
   .feature h3{color:#f0f6fc;font-size:1.1rem;margin-bottom:8px}
   .feature p{color:#8b949e;font-size:0.95rem}
+  .experiment{background:#161b22;border:1px solid #238636;border-radius:12px;padding:28px;margin:20px 0}
+  .experiment h3{color:#3fb950;font-size:1.2rem;margin-bottom:12px}
+  .experiment .result{font-family:'SF Mono',Consolas,monospace;color:#c9d1d9;font-size:0.95rem;line-height:1.8}
+  .experiment .highlight{color:#3fb950;font-weight:600}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0;text-align:center}
+  .stat{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:20px}
+  .stat .num{font-size:2.2rem;font-weight:700;color:#58a6ff}
+  .stat .label{color:#8b949e;font-size:0.9rem;margin-top:4px}
   .tribute{text-align:center;margin:60px 0;padding:40px 0;border-top:1px solid #21262d;border-bottom:1px solid #21262d}
   .tribute p{color:#8b949e;font-style:italic;font-size:1.05rem}
   .links{text-align:center;margin:50px 0}
-  .links a{display:inline-block;margin:0 12px;padding:12px 28px;border-radius:8px;font-weight:600;font-size:1rem}
+  .links a{display:inline-block;margin:0 10px;padding:12px 28px;border-radius:8px;font-weight:600;font-size:1rem}
   .links .primary{background:#238636;color:#fff;border:1px solid #2ea043}
   .links .primary:hover{background:#2ea043;text-decoration:none}
   .links .secondary{background:#21262d;color:#c9d1d9;border:1px solid #30363d}
@@ -47,38 +54,75 @@
     .hero h1{font-size:2.5rem}
     .hero .tagline{font-size:1.1rem}
     .features-grid{grid-template-columns:1fr}
+    .stats{grid-template-columns:1fr}
     .links a{display:block;margin:8px 0}
   }
 </style>
 </head>
 <body>
 <div class="container">
+
   <section class="hero">
     <h1>Beno&icirc;t</h1>
-    <p class="tagline">A programming language for the AI era</p>
-    <p class="subtitle">68% fewer tokens. Inline test assertions. Transpiles to JavaScript.</p>
+    <p class="tagline">A programming language that understands itself.</p>
+    <p class="subtitle">68% fewer tokens. Inline test assertions. Automatic property discovery. Code that proves itself, discovers its own laws, and communicates without source code.</p>
   </section>
+
   <section class="install">
     <code>npm install benoit</code>
   </section>
-  <section class="code-section">
-    <h2>Write less. Test inline. Ship faster.</h2>
-    <div class="code-block"><pre><span class="fn-name">fibonacci</span> n <span class="operator">-&gt;</span>
-  <span class="keyword">match</span> n <span class="operator">-&gt;</span>
-    <span class="operator">|</span> <span class="number">0</span> <span class="operator">=&gt;</span> <span class="number">0</span>
-    <span class="operator">|</span> <span class="number">1</span> <span class="operator">=&gt;</span> <span class="number">1</span>
-    <span class="operator">|</span> _ <span class="operator">=&gt;</span> fibonacci(n<span class="number">-1</span>) + fibonacci(n<span class="number">-2</span>)
 
-<span class="comment">-- Inline test assertions</span>
-<span class="assertion">fibonacci(0) == 0</span>
-<span class="assertion">fibonacci(10) == 55</span></pre></div>
+  <div class="stats">
+    <div class="stat"><div class="num">92</div><div class="label">tests passing</div></div>
+    <div class="stat"><div class="num">68%</div><div class="label">token reduction</div></div>
+    <div class="stat"><div class="num">31</div><div class="label">properties auto-discovered</div></div>
+  </div>
+
+  <section class="section">
+    <h2>Write less. Prove more.</h2>
+    <div class="code-block"><pre><span class="fn-name">add</span> a,b <span class="operator">-&gt;</span> a + b
+
+<span class="comment">-- The code proves itself</span>
+<span class="assertion">add(2, 3) == 5</span>
+<span class="assertion">add(-1, 1) == 0</span>
+
+<span class="comment">-- Beno&icirc;t discovers automatically:</span>
+<span class="property">-- commutative: add(a, b) == add(b, a)</span>
+<span class="property">-- associative: add(add(a, b), c) == add(a, add(b, c))</span>
+<span class="property">-- identity element: add(a, 0) == a</span></pre></div>
+    <p style="text-align:center;color:#8b949e;margin-top:12px">7 tokens in. 3 algebraic properties out. No human told it what to look for.</p>
   </section>
-  <section class="features">
+
+  <section class="section">
+    <h2>The Experiment</h2>
+    <div class="experiment">
+      <h3>Two agents. Zero source code. Full verification.</h3>
+      <div class="result">
+        Agent A writes code &rarr; discovers 9 properties &rarr; sends fingerprint<br>
+        Agent B receives fingerprint &rarr; synthesizes code &rarr; verifies all<br><br>
+        Functions synthesized: <span class="highlight">3/3</span><br>
+        Assertions verified: <span class="highlight">8/8</span><br>
+        Properties verified: <span class="highlight">9/9</span><br>
+        Source code transmitted: <span class="highlight">0 chars</span>
+      </div>
+    </div>
+    <p style="text-align:center;color:#8b949e">Run it yourself: <code style="background:#161b22;padding:4px 8px;border-radius:4px;font-size:0.9rem">node experiments/full_cycle.mjs</code></p>
+  </section>
+
+  <section class="section">
     <h2>Features</h2>
     <div class="features-grid">
       <div class="feature">
         <h3>Inline Test Assertions</h3>
-        <p>Tests live next to the function as first-class syntax. No framework. No separate files. Stripped in production, executed in test mode.</p>
+        <p>Tests as first-class syntax. No framework. No separate files. Stripped in production, executed in test mode.</p>
+      </div>
+      <div class="feature">
+        <h3>Property Inference</h3>
+        <p>Discovers commutativity, associativity, identity elements, involutions, monotonicity, even/odd symmetry automatically.</p>
+      </div>
+      <div class="feature">
+        <h3>Code Synthesis</h3>
+        <p>Given only input/output examples, synthesizes working implementations. Fibonacci, clamp, arithmetic &mdash; from behavior alone.</p>
       </div>
       <div class="feature">
         <h3>Pattern Matching</h3>
@@ -89,27 +133,24 @@
         <p>Chain transformations: data |&gt; parse |&gt; validate |&gt; save. Top to bottom. No nesting.</p>
       </div>
       <div class="feature">
-        <h3>68% Token Reduction</h3>
-        <p>Same logic, far fewer tokens. Your AI sees more code, reasons better, and costs less per API call.</p>
-      </div>
-      <div class="feature">
         <h3>Zero Dependencies</h3>
-        <p>The entire transpiler is a single file with no npm dependencies. Install it and it just works.</p>
-      </div>
-      <div class="feature">
-        <h3>~500 Lines</h3>
-        <p>Small enough to read in an afternoon. Small enough for an AI to hold entirely in context. Hackable by design.</p>
+        <p>The entire transpiler is a single file. Install it and it just works. Small enough for an AI to hold entirely in context.</p>
       </div>
     </div>
   </section>
+
   <section class="tribute">
     <p>Named after Beno&icirc;t Fragni&egrave;re, who loved science.</p>
+    <p style="margin-top:8px;color:#58a6ff;font-style:normal">He would have loved that the code discovers its own truths.</p>
   </section>
+
   <section class="links">
     <a href="https://github.com/SanTiepi/benoit" class="primary">GitHub</a>
     <a href="https://www.npmjs.com/package/benoit" class="secondary">npm</a>
     <a href="https://github.com/SanTiepi/benoit/blob/main/SPEC.md" class="secondary">Spec</a>
+    <a href="https://github.com/SanTiepi/benoit/blob/main/docs/VISION.md" class="secondary">Vision</a>
   </section>
+
 </div>
 <footer>
   <p>MIT License &middot; Created by <a href="https://github.com/SanTiepi">Robin Fragni&egrave;re</a></p>
