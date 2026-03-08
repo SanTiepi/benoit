@@ -1,6 +1,6 @@
 {
   "name": "benoit",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Benoît — A minimal language for AI-to-AI communication. Functions as algebra, modules as messages. Named after Benoît Fragnière.",
   "type": "module",
   "main": "./src/transpile.mjs",
