@@ -62,7 +62,7 @@ function parseBlock(lines, start, end, minIndent) {
         type: "function",
         async: !!fnInline[1],
         name: fnInline[2],
-        params: fnInline[3].split(/\s+/),
+        params: fnInline[3].split(/[\s,]+/).filter(Boolean),
         body: fnInline[4],
         private: fnInline[2].startsWith("_"),
         line: i + 1
@@ -93,7 +93,7 @@ function parseBlock(lines, start, end, minIndent) {
         type: "function",
         async: !!fnBlock[1],
         name: fnBlock[2],
-        params: fnBlock[3].split(/\s+/),
+        params: fnBlock[3].split(/[\s,]+/).filter(Boolean),
         body: parseBlock(lines, i + 1, blockEnd, indent + 1),
         private: fnBlock[2].startsWith("_"),
         line: i + 1
