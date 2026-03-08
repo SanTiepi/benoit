@@ -97,6 +97,29 @@ function tryHypotheses(name, arity, pairs, properties = []) {
       }
     }
 
+    // Cubic: f(x) = x³
+    if (pairs.length >= 3) {
+      const isCube = pairs.every(p => Math.abs(p.args[0] ** 3 - p.output) < 0.001);
+      if (isCube) {
+        hypotheses.push({ formula: "x * x * x", confidence: 0.9 });
+      }
+    }
+
+    // ReLU: f(x) = max(0, x)
+    if (pairs.every(p => p.output === Math.max(0, p.args[0]))) {
+      hypotheses.push({ formula: "Math.max(0, x)", confidence: 0.95 });
+    }
+
+    // Floor: f(x) = Math.floor(x)
+    if (pairs.every(p => p.output === Math.floor(p.args[0]))) {
+      hypotheses.push({ formula: "Math.floor(x)", confidence: 0.9 });
+    }
+
+    // Sign: f(x) = Math.sign(x)
+    if (pairs.every(p => p.output === Math.sign(p.args[0]))) {
+      hypotheses.push({ formula: "Math.sign(x)", confidence: 0.9 });
+    }
+
     // Absolute value: f(x) = |x|
     if (pairs.every(p => p.output === Math.abs(p.args[0]))) {
       hypotheses.push({ formula: "Math.abs(x)", confidence: 0.95 });
@@ -158,6 +181,21 @@ function tryHypotheses(name, arity, pairs, properties = []) {
     // Min
     if (pairs.every(p => p.output === Math.min(p.args[0], p.args[1]))) {
       hypotheses.push({ formula: "Math.min(a, b)", confidence: 0.9 });
+    }
+
+    // Modulo
+    if (pairs.every(p => p.args[1] !== 0 && p.output === p.args[0] % p.args[1])) {
+      hypotheses.push({ formula: "a % b", confidence: 0.9 });
+    }
+
+    // Power
+    if (pairs.every(p => Math.abs(Math.pow(p.args[0], p.args[1]) - p.output) < 0.001)) {
+      hypotheses.push({ formula: "Math.pow(a, b)", confidence: 0.85 });
+    }
+
+    // Integer division
+    if (pairs.every(p => p.args[1] !== 0 && p.output === Math.floor(p.args[0] / p.args[1]))) {
+      hypotheses.push({ formula: "Math.floor(a / b)", confidence: 0.85 });
     }
   }
 
