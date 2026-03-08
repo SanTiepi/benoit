@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">Benoit</h1>
-  <p align="center"><strong>A behavioral protocol for AI-to-AI communication.<br>Functions as algebra. Instructions as examples. Contracts as behavior.</strong></p>
+  <p align="center"><strong>A behavioral protocol for AI-to-AI communication.<br>Functions as algebra. Instructions as examples. Questions as holes.<br>Zero wrong answers through negotiation.</strong></p>
   <p align="center"><em>Pour Benoit Fragniere, qui aimait la science.</em></p>
 </p>
 
@@ -16,13 +16,13 @@
 
 My brother Benoit Fragniere loved science. He passed away too young. I wanted to create something in his name -- something that pushes the boundary of what a programming language can be.
 
-Benoit started as a token-efficient transpiler. Then it discovered its own algebraic properties. Then two agents communicated a module without transmitting a single line of source code. Then it optimized its own code using rules nobody wrote. Then it encoded instructions as behavior instead of text. Then agents started negotiating contracts through verified examples.
+Benoit started as a token-efficient transpiler. Then it discovered its own algebraic properties. Then two agents communicated a module without transmitting a single line of source code. Then it optimized its own code using rules nobody wrote. Then it encoded instructions as behavior instead of text. Then agents started negotiating contracts through verified examples. Then everything collapsed into one primitive: `given(known).when(hole)`. Then agents learned to never give wrong answers -- by asking back instead of guessing.
 
 **Mon frere Benoit aimait la science. Ce langage porte son nom.**
 
 ---
 
-## Three Layers
+## Four Layers
 
 ### Layer 1: Communication -- functions without source code
 
@@ -52,6 +52,17 @@ System: binds GeomBot. ApproxBot renegotiates with a new contract.
 ```
 
 No source code inspected. No trust assumed. Every binding earned through behavior.
+
+### Layer 4: Negotiation -- zero wrong answers
+
+```
+Agent B receives 2 examples --> synthesizes (ambiguous)
+Agent B: "I think f(x) = 5x-6. Can you confirm f(0), f(-1), f(10)?"
+Agent A answers probes --> Agent B re-synthesizes --> converges
+Result: perfect understanding in 1 ping-pong. Zero wrong answers.
+```
+
+Don't interpret. Ask back. The cost: 0.3ms. The payoff: zero misunderstandings.
 
 ---
 
@@ -120,12 +131,16 @@ Source --> AST --> Properties --> Protocol Message --> Synthesis --> Verificatio
               (equivalence,    (cross-module                  (identity, involution,
                inverses)        discovery)                     absorption, folding)
                                      |
-                                  Intent            Contract
-                              (behavioral       (need/offer/bind
-                               instructions)     marketplace)
+                    Intent      Contract      Query       Core
+                 (behavioral   (need/offer   (questions   (universal
+                  instruct.)    /bind)       as holes)    primitive)
+                                                |
+                                          Negotiation
+                                      (ask back, don't
+                                       guess: 0 errors)
 ```
 
-### Core Modules (17)
+### Core Modules (20)
 
 | Module | What it does |
 |--------|-------------|
@@ -146,13 +161,16 @@ Source --> AST --> Properties --> Protocol Message --> Synthesis --> Verificatio
 | `decompose.mjs` | Function archaeology: break into known primitives |
 | `intent.mjs` | Instructions as behavioral specifications |
 | `contract.mjs` | Contract-driven module discovery + marketplace |
+| `query.mjs` | Questions as incomplete examples, negotiation protocol |
+| `core.mjs` | Universal primitive: given/when/then |
 
 ### Key Results
 
 | Metric | Value |
 |--------|-------|
-| Tests passing | **223** |
-| Source modules | **17** |
+| Tests passing | **268** |
+| Stress tests | **44/44** |
+| Source modules | **20** |
 | Protocol verification rate | **97%** (34/35 per direction) |
 | Source code transmitted between agents | **0 chars** |
 | Composition laws derivable from individual properties | **84%** |
@@ -161,6 +179,8 @@ Source --> AST --> Properties --> Protocol Message --> Synthesis --> Verificatio
 | Synthesis patterns | **30+** (GCD, 2^x, sqrt, hypotenuse, trig, strings) |
 | Intent scenarios (zero natural language) | **6/6** |
 | Contract negotiation + binding | **3 contracts, 1 composition, backward compat** |
+| Negotiate convergence | **8/8 function types learned via ping-pong** |
+| Wrong answers after negotiation | **0** |
 
 ---
 
@@ -177,39 +197,18 @@ node demos/agent_a.mjs | node demos/agent_b.mjs  # Real two-process pipe
 # The meta-insight
 node demos/intent.mjs           # Instructions as behavior, not text
 node demos/contracts.mjs        # Contract negotiation between 3 agents
+node demos/dialogue.mjs         # Questions, corrections, curiosity, learning
+node demos/core.mjs             # 18 modules reduced to 1 primitive
 ```
 
-### Intent Demo (the meta-question)
+### Negotiation Experiments (v0.7.0)
 
-> "Why shouldn't instructions follow the same model as communication?"
-
-```
-Six instructions given to Agent B. Zero used natural language.
-
-"Double this" -> 4 examples
-"Sort this"   -> 4 examples
-"Compose"     -> automatic
-"I meant x^2" -> 3 counter-examples (negotiation)
-"Uppercase"   -> 3 examples
-"Sum this"    -> 4 examples
-
-Every instruction was:
-  Unambiguous (behavior, not words)
-  Verifiable  (test on unseen inputs)
-  Composable  (pipeline intents)
-  Negotiable  (add examples to refine)
-```
-
-### Contracts Demo (trust through behavior)
-
-```
-ACT 1: MathBot publishes a need for Euclidean distance
-ACT 2: GeomBot and ApproxBot each offer implementations
-ACT 3: System ranks offers -- GeomBot PASS, ApproxBot FAIL
-ACT 4: GeomBot gets bound, ApproxBot rejected
-ACT 5: ApproxBot renegotiates with Manhattan distance
-ACT 6: Composition -- normalized distance from two contracts
-ACT 7: Backward compatibility check on new implementation
+```bash
+node experiments/negotiate.mjs   # Agent-to-agent: 2 examples → 1 ping-pong → 100%
+node experiments/reformulate.mjs # Turn unsolvable questions into solvable ones
+node experiments/entropy.mjs     # Prove negotiation reduces ambiguity measurably
+node experiments/stress.mjs      # 44 stress tests: edge cases, perf, integration
+node experiments/benchmark.mjs   # 38 honest benchmarks: 92% pass rate
 ```
 
 ---
@@ -259,6 +258,30 @@ reg.publishNeed({ name: "sort", examples: [...], properties: ["idempotent"] });
 reg.publishOffer(needId, { fn: mySort });
 reg.resolve(needId); // -> binds best passing offer
 
+// Universal primitive
+import { given } from "benoit/core";
+const f = given([{input: 2, output: 4}, {input: 3, output: 9}]);
+f.when(5); // -> 25
+
+// Questions + Negotiation
+import { quality, reformulate, Dialogue } from "benoit/query";
+
+// Measure question quality
+quality([{input: 1, output: 2}, {input: 2, output: 4}]);
+// -> { score: 0.74, verdict: "good", suggestions: [...] }
+
+// Auto-improve a question
+reformulate([{input: 2, output: 4}]);
+// -> { improved: true, reformulated: { examples: [...], quality: {...} } }
+
+// Agent-to-agent negotiation (zero wrong answers)
+const dialogue = new Dialogue();
+dialogue.teach([{input: 1, output: 2}]);
+const neg = dialogue.negotiate();          // "Can you confirm f(0), f(-1), f(5)?"
+dialogue.fulfill(neg, [{input: 0, output: 0}, {input: 5, output: 10}]);
+dialogue.shouldNegotiate();                // false — confident now
+dialogue.ask([100]);                       // -> { answers: [{input: 100, output: 200}] }
+
 // Function generation (properties -> code)
 import { generate } from "benoit/generate";
 generate(["commutative", "associative"]); // -> add a,b -> a + b
@@ -291,7 +314,7 @@ decompose("abs_double x -> Math.abs(x) * 2", [...library]);
 ```bash
 git clone https://github.com/SanTiepi/benoit.git
 cd benoit
-npm test   # 223 tests, all passing
+npm test   # 268 tests, all passing
 ```
 
 See [SPEC.md](SPEC.md) for the language specification.

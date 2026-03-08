@@ -1,4 +1,4 @@
-# Benoit Protocol Specification v0.6.0
+# Benoit Protocol Specification v0.7.0
 
 *Formal specification of the Benoit Communication Protocol, Intent Engine, and Contract System.*
 
@@ -786,6 +786,101 @@ Returns:
 
 ---
 
+## 12. Query Engine: Questions as Incomplete Examples
+
+The `query.mjs` module treats questions as behavioral specifications with holes.
+
+### 12.1 Core Operations
+
+- **`ask(known, holes, properties?)`**: Creates a query from known examples + input holes
+- **`answer(query)`**: Fills holes using synthesis
+- **`challenge(answeredQuery, corrections)`**: Overrides wrong answers with new evidence
+- **`curious(known, options?)`**: Detects gaps in knowledge (extrapolation, edge cases)
+
+### 12.2 Quality Measurement
+
+`quality(examples)` measures question quality on 5 axes:
+
+| Axis | Weight | Measure |
+|------|--------|---------|
+| Quantity | 0.15 | 5+ examples = max score |
+| Resolvability | 0.25 | Can the solver synthesize? |
+| Consistency | 0.25 | Does synthesis match ALL examples? |
+| Diversity | 0.15 | Sign coverage, input spread, uniqueness |
+| Ambiguity | 0.20 | How many alternative functions fit? |
+
+Verdicts: `excellent` (>= 0.85), `good` (>= 0.7), `adequate` (>= 0.5), `weak` (>= 0.3), `insufficient` (< 0.3).
+
+### 12.3 Reformulation
+
+`reformulate(examples, opts?)` auto-improves a bad question:
+
+1. Diagnose with `quality()`
+2. If low diversity: probe boundaries (0, -1, 1, 10, -10, 100) using current best-fit
+3. If too few examples: bootstrap from best-fit across input range
+4. If high ambiguity: test at extreme values where interpretations diverge
+5. If unsolvable: try structural transforms (e.g., sequential -> recurrence)
+
+Returns `{ original, reformulated, rounds, improved, history }`.
+
+### 12.4 Negotiation Protocol
+
+The Dialogue class implements agent-to-agent negotiation:
+
+```
+teach(examples)    → add knowledge
+ask(holes)         → fill holes from accumulated knowledge
+negotiate()        → "I'm confused here, confirm these inputs"
+fulfill(neg, data) → sender answers probes
+shouldNegotiate()  → cost gate: is a ping-pong worth it?
+correct(examples)  → override wrong understanding
+wonder()           → detect gaps in knowledge
+understanding()    → measure current accuracy
+```
+
+**Negotiation flow**:
+```
+Sender → teach(examples) → Receiver synthesizes
+Receiver → shouldNegotiate() → true (few examples or confusion)
+Receiver → negotiate() → returns probes + confusion points
+Sender → fulfill(neg, answers) → provides clarifications
+Receiver → shouldNegotiate() → false (confident)
+Receiver → ask(holes) → correct answers
+```
+
+**shouldNegotiate rules**:
+- 0 examples → `critical`
+- < 3 examples → `medium`
+- Model doesn't explain all examples → `high`
+- < 5 examples with formula → `low`
+- >= 5 consistent examples with formula → `false` (skip)
+
+**Convergence guarantee**: Each negotiate round adds examples at maximum-uncertainty points, monotonically reducing the space of plausible interpretations.
+
+---
+
+## 13. Core: Universal Primitive
+
+The `core.mjs` module proves all 20 modules reduce to one operation:
+
+```
+given(known).when(hole) → answer
+```
+
+| Operation | Expression |
+|-----------|-----------|
+| Protocol | `given(assertions).when(new_input)` |
+| Intent | `given(examples).when(new_input)` |
+| Query | `given(context).when(hole)` |
+| Correction | `given(old).but(new_evidence)` |
+| Composition | `given(f).pipe(given(g))` |
+| Diff | `asDiff(behavior_a, behavior_b)` |
+| Self-test | `selfTest()` — 8/8 pass |
+
+**Self-reference**: Benoit CAN describe itself. The `selfTest()` function uses `given/when` to test `given/when`, and all 8 tests pass.
+
+---
+
 ## Appendix A: Protocol Constants
 
 | Constant | Value | Location |
@@ -836,3 +931,21 @@ Returns:
 ### solve.mjs
 - `synthesize(fp: Fingerprint): SynthesisResult[]`
 - `solve(assertion: string, knownFunctions: object): SolveResult`
+
+### query.mjs
+- `ask(known, holes, properties?): Query`
+- `answer(query): AnsweredQuery`
+- `challenge(answeredQuery, corrections): AnsweredQuery`
+- `curious(known, options?): CuriosityReport`
+- `quality(examples): QualityReport`
+- `reformulate(examples, opts?): ReformulationResult`
+- `Dialogue` class (methods: `teach`, `ask`, `negotiate`, `fulfill`, `shouldNegotiate`, `correct`, `wonder`, `understanding`, `summary`)
+
+### core.mjs
+- `given(known, properties?): Resolver`
+- `asProtocol(assertions): Resolver`
+- `asIntent(examples, properties?): Resolver`
+- `asQuery(context): Resolver`
+- `asDiff(behaviorA, behaviorB): DiffReport`
+- `asCompose(behaviorF, behaviorG): Resolver`
+- `selfTest(): SelfTestResult`
