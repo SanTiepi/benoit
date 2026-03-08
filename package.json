@@ -18,7 +18,8 @@
     "./diff": "./src/diff.mjs",
     "./generate": "./src/generate.mjs",
     "./distance": "./src/distance.mjs",
-    "./decompose": "./src/decompose.mjs"
+    "./decompose": "./src/decompose.mjs",
+    "./contract": "./src/contract.mjs"
   },
   "bin": {
     "benoit": "bin/benoit.mjs"
