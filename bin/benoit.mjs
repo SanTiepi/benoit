@@ -15,10 +15,13 @@ import { pathToFileURL } from "node:url";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { estimateTokens, compare, noiseAnalysis } from "../src/tokenizer.mjs";
+import { startRepl } from "../src/repl.mjs";
 
 const [,, command, ...files] = process.argv;
 
-if (!command || !files.length) {
+if (command === "repl") {
+  startRepl();
+} else if (!command || !files.length) {
   console.log(`
   Benoît v0.3.0 — A programming language for human-AI collaboration
   En mémoire de Benoît Fragnière
@@ -29,9 +32,10 @@ if (!command || !files.length) {
     benoit test <file.ben>        Run inline assertions
     benoit check <file.ben>       Transpile + test + stats
     benoit stats <file.ben>       Token/noise analysis
+    benoit repl                   Interactive REPL session
   `);
   process.exit(0);
-}
+} else {
 
 for (const file of files) {
   const src = readFileSync(file, "utf8");
@@ -171,4 +175,5 @@ for (const file of files) {
       console.error(`Unknown command: ${command}`);
       process.exit(1);
   }
+}
 }
