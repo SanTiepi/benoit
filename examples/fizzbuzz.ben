@@ -1,0 +1,21 @@
+-- FizzBuzz in Benoît
+-- Demonstrates: conditionals with else, string interpolation, loops
+
+fizzbuzz n ->
+  n % 15 == 0? -> "FizzBuzz"
+  n % 3 == 0? -> "Fizz"
+  n % 5 == 0? -> "Buzz"
+  else? -> n
+
+-- Inline tests
+fizzbuzz(1) == 1
+fizzbuzz(3) == "Fizz"
+fizzbuzz(5) == "Buzz"
+fizzbuzz(15) == "FizzBuzz"
+fizzbuzz(30) == "FizzBuzz"
+fizzbuzz(7) == 7
+
+-- Run it
+_run ->
+  items: Array.from({length: 20}, (_, i) => i + 1)
+  items each n -> console.log(fizzbuzz(n))

@@ -1,0 +1,27 @@
+-- Todo list manager in Benoît
+-- Demonstrates: closures, factory pattern, string interpolation, each loops
+
+createTodoList ->
+  items: Array
+
+  _add text ->
+    items.push({text, done: false})
+
+  _toggle index ->
+    items[index].done = !items[index].done
+
+  _remove index ->
+    items.splice(index, 1)
+
+  _pending ->
+    items.filter(i => !i.done)
+
+  _completed ->
+    items.filter(i => i.done)
+
+  _summary ->
+    done: items.filter(i => i.done).length
+    total: items.length
+    "{done}/{total} completed"
+
+  {add: _add, toggle: _toggle, remove: _remove, pending: _pending, completed: _completed, summary: _summary, items}

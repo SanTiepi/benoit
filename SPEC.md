@@ -105,6 +105,29 @@ x > 0? ->
   process(x)
 ```
 
+**Else:**
+```
+x > 0? -> "positive"
+else? -> "non-positive"
+```
+→ `if (x > 0) { return "positive" } else { return "non-positive" }`
+
+**Elif chain:**
+```
+x > 0? -> "positive"
+x < 0? -> "negative"
+else? -> "zero"
+```
+→ Generates `if / else if / else` chain.
+
+**Block else:**
+```
+x >= 0? ->
+  x
+else? ->
+  0 - x
+```
+
 ### Loops
 
 **Key-value iteration:**

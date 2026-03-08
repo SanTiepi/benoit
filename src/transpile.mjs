@@ -207,6 +207,7 @@ function processLines(lines, start, end, isBlock) {
       const cleanCond = cond.replace(/\?$/, "").trim();
       const transAction = transformExpression(action);
       output.push(`${indent}if (${cleanCond}) { ${transAction} }`);
+      i = appendElseChain(lines, i, indent, end, output, true);
       continue;
     }
 
@@ -221,6 +222,7 @@ function processLines(lines, start, end, isBlock) {
       output.push(...blockOutput);
       output.push(`${indent}}`);
       i = blockEnd - 1;
+      i = appendElseChain(lines, i, indent, end, output, false);
       continue;
     }
 
@@ -230,6 +232,7 @@ function processLines(lines, start, end, isBlock) {
       const [, cond, action] = condShortMatch;
       const transAction = transformExpression(action);
       output.push(`${indent}if (${cond.trim()}) { ${transAction} }`);
+      i = appendElseChain(lines, i, indent, end, output, true);
       continue;
     }
 
@@ -541,18 +544,172 @@ function generateMatch(subject, arms, indent) {
  * Last expression becomes `return expr;` unless it's a control flow statement.
  */
 function addImplicitReturn(blockOutput) {
-  // Find last non-blank line
+  // First check: is the last construct a complete if/else block?
+  // Look for the closing } and trace back to find the matching if
+  const lastNonBlank = findLastNonBlankIdx(blockOutput);
+  if (lastNonBlank >= 0) {
+    const lastTrimmed = blockOutput[lastNonBlank].trim();
+
+    // Inline if/else on one line: if (...) { expr } else { expr }
+    if (/^if\s*\(.+\)\s*\{.+\}\s*else\s*(if\s*\(.+\)\s*\{.+\}\s*else\s*)*\{.+\}$/.test(lastTrimmed)) {
+      const indent = blockOutput[lastNonBlank].match(/^(\s*)/)[1];
+      blockOutput[lastNonBlank] = `${indent}${lastTrimmed.replace(/\{\s*(?!return\b)/g, (m) => m + 'return ')}`;
+      return;
+    }
+
+    // Block if/else: last line is }, check if it's part of an if/else
+    if (lastTrimmed === "}") {
+      const ifIdx = findMatchingIf(blockOutput, lastNonBlank);
+      if (ifIdx >= 0 && hasElseBranch(blockOutput, ifIdx, lastNonBlank)) {
+        addReturnToIfElseBlock(blockOutput, ifIdx, lastNonBlank);
+        return;
+      }
+    }
+  }
+
+  // Default: add return to last expression
   for (let i = blockOutput.length - 1; i >= 0; i--) {
     const line = blockOutput[i];
     const trimmed = line.trim();
     if (trimmed === "" || trimmed === "}") continue;
-    // Don't add return to: declarations, control flow, existing returns
     if (/^(const |let |var |if |for |function |return |export |async )/.test(trimmed)) break;
-    // Add return to value expressions (function calls, property access, identifiers)
     const indent = line.match(/^(\s*)/)[1];
     blockOutput[i] = `${indent}return ${trimmed}`;
     break;
   }
+}
+
+function findLastNonBlankIdx(arr) {
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (arr[i].trim() !== "") return i;
+  }
+  return -1;
+}
+
+/** Find the if statement that matches a closing } */
+function findMatchingIf(blockOutput, closingIdx) {
+  const closingIndent = blockOutput[closingIdx].match(/^(\s*)/)[1].length;
+  for (let i = closingIdx - 1; i >= 0; i--) {
+    const t = blockOutput[i].trim();
+    const ind = blockOutput[i].match(/^(\s*)/)[1].length;
+    if (ind === closingIndent && /^if\s*\(/.test(t)) return i;
+    if (ind < closingIndent) break;
+  }
+  return -1;
+}
+
+/** Check if an if block has an else branch */
+function hasElseBranch(blockOutput, ifIdx, endIdx) {
+  for (let i = ifIdx; i <= endIdx; i++) {
+    if (/\belse\b/.test(blockOutput[i].trim())) return true;
+  }
+  return false;
+}
+
+/**
+ * For a block-style if/else that's the last statement in a function,
+ * add return to the last expression in each branch.
+ */
+function addReturnToIfElseBlock(blockOutput, ifLineIdx, endIdx) {
+  // Walk forward, find each branch's closing } or } else {
+  for (let j = ifLineIdx + 1; j <= endIdx; j++) {
+    const t = blockOutput[j].trim();
+    // When we hit a } (with or without else), add return to the last expression before it
+    if (t === "}" || /^\}\s*else/.test(t)) {
+      for (let k = j - 1; k > ifLineIdx; k--) {
+        const bt = blockOutput[k].trim();
+        if (bt === "" || bt.endsWith("{") || bt.startsWith("}")) continue;
+        if (/^(const |let |var |if |for |function |return |export |async )/.test(bt)) break;
+        const bindent = blockOutput[k].match(/^(\s*)/)[1];
+        blockOutput[k] = `${bindent}return ${bt}`;
+        break;
+      }
+    }
+  }
+}
+
+/**
+ * Look ahead for else? and elif (cond?) chains after a conditional.
+ * Modifies output in place and returns the new line index.
+ */
+function appendElseChain(lines, currentIdx, parentIndent, maxEnd, output, wasInline) {
+  let i = currentIdx;
+  while (i + 1 < maxEnd) {
+    const nextLine = lines[i + 1];
+    if (!nextLine) break;
+    const nextTrimmed = nextLine.trim();
+    const nextIndent = nextLine.match(/^(\s*)/)[1];
+    if (nextIndent.length !== parentIndent.length) break;
+
+    // else? -> action (inline)
+    const elseInline = nextTrimmed.match(/^else\?\s*->\s*(.+)$/);
+    if (elseInline) {
+      // Modify last output line: replace closing } with } else {
+      if (wasInline) {
+        output[output.length - 1] = output[output.length - 1].replace(/\}$/, `} else { ${transformExpression(elseInline[1])} }`);
+      } else {
+        output[output.length - 1] = `${parentIndent}} else { ${transformExpression(elseInline[1])} }`;
+      }
+      i++;
+      return i;
+    }
+
+    // else? -> (block)
+    const elseBlock = nextTrimmed.match(/^else\?\s*->$/);
+    if (elseBlock) {
+      if (wasInline) {
+        output[output.length - 1] = output[output.length - 1].replace(/\}$/, `} else {`);
+      } else {
+        output[output.length - 1] = `${parentIndent}} else {`;
+      }
+      i++;
+      const blockEnd = findBlockEnd(lines, i, parentIndent, maxEnd);
+      const blockOutput = processLines(lines, i + 1, blockEnd, true);
+      output.push(...blockOutput);
+      output.push(`${parentIndent}}`);
+      i = blockEnd - 1;
+      return i;
+    }
+
+    // elif: another condition? -> (acts as else if)
+    const elifInline = nextTrimmed.match(/^(.+\?)\s*->\s*(.+)$/);
+    if (elifInline && !nextTrimmed.match(/^\w+\s+[\w,=]+\s*->/)) {
+      const cleanCond = elifInline[1].replace(/\?$/, "").trim();
+      const action = transformExpression(elifInline[2]);
+      if (wasInline) {
+        output[output.length - 1] = output[output.length - 1].replace(/\}$/, `} else if (${cleanCond}) { ${action} }`);
+      } else {
+        output[output.length - 1] = `${parentIndent}} else if (${cleanCond}) { ${action} }`;
+      }
+      i++;
+      wasInline = true;
+      // Continue to check for more elif/else
+      continue;
+    }
+
+    // elif block: condition? ->
+    const elifBlock = nextTrimmed.match(/^(.+\?)\s*->$/);
+    if (elifBlock && !nextTrimmed.match(/^\w+\s+[\w,=]+\s*->/)) {
+      const cleanCond = elifBlock[1].replace(/\?$/, "").trim();
+      if (wasInline) {
+        output[output.length - 1] = output[output.length - 1].replace(/\}$/, `} else if (${cleanCond}) {`);
+      } else {
+        output[output.length - 1] = `${parentIndent}} else if (${cleanCond}) {`;
+      }
+      i++;
+      const blockEnd = findBlockEnd(lines, i, parentIndent, maxEnd);
+      const blockOutput = processLines(lines, i + 1, blockEnd, true);
+      output.push(...blockOutput);
+      output.push(`${parentIndent}}`);
+      i = blockEnd - 1;
+      wasInline = false;
+      // Continue to check for more elif/else
+      continue;
+    }
+
+    break;
+  }
+  return i;
 }
 
 /**
