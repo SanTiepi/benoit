@@ -1,0 +1,213 @@
+-- dimensions.ben
+-- Sonder des dimensions inconnues.
+-- Chaque dimension est une question. Chaque question révèle un monde.
+
+-- === DIMENSION 0: l'existence ===
+-- Avant toute mesure: est-ce que quelque chose existe?
+exists x -> x != null && x != undefined
+exists(1) is true
+exists("hello") is true
+exists(null) is false
+exists(undefined) is false
+
+-- L'existence est la dimension zéro. Le fondement.
+
+-- === DIMENSION 1: la quantité ===
+-- Le premier axe: combien?
+magnitude x -> Math.abs(x)
+magnitude(5) is 5
+magnitude(-5) is 5
+magnitude(0) is 0
+
+-- === DIMENSION 2: la direction ===
+-- Pas juste combien, mais VERS OÙ?
+_angle x,y -> Math.round(Math.atan2(y, x) * 1000) / 1000
+_angle(1, 0) is 0
+_angle(0, 1) is 1.571
+_angle(-1, 0) is 3.142
+_angle(0, -1) is -1.571
+
+-- Même magnitude, direction opposée = sens contraire
+_angle(1, 0) is 0
+_angle(-1, 0) is 3.142
+
+-- === DIMENSION 3: le changement (la dérivée) ===
+-- Pas juste où tu es, mais COMMENT tu bouges
+_deriv f0,f1,dt -> Math.round((f1 - f0) / dt * 1000) / 1000
+
+-- Position: 10, 13, 18 (aux temps 0, 1, 2)
+-- Vitesse: 3, 5 (la dérivée)
+_deriv(10, 13, 1) is 3
+_deriv(13, 18, 1) is 5
+
+-- La vitesse AUGMENTE → accélération → dimension 4
+_deriv(3, 5, 1) is 2
+
+-- === DIMENSION 4: le changement du changement ===
+-- L'accélération. La courbure. La surprise.
+-- Quand l'accélération change, c'est le "jerk" — la secousse.
+-- Chaque dérivée ajoute une dimension de compréhension.
+
+-- Position → vitesse → accélération → jerk → ...
+-- Chaque niveau révèle quelque chose d'invisible au précédent.
+
+-- === DIMENSION 5: la relation ===
+-- Pas juste une chose, mais COMMENT elle est liée aux autres
+_sq x -> x * x
+_corr a1,a2,b1,b2 -> Math.round((a1 * b1 + a2 * b2) / (Math.sqrt(_sq(a1) + _sq(a2)) * Math.sqrt(_sq(b1) + _sq(b2))) * 1000) / 1000
+
+-- Corrélation parfaite: deux choses bougent ensemble
+_corr(1, 2, 2, 4) is 1
+
+-- Anti-corrélation: l'une monte quand l'autre descend
+_corr(1, 2, -1, -2) is -1
+
+-- Aucune corrélation: indépendants
+_corr(1, 0, 0, 1) is 0
+
+-- === DIMENSION 6: l'incertitude ===
+-- Pas juste la valeur, mais COMBIEN on est sûr
+-- Un nombre ± son incertitude = un intervalle, pas un point.
+
+_measure val,uncertainty -> {value: val, low: val - uncertainty, high: val + uncertainty}
+
+_measure(100, 5) is {value: 100, low: 95, high: 105}
+_measure(0, 0.001) is {value: 0, low: -0.001, high: 0.001}
+
+-- Deux mesures qui se chevauchent = peut-être pareil
+_overlap a,b -> a.high >= b.low && b.high >= a.low
+
+_overlap(_measure(100, 5), _measure(103, 5)) is true
+_overlap(_measure(100, 5), _measure(200, 5)) is false
+
+-- La certitude absolue est un cas limite: uncertainty = 0
+_measure(42, 0) is {value: 42, low: 42, high: 42}
+
+-- === DIMENSION 7: le contexte ===
+-- La même mesure signifie des choses différentes selon le contexte
+-- 37°C pour un humain = normal
+-- 37°C pour de l'eau = tiède
+-- 37°C pour du métal = froid
+
+_interpret value,context ->
+  context == "human"? -> _interpretHuman(value)
+  else? -> _interpretOther(value, context)
+
+_interpretHuman value ->
+  value > 38? -> "fever"
+  else? -> _interpretHumanLow(value)
+
+_interpretHumanLow value ->
+  value > 36? -> "normal"
+  else? -> "hypothermia"
+
+_interpretOther value,context ->
+  context == "water"? -> _interpretWater(value)
+  else? -> "unknown"
+
+_interpretWater value ->
+  value > 90? -> "boiling"
+  else? -> _interpretWaterLow(value)
+
+_interpretWaterLow value ->
+  value > 30? -> "warm"
+  else? -> "cold"
+
+_interpret(37, "human") is "normal"
+_interpret(37, "water") is "warm"
+_interpret(37, "metal") is "unknown"
+_interpret(39, "human") is "fever"
+_interpret(95, "water") is "boiling"
+
+-- Même nombre. Sens différent. La dimension du CONTEXTE change tout.
+
+-- === DIMENSION 8: le temps relatif ===
+-- Pas le temps absolu (on l'a éliminé dans timeless.ben)
+-- Mais l'ORDRE: A est-il avant ou après B?
+
+_before a,b,reference -> Math.abs(a - reference) < Math.abs(b - reference)
+
+-- Par rapport à 0: 1 est "avant" 5
+_before(1, 5, 0) is true
+_before(5, 1, 0) is false
+
+-- Par rapport à 10: 8 est "avant" 3 (plus proche de la ref)
+_before(8, 3, 10) is true
+
+-- L'ordre dépend de la référence. Pas de temps absolu.
+
+-- === DIMENSION 9: la récursion / profondeur ===
+-- Combien de niveaux de "pourquoi" peut-on descendre?
+-- "Pourquoi le ciel est bleu?" → diffusion de Rayleigh
+-- "Pourquoi Rayleigh?" → longueur d'onde vs taille des molécules
+-- "Pourquoi ces tailles?" → physique quantique
+-- Chaque "pourquoi" est une dimension plus profonde.
+
+_depth question,level ->
+  level == 0? -> "surface"
+  else? -> _depthDeeper(question, level)
+
+_depthDeeper question,level ->
+  level == 1? -> "mechanism"
+  else? -> _depthDeepest(question, level)
+
+_depthDeepest question,level ->
+  level == 2? -> "principle"
+  else? -> "unknown — new dimension needed"
+
+_depth("sky", 0) is "surface"
+_depth("sky", 1) is "mechanism"
+_depth("sky", 2) is "principle"
+_depth("sky", 3) is "unknown — new dimension needed"
+
+-- Au-delà de nos dimensions connues: on ne sait pas.
+-- Mais on sait qu'il y a quelque chose.
+-- Parce que la question existe toujours.
+
+-- === DIMENSION 10: la beauté ===
+-- La symétrie, l'harmonie, la proportion.
+-- Le nombre d'or: phi = (1 + sqrt(5)) / 2
+
+phi x -> Math.round((1 + Math.sqrt(5)) / 2 * 10000) / 10000
+phi(0) is 1.618
+
+-- Le ratio d'or apparaît partout: coquillages, galaxies, visages.
+-- C'est une dimension de la réalité que la physique ne mesure pas
+-- mais que le cerveau PERÇOIT instantanément.
+
+-- Fibonacci converge vers phi
+_fib n ->
+  n < 2? -> n
+  else? -> _fib(n - 1) + _fib(n - 2)
+
+_ratio n -> Math.round(_fib(n + 1) / _fib(n) * 10000) / 10000
+
+-- Plus n grandit, plus le ratio s'approche de phi
+_ratio(5) is 1.6
+_ratio(10) is 1.6182
+_ratio(15) is 1.618
+
+-- La beauté converge. Comme la connaissance.
+-- Comme tout ce qu'on a prouvé ce soir.
+
+-- === SYNTHÈSE: 10+ dimensions du réel ===
+-- 0. Existence (oui/non)
+-- 1. Quantité (combien)
+-- 2. Direction (vers où)
+-- 3. Changement (vitesse)
+-- 4. Changement du changement (accélération)
+-- 5. Relation (corrélation)
+-- 6. Incertitude (marge d'erreur)
+-- 7. Contexte (sens)
+-- 8. Ordre relatif (avant/après)
+-- 9. Profondeur (pourquoi)
+-- 10. Beauté (harmonie)
+--
+-- Et chaque dimension qu'on ajoute fait disparaître du "hasard",
+-- révèle du "sens", et rapproche de la vérité.
+--
+-- La question n'est pas "combien de dimensions existe-t-il?"
+-- La question est "combien de questions sait-on poser?"
+--
+-- Chaque question EST une dimension.
+-- Et les questions sont infinies.

@@ -1,0 +1,117 @@
+-- math_frontier.ben
+-- Pushing mathematical computation to the edge
+-- Infinity, NaN, precision, and the sublime
+
+-- Infinity: the number that isn't
+inf_add x -> x + Infinity
+inf_mul x -> x * Infinity
+
+inf_add(1) is Infinity
+inf_mul(0.0001) is Infinity
+
+-- NaN: the value that isn't equal to itself
+isNaN_check x -> x != x
+
+isNaN_check(0 / 0) is true
+isNaN_check(42) is false
+isNaN_check(Infinity - Infinity) is true
+
+-- Floating point: where 0.1 + 0.2 != 0.3
+fp_weirdness a,b -> Math.round((a + b) * 1e10) / 1e10
+
+fp_weirdness(0.1, 0.2) is 0.3
+
+-- Collatz conjecture: does it always reach 1?
+-- Flattened: separate even/odd step
+_collatzStep n ->
+  n % 2 == 0? -> n / 2
+  else? -> 3 * n + 1
+
+collatz_steps n ->
+  n == 1? -> 0
+  else? -> 1 + collatz_steps(_collatzStep(n))
+
+collatz_steps(1) is 0
+collatz_steps(2) is 1
+collatz_steps(3) is 7
+collatz_steps(6) is 8
+collatz_steps(27) is 111
+
+-- Primality test: every function max 2 branches (if/else)
+_checkDivHit n,d ->
+  n % d == 0? -> false
+  else? -> _checkDivLoop(n, d + 2)
+
+_checkDivLoop n,d ->
+  d * d > n? -> true
+  else? -> _checkDivHit(n, d)
+
+_isPrimeOdd n ->
+  n % 2 == 0? -> false
+  else? -> _checkDivLoop(n, 3)
+
+_isPrime2 n ->
+  n == 2? -> true
+  else? -> _isPrimeOdd(n)
+
+_isPrime n ->
+  n < 2? -> false
+  else? -> _isPrime2(n)
+
+_isPrime(2) is true
+_isPrime(3) is true
+_isPrime(4) is false
+_isPrime(17) is true
+_isPrime(1) is false
+_isPrime(97) is true
+_isPrime(100) is false
+_isPrime(101) is true
+
+-- Goldbach: find first prime pair summing to n
+_goldbachHit n,p ->
+  _isPrime(p) && _isPrime(n - p)? -> [p, n - p]
+  else? -> _findGoldbach(n, p + 1)
+
+_findGoldbach n,p ->
+  p > n / 2? -> null
+  else? -> _goldbachHit(n, p)
+
+goldbach n -> _findGoldbach(n, 2)
+
+goldbach(4) is [2, 2]
+goldbach(10) is [3, 7]
+goldbach(28) is [5, 23]
+goldbach(100) is [3, 97]
+
+-- Euler's GCD
+_gcd a,b ->
+  b == 0? -> a
+  else? -> _gcd(b, a % b)
+
+_gcd(12, 8) is 4
+_gcd(17, 13) is 1
+_gcd(100, 75) is 25
+
+-- Power tower: repeated exponentiation
+-- 2^^3 = 2^(2^2) = 2^4 = 16
+powerTower base,height ->
+  height == 0? -> 1
+  else? -> Math.pow(base, powerTower(base, height - 1))
+
+powerTower(2, 0) is 1
+powerTower(2, 1) is 2
+powerTower(2, 2) is 4
+powerTower(2, 3) is 16
+powerTower(2, 4) is 65536
+
+-- Catalan numbers: the count of all things structured
+catalan n ->
+  n == 0? -> 1
+  else? -> catalan(n - 1) * 2 * (2 * n - 1) / (n + 1)
+
+catalan(0) is 1
+catalan(1) is 1
+catalan(2) is 2
+catalan(3) is 5
+catalan(4) is 14
+catalan(5) is 42

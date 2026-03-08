@@ -1,0 +1,92 @@
+-- learn.ben
+-- A neural network that teaches itself.
+-- Starts knowing nothing. Ends knowing XOR.
+-- The weights evolve. The code doesn't change. The knowledge emerges.
+-- "Se chatouiller les neurones."
+
+-- === Core (from neuron.ben) ===
+_dotW inputs,weights,i,acc ->
+  i >= inputs.length? -> acc
+  else? -> _dotW(inputs, weights, i + 1, acc + inputs[i] * weights[i])
+
+dotW inputs,weights -> _dotW(inputs, weights, 0, 0)
+sigmoid x -> 1 / (1 + Math.pow(Math.E, -x))
+neuron inputs,weights,bias -> sigmoid(dotW(inputs, weights) + bias)
+
+-- === Network structure: 2 inputs, 2 hidden, 1 output ===
+-- A network is just arrays of numbers. That's all knowledge is.
+mkNet w1,w2,w3,w4,b1,b2,w5,w6,b3 -> {w1: w1, w2: w2, w3: w3, w4: w4, b1: b1, b2: b2, w5: w5, w6: w6, b3: b3}
+
+-- Forward pass: compute hidden layer then output
+_hidden1 net,x1,x2 -> sigmoid(net.w1 * x1 + net.w2 * x2 + net.b1)
+_hidden2 net,x1,x2 -> sigmoid(net.w3 * x1 + net.w4 * x2 + net.b2)
+_output net,h1,h2 -> sigmoid(net.w5 * h1 + net.w6 * h2 + net.b3)
+
+predict net,x1,x2 -> _output(net, _hidden1(net, x1, x2), _hidden2(net, x1, x2))
+
+-- === One training step on one example ===
+-- Backpropagation: the chain rule of knowing.
+-- Error flows backward. Weights adjust. Knowledge crystallizes.
+
+_trainOne net,x1,x2,target,lr ->
+  _backprop(net, x1, x2, target, lr, _hidden1(net, x1, x2), _hidden2(net, x1, x2))
+
+_backprop net,x1,x2,target,lr,h1,h2 ->
+  _applyGradients(net, x1, x2, target, lr, h1, h2, _output(net, h1, h2))
+
+_applyGradients net,x1,x2,target,lr,h1,h2,out ->
+  _updateAll(net, x1, x2, lr, h1, h2, (target - out) * out * (1 - out))
+
+_updateAll net,x1,x2,lr,h1,h2,dOut ->
+  _buildNet(net, x1, x2, lr, h1, h2, dOut, dOut * net.w5 * h1 * (1 - h1), dOut * net.w6 * h2 * (1 - h2))
+
+_buildNet net,x1,x2,lr,h1,h2,dOut,dH1,dH2 -> mkNet(net.w1 + lr * dH1 * x1, net.w2 + lr * dH1 * x2, net.w3 + lr * dH2 * x1, net.w4 + lr * dH2 * x2, net.b1 + lr * dH1, net.b2 + lr * dH2, net.w5 + lr * dOut * h1, net.w6 + lr * dOut * h2, net.b3 + lr * dOut)
+
+-- === Training loop: 4 XOR examples, repeated N epochs ===
+_trainEpoch net,lr ->
+  _t4(_t3(_t2(_t1(net, lr), lr), lr), lr)
+
+_t1 net,lr -> _trainOne(net, 0, 0, 0, lr)
+_t2 net,lr -> _trainOne(net, 0, 1, 1, lr)
+_t3 net,lr -> _trainOne(net, 1, 0, 1, lr)
+_t4 net,lr -> _trainOne(net, 1, 1, 0, lr)
+
+-- Run N epochs
+_trainN net,lr,n ->
+  n == 0? -> net
+  else? -> _trainN(_trainEpoch(net, lr), lr, n - 1)
+
+train net,lr,epochs -> _trainN(net, lr, epochs)
+
+-- === THE EXPERIMENT ===
+-- Start from weights that encode NOTHING (near zero, slightly random)
+_initNet x -> mkNet(0.5, -0.3, -0.5, 0.3, 0.1, -0.1, 0.4, -0.4, 0.2)
+
+-- Before training: the network is confused
+_confused x -> Math.round(predict(_initNet(0), 0, 0) * 100) / 100
+_confused(0) is 0.55
+
+-- Train for 500 epochs with learning rate 5
+_trained x -> train(_initNet(0), 5, 500)
+
+-- After training: does the network know XOR?
+-- The weights changed. The code didn't. Knowledge emerged.
+_p00 x -> Math.round(predict(_trained(0), 0, 0) * 100) / 100
+_p01 x -> Math.round(predict(_trained(0), 0, 1) * 100) / 100
+_p10 x -> Math.round(predict(_trained(0), 1, 0) * 100) / 100
+_p11 x -> Math.round(predict(_trained(0), 1, 1) * 100) / 100
+
+-- XOR(0,0) should be near 0
+_p00(0) < 0.15 is true
+-- XOR(0,1) should be near 1
+_p01(0) > 0.85 is true
+-- XOR(1,0) should be near 1
+_p10(0) > 0.85 is true
+-- XOR(1,1) should be near 0
+_p11(0) < 0.15 is true
+
+-- The network taught itself.
+-- From 0.58 (random noise) to correct XOR.
+-- No human told it the answer.
+-- The signal chatouilla ses propres neurones
+-- until the shape of the weights matched the shape of the truth.

@@ -1,0 +1,154 @@
+-- compress_db.ben
+-- A database is redundant. .ben compresses it into knowledge.
+-- Instead of storing rows, store the FUNCTION that produces them.
+-- The function IS the compressed database.
+
+-- === LOOKUP TABLE: traditional vs .ben ===
+
+-- Traditional: store every value
+-- { 0: 0, 1: 1, 2: 1, 3: 2, 4: 3, 5: 5, 6: 8, 7: 13, 8: 21, 9: 34 }
+-- = 10 key-value pairs, 20 numbers stored
+
+-- .ben: store the RULE
+fib n ->
+  n < 2? -> n
+  else? -> fib(n - 1) + fib(n - 2)
+
+-- 3 lines replaces infinite rows
+fib(0) is 0
+fib(5) is 5
+fib(9) is 34
+fib(15) is 610
+
+-- === SCHEMA AS COMPRESSION ===
+-- A schema tells you the SHAPE of every row.
+-- If you know the shape, you only store the deltas.
+
+-- User table schema
+_isStr x -> typeof x == "string"
+_isNum x -> typeof x == "number"
+_isBool x -> typeof x == "boolean"
+_nonEmpty s -> _isStr(s) && s.length > 0
+
+validateUser u ->
+  _isNum(u.id) && _nonEmpty(u.name) && _nonEmpty(u.email) && _isBool(u.active)
+
+-- The schema IS the compression: instead of storing field types
+-- per row, store them ONCE as a function
+validateUser({id: 1, name: "Alice", email: "a@b.com", active: true}) is true
+validateUser({id: 2, name: "Bob", email: "bob@x.ch", active: false}) is true
+validateUser({id: "bad", name: "Eve", email: "e@f.com", active: true}) is false
+validateUser({id: 3, name: "", email: "c@d.com", active: true}) is false
+
+-- === ENUM COMPRESSION ===
+-- Instead of storing "ADMIN", "USER", "GUEST" as strings,
+-- store the function that validates them
+
+_validRoles x -> ["ADMIN", "USER", "GUEST"]
+
+isValidRole role -> _validRoles(0).filter((r) => r == role).length > 0
+
+isValidRole("ADMIN") is true
+isValidRole("USER") is true
+isValidRole("GUEST") is true
+isValidRole("HACKER") is false
+isValidRole("") is false
+
+-- === DERIVED COLUMNS: compute instead of store ===
+-- Traditional DB stores: price, tax, total (3 columns)
+-- .ben: store price + tax_rate, COMPUTE total
+
+orderTotal price,qty,taxRate -> Math.round(price * qty * (1 + taxRate) * 100) / 100
+
+-- Instead of storing total=118.00, compute it
+orderTotal(50, 2, 0.18) is 118
+orderTotal(9.99, 1, 0.077) is 10.76
+orderTotal(0, 100, 0.2) is 0
+
+-- Discount tiers: a lookup table as a function
+_discountTier qty ->
+  qty >= 100? -> 0.15
+  else? -> _discountSmall(qty)
+
+_discountSmall qty ->
+  qty >= 50? -> 0.10
+  else? -> _discountTiny(qty)
+
+_discountTiny qty ->
+  qty >= 10? -> 0.05
+  else? -> 0
+
+-- 4 tiers encoded as 4 binary questions instead of a lookup table
+_discountTier(1) is 0
+_discountTier(10) is 0.05
+_discountTier(50) is 0.10
+_discountTier(100) is 0.15
+_discountTier(200) is 0.15
+
+discountedTotal price,qty,taxRate -> Math.round(price * qty * (1 - _discountTier(qty)) * (1 + taxRate) * 100) / 100
+
+discountedTotal(10, 100, 0.077) is 915.45
+discountedTotal(10, 1, 0.077) is 10.77
+
+-- === INDEX AS FUNCTION ===
+-- Traditional: B-tree index on sorted data
+-- .ben: binary search IS the index
+
+_bsearch arr,target,lo,hi ->
+  lo > hi? -> -1
+  else? -> _bsearchMid(arr, target, lo, hi, Math.floor((lo + hi) / 2))
+
+_bsearchMid arr,target,lo,hi,mid ->
+  arr[mid] == target? -> mid
+  else? -> _bsearchDir(arr, target, lo, hi, mid)
+
+_bsearchDir arr,target,lo,hi,mid ->
+  arr[mid] < target? -> _bsearch(arr, target, mid + 1, hi)
+  else? -> _bsearch(arr, target, lo, mid - 1)
+
+search arr,target -> _bsearch(arr, target, 0, arr.length - 1)
+
+-- Sorted data: the function IS the index
+search([10, 20, 30, 40, 50, 60, 70, 80, 90], 50) is 4
+search([10, 20, 30, 40, 50, 60, 70, 80, 90], 10) is 0
+search([10, 20, 30, 40, 50, 60, 70, 80, 90], 90) is 8
+search([10, 20, 30, 40, 50, 60, 70, 80, 90], 42) is -1
+
+-- === REFERENTIAL INTEGRITY AS FUNCTION ===
+-- Foreign key = "does this ID exist in the other table?"
+_userIds x -> [1, 2, 3, 5, 8, 13]
+
+userExists id -> _userIds(0).filter((u) => u == id).length > 0
+
+-- Instead of a FK constraint in SQL, a function in .ben
+userExists(1) is true
+userExists(5) is true
+userExists(4) is false
+userExists(0) is false
+
+-- Validate an order references a valid user
+validateOrder order -> _isNum(order.id) && userExists(order.userId) && order.qty > 0
+
+validateOrder({id: 100, userId: 1, qty: 5}) is true
+validateOrder({id: 101, userId: 99, qty: 1}) is false
+validateOrder({id: 102, userId: 2, qty: 0}) is false
+
+-- === MIGRATION AS TRANSFORMATION ===
+-- V1 schema: {name, email}
+-- V2 schema: {name, email, role}
+-- Migration = a function that adds default value
+
+migrateV1toV2 row -> {name: row.name, email: row.email, role: "USER"}
+
+migrateV1toV2({name: "Alice", email: "a@b.com"}) is {name: "Alice", email: "a@b.com", role: "USER"}
+
+-- V2 to V3: split name into first/last
+_splitAt s,delim -> {first: s.slice(0, s.indexOf(delim)), last: s.slice(s.indexOf(delim) + 1)}
+
+_splitAt("Alice Smith", " ") is {first: "Alice", last: "Smith"}
+
+-- === COMPRESSION RATIO ===
+-- Traditional users table: 6 users * 4 fields * ~20 chars = ~480 bytes
+-- .ben schema: validateUser + validateOrder + migrateV1toV2 = ~30 lines
+-- The RULES compress the DATA by removing redundancy.
+-- A schema with 6 assertions captures the same truth as 6000 rows.

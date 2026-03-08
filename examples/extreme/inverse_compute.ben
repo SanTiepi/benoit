@@ -1,0 +1,95 @@
+-- inverse_compute.ben
+-- Given an answer, find the question.
+-- Not f(x) = y, but: what x produces y?
+-- Computation runs backwards.
+
+-- Inverse of addition: what + b = target?
+solveAdd target,b -> target - b
+
+solveAdd(10, 3) is 7
+solveAdd(0, 5) is -5
+solveAdd(100, 100) is 0
+
+-- Inverse of multiplication: what * b = target?
+solveMul target,b ->
+  b == 0? -> null
+  else? -> target / b
+
+solveMul(12, 3) is 4
+solveMul(0, 5) is 0
+solveMul(10, 0) is null
+
+-- Inverse of squaring: what^2 = target?
+solveSq target ->
+  target < 0? -> null
+  else? -> Math.sqrt(target)
+
+solveSq(9) is 3
+solveSq(0) is 0
+solveSq(2) is 1.4142135623730951
+solveSq(-1) is null
+
+-- Inverse function search: brute-force find x in [lo..hi] where f(x) == target
+_searchInv f,target,lo,hi ->
+  lo > hi? -> null
+  else? -> _searchHit(f, target, lo, hi)
+
+_searchHit f,target,lo,hi ->
+  f(lo) == target? -> lo
+  else? -> _searchInv(f, target, lo + 1, hi)
+
+findInverse f,target -> _searchInv(f, target, 0, 100)
+
+-- What x gives x*x = 49?
+findInverse((x) => x * x, 49) is 7
+
+-- What x gives x*3 + 1 = 22?
+findInverse((x) => x * 3 + 1, 22) is 7
+
+-- What x gives 2^x = 64?
+findInverse((x) => Math.pow(2, x), 64) is 6
+
+-- No solution in range
+findInverse((x) => x * x, 999) is null
+
+-- Reverse a mapping: given output array, find the permutation
+-- [a,b,c] -> [c,a,b] means permutation [2,0,1]
+_findIdx arr,val,i ->
+  i >= arr.length? -> -1
+  else? -> _findIdxCheck(arr, val, i)
+
+_findIdxCheck arr,val,i ->
+  arr[i] == val? -> i
+  else? -> _findIdx(arr, val, i + 1)
+
+findPermutation input,output -> input.map((v) => _findIdx(output, v, 0))
+
+findPermutation(["a", "b", "c"], ["c", "a", "b"]) is [1, 2, 0]
+findPermutation([1, 2, 3], [3, 1, 2]) is [1, 2, 0]
+findPermutation([1, 2, 3], [1, 2, 3]) is [0, 1, 2]
+
+-- Decode: given encoded string and shift, find original
+_unshift c,n -> _shift(c, 26 - n)
+
+-- We need _shift from string_cosmos — inline it here
+_isLower c -> c.charCodeAt(0) >= 97 && c.charCodeAt(0) <= 122
+_isUpper c -> c.charCodeAt(0) >= 65 && c.charCodeAt(0) <= 90
+_shiftLower c,n -> String.fromCharCode(97 + (c.charCodeAt(0) - 97 + n) % 26)
+_shiftUpper c,n -> String.fromCharCode(65 + (c.charCodeAt(0) - 65 + n) % 26)
+
+_shiftNonLower c,n ->
+  _isUpper(c)? -> _shiftUpper(c, n)
+  else? -> c
+
+_shift c,n ->
+  _isLower(c)? -> _shiftLower(c, n)
+  else? -> _shiftNonLower(c, n)
+
+-- ROT13 is its own inverse
+_shift("n", 13) is "a"
+_shift("a", 13) is "n"
+
+-- Shift by 3 then unshift by 3 = identity
+_unshift(_shift("a", 3), 3) is "a"
+_unshift(_shift("z", 7), 7) is "z"
+_unshift(_shift("M", 5), 5) is "M"

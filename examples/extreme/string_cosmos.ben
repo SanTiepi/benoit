@@ -1,0 +1,98 @@
+-- string_cosmos.ben
+-- Strings as the fabric of computation
+-- Regex, unicode, encoding, transformation
+
+-- Reverse a string recursively
+_rev s,i ->
+  i < 0? -> ""
+  else? -> s[i] + _rev(s, i - 1)
+
+rev s -> _rev(s, s.length - 1)
+
+rev("hello") is "olleh"
+rev("a") is "a"
+rev("ab") is "ba"
+rev("racecar") is "racecar"
+
+-- Palindrome check
+isPalindrome s -> s == rev(s)
+
+isPalindrome("racecar") is true
+isPalindrome("hello") is false
+isPalindrome("aba") is true
+isPalindrome("a") is true
+isPalindrome("") is true
+
+-- Caesar cipher: fully flattened (max 2 branches per function)
+_isLower c -> c.charCodeAt(0) >= 97 && c.charCodeAt(0) <= 122
+_isUpper c -> c.charCodeAt(0) >= 65 && c.charCodeAt(0) <= 90
+_shiftLower c,n -> String.fromCharCode(97 + (c.charCodeAt(0) - 97 + n) % 26)
+_shiftUpper c,n -> String.fromCharCode(65 + (c.charCodeAt(0) - 65 + n) % 26)
+
+_shiftNonLower c,n ->
+  _isUpper(c)? -> _shiftUpper(c, n)
+  else? -> c
+
+_shift c,n ->
+  _isLower(c)? -> _shiftLower(c, n)
+  else? -> _shiftNonLower(c, n)
+
+_shift("a", 1) is "b"
+_shift("z", 1) is "a"
+_shift("A", 3) is "D"
+_shift(" ", 5) is " "
+
+-- ROT13
+rot13char c -> _shift(c, 13)
+
+rot13char("a") is "n"
+rot13char("n") is "a"
+rot13char("A") is "N"
+rot13char("z") is "m"
+
+-- Run-length encoding: flattened
+_rleSame s,i,count,current -> _rle(s, i + 1, count + 1, current)
+_rleDiff s,i,count,current -> current + String(count) + _rle(s, i + 1, 1, s[i])
+
+_rleStep s,i,count,current ->
+  s[i] == current? -> _rleSame(s, i, count, current)
+  else? -> _rleDiff(s, i, count, current)
+
+_rle s,i,count,current ->
+  i >= s.length? -> current + String(count)
+  else? -> _rleStep(s, i, count, current)
+
+rle s ->
+  s.length == 0? -> ""
+  else? -> _rle(s, 1, 1, s[0])
+
+rle("") is ""
+rle("a") is "a1"
+rle("aaa") is "a3"
+rle("aabbc") is "a2b2c1"
+rle("abcabc") is "a1b1c1a1b1c1"
+
+-- Levenshtein distance: fully flattened
+_levMatch a,b,i,j -> _lev(a, b, i - 1, j - 1)
+
+_levNoMatch a,b,i,j -> 1 + Math.min(_lev(a, b, i - 1, j), Math.min(_lev(a, b, i, j - 1), _lev(a, b, i - 1, j - 1)))
+
+_levCompare a,b,i,j ->
+  a[i - 1] == b[j - 1]? -> _levMatch(a, b, i, j)
+  else? -> _levNoMatch(a, b, i, j)
+
+_levJ a,b,i,j ->
+  j == 0? -> i
+  else? -> _levCompare(a, b, i, j)
+
+_lev a,b,i,j ->
+  i == 0? -> j
+  else? -> _levJ(a, b, i, j)
+
+lev a,b -> _lev(a, b, a.length, b.length)
+
+lev("", "") is 0
+lev("a", "") is 1
+lev("kitten", "kitten") is 0
+lev("cat", "car") is 1
+lev("ab", "cd") is 2

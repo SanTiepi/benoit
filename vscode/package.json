@@ -1,0 +1,64 @@
+{
+  "name": "benoit-prompt-compiler",
+  "displayName": "Benoit — Prompt Compiler",
+  "description": "Compile your prompts before sending. Quality gate, back-translation, zero ambiguity.",
+  "version": "0.1.0",
+  "publisher": "SanTiepi",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other", "Linters"],
+  "keywords": ["prompt", "ai", "agent", "quality", "lint", "benoit"],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "benoit.compilePrompt",
+        "title": "Benoit: Compile Prompt",
+        "icon": "$(pass)"
+      },
+      {
+        "command": "benoit.compileSelection",
+        "title": "Benoit: Compile Selection"
+      },
+      {
+        "command": "benoit.analyzeFile",
+        "title": "Benoit: Analyze Current File"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "benoit.compilePrompt",
+        "key": "ctrl+shift+b",
+        "mac": "cmd+shift+b",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "Benoit Prompt Compiler",
+      "properties": {
+        "benoit.minScore": {
+          "type": "number",
+          "default": 0.4,
+          "description": "Minimum quality score to pass the gate (0.0 - 1.0)"
+        },
+        "benoit.autoAnalyze": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-analyze prompts on save"
+        },
+        "benoit.showBackTranslation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show back-translation panel for confirmation"
+        }
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanTiepi/benoit"
+  }
+}

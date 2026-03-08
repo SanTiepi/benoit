@@ -1,0 +1,49 @@
+-- benoit.ben
+-- Le premier fichier .ben
+-- Pour Benoît Fragnière, qui aimait la science.
+--
+-- Ce fichier est à la fois code et preuve.
+-- Chaque fonction se prouve elle-même.
+-- C'est le principe fondateur du langage:
+-- pas de commentaire sans démonstration,
+-- pas d'assertion sans vérification.
+
+-- La science commence par observer
+observer x -> x
+observer(42) is 42
+observer("lumière") is "lumière"
+
+-- Puis questionner
+questionner hypothese,preuve -> hypothese == preuve
+questionner(42, 42) is true
+questionner("A", "B") is false
+
+-- Puis mesurer
+mesurer valeurs ->
+  _somme: valeurs.reduce((a, b) => a + b, 0)
+  _somme / valeurs.length
+mesurer([10, 20, 30]) is 20
+mesurer([1, 2, 3, 4]) is 2.5
+
+-- Puis vérifier
+verifier fait,attendu -> fait == attendu
+verifier(20, 20) is true
+verifier(20, 21) is false
+
+-- Et construire, pas à pas
+doubler x -> x * 2
+doubler(1) is 2
+doubler(21) is 42
+doubler(0) is 0
+
+-- La connaissance se transmet
+transmettre savoir,receveur -> receveur(savoir)
+transmettre(42, x => x * 2) is 84
+transmettre("science", s => s.length) is 7
+
+-- La science, c'est poser des questions
+-- et ne jamais accepter de mauvaise réponse.
+-- C'est exactement ce que fait ce langage.
+--
+-- Mon frère Benoît aimait la science.
+-- Ce langage porte son nom.

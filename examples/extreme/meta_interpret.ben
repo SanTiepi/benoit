@@ -1,0 +1,77 @@
+-- meta_interpret.ben
+-- Can Benoît reason about its own structures?
+-- Functions as data, data as functions.
+
+-- Higher-order: functions that eat and produce functions
+apply f,x -> f(x)
+apply2 f,x,y -> f(x, y)
+
+apply((x) => x * 2, 21) is 42
+apply2((a, b) => a + b, 3, 4) is 7
+
+-- Pipeline: compose N functions left-to-right
+pipe2 f,g,x -> g(f(x))
+pipe3 f,g,h,x -> h(g(f(x)))
+
+pipe2((x) => x + 1, (x) => x * 2, 5) is 12
+pipe3((x) => x + 1, (x) => x * 2, (x) => x - 3, 5) is 9
+
+-- Memoization pattern: can we build a cache?
+-- Using an object as memo storage
+_fib_memo n,memo ->
+  memo[String(n)] != undefined? -> memo[String(n)]
+  else? -> n < 2? -> n
+  else? -> _fib_memo(n - 1, memo) + _fib_memo(n - 2, memo)
+
+-- Partial application: lock in some arguments
+partial f,a -> (b) => f(a, b)
+
+add a,b -> a + b
+mul a,b -> a * b
+
+partial(add, 10)(5) is 15
+partial(mul, 3)(7) is 21
+
+-- Fold/reduce from scratch
+_fold arr,fn,acc,i ->
+  i >= arr.length? -> acc
+  else? -> _fold(arr, fn, fn(acc, arr[i]), i + 1)
+
+fold arr,fn,init -> _fold(arr, fn, init, 0)
+
+fold([1, 2, 3, 4], (a, b) => a + b, 0) is 10
+fold([1, 2, 3, 4], (a, b) => a * b, 1) is 24
+fold(["a", "b", "c"], (a, b) => a + b, "") is "abc"
+fold([], (a, b) => a + b, 42) is 42
+
+-- Map from fold
+_map arr,fn -> fold(arr, (acc, x) => acc.concat([fn(x)]), [])
+
+_map([1, 2, 3], (x) => x * x) is [1, 4, 9]
+_map([], (x) => x) is []
+
+-- Filter from fold
+_filter arr,fn -> fold(arr, (acc, x) => fn(x) ? acc.concat([x]) : acc, [])
+
+-- helper avoids == inside arrow (ast.mjs parses == as assertion delimiter)
+_isEven x -> x % 2 == 0
+_filter([1, 2, 3, 4, 5], _isEven) is [2, 4]
+_filter([1, 2, 3], (x) => x > 10) is []
+
+-- Flatten: nested arrays to flat
+_flatten arr -> fold(arr, (acc, x) => Array.isArray(x) ? acc.concat(_flatten(x)) : acc.concat([x]), [])
+
+_flatten([1, [2, 3], [4, [5]]]) is [1, 2, 3, 4, 5]
+_flatten([]) is []
+_flatten([[1], [2], [3]]) is [1, 2, 3]
+
+-- ZipWith: combine two arrays element by element
+_zipWith a,b,fn,i ->
+  i >= a.length | i >= b.length? -> []
+  else? -> [fn(a[i], b[i])].concat(_zipWith(a, b, fn, i + 1))
+
+zipWith a,b,fn -> _zipWith(a, b, fn, 0)
+
+zipWith([1, 2, 3], [4, 5, 6], (a, b) => a + b) is [5, 7, 9]
+zipWith([1, 2], [3, 4, 5], (a, b) => a * b) is [3, 8]
+zipWith([], [1], (a, b) => a) is []

@@ -1,0 +1,151 @@
+-- killer_apps.ben
+-- The 5 strongest use cases for .ben, proven with code.
+-- Each section is a complete, working proof of concept.
+
+-- ============================================================
+-- APP 1: CONTRACT TESTING (API contracts between services)
+-- Two microservices agree on a .ben spec. No Swagger. No drift.
+-- ============================================================
+
+-- Service A sends user data. Service B receives it.
+-- The CONTRACT between them:
+_isValidEmail s -> typeof s == "string" && s.indexOf("@") > 0
+_isPositive n -> typeof n == "number" && n > 0
+
+userContract user ->
+  _isPositive(user.id) && typeof user.name == "string" && user.name.length > 0 && _isValidEmail(user.email)
+
+-- These assertions ARE the contract. Ship the .ben file to both teams.
+userContract({id: 1, name: "Alice", email: "alice@corp.ch"}) is true
+userContract({id: 2, name: "Bob", email: "bob@x.com"}) is true
+userContract({id: -1, name: "Eve", email: "e@f.com"}) is false
+userContract({id: 1, name: "", email: "a@b.com"}) is false
+userContract({id: 1, name: "Test", email: "noatsign"}) is false
+
+-- Response contract
+responseContract res ->
+  res.status == 200 && typeof res.body == "object" && _isPositive(res.body.id)
+
+responseContract({status: 200, body: {id: 42, created: true}}) is true
+responseContract({status: 500, body: {id: 1}}) is false
+responseContract({status: 200, body: {id: -1}}) is false
+
+-- ============================================================
+-- APP 2: CONFIG VALIDATION (config that tests itself)
+-- ============================================================
+
+-- Instead of config.yaml + hope, config.ben + certainty
+_validPort p -> typeof p == "number" && p >= 1 && p <= 65535
+_validHost h -> typeof h == "string" && h.length > 0
+_validLogLevel l -> l == "debug" || l == "info" || l == "warn" || l == "error"
+
+validateConfig cfg ->
+  _validPort(cfg.port) && _validHost(cfg.host) && _validLogLevel(cfg.logLevel) && typeof cfg.maxConnections == "number" && cfg.maxConnections > 0
+
+-- Good configs
+validateConfig({port: 3000, host: "localhost", logLevel: "info", maxConnections: 100}) is true
+validateConfig({port: 443, host: "api.prod.ch", logLevel: "error", maxConnections: 10000}) is true
+
+-- Bad configs that would crash at runtime in YAML
+validateConfig({port: 0, host: "localhost", logLevel: "info", maxConnections: 100}) is false
+validateConfig({port: 3000, host: "", logLevel: "info", maxConnections: 100}) is false
+validateConfig({port: 3000, host: "localhost", logLevel: "verbose", maxConnections: 100}) is false
+validateConfig({port: 70000, host: "localhost", logLevel: "info", maxConnections: 100}) is false
+
+-- ============================================================
+-- APP 3: BUSINESS RULES ENGINE (rules as verifiable specs)
+-- ============================================================
+
+-- Insurance pricing: transparent, auditable, testable
+_baseRate age ->
+  age < 25? -> 1200
+  else? -> _baseRateOlder(age)
+
+_baseRateOlder age ->
+  age < 65? -> 800
+  else? -> 1500
+
+_smokingFactor smokes ->
+  smokes? -> 1.5
+  else? -> 1.0
+
+_coverageFactor coverage ->
+  coverage == "basic"? -> 1.0
+  else? -> _coverageHigher(coverage)
+
+_coverageHigher coverage ->
+  coverage == "standard"? -> 1.8
+  else? -> 2.5
+
+premium age,smokes,coverage -> Math.round(_baseRate(age) * _smokingFactor(smokes) * _coverageFactor(coverage))
+
+-- Every pricing decision is traceable and testable
+premium(20, false, "basic") is 1200
+premium(20, true, "basic") is 1800
+premium(30, false, "basic") is 800
+premium(30, false, "standard") is 1440
+premium(70, true, "premium") is 5625
+premium(70, false, "basic") is 1500
+
+-- Audit: can the regulator verify your pricing? Yes — run the .ben.
+
+-- ============================================================
+-- APP 4: STATE MACHINE (workflow validation)
+-- ============================================================
+
+-- Order lifecycle: CREATED -> PAID -> SHIPPED -> DELIVERED
+_transitions x -> [["CREATED", "PAID"], ["CREATED", "CANCELLED"], ["PAID", "SHIPPED"], ["PAID", "REFUNDED"], ["SHIPPED", "DELIVERED"], ["SHIPPED", "RETURNED"]]
+
+_findTransition transitions,from,to,i ->
+  i >= transitions.length? -> false
+  else? -> _checkTransition(transitions, from, to, i)
+
+_checkTransition transitions,from,to,i ->
+  transitions[i][0] == from && transitions[i][1] == to? -> true
+  else? -> _findTransition(transitions, from, to, i + 1)
+
+canTransition from,to -> _findTransition(_transitions(0), from, to, 0)
+
+canTransition("CREATED", "PAID") is true
+canTransition("CREATED", "CANCELLED") is true
+canTransition("PAID", "SHIPPED") is true
+canTransition("SHIPPED", "DELIVERED") is true
+canTransition("CREATED", "SHIPPED") is false
+canTransition("DELIVERED", "CREATED") is false
+canTransition("CANCELLED", "PAID") is false
+
+-- Apply transition: returns new state or error
+applyTransition from,to ->
+  canTransition(from, to)? -> {ok: true, state: to}
+  else? -> {ok: false, error: "invalid transition: " + from + " -> " + to}
+
+applyTransition("CREATED", "PAID") is {ok: true, state: "PAID"}
+applyTransition("CREATED", "DELIVERED") is {ok: false, error: "invalid transition: CREATED -> DELIVERED"}
+
+-- ============================================================
+-- APP 5: AI AGENT SPEC (tell an agent what to build)
+-- ============================================================
+
+-- Instead of a 500-word prompt, give the agent a .ben spec
+-- The agent implements. The spec validates. Loop until green.
+
+-- Spec for a password strength checker:
+_hasUpper s -> /[A-Z]/.test(s)
+_hasLower s -> /[a-z]/.test(s)
+_hasDigit s -> /[0-9]/.test(s)
+_hasSpecial s -> /[!@#$%^&*]/.test(s)
+_longEnough s -> s.length >= 8
+
+passwordStrength s ->
+  _longEnough(s) && _hasUpper(s) && _hasLower(s) && _hasDigit(s) && _hasSpecial(s)
+
+-- These lines ARE the prompt to the AI agent:
+passwordStrength("Abc123!@") is true
+passwordStrength("abc123!@") is false
+passwordStrength("ABC123!@") is false
+passwordStrength("Abcdefg!") is false
+passwordStrength("Abc1!") is false
+passwordStrength("") is false
+
+-- The agent doesn't need to guess what you want.
+-- The spec IS the requirement. Unambiguous. Verifiable. Complete.

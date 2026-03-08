@@ -1,0 +1,146 @@
+-- twenty_questions.ben
+-- Computation as interrogation.
+-- Every answer emerges from a cascade of binary questions.
+-- The machine doesn't compute — it asks until it knows.
+
+-- Binary search: find a number by asking "higher or lower?"
+_askHigher target,lo,hi ->
+  lo >= hi? -> lo
+  else? -> _askMid(target, lo, hi, Math.floor((lo + hi) / 2))
+
+_askMid target,lo,hi,mid ->
+  target == mid? -> mid
+  else? -> _askDirection(target, lo, hi, mid)
+
+_askDirection target,lo,hi,mid ->
+  target > mid? -> _askHigher(target, mid + 1, hi)
+  else? -> _askHigher(target, lo, mid)
+
+-- "What number am I thinking of?" (0-1000)
+find n -> _askHigher(n, 0, 1000)
+
+find(0) is 0
+find(500) is 500
+find(999) is 999
+find(42) is 42
+find(777) is 777
+
+-- How many questions does it take?
+_countQ target,lo,hi,depth ->
+  lo >= hi? -> depth
+  else? -> _countQMid(target, lo, hi, Math.floor((lo + hi) / 2), depth)
+
+_countQMid target,lo,hi,mid,depth ->
+  target == mid? -> depth
+  else? -> _countQDir(target, lo, hi, mid, depth)
+
+_countQDir target,lo,hi,mid,depth ->
+  target > mid? -> _countQ(target, mid + 1, hi, depth + 1)
+  else? -> _countQ(target, lo, mid, depth + 1)
+
+questionsNeeded n -> _countQ(n, 0, 1000, 0)
+
+-- Never more than 10 questions to find any number in 0-1000
+-- (log2(1001) ≈ 10)
+questionsNeeded(500) is 0
+questionsNeeded(0) is 9
+questionsNeeded(999) is 8
+questionsNeeded(42) is 9
+
+-- Classification by cascading questions: What shape am I?
+_hasFourSides sides -> sides == 4
+_hasThreeSides sides -> sides == 3
+_allEqual a,b,c,d -> a == b && b == c && c == d
+_hasRightAngle angles -> angles.filter((a) => a == 90).length > 0
+
+whatShape sides,equal ->
+  _hasThreeSides(sides)? -> "triangle"
+  else? -> _whatFourSided(sides, equal)
+
+_whatFourSided sides,equal ->
+  _hasFourSides(sides)? -> _fourSidedType(equal)
+  else? -> "polygon"
+
+_fourSidedType equal ->
+  equal? -> "square"
+  else? -> "rectangle"
+
+whatShape(3, false) is "triangle"
+whatShape(4, true) is "square"
+whatShape(4, false) is "rectangle"
+whatShape(5, false) is "polygon"
+whatShape(6, true) is "polygon"
+
+-- Decision tree: medical diagnosis parody
+-- (purely illustrative — NOT medical advice)
+_hasRash rash -> rash == true
+_hasCough cough -> cough == true
+
+diagnose fever,cough,rash -> _checkFever(fever, cough, rash)
+
+_checkFever fever,cough,rash ->
+  fever? -> _feverPath(cough, rash)
+  else? -> _noFeverPath(cough, rash)
+
+_feverPath cough,rash ->
+  _hasCough(cough)? -> _feverCough(rash)
+  else? -> _feverNoCough(rash)
+
+_feverCough rash ->
+  _hasRash(rash)? -> "measles"
+  else? -> "flu"
+
+_feverNoCough rash ->
+  _hasRash(rash)? -> "chickenpox"
+  else? -> "generic fever"
+
+_noFeverPath cough,rash ->
+  _hasCough(cough)? -> "cold"
+  else? -> _noFeverNoCough(rash)
+
+_noFeverNoCough rash ->
+  _hasRash(rash)? -> "allergy"
+  else? -> "healthy"
+
+diagnose(true, true, true) is "measles"
+diagnose(true, true, false) is "flu"
+diagnose(true, false, true) is "chickenpox"
+diagnose(true, false, false) is "generic fever"
+diagnose(false, true, false) is "cold"
+diagnose(false, false, true) is "allergy"
+diagnose(false, false, false) is "healthy"
+
+-- Sorting by repeated questions: "which is smaller?"
+_smaller a,b ->
+  a <= b? -> a
+  else? -> b
+
+_larger a,b ->
+  a >= b? -> a
+  else? -> b
+
+-- Sort 3 numbers by asking pairwise questions
+_sort3middle a,b,c ->
+  a <= c? -> a
+  else? -> c
+
+sort3 a,b,c -> _sort3step1(a, b, c)
+
+_sort3step1 a,b,c ->
+  a <= b? -> _sort3ab(a, b, c)
+  else? -> _sort3ab(b, a, c)
+
+_sort3ab lo,hi,c ->
+  c <= lo? -> [c, lo, hi]
+  else? -> _sort3abcHigh(lo, hi, c)
+
+_sort3abcHigh lo,hi,c ->
+  c >= hi? -> [lo, hi, c]
+  else? -> [lo, c, hi]
+
+sort3(3, 1, 2) is [1, 2, 3]
+sort3(1, 2, 3) is [1, 2, 3]
+sort3(3, 2, 1) is [1, 2, 3]
+sort3(5, 5, 5) is [5, 5, 5]
+sort3(1, 3, 2) is [1, 2, 3]
+sort3(100, 1, 50) is [1, 50, 100]

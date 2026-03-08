@@ -1,0 +1,38 @@
+-- minimal.ben
+-- Zéro mot superflu. La position est le sens.
+
+-- Fonctions : nom args -> corps
+add a,b -> a + b
+add(2,3) 5
+add(0,0) 0
+add(-1,1) 0
+
+double x -> x * 2
+double(21) 42
+double(0) 0
+
+-- Comparaison stricte (== -> ===)
+same a,b -> a == b
+same(1,1) true
+same(1,"1") false
+
+-- Erreur en un caractère : expr ! fallback
+parse json -> JSON.parse(json) ! null
+parse("{\"a\":1}") {"a":1}
+parse("broken") null
+
+-- Fallback : a | b | c
+first a,b,c -> a | b | c
+first(null,null,"found") "found"
+first("yes","no","x") "yes"
+
+-- Interpolation
+greet name -> "Hello {name}"
+greet("world") "Hello world"
+
+-- Composition
+pipe f,g,x -> g(f(x))
+pipe(x => x+1, x => x*2, 3) 8
+
+-- Privé
+_square x -> x * x

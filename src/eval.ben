@@ -1,0 +1,96 @@
+-- eval.ben
+-- Benoît self-interpreter: Phase 1 (bootstrap)
+-- The language that understands itself.
+-- "Il n'y a pas de mauvaise réponse, que des mauvaises questions."
+
+-- === ENVIRONMENT ===
+
+createEnv parent -> {parent, bindings: {}}
+
+_set env,name,value ->
+  env.bindings[name] = value
+  value
+
+-- Flatten all bindings from env chain into one object
+_flatBindings env ->
+  env == null? -> {}
+  parent: _flatBindings(env.parent)
+  Object.assign(parent, env.bindings)
+
+-- === EXPRESSION EVALUATOR (bootstrap: uses Function constructor) ===
+-- Phase 2 replaces this with native .ben expression parser
+
+evalExpr expr,env ->
+  all: _flatBindings(env)
+  names: Object.keys(all)
+  vals: names.map(k => all[k])
+  new Function(...names, "return (" + expr + ")")(...vals)
+
+-- === FUNCTION REPRESENTATION ===
+-- Functions are data: {params, body, closure}
+-- Not JS closures — the interpreter calls them explicitly
+
+_makeFunc node,env -> {params: node.params, body: node.body, closure: env, _benFunc: true}
+
+_callFunc fn,args ->
+  local: createEnv(fn.closure)
+  _bindParams(fn.params, args, local)
+  typeof fn.body == "string"? -> evalExpr(fn.body, local)
+  else? -> evalBlock(fn.body, local)
+
+_bindParams params,args,env ->
+  i: 0
+  params.forEach(p => (_set(env, p, args[i]), i = i + 1))
+
+-- === NODE EVALUATORS ===
+
+evalBinding node,env ->
+  val: evalExpr(node.value, env)
+  _set(env, node.name, val)
+
+evalFunction node,env ->
+  fn: _makeFunc(node, env)
+  _set(env, node.name, fn)
+
+evalBlock nodes,env ->
+  result: undefined
+  i: 0
+  _evalNext i,nodes,env ->
+    i >= nodes.length? -> undefined
+    evalNode(nodes[i], env)
+  nodes.forEach(n => result = evalNode(n, env))
+  result
+
+evalAssert node,env ->
+  actual: evalExpr(node.expr, env)
+  expected: evalExpr(node.expected, env)
+  pass: JSON.stringify(actual) == JSON.stringify(expected)
+  {pass, expr: node.expr, expected, actual, line: node.line}
+
+evalNode node,env ->
+  node.type == "binding"? -> evalBinding(node, env)
+  node.type == "function"? -> evalFunction(node, env)
+  node.type == "assert"? -> evalAssert(node, env)
+  node.type == "expr"? -> evalExpr(node.value, env)
+  node.type == "import"? -> null
+  null
+
+-- === PROGRAM RUNNER ===
+
+evalProgram ast ->
+  env: createEnv(null)
+  results: []
+  ast.forEach(node ->
+    r: evalNode(node, env)
+    r != null && r.pass != undefined? -> results.push(r)
+  )
+  results
+
+-- === TEST REPORTER ===
+
+runTests ast ->
+  results: evalProgram(ast)
+  passed: results.filter(r => r.pass).length
+  failed: results.filter(r => r.pass == false).length
+  total: results.length
+  {passed, failed, total, results}

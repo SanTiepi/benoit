@@ -1,0 +1,109 @@
+-- emergence.ben
+-- Complex behavior from trivial rules.
+-- Each function is a single binary question.
+-- Together they produce something none of them could alone.
+
+-- Rule 110: a universal cellular automaton in .ben
+-- 3 cells -> 1 cell. Simple table lookup. Turing complete.
+_r110 l,c,r ->
+  l == 1 && c == 1 && r == 1? -> 0
+  else? -> _r110b(l, c, r)
+
+_r110b l,c,r ->
+  l == 1 && c == 1 && r == 0? -> 1
+  else? -> _r110c(l, c, r)
+
+_r110c l,c,r ->
+  l == 1 && c == 0 && r == 1? -> 1
+  else? -> _r110d(l, c, r)
+
+_r110d l,c,r ->
+  l == 1 && c == 0 && r == 0? -> 0
+  else? -> _r110e(l, c, r)
+
+_r110e l,c,r ->
+  l == 0 && c == 1 && r == 1? -> 1
+  else? -> _r110f(l, c, r)
+
+_r110f l,c,r ->
+  l == 0 && c == 1 && r == 0? -> 1
+  else? -> _r110g(l, c, r)
+
+_r110g l,c,r ->
+  l == 0 && c == 0 && r == 1? -> 1
+  else? -> 0
+
+-- Rule 110 truth table
+_r110(1, 1, 1) is 0
+_r110(1, 1, 0) is 1
+_r110(1, 0, 1) is 1
+_r110(1, 0, 0) is 0
+_r110(0, 1, 1) is 1
+_r110(0, 1, 0) is 1
+_r110(0, 0, 1) is 1
+_r110(0, 0, 0) is 0
+
+-- Apply one step of Rule 110 to an array
+_stepCell cells,i ->
+  _r110(cells[i - 1] || 0, cells[i], cells[i + 1] || 0)
+
+-- Build next generation
+_buildGen cells,i,acc ->
+  i >= cells.length? -> acc
+  else? -> _buildGen(cells, i + 1, acc.concat([_stepCell(cells, i)]))
+
+stepRule110 cells -> _buildGen(cells, 0, [])
+
+-- From a single 1, pattern emerges
+stepRule110([0, 0, 0, 0, 1]) is [0, 0, 0, 1, 1]
+stepRule110([0, 0, 0, 1, 1]) is [0, 0, 1, 1, 1]
+stepRule110([0, 0, 1, 1, 1]) is [0, 1, 1, 0, 1]
+
+-- Conway's Game of Life: single step on a flat grid
+-- count alive neighbors
+_cellAt grid,w,x,y ->
+  x < 0 || y < 0 || x >= w || y >= grid.length / w? -> 0
+  else? -> grid[y * w + x]
+
+_countN grid,w,x,y -> _cellAt(grid, w, x - 1, y - 1) + _cellAt(grid, w, x, y - 1) + _cellAt(grid, w, x + 1, y - 1) + _cellAt(grid, w, x - 1, y) + _cellAt(grid, w, x + 1, y) + _cellAt(grid, w, x - 1, y + 1) + _cellAt(grid, w, x, y + 1) + _cellAt(grid, w, x + 1, y + 1)
+
+-- Life rules: binary questions
+_survives n -> n == 2 || n == 3
+_born n -> n == 3
+
+_nextCell alive,neighbors ->
+  alive == 1? -> _survives(neighbors)
+  else? -> _born(neighbors)
+
+-- Blinker (period 2 oscillator): 3x3 grid
+-- Phase 1: vertical   Phase 2: horizontal
+--  010                  000
+--  010          ->      111
+--  010                  000
+_lifeStep grid,w,i,acc ->
+  i >= grid.length? -> acc
+  else? -> _lifeStep(grid, w, i + 1, acc.concat([_nextCell(grid[i], _countN(grid, w, i % w, Math.floor(i / w))) ? 1 : 0]))
+
+lifeStep grid,w -> _lifeStep(grid, w, 0, [])
+
+-- Blinker oscillates
+lifeStep([0,1,0, 0,1,0, 0,1,0], 3) is [0,0,0, 1,1,1, 0,0,0]
+lifeStep([0,0,0, 1,1,1, 0,0,0], 3) is [0,1,0, 0,1,0, 0,1,0]
+
+-- Block (still life): stable
+lifeStep([0,0,0,0, 0,1,1,0, 0,1,1,0, 0,0,0,0], 4) is [0,0,0,0, 0,1,1,0, 0,1,1,0, 0,0,0,0]
+
+-- Fibonacci emerges from repeated addition
+-- But what if we define it as: "what sequence satisfies f(n) = f(n-1) + f(n-2)?"
+-- Given a property, generate the sequence that satisfies it
+_genSeq rule,a,b,n ->
+  n == 0? -> [a]
+  else? -> [a].concat(_genSeq(rule, b, rule(a, b), n - 1))
+
+fibSeq n -> _genSeq((a, b) => a + b, 0, 1, n)
+lucasSeq n -> _genSeq((a, b) => a + b, 2, 1, n)
+powSeq n -> _genSeq((a, b) => b * 2, 1, 2, n)
+
+fibSeq(7) is [0, 1, 1, 2, 3, 5, 8, 13]
+lucasSeq(5) is [2, 1, 3, 4, 7, 11]
+powSeq(5) is [1, 2, 4, 8, 16, 32]

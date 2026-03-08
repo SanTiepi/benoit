@@ -1,0 +1,84 @@
+-- type_alchemy.ben
+-- Type coercion, edge cases, and JavaScript's weirdest corners
+-- Can the native evaluator handle what JS itself barely handles?
+
+-- Type coercion: the forbidden arts
+coerce_add a,b -> a + b
+
+coerce_add(1, "2") is "12"
+coerce_add("3", 4) is "34"
+coerce_add(true, 1) is 2
+coerce_add(null, 1) is 1
+coerce_add(undefined, 1) is NaN
+
+-- Truthiness: the full spectrum
+isTruthy x -> !!x
+
+isTruthy(1) is true
+isTruthy(0) is false
+isTruthy("") is false
+isTruthy("0") is true
+isTruthy(null) is false
+isTruthy(undefined) is false
+isTruthy([]) is true
+isTruthy({}) is true
+
+-- typeof: the type system that lies
+typeOf x -> typeof x
+
+typeOf(42) is "number"
+typeOf("hello") is "string"
+typeOf(true) is "boolean"
+typeOf(undefined) is "undefined"
+typeOf(null) is "object"
+typeOf([]) is "object"
+typeOf((x) => x) is "function"
+
+-- Equality: the three-body problem of JS
+-- == vs === in the native evaluator (both map to ===)
+strictEq a,b -> a == b
+
+strictEq(1, 1) is true
+strictEq(1, "1") is false
+strictEq(null, undefined) is false
+strictEq(null, null) is true
+strictEq(NaN, NaN) is false
+
+-- Array/Object identity
+arrEq a,b -> JSON.stringify(a) == JSON.stringify(b)
+
+arrEq([1, 2, 3], [1, 2, 3]) is true
+arrEq({a: 1}, {a: 1}) is true
+arrEq([1, 2], [2, 1]) is false
+arrEq({}, {}) is true
+
+-- The void: operations on nothing
+nullChain x -> x?.toString()
+
+nullChain(42) is "42"
+nullChain("hi") is "hi"
+nullChain(null) is undefined
+nullChain(undefined) is undefined
+
+-- String as array: indexing and iteration
+charAt s,i -> s[i]
+
+charAt("hello", 0) is "h"
+charAt("hello", 4) is "o"
+charAt("", 0) is undefined
+
+-- Number edge cases
+numEdge x -> Number.isFinite(x)
+
+numEdge(42) is true
+numEdge(Infinity) is false
+numEdge(-Infinity) is false
+numEdge(NaN) is false
+numEdge(0) is true
+
+-- The biggest and smallest
+maxSafe x -> Number.MAX_SAFE_INTEGER
+minVal x -> Number.MIN_VALUE > 0
+
+maxSafe(0) is 9007199254740991
+minVal(0) is true

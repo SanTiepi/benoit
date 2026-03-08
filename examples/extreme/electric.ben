@@ -1,0 +1,95 @@
+-- electric.ben
+-- The electric signal: the most precise language that exists.
+-- No words. No symbols. Just amplitude over time.
+-- A function IS a waveform. A test IS a sample point.
+-- The truth is in the shape.
+
+-- A signal is just numbers over time: [v0, v1, v2, ...]
+-- Frequency: how fast does it oscillate?
+-- Amplitude: how strong is the message?
+-- Phase: where does it start?
+
+-- Generate a sine wave: the fundamental signal
+_genSine freq,amp,phase,n,i,acc ->
+  i >= n? -> acc
+  else? -> _genSine(freq, amp, phase, n, i + 1, acc.concat([Math.round(amp * Math.sin(2 * 3.14159 * freq * i / n + phase) * 1000) / 1000]))
+
+sine freq,amp,n -> _genSine(freq, amp, 0, n, 0, [])
+
+-- A pure tone: 1 cycle, amplitude 1, 8 samples
+sine(1, 1, 8) is [0, 0.707, 1, 0.707, 0, -0.707, -1, -0.707]
+
+-- Silence: amplitude 0
+sine(1, 0, 4) is [0, 0, 0, 0]
+
+-- Encode a bit as presence/absence of signal
+-- 1 = signal present, 0 = silence
+-- This is amplitude-shift keying (ASK)
+encodeBit bit -> sine(1, bit, 4)
+
+encodeBit(1) is [0, 1, 0, -1]
+encodeBit(0) is [0, 0, 0, 0]
+
+-- Encode a byte as 8 signals concatenated
+_encodeByte bits,i,acc ->
+  i >= bits.length? -> acc
+  else? -> _encodeByte(bits, i + 1, acc.concat(encodeBit(bits[i])))
+
+encodeByte bits -> _encodeByte(bits, 0, [])
+
+-- The letter "A" = 01000001 in ASCII
+-- 8 bits * 4 samples = 32 element signal
+encodeByte([0, 1, 0, 0, 0, 0, 0, 1]) is [0, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, -1]
+
+-- Decode: detect signal by measuring energy
+_energy signal,i,acc ->
+  i >= signal.length? -> acc
+  else? -> _energy(signal, i + 1, acc + signal[i] * signal[i])
+
+energy signal -> Math.round(_energy(signal, 0, 0) * 1000) / 1000
+
+-- Signal has energy, silence doesn't
+energy([0, 1, 0, -1]) is 2
+energy([0, 0, 0, 0]) is 0
+energy([0, 0.707, 1, 0.707, 0, -0.707, -1, -0.707]) is 3.999
+
+-- Decode a bit: energy above threshold = 1
+decodeBit signal -> energy(signal) > 0.5
+
+decodeBit([0, 1, 0, -1]) is true
+decodeBit([0, 0, 0, 0]) is false
+
+-- Correlation: how similar are two signals?
+-- This is how a receiver recognizes a pattern
+_correlate a,b,i,acc ->
+  i >= a.length? -> acc
+  else? -> _correlate(a, b, i + 1, acc + a[i] * b[i])
+
+correlate a,b -> _correlate(a, b, 0, 0)
+
+-- Same signal = high correlation
+correlate([0, 1, 0, -1], [0, 1, 0, -1]) is 2
+-- Opposite signal = negative correlation
+correlate([0, 1, 0, -1], [0, -1, 0, 1]) is -2
+-- Orthogonal signals = zero correlation
+correlate([1, 0, 0, 0], [0, 1, 0, 0]) is 0
+
+-- Modulation: embed a message in a carrier
+-- carrier * message = modulated signal
+_modulate carrier,message,i,acc ->
+  i >= carrier.length? -> acc
+  else? -> _modulate(carrier, message, i + 1, acc.concat([carrier[i] * message[i]]))
+
+modulate carrier,message -> _modulate(carrier, message, 0, [])
+
+-- Carrier * 1 = carrier (message present)
+modulate([0, 1, 0, -1], [1, 1, 1, 1]) is [0, 1, 0, -1]
+-- Carrier * 0 = silence (message absent)
+modulate([0, 1, 0, -1], [0, 0, 0, 0]) is [0, 0, 0, 0]
+
+-- The profound truth:
+-- A function IS a waveform.
+-- fib(10) = 55 is a sample point on the fibonacci surface.
+-- The assertion IS a measurement.
+-- The test suite IS a spectrum analyzer.
+-- .ben doesn't describe computation — it IS the signal.

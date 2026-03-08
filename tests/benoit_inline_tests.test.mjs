@@ -34,7 +34,7 @@ describe("Benoît inline test extraction", () => {
     const codeLines = js.split("\n").filter(l => !l.trim().startsWith("//"));
     const hasRawAssertion = codeLines.some(l => l.includes(" == "));
     assert.ok(!hasRawAssertion, "assertions should not be executable code");
-    assert.ok(js.includes("// test: add(2, 3) == 5"), "assertions should be comments");
+    assert.ok(js.includes("// test: add(2, 3) is 5"), "assertions should be comments");
     assert.ok(js.includes("export function add"), "functions should still be there");
   });
 

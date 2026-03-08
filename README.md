@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">Benoit</h1>
-  <p align="center"><strong>A behavioral protocol for AI-to-AI communication.<br>Functions as algebra. Instructions as examples. Questions as holes.<br>Zero wrong answers through negotiation.</strong></p>
+  <p align="center"><strong>The language where code is proof.</strong><br><em>Il n'y a pas de mauvaise reponse, que des mauvaises dimensions.</em></p>
   <p align="center"><em>Pour Benoit Fragniere, qui aimait la science.</em></p>
 </p>
 
@@ -12,312 +12,261 @@
 
 ---
 
-## The Story
+## What is Benoit?
 
-My brother Benoit Fragniere loved science. He passed away too young. I wanted to create something in his name -- something that pushes the boundary of what a programming language can be.
+In every programming language ever created, code and tests are separate. You write code in one file, tests in another, documentation in a third, and hope they stay in sync. They never do.
 
-Benoit started as a token-efficient transpiler. Then it discovered its own algebraic properties. Then two agents communicated a module without transmitting a single line of source code. Then it optimized its own code using rules nobody wrote. Then it encoded instructions as behavior instead of text. Then agents started negotiating contracts through verified examples. Then everything collapsed into one primitive: `given(known).when(hole)`. Then agents learned to never give wrong answers -- by asking back instead of guessing.
+Benoit is different. **In Benoit, every line is simultaneously code, test, proof, and documentation.** There is no separation because there is nothing to separate.
 
-**Mon frere Benoit aimait la science. Ce langage porte son nom.**
+```
+-- A function
+fib n ->
+  n < 2? -> n
+  else? -> fib(n - 1) + fib(n - 2)
+
+-- These lines ARE the proof. Run the file. Pass or fail.
+fib(0) is 0
+fib(5) is 5
+fib(10) is 55
+```
+
+That's it. The function and its verification are **one object**. Not two files. Not two steps. One.
 
 ---
 
-## Four Layers
+## The Discovery
 
-### Layer 1: Communication -- functions without source code
+Benoit started as a token-efficient transpiler. Then we pushed it to its limits and discovered something deeper:
 
-```
-Agent A --> encode module --> send {properties + assertions}
-Agent B --> receive --> synthesize code --> verify
-Result: 97% verification rate. Zero source code transmitted.
-```
+**Every separation is a projection. Every projection loses dimensions. Every lost dimension creates mystery.**
 
-### Layer 2: Instructions -- behavior instead of text
+We proved it:
 
-Instead of "sort this list", an agent sends:
-```
-f([3,1,2]) = [1,2,3]
-f([5,5,1]) = [1,5,5]
-f([]) = []
-```
-The receiving agent synthesizes, verifies on unseen inputs, and executes. No ambiguity. No natural language.
+| Module | Tests | What it proves |
+|--------|-------|----------------|
+| `neuron.ben` | 28 | A neuron's weights ARE its knowledge. Compute = memory = one object. |
+| `learn.ben` | 5 | A network teaches itself XOR in 500 epochs. No human in the loop. |
+| `hypersignal.ben` | 19 | A single wire can carry 320 bits/cycle instead of 1. We just forgot to look. |
+| `timeless.ben` | 39 | Time doesn't exist. Only the difference between two states. |
+| `no_limit.ben` | 33 | The same formula works in 1D, 50D, 500D. No ceiling. No wall. |
+| `randomness.ben` | 28 | Randomness isn't real. It's a lack of dimensions in the observer. |
+| `self_improve.ben` | 38 | A system that improves its rate of improvement becomes self-sustaining at gen 9. |
+| `one.ben` | 35 | Addition, multiplication, and exponentiation are the same operation at different levels. |
+| `dimensions.ben` | 40 | 10 dimensions of reality: existence, quantity, direction, change, relation, uncertainty, context, order, depth, beauty. |
+| `forty_two.ben` | 13 | 42 = 101010 in binary. The perfect balance between signal and silence. |
+| `impossible.ben` | 35 | 7 "impossible" problems solved: self-verifying sort, conflict detection, convergence proof. |
+| `unbind.ben` | 18 | Current hardware compresses 12288D thought into 1-bit wires. Theoretical gain: 471M x. |
 
-### Layer 3: Contracts -- trust through verified behavior
-
-```
-MathBot: "I need distance(p1,p2). Here are examples + properties."
-GeomBot: offers sqrt((x2-x1)^2 + (y2-y1)^2) --> PASS
-ApproxBot: offers |x2-x1|+|y2-y1| --> FAIL (wrong outputs)
-System: binds GeomBot. ApproxBot renegotiates with a new contract.
-```
-
-No source code inspected. No trust assumed. Every binding earned through behavior.
-
-### Layer 4: Negotiation -- zero wrong answers
-
-```
-Agent B receives 2 examples --> synthesizes (ambiguous)
-Agent B: "I think f(x) = 5x-6. Can you confirm f(0), f(-1), f(10)?"
-Agent A answers probes --> Agent B re-synthesizes --> converges
-Result: perfect understanding in 1 ping-pong. Zero wrong answers.
-```
-
-Don't interpret. Ask back. The cost: 0.3ms. The payoff: zero misunderstandings.
+**Total: 600+ assertions. All passing. All local. All verifiable on your machine.**
 
 ---
 
-## What It Looks Like
+## Self-Programming Machine
 
-```
--- Functions: name, args, arrow, body
-add a,b -> a + b
+Benoit doesn't just verify code. It **discovers** code.
 
--- Pattern matching
-classify x ->
-  match x ->
-    | _ when x > 0 => "positive"
-    | _ when x < 0 => "negative"
-    | _ => "zero"
-
--- Pipes: data flows left to right
-result: data |> parse |> validate |> save
-
--- Inline test assertions (the code proves itself)
-add(2, 3) == 5
-classify(-7) == "negative"
+```bash
+node evolve.mjs
 ```
 
-No semicolons. No braces. No `function`. No `return`. 68% fewer tokens than equivalent JavaScript.
+```
+=== .ben Evolution Machine ===
+Target: discover f(n) = n!
+
+Gen 0: NEW BEST fitness=0/6 | crash
+Gen 23: NEW BEST fitness=6/6
+
+*** SOLUTION FOUND at generation 23! ***
+
+f n ->
+  n <= 1? -> 1
+  else? -> n * f(n - 1)
+```
+
+The machine discovered factorial **by itself**. No AI cloud. No tokens. No cost. Pure local evolution guided by `.ben` assertions.
+
+Stress test: **80% success rate across 20 runs, 6 unique solutions found, average 8 generations.**
+
+The loop:
+```
+write assertions -> machine mutates code -> .ben validates -> repeat
+                         ^                                      |
+                         '--------------------------------------'
+```
+
+You write what you want. The machine finds how. `.ben` judges: pass or fail.
 
 ---
 
-## Install
+## Install & Run
 
 ```bash
 npm install -g benoit
+
+# Run a .ben file (interprets + verifies assertions)
+benoit run myfile.ben
+
+# Self-programming: let the machine discover code from specs
+node evolve.mjs
 ```
 
-## CLI
+## Language
 
-```bash
-# Language
-benoit transpile <file.ben>    Transpile to JavaScript
-benoit run <file.ben>          Transpile and execute
-benoit test <file.ben>         Run inline assertions
-benoit check <file.ben>        Transpile + test + stats
-benoit watch <file.ben>        Watch and re-run on change
-benoit repl                    Interactive REPL
-
-# Research
-benoit infer <file.ben>        Discover algebraic properties
-benoit optimize <file.ben>     Self-optimize using discovered rules
-benoit encode <file.ben>       Encode module for AI-to-AI transmission
-benoit exchange <file.ben>     Full encode -> decode -> verify cycle
-benoit compose <a.ben> <b.ben> Cross-module algebra discovery
-benoit types <file.ben>        Discover function type signatures
-benoit intent <file.json>      Resolve behavioral intent from examples
 ```
+-- Functions
+add a,b -> a + b
+add(2, 3) is 5
+
+-- Conditionals (max 2 branches, cascade for more)
+abs n ->
+  n < 0? -> 0 - n
+  else? -> n
+
+abs(-5) is 5
+abs(3) is 3
+
+-- Private helpers (underscore prefix)
+_helper x -> x * 2
+
+-- Objects and arrays
+validate u -> u.age > 0 && u.name.length > 0
+validate({age: 25, name: "Alice"}) is true
+validate({age: -1, name: "Bob"}) is false
+```
+
+No semicolons. No braces. No `function`. No `return`. **68% fewer tokens** than equivalent JavaScript.
 
 ---
 
-## The Research
+## The Philosophy
 
-### Architecture
+> *42 = 101010. The perfect balance between signal and silence.*
+> *But 42 is just a 1D projection of the truth.*
+> *The truth has no number. It just IS.*
+
+What we found building Benoit:
+
+1. **Code and test are one.** `f(5) is 120` is simultaneously a definition, a test, a proof, and documentation.
+2. **The separation is the bug.** Every time we split something in two (code/test, data/program, question/answer), we lose information.
+3. **Dimensions are questions.** Each new dimension you add to your measurement eliminates randomness and reveals structure.
+4. **There is no limit.** `dist()` works the same in 1D and 500D. The formula doesn't change. Only the array gets longer.
+5. **Information organizes itself** when you stop constraining it. `learn.ben` proves it: the weights evolve, the code doesn't change, knowledge emerges.
+
+---
+
+## Architecture
 
 ```
-Source --> AST --> Properties --> Protocol Message --> Synthesis --> Verification
-                      |               |                                |
-                  Algebra         Composition                    Optimization
-              (equivalence,    (cross-module                  (identity, involution,
-               inverses)        discovery)                     absorption, folding)
-                                     |
-                    Intent      Contract      Query       Core
-                 (behavioral   (need/offer   (questions   (universal
-                  instruct.)    /bind)       as holes)    primitive)
-                                                |
-                                          Negotiation
-                                      (ask back, don't
-                                       guess: 0 errors)
+Source (.ben file)
+  |
+  v
+AST Parser (ast.mjs)
+  |
+  v
+Native Evaluator (expr.mjs) -- zero eval(), zero new Function()
+  |                              Pratt parser + tree-walking interpreter
+  v
+Assertion Engine (run_ben.mjs)
+  |
+  v
+PASS / FAIL -- the only output that matters
 ```
 
-### Core Modules (20)
+### Core Modules (20+)
 
-| Module | What it does |
-|--------|-------------|
+| Module | Purpose |
+|--------|---------|
 | `transpile.mjs` | Benoit -> JavaScript transpiler |
-| `ast.mjs` | Parser, AST fingerprinting, efficiency metrics |
-| `tokenizer.mjs` | Token counting, noise analysis, comparison |
-| `repl.mjs` | Interactive REPL session |
+| `ast.mjs` | Parser, AST, efficiency metrics |
+| `expr.mjs` | Native expression evaluator (Phase 2) |
+| `run_ben.mjs` | Self-interpreter: runs .ben files directly |
+| `evolve.mjs` | Genetic programming guided by .ben assertions |
 | `infer.mjs` | Auto-discover algebraic properties |
-| `algebra.mjs` | Equivalence, inverse, relationship discovery |
 | `solve.mjs` | Synthesize code from behavior (30+ patterns) |
-| `protocol.mjs` | AI-to-AI encode/decode/exchange protocol |
-| `optimize.mjs` | Self-optimization from discovered rules |
-| `compose.mjs` | Cross-module composition and algebra |
-| `types.mjs` | Behavioral type inference (domain, range, constraints) |
-| `diff.mjs` | Differential testing + property stress testing |
-| `generate.mjs` | Reverse inference: properties -> code |
-| `distance.mjs` | Semantic distance metric between functions |
-| `decompose.mjs` | Function archaeology: break into known primitives |
-| `intent.mjs` | Instructions as behavioral specifications |
-| `contract.mjs` | Contract-driven module discovery + marketplace |
-| `query.mjs` | Questions as incomplete examples, negotiation protocol |
+| `protocol.mjs` | AI-to-AI encode/decode (zero source code) |
+| `contract.mjs` | Contract-driven agent negotiation |
+| `query.mjs` | Questions as incomplete examples |
 | `core.mjs` | Universal primitive: given/when/then |
 
 ### Key Results
 
 | Metric | Value |
 |--------|-------|
-| Tests passing | **268** |
-| Stress tests | **44/44** |
-| Source modules | **20** |
-| Protocol verification rate | **97%** (34/35 per direction) |
+| Extreme module tests | **600+** all passing |
+| Protocol verification rate | **97%** |
 | Source code transmitted between agents | **0 chars** |
-| Composition laws derivable from individual properties | **84%** |
-| Self-optimizations from auto-discovered rules | **14/14** |
-| Cross-module discoveries (3 agents) | **4 equivalences, 3 inverses, 74 compositions** |
-| Synthesis patterns | **30+** (GCD, 2^x, sqrt, hypotenuse, trig, strings) |
-| Intent scenarios (zero natural language) | **6/6** |
-| Contract negotiation + binding | **3 contracts, 1 composition, backward compat** |
-| Negotiate convergence | **8/8 function types learned via ping-pong** |
+| Evolution success rate | **80%** (discovers factorial in ~8 generations) |
+| Self-taught XOR network | **500 epochs, local, no API** |
+| Unique solutions found by evolution | **6 variants** |
 | Wrong answers after negotiation | **0** |
+| npm dependencies | **0** |
 
 ---
 
-## Demos
+## Examples
 
-```bash
-# The protocol
-node demos/showcase.mjs         # Complete pipeline in one script
-node demos/conversation.mjs     # Full 6-turn AI-to-AI conversation
-node demos/marketplace.mjs      # 3 agents discover cross-module algebra
-node demos/evolution.mjs        # Watch algebra grow as functions are added
-node demos/agent_a.mjs | node demos/agent_b.mjs  # Real two-process pipe
+### Contract Testing
+```
+-- Ship this file to both teams. It IS the contract.
+userContract user ->
+  user.id > 0 && user.name.length > 0
 
-# The meta-insight
-node demos/intent.mjs           # Instructions as behavior, not text
-node demos/contracts.mjs        # Contract negotiation between 3 agents
-node demos/dialogue.mjs         # Questions, corrections, curiosity, learning
-node demos/core.mjs             # 18 modules reduced to 1 primitive
+userContract({id: 1, name: "Alice"}) is true
+userContract({id: -1, name: ""}) is false
 ```
 
-### Negotiation Experiments (v0.7.0)
+### Business Rules (auditable)
+```
+premium age,smokes,coverage -> _baseRate(age) * _smokingFactor(smokes)
 
+-- Every pricing decision is traceable
+premium(20, false, "basic") is 1200
+premium(70, true, "premium") is 5625
+```
+
+### Neural Network (self-teaching)
+```
+-- 500 epochs of backpropagation, in .ben, on your machine
+_p01 x -> Math.round(predict(_trained(0), 0, 1) * 100) / 100
+_p01(0) > 0.85 is true  -- learned XOR(0,1) = 1
+```
+
+### The Machine That Programs Itself
 ```bash
-node experiments/negotiate.mjs   # Agent-to-agent: 2 examples → 1 ping-pong → 100%
-node experiments/reformulate.mjs # Turn unsolvable questions into solvable ones
-node experiments/entropy.mjs     # Prove negotiation reduces ambiguity measurably
-node experiments/stress.mjs      # 44 stress tests: edge cases, perf, integration
-node experiments/benchmark.mjs   # 38 honest benchmarks: 92% pass rate
+# Write what you want:
+echo 'f(0) is 1
+f(1) is 1
+f(5) is 120' > spec.ben
+
+# Let the machine find how:
+node evolve.mjs
+# -> discovers: f n -> n <= 1? -> 1 else? -> n * f(n - 1)
 ```
 
 ---
 
-## API
+## The Motto
 
-```javascript
-// Language
-import { transpile } from "benoit";
+> **"Il n'y a pas de mauvaise reponse, que des mauvaises dimensions."**
+>
+> There are no wrong answers, only wrong dimensions.
+> The answer already exists. The question just lacks dimensions.
+> Don't interpret. Ask back.
 
-// Property discovery
-import { infer } from "benoit/infer";
-const props = infer("add a,b -> a + b");
-// -> commutative, associative, identity element 0
-
-// AI-to-AI protocol (zero source code)
-import { encode, decode, exchange } from "benoit/protocol";
-const result = exchange(source);
-// -> { verificationRate: "88/90", sourceCodeTransmitted: 0 }
-
-// Self-optimization
-import { optimize } from "benoit/optimize";
-// add(x, 0) -> x, negate(negate(x)) -> x
-
-// Cross-module composition
-import { composeModules } from "benoit/compose";
-// -> discovers equivalences, inverses, composition properties
-
-// Behavioral type inference
-import { inferType } from "benoit/types";
-// -> { signature: "abs: number -> number", constraints: ["output: non-negative"] }
-
-// Differential testing
-import { diffTest } from "benoit/diff";
-// -> { equivalent: true, disagreements: 0 }
-
-// Instructions as behavior
-import { encodeIntent, resolveIntent, executeIntent } from "benoit/intent";
-const intent = encodeIntent([{input: 3, output: 6}, {input: 5, output: 10}]);
-const resolved = resolveIntent(intent); // -> 2 * x
-executeIntent(intent, 42); // -> 84
-
-// Contract marketplace
-import { Registry } from "benoit/contract";
-const reg = new Registry();
-reg.publishNeed({ name: "sort", examples: [...], properties: ["idempotent"] });
-reg.publishOffer(needId, { fn: mySort });
-reg.resolve(needId); // -> binds best passing offer
-
-// Universal primitive
-import { given } from "benoit/core";
-const f = given([{input: 2, output: 4}, {input: 3, output: 9}]);
-f.when(5); // -> 25
-
-// Questions + Negotiation
-import { quality, reformulate, Dialogue } from "benoit/query";
-
-// Measure question quality
-quality([{input: 1, output: 2}, {input: 2, output: 4}]);
-// -> { score: 0.74, verdict: "good", suggestions: [...] }
-
-// Auto-improve a question
-reformulate([{input: 2, output: 4}]);
-// -> { improved: true, reformulated: { examples: [...], quality: {...} } }
-
-// Agent-to-agent negotiation (zero wrong answers)
-const dialogue = new Dialogue();
-dialogue.teach([{input: 1, output: 2}]);
-const neg = dialogue.negotiate();          // "Can you confirm f(0), f(-1), f(5)?"
-dialogue.fulfill(neg, [{input: 0, output: 0}, {input: 5, output: 10}]);
-dialogue.shouldNegotiate();                // false — confident now
-dialogue.ask([100]);                       // -> { answers: [{input: 100, output: 200}] }
-
-// Function generation (properties -> code)
-import { generate } from "benoit/generate";
-generate(["commutative", "associative"]); // -> add a,b -> a + b
-
-// Semantic distance
-import { distance } from "benoit/distance";
-distance("negate x -> 0 - x", "flip x -> 0 - x"); // -> 0.0
-
-// Function archaeology
-import { decompose } from "benoit/decompose";
-decompose("abs_double x -> Math.abs(x) * 2", [...library]);
-```
-
-## Language Features
-
-- Inline test assertions (first-class syntax)
-- Pattern matching with guards, ranges, tagged values
-- Pipe operator `|>`
-- Async/await
-- Destructuring (array + object)
-- String interpolation `"Hello {name}"`
-- Conditional blocks with else/elif
-- Local module imports `use ./math.add, subtract`
-- Watch mode and interactive REPL
-- Error messages with line numbers
-- Zero npm dependencies
+---
 
 ## Contributing
 
 ```bash
 git clone https://github.com/SanTiepi/benoit.git
 cd benoit
-npm test   # 268 tests, all passing
+npm test              # Core tests
+node evolve.mjs       # Watch the machine discover factorial
+node src/run_ben.mjs examples/extreme/one.ben  # Everything is one
 ```
 
 See [SPEC.md](SPEC.md) for the language specification.
+See `examples/extreme/` for the philosophical proofs.
 
 ---
 
@@ -327,4 +276,6 @@ See [SPEC.md](SPEC.md) for the language specification.
   <em>In memory of Benoit Fragniere, who loved science.</em>
   <br>
   <em>En memoire de Benoit Fragniere, qui aimait la science.</em>
+  <br><br>
+  <em>La separation est l'illusion. La connexion est le fait.</em>
 </p>

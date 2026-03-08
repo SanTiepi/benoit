@@ -1,0 +1,56 @@
+-- validate_quality.ben
+-- Computes quality score for bridge messages
+-- Quality is binary, not subjective. No bad answers, only bad questions.
+
+-- Tests signal: binary pass/fail from tests + lint
+testsSignal tests_pass,lint_pass ->
+  tests_pass && lint_pass? -> 1
+  else? -> 0
+
+testsSignal(true, true) is 1
+testsSignal(true, false) is 0
+testsSignal(false, true) is 0
+testsSignal(false, false) is 0
+
+-- Rollback penalty: 1 if rolled back, 0 otherwise
+rollbackPenalty rolled_back ->
+  rolled_back? -> 1
+  else? -> 0
+
+rollbackPenalty(true) is 1
+rollbackPenalty(false) is 0
+
+-- Quality score formula: 0.4*tests + 0.3*review + 0.3*(1-rollback)
+qualityScore tests_pass,lint_pass,review_score,rolled_back ->
+  ts: testsSignal(tests_pass, lint_pass)
+  rp: rollbackPenalty(rolled_back)
+  Math.round((0.4 * ts + 0.3 * review_score + 0.3 * (1 - rp)) * 100) / 100
+
+qualityScore(true, true, 0.8, false) is 0.94
+qualityScore(true, true, 1.0, false) is 1.0
+qualityScore(false, true, 0.8, false) is 0.54
+qualityScore(true, true, 0.0, false) is 0.7
+qualityScore(true, true, 1.0, true) is 0.7
+
+-- Quality gate: pass if score >= threshold
+passesGate tests_pass,lint_pass,review_score,rolled_back,threshold ->
+  qualityScore(tests_pass, lint_pass, review_score, rolled_back) >= threshold
+
+passesGate(true, true, 0.8, false, 0.9) is true
+passesGate(true, true, 0.8, false, 0.95) is false
+passesGate(false, false, 0.0, true, 0.1) is false
+
+-- Quality delta between two runs (dual vs single)
+qualityDelta scoreA,scoreB -> Math.round((scoreA - scoreB) * 100) / 100
+
+qualityDelta(0.94, 0.89) is 0.05
+qualityDelta(0.7, 0.7) is 0
+qualityDelta(0.5, 0.8) is -0.3
+
+-- Does dual beat single by enough?
+dualWins dualScore,singleScore,minDelta ->
+  qualityDelta(dualScore, singleScore) >= minDelta
+
+dualWins(0.94, 0.89, 0.05) is true
+dualWins(0.94, 0.90, 0.05) is false
+dualWins(0.7, 0.7, 0.05) is false

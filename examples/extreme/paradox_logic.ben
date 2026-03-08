@@ -1,0 +1,91 @@
+-- paradox_logic.ben
+-- Exploring logical paradoxes and edge cases
+-- What happens when truth eats itself?
+
+-- Identity: everything is itself
+identity x -> x
+
+identity(42) is 42
+identity("hello") is "hello"
+identity(true) is true
+identity(null) is null
+identity(undefined) is undefined
+
+-- The liar's shadow: double negation elimination
+doubleNeg x -> !(!x)
+
+doubleNeg(true) is true
+doubleNeg(false) is false
+doubleNeg(0) is false
+doubleNeg(1) is true
+doubleNeg("") is false
+doubleNeg("anything") is true
+
+-- Vacuous truth: "all unicorns can fly" is true (empty set)
+allMatch arr,pred -> arr.filter((x) => !pred(x)).length == 0
+
+allMatch([], (x) => x > 100) is true
+allMatch([1, 2, 3], (x) => x > 0) is true
+allMatch([1, 2, 3], (x) => x > 2) is false
+
+-- Ex falso quodlibet: from falsehood, anything follows
+exFalso cond,val ->
+  cond? -> val
+  else? -> "vacuously true"
+
+exFalso(false, 42) is "vacuously true"
+exFalso(true, 42) is 42
+
+-- Curry-Howard: propositions as types, proofs as programs
+-- compose(f, g)(x) = f(g(x)) — proof that A->B and B->C implies A->C
+compose f,g -> (x) => f(g(x))
+
+addOne x -> x + 1
+double x -> x * 2
+
+compose(addOne, double)(5) is 11
+compose(double, addOne)(5) is 12
+
+-- Fixed point: f(x) = x
+hasFixedPoint f,candidates -> candidates.filter((x) => f(x) == x).length > 0
+
+hasFixedPoint((x) => x, [0, 1, 2]) is true
+hasFixedPoint((x) => x * x, [0, 1, 2]) is true
+hasFixedPoint((x) => x + 1, [0, 1, 2]) is false
+
+-- Idempotence: f(f(x)) = f(x)
+isIdempotent f,val -> f(f(val)) == f(val)
+
+isIdempotent(Math.abs, -5) is true
+isIdempotent(Math.abs, 5) is true
+isIdempotent(Math.floor, 3.7) is true
+
+-- Self-description
+selfDescribe x -> "I received: " + String(x)
+
+selfDescribe(42) is "I received: 42"
+selfDescribe("meta") is "I received: meta"
+selfDescribe(true) is "I received: true"
+
+-- De Morgan's laws: !(a && b) == !a || !b
+deMorgan1 a,b -> !(a && b) == (!a || !b)
+deMorgan2 a,b -> !(a || b) == (!a && !b)
+
+deMorgan1(true, true) is true
+deMorgan1(true, false) is true
+deMorgan1(false, true) is true
+deMorgan1(false, false) is true
+deMorgan2(true, true) is true
+deMorgan2(true, false) is true
+deMorgan2(false, true) is true
+deMorgan2(false, false) is true
+
+-- Contrapositive: (A -> B) iff (!B -> !A)
+-- If it rains then ground is wet. If ground is dry, it didn't rain.
+implies a,b -> !a || b
+contrapositive a,b -> implies(a, b) == implies(!b, !a)
+
+contrapositive(true, true) is true
+contrapositive(true, false) is true
+contrapositive(false, true) is true
+contrapositive(false, false) is true

@@ -1,0 +1,73 @@
+-- validate_message.ben
+-- Full bridge message validator — orchestrates all checks
+-- Every function proves itself. Every proof is code.
+
+-- Field presence checks
+_notNull x -> x != null && x != undefined
+hasField obj,key -> _notNull(obj) && obj[key] != undefined
+
+hasField({id: "MSG-000001"}, "id") is true
+hasField({id: "MSG-000001"}, "from") is false
+hasField(null, "id") is false
+
+-- Timestamp format: ISO-8601 UTC (YYYY-MM-DDTHH:MM:SSZ)
+_ISO_RE: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/
+_isStr x -> typeof x == "string"
+
+isValidTimestamp ts -> _isStr(ts) && _ISO_RE.test(ts)
+
+isValidTimestamp("2026-03-02T00:58:12Z") is true
+isValidTimestamp("2026-03-08T14:30:00Z") is true
+isValidTimestamp("2026-03-02") is false
+isValidTimestamp("not-a-date") is false
+isValidTimestamp("") is false
+
+-- CRC format: 8 lowercase hex chars or null
+_HEX8_RE: /^[0-9a-f]{8}$/
+isValidCrc crc -> crc == null | (_isStr(crc) && _HEX8_RE.test(crc))
+
+isValidCrc(null) is true
+isValidCrc("a1b2c3d4") is true
+isValidCrc("AABBCCDD") is false
+isValidCrc("short") is false
+isValidCrc(12345678) is false
+
+-- Agent name: non-empty string
+isValidAgent name -> _isStr(name) && name.length > 0
+
+isValidAgent("claude") is true
+isValidAgent("codex") is true
+isValidAgent("") is false
+isValidAgent(null) is false
+
+-- Priority: integer 0-9 or absent
+_isInt x -> typeof x == "number" && Number.isInteger(x)
+isValidPriority p -> p == undefined | (_isInt(p) && p >= 0 && p <= 9)
+
+isValidPriority(0) is true
+isValidPriority(9) is true
+isValidPriority(10) is false
+isValidPriority(undefined) is true
+isValidPriority("high") is false
+
+-- Count missing required fields
+_REQUIRED: ["id", "from", "to", "type", "at", "status"]
+
+countErrors msg -> _REQUIRED.filter(k => hasField(msg, k) == false).length
+
+countErrors({id: "MSG-000001", from: "claude", to: "codex", type: "PROMPT", at: "2026-03-08T14:30:00Z", status: "NEW"}) is 0
+countErrors({id: "MSG-000001"}) is 5
+countErrors({}) is 6
+
+-- Is message valid?
+isValid msg -> countErrors(msg) == 0
+
+isValid({id: "MSG-000001", from: "claude", to: "codex", type: "PROMPT", at: "2026-03-08T14:30:00Z", status: "NEW"}) is true
+isValid({id: "MSG-000001"}) is false
+isValid({}) is false
+
+-- List missing fields
+missingFields msg -> _REQUIRED.filter(k => hasField(msg, k) == false)
+
+missingFields({id: "MSG-000001", from: "claude", to: "codex", type: "PROMPT", at: "2026-03-08T14:30:00Z", status: "NEW"}) is []
+missingFields({id: "MSG-000001"}) is ["from", "to", "type", "at", "status"]

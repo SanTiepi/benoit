@@ -23,6 +23,7 @@ import { encode, exchange } from "../src/protocol.mjs";
 import { composeModules } from "../src/compose.mjs";
 import { inferTypes } from "../src/types.mjs";
 import { encodeIntent, resolveIntent, executeIntent } from "../src/intent.mjs";
+import { pipeline, analyzePrompt, comparePrompts } from "../src/prompt.mjs";
 
 const [,, command, ...files] = process.argv;
 
@@ -30,7 +31,7 @@ if (command === "repl") {
   startRepl();
 } else if (!command || !files.length) {
   console.log(`
-  Benoît v0.6.0 — A programming language for human-AI collaboration
+  Benoît v0.7.0 — A behavioral protocol for AI-to-AI communication
   En mémoire de Benoît Fragnière
 
   Usage:
@@ -49,6 +50,9 @@ if (command === "repl") {
     benoit compose <a.ben> <b.ben> Compose modules, find cross-module algebra
     benoit types <file.ben>       Discover function type signatures
     benoit intent <file.json>     Resolve behavioral intent from examples
+
+    benoit compile <file>         Compile prompt — quality gate + back-translation
+    benoit compare <a> <b>        Compare two prompt files side by side
   `);
   process.exit(0);
 } else if (command === "compose") {
@@ -334,6 +338,32 @@ for (const file of files) {
         }
       }
       break;
+    }
+
+    case "compile": {
+      const result = pipeline(src);
+      const icon = result.ready ? "\x1b[32m✓\x1b[0m" : "\x1b[31m✗\x1b[0m";
+      const scoreStr = `${(result.encoded.analysis.score * 100).toFixed(0)}%`;
+      console.log(`${icon} ${file}: ${scoreStr} (${result.verdict})`);
+      console.log();
+      console.log(result.confirmation);
+      if (!result.ready) process.exitCode = 1;
+      break;
+    }
+
+    case "compare": {
+      if (files.length < 2) {
+        console.error("compare requires 2 files");
+        process.exit(1);
+      }
+      const srcA = readFileSync(files[0], "utf8");
+      const srcB = readFileSync(files[1], "utf8");
+      const result = comparePrompts(srcA, srcB);
+      console.log(`  A (${files[0]}): ${(result.a.score * 100).toFixed(0)}% (${result.a.verdict}) — ${result.a.tokens} tokens`);
+      console.log(`  B (${files[1]}): ${(result.b.score * 100).toFixed(0)}% (${result.b.verdict}) — ${result.b.tokens} tokens`);
+      console.log(`  Winner: ${result.winner}`);
+      console.log(`  Token diff: ${result.tokenDiff > 0 ? "A uses " + result.tokenDiff + " more" : "B uses " + (-result.tokenDiff) + " more"}`);
+      process.exit(0);
     }
 
     default:

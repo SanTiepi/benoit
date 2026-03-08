@@ -1,0 +1,106 @@
+-- manifold.ben
+-- What if code isn't text? What if it's geometry?
+-- A function is a point. Its inputs are dimensions.
+-- The space of all possible inputs IS the function.
+-- "Il n'y a pas de mauvaise réponse, que des mauvaises questions."
+
+-- A point in 3D space
+mkPoint x,y,z -> [x, y, z]
+getX p -> p[0]
+getY p -> p[1]
+getZ p -> p[2]
+
+-- Distance: how far apart are two pieces of knowledge?
+dist3d a,b -> Math.sqrt(Math.pow(getX(a) - getX(b), 2) + Math.pow(getY(a) - getY(b), 2) + Math.pow(getZ(a) - getZ(b), 2))
+
+dist3d(mkPoint(0, 0, 0), mkPoint(1, 0, 0)) is 1
+dist3d(mkPoint(0, 0, 0), mkPoint(0, 0, 0)) is 0
+dist3d(mkPoint(0, 0, 0), mkPoint(1, 1, 1)) is 1.7320508075688772
+
+-- Encode information as position, not symbol.
+-- The number 7 isn't "7" — it's the point at distance 7 from origin.
+-- The function "add" isn't text — it's a transformation of the manifold.
+
+-- Transform: a function IS a movement through space
+translate p,dx,dy,dz -> mkPoint(getX(p) + dx, getY(p) + dy, getZ(p) + dz)
+scale p,factor -> mkPoint(getX(p) * factor, getY(p) * factor, getZ(p) * factor)
+
+translate(mkPoint(1, 2, 3), 10, 20, 30) is [11, 22, 33]
+scale(mkPoint(1, 2, 3), 2) is [2, 4, 6]
+
+-- Dot product: how aligned are two directions?
+-- 1 = same direction, 0 = orthogonal, -1 = opposite
+dot a,b -> getX(a) * getX(b) + getY(a) * getY(b) + getZ(a) * getZ(b)
+
+dot(mkPoint(1, 0, 0), mkPoint(1, 0, 0)) is 1
+dot(mkPoint(1, 0, 0), mkPoint(0, 1, 0)) is 0
+dot(mkPoint(1, 0, 0), mkPoint(-1, 0, 0)) is -1
+
+-- Cross product: the direction perpendicular to two vectors
+-- THIS is how new dimensions of knowledge emerge
+cross a,b -> mkPoint(getY(a) * getZ(b) - getZ(a) * getY(b), getZ(a) * getX(b) - getX(a) * getZ(b), getX(a) * getY(b) - getY(a) * getX(b))
+
+cross(mkPoint(1, 0, 0), mkPoint(0, 1, 0)) is [0, 0, 1]
+cross(mkPoint(1, 0, 0), mkPoint(0, 0, 1)) is [0, -1, 0]
+
+-- Two parallel vectors cross to zero — no new knowledge
+cross(mkPoint(1, 0, 0), mkPoint(2, 0, 0)) is [0, 0, 0]
+
+-- Encode a function as a trajectory: f(t) -> point
+-- Helix: the shape of DNA, of information spiraling through space
+helix t -> mkPoint(Math.cos(t), Math.sin(t), t)
+
+-- At t=0: start at (1, 0, 0)
+helix(0) is [1, 0, 0]
+
+-- The helix never returns to the same point — it spirals upward
+-- Knowledge accumulates, never repeats
+
+-- Manifold operation: apply a function at every point along a path
+_applyPath fn,points,i,acc ->
+  i >= points.length? -> acc
+  else? -> _applyPath(fn, points, i + 1, acc.concat([fn(points[i])]))
+
+applyPath fn,points -> _applyPath(fn, points, 0, [])
+
+-- Scale every point by 2
+applyPath((p) => scale(p, 2), [mkPoint(1, 0, 0), mkPoint(0, 1, 0)]) is [[2, 0, 0], [0, 2, 0]]
+
+-- Curvature: how much does a path bend?
+-- High curvature = concentrated knowledge. Low curvature = diffuse.
+_angleBetween a,b -> Math.acos(Math.min(1, Math.max(-1, dot(a, b) / (dist3d(mkPoint(0, 0, 0), a) * dist3d(mkPoint(0, 0, 0), b)))))
+
+-- Parallel vectors: angle 0
+_angleBetween(mkPoint(1, 0, 0), mkPoint(2, 0, 0)) is 0
+
+-- Orthogonal: angle PI/2
+_angleBetween(mkPoint(1, 0, 0), mkPoint(0, 1, 0)) is 1.5707963267948966
+
+-- Opposite: angle PI
+_angleBetween(mkPoint(1, 0, 0), mkPoint(-1, 0, 0)) is 3.141592653589793
+
+-- Now the key insight:
+-- A .ben function with N parameters lives in N-dimensional space.
+-- Its test assertions are POINTS on its surface.
+-- The surface IS the function — the tests just sample it.
+-- Between the sample points, the function is the SHAPE that connects them.
+
+-- Interpolate between two points: the simplest surface
+lerp a,b,t -> mkPoint(getX(a) * (1 - t) + getX(b) * t, getY(a) * (1 - t) + getY(b) * t, getZ(a) * (1 - t) + getZ(b) * t)
+
+lerp(mkPoint(0, 0, 0), mkPoint(10, 10, 10), 0) is [0, 0, 0]
+lerp(mkPoint(0, 0, 0), mkPoint(10, 10, 10), 1) is [10, 10, 10]
+lerp(mkPoint(0, 0, 0), mkPoint(10, 10, 10), 0.5) is [5, 5, 5]
+
+-- Barycentric: a point defined by its relationship to 3 others
+-- This IS how .ben works: a function is defined by its test points
+bary a,b,c,u,v -> mkPoint(getX(a) * (1 - u - v) + getX(b) * u + getX(c) * v, getY(a) * (1 - u - v) + getY(b) * u + getY(c) * v, getZ(a) * (1 - u - v) + getZ(b) * u + getZ(c) * v)
+
+-- Center of triangle = equal weight to all 3 vertices
+bary(mkPoint(0, 0, 0), mkPoint(3, 0, 0), mkPoint(0, 3, 0), 0.3333, 0.3333) is [0.9999, 0.9999, 0]
+
+-- At vertex A
+bary(mkPoint(0, 0, 0), mkPoint(3, 0, 0), mkPoint(0, 3, 0), 0, 0) is [0, 0, 0]
+
+-- At vertex B
+bary(mkPoint(0, 0, 0), mkPoint(3, 0, 0), mkPoint(0, 3, 0), 1, 0) is [3, 0, 0]

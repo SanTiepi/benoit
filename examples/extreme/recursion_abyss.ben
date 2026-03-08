@@ -1,0 +1,89 @@
+-- recursion_abyss.ben
+-- How deep can Benoît recurse into itself?
+-- Can it compute what it shouldn't be able to?
+
+-- Fibonacci: the classic recursive stress test
+fib n ->
+  n < 2? -> n
+  else? -> fib(n - 1) + fib(n - 2)
+
+fib(0) is 0
+fib(1) is 1
+fib(10) is 55
+fib(15) is 610
+fib(20) is 6765
+
+-- Ackermann function: grows faster than any primitive recursive function
+-- Flattened with helper to avoid nested conditionals
+_ackInner m,n ->
+  n == 0? -> ack(m - 1, 1)
+  else? -> ack(m - 1, ack(m, n - 1))
+
+ack m,n ->
+  m == 0? -> n + 1
+  else? -> _ackInner(m, n)
+
+ack(0, 0) is 1
+ack(1, 1) is 3
+ack(2, 2) is 7
+ack(3, 0) is 5
+ack(3, 1) is 13
+ack(3, 3) is 61
+
+-- Mutual recursion: isEven/isOdd defined in terms of each other
+isEven n ->
+  n == 0? -> true
+  else? -> isOdd(n - 1)
+
+isOdd n ->
+  n == 0? -> false
+  else? -> isEven(n - 1)
+
+isEven(0) is true
+isOdd(1) is true
+isEven(42) is true
+isOdd(99) is true
+isEven(13) is false
+
+-- Church numerals: encoding numbers as pure functions
+church_zero f,x -> x
+church_succ n,f,x -> f(n(f, x))
+church_to_int n -> n((x) => x + 1, 0)
+
+church_to_int(church_zero) is 0
+church_to_int((f, x) => church_succ(church_zero, f, x)) is 1
+
+-- Y combinator territory: fixed-point recursion
+-- factorial without naming itself
+_factStep f,n ->
+  n == 0? -> 1
+  else? -> n * f(f, n - 1)
+
+selfFact n -> _factStep(_factStep, n)
+
+selfFact(0) is 1
+selfFact(5) is 120
+selfFact(10) is 3628800
+
+-- Tower of Hanoi: count moves
+hanoi n ->
+  n == 0? -> 0
+  else? -> 2 * hanoi(n - 1) + 1
+
+hanoi(0) is 0
+hanoi(1) is 1
+hanoi(3) is 7
+hanoi(10) is 1023
+hanoi(20) is 1048575
+
+-- McCarthy 91 function: always returns 91 for n <= 100
+mc91 n ->
+  n > 100? -> n - 10
+  else? -> mc91(mc91(n + 11))
+
+mc91(100) is 91
+mc91(99) is 91
+mc91(91) is 91
+mc91(1) is 91
+mc91(101) is 91
+mc91(111) is 101

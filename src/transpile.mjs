@@ -1,4 +1,4 @@
-// Benoît -> JavaScript transpiler v0.4.0
+// Benoît -> JavaScript transpiler v0.5.0
 // Named after Benoît Fragnière, who loved science.
 // A programming language optimized for human-AI collaboration.
 // MIT License — github.com/SanTiepi/benoit
@@ -56,10 +56,28 @@ export function extractTests(src) {
 
   for (let i = 0; i < lines.length; i++) {
     const trimmed = lines[i].trim();
-    // Match: expression == expected (test assertion)
+    // Juxtaposition assertion: fn(args) value — call followed by expected
+    // Matches: word(anything) literal  where literal is number, boolean, string, null, array, object
+    const juxMatch = trimmed.match(/^(\w+\(.+\))\s+([-\d"'\[{tfn].*)$/);
+    if (juxMatch) {
+      const [, expr, expected] = juxMatch;
+      if (!expr.includes("->") && !expr.startsWith("--")) {
+        assertions.push({ expr: expr.trim(), expected: expected.trim(), line: i + 1 });
+        continue;
+      }
+    }
+    // "is" keyword assertion (still supported)
+    const isMatch = trimmed.match(/^(.+?)\s+is\s+(.+)$/);
+    if (isMatch) {
+      const [, expr, expected] = isMatch;
+      if (!expr.includes(":") && !expr.includes("->") && !expr.startsWith("--") && !expr.startsWith("match ")) {
+        assertions.push({ expr: expr.trim(), expected: expected.trim(), line: i + 1 });
+        continue;
+      }
+    }
+    // Legacy: expression == expected
     const assertMatch = trimmed.match(/^(.+?)\s*==\s*(.+)$/);
     if (assertMatch) {
-      // Make sure it's not a binding (name: value) or a function def
       const [, expr, expected] = assertMatch;
       if (!expr.includes(":") && !expr.includes("->") && !expr.startsWith("--")) {
         assertions.push({ expr: expr.trim(), expected: expected.trim(), line: i + 1 });
@@ -125,10 +143,24 @@ function processLines(lines, start, end, isBlock) {
       continue;
     }
 
-    // 0b. Inline test assertions: expr == expected (skip in transpiled output)
-    if (trimmed.includes(" == ") && !trimmed.includes("->") && !trimmed.match(/^\w+\s*:/)) {
-      output.push(`${indent}// test: ${trimmed}`);
-      continue;
+    // 0b. Inline test assertions (top-level only, never inside blocks)
+    if (!isBlock) {
+      // Juxtaposition: fn(args) literal — most minimal form
+      const juxAssert = trimmed.match(/^(\w+\(.+\))\s+([-\d"'\[{tfn].*)$/);
+      if (juxAssert && !trimmed.includes("->") && !trimmed.match(/^\w+\s*:/)) {
+        output.push(`${indent}// test: ${trimmed}`);
+        continue;
+      }
+      // "is" keyword assertions
+      if (trimmed.includes(" is ") && !trimmed.includes("->") && !trimmed.match(/^\w+\s*:/) && !trimmed.startsWith("match ")) {
+        output.push(`${indent}// test: ${trimmed}`);
+        continue;
+      }
+      // Legacy: expr == expected
+      if (trimmed.includes(" == ") && !trimmed.includes("->") && !trimmed.match(/^\w+\s*:/) && !trimmed.includes("?")) {
+        output.push(`${indent}// test: ${trimmed}`);
+        continue;
+      }
     }
 
     // 1a. Local import: use ./path.name1, name2 -> import { name1, name2 } from "./path.mjs";
@@ -200,11 +232,53 @@ function processLines(lines, start, end, isBlock) {
       continue;
     }
 
+    // 5c. Try/catch: try -> ... catch err -> ...
+    if (trimmed === "try ->") {
+      const blockEnd = findBlockEnd(lines, i, indent, end);
+      const tryBody = processLines(lines, i + 1, blockEnd, true);
+      addImplicitReturn(tryBody);
+      // Check what follows the try block
+      let hasCatch = false;
+      if (blockEnd < end) {
+        const catchLine = lines[blockEnd]?.trim();
+        const catchMatch = catchLine?.match(/^catch\s+(\w+)\s+->$/);
+        const catchInline = catchLine?.match(/^catch\s+(\w+)\s+->\s+(.+)$/);
+        if (catchMatch) {
+          hasCatch = true;
+          const [, errName] = catchMatch;
+          output.push(`${indent}try {`);
+          output.push(...tryBody);
+          output.push(`${indent}} catch (${errName}) {`);
+          const catchEnd = findBlockEnd(lines, blockEnd, indent, end);
+          const catchBody = processLines(lines, blockEnd + 1, catchEnd, true);
+          addImplicitReturn(catchBody);
+          output.push(...catchBody);
+          output.push(`${indent}}`);
+          i = catchEnd - 1;
+        } else if (catchInline) {
+          hasCatch = true;
+          const [, errName, body] = catchInline;
+          const transBody = transformExpression(body);
+          output.push(`${indent}try {`);
+          output.push(...tryBody);
+          output.push(`${indent}} catch (${errName}) { return ${transBody}; }`);
+          i = blockEnd;
+        }
+      }
+      if (!hasCatch) {
+        output.push(`${indent}try {`);
+        output.push(...tryBody);
+        output.push(`${indent}}`);
+        i = blockEnd - 1;
+      }
+      continue;
+    }
+
     // 6. condition? -> action (inline)
     const condMatch = trimmed.match(/^(.+\?)\s*->\s*(.+)$/);
     if (condMatch && !trimmed.match(/^\w+\s+[\w,=]+\s*->/)) {
       const [, cond, action] = condMatch;
-      const cleanCond = cond.replace(/\?$/, "").trim();
+      const cleanCond = transformExpression(cond.replace(/\?$/, "").trim());
       const transAction = transformExpression(action);
       output.push(`${indent}if (${cleanCond}) { ${transAction} }`);
       i = appendElseChain(lines, i, indent, end, output, true);
@@ -215,7 +289,7 @@ function processLines(lines, start, end, isBlock) {
     const condBlockMatch = trimmed.match(/^(.+\?)\s*->$/);
     if (condBlockMatch) {
       const [, cond] = condBlockMatch;
-      const cleanCond = cond.replace(/\?$/, "").trim();
+      const cleanCond = transformExpression(cond.replace(/\?$/, "").trim());
       output.push(`${indent}if (${cleanCond}) {`);
       const blockEnd = findBlockEnd(lines, i, indent, end);
       const blockOutput = processLines(lines, i + 1, blockEnd, true);
@@ -231,7 +305,7 @@ function processLines(lines, start, end, isBlock) {
     if (condShortMatch && !trimmed.match(/^\w+\s+[\w,=]+\s*->/) && !trimmed.includes("->")) {
       const [, cond, action] = condShortMatch;
       const transAction = transformExpression(action);
-      output.push(`${indent}if (${cond.trim()}) { ${transAction} }`);
+      output.push(`${indent}if (${transformExpression(cond.trim())}) { ${transAction} }`);
       i = appendElseChain(lines, i, indent, end, output, true);
       continue;
     }
@@ -571,8 +645,8 @@ function addImplicitReturn(blockOutput) {
   for (let i = blockOutput.length - 1; i >= 0; i--) {
     const line = blockOutput[i];
     const trimmed = line.trim();
-    if (trimmed === "" || trimmed === "}") continue;
-    if (/^(const |let |var |if |for |function |return |export |async )/.test(trimmed)) break;
+    if (trimmed === "" || trimmed.startsWith("}")) continue;
+    if (/^(const |let |var |if |for |function |return |export |async |try )/.test(trimmed)) break;
     const indent = line.match(/^(\s*)/)[1];
     blockOutput[i] = `${indent}return ${trimmed}`;
     break;
@@ -783,6 +857,15 @@ function transformExpression(expr) {
       });
     }
   }
+  // Error fallback: expr ! fallback -> (() => { try { return expr } catch { return fallback } })()
+  if (expr.includes(" ! ")) {
+    const bangIdx = expr.indexOf(" ! ");
+    const tryExpr = expr.slice(0, bangIdx).trim();
+    const fallback = expr.slice(bangIdx + 3).trim();
+    const transTry = transformExpression(tryExpr);
+    const transFallback = transformExpression(fallback);
+    return `(() => { try { return ${transTry}; } catch { return ${transFallback}; } })()`;
+  }
   // Fallback chain: a | b | c -> a || b || c
   if (expr.includes(" | ")) {
     expr = expr.replace(/\s\|\s/g, " || ");
@@ -792,5 +875,16 @@ function transformExpression(expr) {
     const interpolated = content.replace(/\{([^}]+)\}/g, '${$1}');
     return '`' + interpolated + '`';
   });
+  // Strict equality: == -> === and != -> !== (outside strings)
+  // Protect string literals first, then convert, then restore
+  const strings = [];
+  expr = expr.replace(/(["'`])(?:(?!\1)[^\\]|\\.)*\1/g, (m) => {
+    strings.push(m);
+    return `__STR${strings.length - 1}__`;
+  });
+  expr = expr.replace(/([^=!])={2}(?!=)/g, '$1===');
+  expr = expr.replace(/!={1}(?!=)/g, '!==');
+  // Restore strings
+  expr = expr.replace(/__STR(\d+)__/g, (_, i) => strings[+i]);
   return expr;
 }

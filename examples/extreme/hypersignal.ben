@@ -1,0 +1,124 @@
+-- hypersignal.ben
+-- A signal is not 0 or 1. A signal is a universe.
+-- Each instant carries: amplitude, frequency, phase, slope, energy.
+-- One "pulse" = one point in 5D space.
+-- No base 10. No base 2. Base = the shape of reality.
+
+-- === A hypersignal: 5 dimensions per instant ===
+mkHyper amp,freq,phase,slope,energy -> [amp, freq, phase, slope, energy]
+getAmp h -> h[0]
+getFreq h -> h[1]
+getPhase h -> h[2]
+getSlope h -> h[3]
+getEnergy h -> h[4]
+
+-- Two hypersignals are "close" if their 5D distance is small
+_sq x -> x * x
+hdist a,b -> Math.round(Math.sqrt(_sq(getAmp(a) - getAmp(b)) + _sq(getFreq(a) - getFreq(b)) + _sq(getPhase(a) - getPhase(b)) + _sq(getSlope(a) - getSlope(b)) + _sq(getEnergy(a) - getEnergy(b))) * 1000) / 1000
+
+-- Same signal = distance 0
+hdist(mkHyper(1, 440, 0, 0.5, 100), mkHyper(1, 440, 0, 0.5, 100)) is 0
+
+-- Slightly different = small distance
+hdist(mkHyper(1, 440, 0, 0.5, 100), mkHyper(1, 440, 0, 0.5, 101)) is 1
+
+-- Totally different = large distance
+hdist(mkHyper(0, 0, 0, 0, 0), mkHyper(1, 1, 1, 1, 1)) is 2.236
+
+-- === ENCODING: one hypersignal = one character ===
+-- Instead of 8 bits (ASCII), one 5D point
+-- 'A' is not 01000001. 'A' is [0.65, 440, 0, 1, 0.8]
+-- The SHAPE of the signal IS the letter.
+
+encodeChar c -> mkHyper(c.charCodeAt(0) / 127, (c.charCodeAt(0) % 12) * 100, (c.charCodeAt(0) % 7) / 7, (c.charCodeAt(0) % 5) / 5, c.charCodeAt(0) / 255)
+
+-- Every character maps to a unique point in 5D space
+encodeChar("A")[0] is 0.5118110236220472
+encodeChar("B")[0] is 0.5196850393700787
+
+-- Different chars = different points
+hdist(encodeChar("A"), encodeChar("B")) > 0 is true
+hdist(encodeChar("A"), encodeChar("A")) is 0
+
+-- === INFORMATION DENSITY ===
+-- Binary: 1 wire, 1 bit per clock cycle
+-- Hyper: 1 wire, 5 floats per clock cycle (64 bits each = 320 bits)
+-- Compression: 320x more info per instant
+
+binaryBitsPerCycle x -> 1
+hyperBitsPerCycle x -> 5 * 64
+
+hyperBitsPerCycle(0) / binaryBitsPerCycle(0) is 320
+
+-- === SIMILARITY: recognize patterns without exact match ===
+-- A noisy 'A' is still close to 'A' in 5D space
+-- This is how biological neurons work — fuzzy matching
+
+_addNoise h,n -> mkHyper(getAmp(h) + n, getFreq(h) + n * 10, getPhase(h) + n * 0.1, getSlope(h) + n * 0.05, getEnergy(h) + n * 0.5)
+
+-- Clean A vs noisy A: still close
+hdist(encodeChar("A"), _addNoise(encodeChar("A"), 0.01)) < 1 is true
+
+-- Clean A vs clean Z: far apart
+hdist(encodeChar("A"), encodeChar("Z")) > 1 is true
+
+-- === CLASSIFY: which char is this noisy signal closest to? ===
+_closer a,b,ref ->
+  hdist(a, ref) < hdist(b, ref)
+
+-- Noisy A is closer to A than to Z
+_closer(encodeChar("A"), encodeChar("Z"), _addNoise(encodeChar("A"), 0.02)) is true
+
+-- Noisy Z is closer to Z than to A
+_closer(encodeChar("Z"), encodeChar("A"), _addNoise(encodeChar("Z"), 0.02)) is true
+
+-- === SUPERPOSITION: multiple signals in one ===
+-- In 1D (binary): 0 + 1 = ambiguous
+-- In 5D: two signals occupy different subspaces
+-- You can carry TWO messages on ONE wire
+
+superH a,b -> mkHyper(getAmp(a) + getAmp(b), getFreq(a) + getFreq(b), getPhase(a) + getPhase(b), getSlope(a) + getSlope(b), getEnergy(a) + getEnergy(b))
+
+-- Superposed signal has energy from both
+getEnergy(superH(mkHyper(0, 0, 0, 0, 1), mkHyper(0, 0, 0, 0, 2))) is 3
+
+-- === PROJECTION: extract one dimension ===
+-- Like tuning a radio — select the frequency you want
+projectAmp h -> getAmp(h)
+projectFreq h -> getFreq(h)
+projectEnergy h -> getEnergy(h)
+
+-- Same signal, different projections = different views
+projectAmp(mkHyper(0.8, 440, 1.5, 0.3, 50)) is 0.8
+projectFreq(mkHyper(0.8, 440, 1.5, 0.3, 50)) is 440
+projectEnergy(mkHyper(0.8, 440, 1.5, 0.3, 50)) is 50
+
+-- === DOT PRODUCT: how aligned are two hypersignals? ===
+-- This IS attention. This IS how transformers work.
+-- Q · K = how relevant is this signal to that query?
+hdot a,b -> getAmp(a) * getAmp(b) + getFreq(a) * getFreq(b) + getPhase(a) * getPhase(b) + getSlope(a) * getSlope(b) + getEnergy(a) * getEnergy(b)
+
+-- Same direction = high dot product
+hdot(mkHyper(1, 1, 1, 1, 1), mkHyper(1, 1, 1, 1, 1)) is 5
+
+-- Orthogonal = zero
+hdot(mkHyper(1, 0, 0, 0, 0), mkHyper(0, 1, 0, 0, 0)) is 0
+
+-- Opposite = negative
+hdot(mkHyper(1, 1, 1, 1, 1), mkHyper(-1, -1, -1, -1, -1)) is -5
+
+-- === THE REVOLUTION ===
+-- Base 2: {0, 1} = 1 bit per symbol
+-- Base 10: {0..9} = 3.32 bits per symbol
+-- Base hyper: R^5 = INFINITE bits per symbol
+--
+-- We don't need bases at all.
+-- The signal IS the number.
+-- The shape IS the meaning.
+-- The distance IS the similarity.
+-- The dot product IS the attention.
+--
+-- Traditional: discretize reality into symbols, then compute
+-- Hyper: compute on reality directly
+--
+-- "Il n'y a pas de mauvaise réponse, que des mauvaises dimensions."

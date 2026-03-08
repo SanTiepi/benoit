@@ -1,7 +1,7 @@
 {
   "name": "benoit",
-  "version": "0.7.0",
-  "description": "Benoît — A minimal language for AI-to-AI communication. Functions as algebra, modules as messages. Named after Benoît Fragnière.",
+  "version": "0.8.0",
+  "description": "Benoît — The language where code is proof. Self-interpreting, self-evolving, self-proving. Il n'y a pas de mauvaise réponse, que des mauvaises dimensions.",
   "type": "module",
   "main": "./src/transpile.mjs",
   "exports": {
@@ -21,10 +21,15 @@
     "./decompose": "./src/decompose.mjs",
     "./contract": "./src/contract.mjs",
     "./query": "./src/query.mjs",
-    "./core": "./src/core.mjs"
+    "./core": "./src/core.mjs",
+    "./prompt": "./src/prompt.mjs",
+    "./mcp": "./src/mcp.mjs",
+    "./protocol-v2": "./src/protocol_v2.mjs",
+    "./mcp-v2": "./src/mcp_v2.mjs"
   },
   "bin": {
-    "benoit": "bin/benoit.mjs"
+    "benoit": "bin/benoit.mjs",
+    "benoit-hook": "bin/benoit-hook.mjs"
   },
   "scripts": {
     "test": "node --test tests/*.test.mjs"

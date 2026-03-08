@@ -1,0 +1,123 @@
+-- topology.ben
+-- Computation as pure structure.
+-- No words. No symbols. Just relationships between nodes.
+-- The graph IS the knowledge.
+
+-- A node is a cell. An edge is a link. That's all.
+-- Knowledge = the shape of connections.
+
+-- Create a graph: nodes + adjacency
+mkGraph nodes,edges -> {nodes: nodes, edges: edges}
+nodeCount g -> g.nodes.length
+edgeCount g -> g.edges.length
+
+-- Two nodes are neighbors if an edge links them
+_hasEdge edges,a,b,i ->
+  i >= edges.length? -> false
+  else? -> _checkEdge(edges, a, b, i)
+
+_checkEdge edges,a,b,i ->
+  (edges[i][0] == a && edges[i][1] == b) || (edges[i][0] == b && edges[i][1] == a)? -> true
+  else? -> _hasEdge(edges, a, b, i + 1)
+
+areNeighbors g,a,b -> _hasEdge(g.edges, a, b, 0)
+
+-- The _isPrime cascade as a graph:
+-- _isPrime -> _isPrime2 -> _isPrimeOdd -> _checkDivLoop <-> _checkDivHit
+_primeGraph x -> mkGraph(["isPrime", "isPrime2", "isPrimeOdd", "checkDivLoop", "checkDivHit"], [["isPrime", "isPrime2"], ["isPrime2", "isPrimeOdd"], ["isPrimeOdd", "checkDivLoop"], ["checkDivLoop", "checkDivHit"], ["checkDivHit", "checkDivLoop"]])
+
+nodeCount(_primeGraph(0)) is 5
+edgeCount(_primeGraph(0)) is 5
+areNeighbors(_primeGraph(0), "isPrime", "isPrime2") is true
+areNeighbors(_primeGraph(0), "isPrime", "checkDivHit") is false
+
+-- Degree: how many neighbors does a node have?
+_degree edges,node,i,count ->
+  i >= edges.length? -> count
+  else? -> _degreeStep(edges, node, i, count)
+
+_degreeStep edges,node,i,count ->
+  edges[i][0] == node || edges[i][1] == node? -> _degree(edges, node, i + 1, count + 1)
+  else? -> _degree(edges, node, i + 1, count)
+
+degree g,node -> _degree(g.edges, node, 0, 0)
+
+-- checkDivLoop has degree 3 (isPrimeOdd, checkDivHit x2)
+degree(_primeGraph(0), "checkDivLoop") is 3
+degree(_primeGraph(0), "isPrime") is 1
+
+-- Information flows through the graph
+-- Signal propagation: start at a node, spread to neighbors, count steps
+_neighbors edges,node,i,acc ->
+  i >= edges.length? -> acc
+  else? -> _neighborCheck(edges, node, i, acc)
+
+_neighborCheck edges,node,i,acc ->
+  edges[i][0] == node? -> _neighbors(edges, node, i + 1, acc.concat([edges[i][1]]))
+  else? -> _neighborOther(edges, node, i, acc)
+
+_neighborOther edges,node,i,acc ->
+  edges[i][1] == node? -> _neighbors(edges, node, i + 1, acc.concat([edges[i][0]]))
+  else? -> _neighbors(edges, node, i + 1, acc)
+
+neighbors g,node -> _neighbors(g.edges, node, 0, [])
+
+neighbors(_primeGraph(0), "isPrime") is ["isPrime2"]
+neighbors(_primeGraph(0), "checkDivLoop") is ["isPrimeOdd", "checkDivHit", "checkDivHit"]
+
+-- Distance between nodes (BFS depth)
+-- This is the "cost" of propagating knowledge
+_contains arr,val,i ->
+  i >= arr.length? -> false
+  else? -> _containsCheck(arr, val, i)
+
+_containsCheck arr,val,i ->
+  arr[i] == val? -> true
+  else? -> _contains(arr, val, i + 1)
+
+-- Path exists? Can knowledge flow from A to B?
+_canReach edges,target,frontier,visited,i ->
+  frontier.length == 0? -> false
+  else? -> _canReachCheck(edges, target, frontier, visited)
+
+_canReachCheck edges,target,frontier,visited ->
+  _contains(frontier, target, 0)? -> true
+  else? -> _expandFrontier(edges, target, frontier, visited)
+
+_expandFrontier edges,target,frontier,visited ->
+  _canReach(edges, target, _nextFrontier(edges, frontier, visited.concat(frontier), 0, []), visited.concat(frontier), 0)
+
+_nextFrontier edges,frontier,visited,i,acc ->
+  i >= edges.length? -> acc
+  else? -> _nextFrontierStep(edges, frontier, visited, i, acc)
+
+_nextFrontierStep edges,frontier,visited,i,acc ->
+  _contains(frontier, edges[i][0], 0) && !_contains(visited, edges[i][1], 0)? -> _nextFrontier(edges, frontier, visited, i + 1, acc.concat([edges[i][1]]))
+  else? -> _nextFrontierReverse(edges, frontier, visited, i, acc)
+
+_nextFrontierReverse edges,frontier,visited,i,acc ->
+  _contains(frontier, edges[i][1], 0) && !_contains(visited, edges[i][0], 0)? -> _nextFrontier(edges, frontier, visited, i + 1, acc.concat([edges[i][0]]))
+  else? -> _nextFrontier(edges, frontier, visited, i + 1, acc)
+
+canReach g,from,to -> _canReach(g.edges, to, [from], [], 0)
+
+-- Knowledge CAN flow from isPrime to checkDivHit (through the cascade)
+canReach(_primeGraph(0), "isPrime", "checkDivHit") is true
+-- But NOT from a disconnected node
+canReach(mkGraph(["a", "b", "c"], [["a", "b"]]), "a", "c") is false
+canReach(mkGraph(["a", "b", "c"], [["a", "b"]]), "a", "b") is true
+
+-- The topology IS the computation.
+-- A linear chain computes sequentially.
+-- A cycle computes recursively.
+-- A tree computes by branching questions.
+-- The SHAPE of the graph determines WHAT can be computed.
+
+-- Don't mark start as visited — allow reaching back to it
+_hasCycle edges,node -> _canReach(edges, node, _nextFrontier(edges, [node], [node], 0, []), [], 0)
+
+-- checkDivLoop <-> checkDivHit is a cycle (mutual recursion!)
+_hasCycle(_primeGraph(0).edges, "checkDivLoop") is true
+
+-- isPrime is a leaf — no cycle
+_hasCycle(_primeGraph(0).edges, "isPrime") is false

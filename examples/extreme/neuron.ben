@@ -1,0 +1,128 @@
+-- neuron.ben
+-- The unit where knowing and doing are the same act.
+-- A neuron doesn't "know" then "act". It IS the knowing-acting.
+-- Input weights are what it knows. Output is what it does.
+-- There is no gap between the two.
+
+-- A neuron: weights + bias -> activation
+-- The weights ARE the knowledge. The output IS the power.
+_dotW inputs,weights,i,acc ->
+  i >= inputs.length? -> acc
+  else? -> _dotW(inputs, weights, i + 1, acc + inputs[i] * weights[i])
+
+dotW inputs,weights -> _dotW(inputs, weights, 0, 0)
+
+-- Activation: the decision boundary. Binary question: fire or not?
+sigmoid x -> 1 / (1 + Math.pow(Math.E, -x))
+
+-- sigmoid saturates: strong input -> near 1, strong negative -> near 0
+sigmoid(0) is 0.5
+sigmoid(10) is 0.9999546021312976
+sigmoid(-10) is 0.00004539786870243442
+
+-- A single neuron: weighted sum + bias -> activation
+neuron inputs,weights,bias -> sigmoid(dotW(inputs, weights) + bias)
+
+-- AND gate: both inputs must be high
+-- weights [1, 1], bias -1.5 -> only fires when both inputs ~1
+_andW x -> [1, 1]
+_andB x -> -1.5
+
+nAnd a,b -> neuron([a, b], _andW(0), _andB(0)) > 0.5
+
+nAnd(1, 1) is true
+nAnd(1, 0) is false
+nAnd(0, 1) is false
+nAnd(0, 0) is false
+
+-- OR gate: either input suffices
+-- weights [1, 1], bias -0.5
+nOr a,b -> neuron([a, b], [1, 1], -0.5) > 0.5
+
+nOr(1, 1) is true
+nOr(1, 0) is true
+nOr(0, 1) is true
+nOr(0, 0) is false
+
+-- NOT gate: single input, inverted
+nNot a -> neuron([a], [-2], 1) > 0.5
+
+nNot(0) is true
+nNot(1) is false
+
+-- XOR: the problem that broke single neurons.
+-- Needs a NETWORK — two layers. Knowledge must propagate.
+-- Sharp weights needed: sigmoid needs strong signal to saturate.
+-- h1 = OR (strong), h2 = NAND (strong), output = AND
+_h1 a,b -> neuron([a, b], [20, 20], -10)
+_h2 a,b -> neuron([a, b], [-20, -20], 30)
+nXor a,b -> neuron([_h1(a, b), _h2(a, b)], [20, 20], -30) > 0.5
+
+nXor(0, 0) is false
+nXor(1, 0) is true
+nXor(0, 1) is true
+nXor(1, 1) is false
+
+-- A layer: multiple neurons processing same input
+_layerStep inputs,weightMatrix,biases,i,acc ->
+  i >= biases.length? -> acc
+  else? -> _layerStep(inputs, weightMatrix, biases, i + 1, acc.concat([neuron(inputs, weightMatrix[i], biases[i])]))
+
+layer inputs,weightMatrix,biases -> _layerStep(inputs, weightMatrix, biases, 0, [])
+
+-- A 2-neuron hidden layer (strong weights for XOR)
+layer([1, 0], [[20, 20], [-20, -20]], [-10, 30]) is [0.9999546021312976, 0.9999546021312976]
+
+-- Forward pass: stack layers. Knowledge propagates forward.
+forward2 inputs,w1,b1,w2,b2 -> layer(layer(inputs, w1, b1), w2, b2)
+
+-- XOR as a 2-layer network
+_xorResult inputs -> forward2(inputs, [[20, 20], [-20, -20]], [-10, 30], [[20, 20]], [-30])
+
+-- XOR(0,0) and XOR(1,1) should be near 0
+-- XOR(1,0) and XOR(0,1) should be near 1
+_xorResult([0, 0])[0] < 0.01 is true
+_xorResult([1, 0])[0] > 0.99 is true
+_xorResult([0, 1])[0] > 0.99 is true
+_xorResult([1, 1])[0] < 0.01 is true
+
+-- Learning: adjust weights to reduce error
+-- error = expected - actual
+-- delta = error * derivative
+-- new_weight = old_weight + learning_rate * delta * input
+-- THIS is where knowing becomes doing: the weight update IS the learning
+
+_sigmoidDeriv x -> sigmoid(x) * (1 - sigmoid(x))
+
+_sigmoidDeriv(0) is 0.25
+
+-- Single weight update
+updateWeight old,lr,error,input -> Math.round((old + lr * error * input) * 10000) / 10000
+
+-- If error is positive (undershoot), weight increases
+updateWeight(0.5, 0.1, 1.0, 1.0) is 0.6
+-- If error is negative (overshoot), weight decreases
+updateWeight(0.5, 0.1, -1.0, 1.0) is 0.4
+-- Zero input = no learning (nothing to attribute the error to)
+updateWeight(0.5, 0.1, 1.0, 0.0) is 0.5
+
+-- Train a single neuron: one step
+-- Input -> predict -> compare -> adjust
+_trainStep inputs,weights,bias,expected,lr ->
+  _doTrain(inputs, weights, bias, expected, lr, neuron(inputs, weights, bias))
+
+_doTrain inputs,weights,bias,expected,lr,predicted ->
+  _applyUpdate(inputs, weights, bias, lr, expected - predicted, 0, [])
+
+_applyUpdate inputs,weights,bias,lr,error,i,newW ->
+  i >= weights.length? -> {weights: newW, bias: Math.round((bias + lr * error) * 10000) / 10000}
+  else? -> _applyUpdate(inputs, weights, bias, lr, error, i + 1, newW.concat([updateWeight(weights[i], lr, error, inputs[i])]))
+
+-- Train AND gate from scratch: start with zero weights
+_trainStep([1, 1], [0, 0], 0, 1, 0.5).weights is [0.25, 0.25]
+_trainStep([0, 0], [0, 0], 0, 0, 0.5).weights is [0, 0]
+
+-- The cycle: know -> act -> learn -> know better
+-- Each iteration, the weights encode MORE knowledge
+-- The neuron doesn't store facts — it IS the knowledge
+-- The signal doesn't carry meaning — it IS the meaning

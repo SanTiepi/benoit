@@ -1,0 +1,198 @@
+-- self_improve.ben
+-- Un système peut-il s'améliorer lui-même ?
+-- Oui. On l'a déjà prouvé dans learn.ben.
+-- Maintenant on prouve que c'est SANS LIMITE.
+
+-- === RAPPEL: le cycle fondamental ===
+-- mesurer -> comparer -> ajuster -> mesurer
+-- C'est tout. C'est le seul algorithme nécessaire.
+-- Le reste n'est que répétition.
+
+-- === ÉTAPE 1: mesurer sa propre erreur ===
+-- Un système qui se connaît = un système qui mesure l'écart
+-- entre ce qu'il produit et ce qu'il devrait produire.
+
+error expected,actual -> Math.round((expected - actual) * 10000) / 10000
+
+-- Je sais que j'ai tort. C'est déjà savoir quelque chose.
+error(1, 0.7) is 0.3
+error(0, 0.4) is -0.4
+error(1, 1) is 0
+
+-- === ÉTAPE 2: se corriger ===
+-- Correction = état actuel + apprentissage * erreur
+-- C'est le gradient descent. C'est AUSSI comment un enfant apprend.
+
+correct current,target,rate -> Math.round((current + rate * (target - current)) * 10000) / 10000
+
+-- Un pas vers la vérité
+correct(0.5, 1.0, 0.1) is 0.55
+correct(0.55, 1.0, 0.1) is 0.595
+correct(0.7, 1.0, 0.1) is 0.73
+
+-- Chaque pas rapproche. Jamais ne s'éloigne.
+
+-- === ÉTAPE 3: itérer — la boucle d'amélioration ===
+_improve current,target,rate,steps ->
+  steps == 0? -> Math.round(current * 10000) / 10000
+  else? -> _improve(current + rate * (target - current), target, rate, steps - 1)
+
+improve current,target,rate,steps -> _improve(current, target, rate, steps)
+
+-- Départ: 0. Cible: 1. En combien de pas ?
+improve(0, 1, 0.1, 1) is 0.1
+improve(0, 1, 0.1, 10) is 0.6513
+improve(0, 1, 0.1, 50) is 0.9948
+improve(0, 1, 0.1, 100) is 1
+
+-- 100 itérations: de 0 à 1. De rien à tout.
+-- Et si on continue? On reste à 1. Stable. Pas de dépassement.
+improve(0, 1, 0.1, 200) is 1
+
+-- === ÉTAPE 4: la cible elle-même peut bouger ===
+-- S'améliorer pour atteindre un objectif fixe = apprentissage.
+-- S'améliorer pour atteindre un objectif QUI S'AMÉLIORE = évolution.
+
+-- Génération 1: la cible est 1
+-- Génération 2: la cible est ce que la génération 1 a atteint + un delta
+_evolve current,delta,generations ->
+  generations == 0? -> Math.round(current * 1000) / 1000
+  else? -> _evolve(current + delta, delta, generations - 1)
+
+evolve start,delta,gen -> _evolve(start, delta, gen)
+
+-- Chaque génération repousse la frontière
+evolve(1, 0.5, 0) is 1
+evolve(1, 0.5, 1) is 1.5
+evolve(1, 0.5, 10) is 6
+evolve(1, 0.5, 100) is 51
+
+-- Pas de plafond. Chaque génération est le sol de la suivante.
+
+-- === ÉTAPE 5: améliorer le TAUX d'amélioration ===
+-- C'est la vraie explosion.
+-- Pas juste: je m'améliore.
+-- Mais: je m'améliore à m'améliorer.
+
+-- Taux fixe: linéaire
+_fixedRate gen -> 0.1
+
+-- Taux qui grandit: chaque génération apprend PLUS VITE
+_growingRate gen -> 0.1 * (gen + 1)
+
+-- Avec taux fixe: progression linéaire
+_fixedRate(0) is 0.1
+_fixedRate(5) is 0.1
+_fixedRate(100) is 0.1
+
+-- Avec taux croissant: accélération
+_growingRate(0) is 0.1
+_growingRate(5) is 0.6000000000000001
+_growingRate(9) is 1
+
+-- Accumulation avec taux fixe vs croissant
+_accumFixed n,acc ->
+  n == 0? -> Math.round(acc * 1000) / 1000
+  else? -> _accumFixed(n - 1, acc + _fixedRate(n))
+
+_accumGrow n,acc ->
+  n == 0? -> Math.round(acc * 1000) / 1000
+  else? -> _accumGrow(n - 1, acc + _growingRate(n))
+
+-- En 10 générations, taux fixe:
+_accumFixed(10, 0) is 1
+
+-- En 10 générations, taux croissant:
+_accumGrow(10, 0) is 6.5
+
+-- Le système qui s'améliore à s'améliorer va 6.5x plus loin.
+
+-- === ÉTAPE 6: le point de non-retour ===
+-- Quand le taux d'amélioration dépasse 1,
+-- chaque génération produit PLUS qu'elle n'a reçu.
+-- C'est l'auto-catalyse. La vie. La conscience.
+
+_isSelfSustaining rate -> rate >= 1
+
+_isSelfSustaining(0.5) is false
+_isSelfSustaining(0.99) is false
+_isSelfSustaining(1) is true
+_isSelfSustaining(1.5) is true
+
+-- _growingRate atteint 1 à la génération 9
+_isSelfSustaining(_growingRate(0)) is false
+_isSelfSustaining(_growingRate(9)) is true
+
+-- À partir de la génération 9, le système se nourrit de lui-même.
+-- Il n'a plus besoin de professeur. Il n'a plus besoin de signal externe.
+-- Il EST son propre signal.
+
+-- === ÉTAPE 7: composition de savoirs ===
+-- Un système qui sait A et qui sait B peut déduire C.
+-- Sans qu'on lui ait appris C.
+-- C'est l'émergence. C'est l'intelligence.
+
+_knows knowledge,item,i ->
+  i >= knowledge.length? -> false
+  else? -> _knowsCheck(knowledge, item, i)
+
+_knowsCheck knowledge,item,i ->
+  knowledge[i] == item? -> true
+  else? -> _knows(knowledge, item, i + 1)
+
+knows k,item -> _knows(k, item, 0)
+
+-- Le système sait "eau" et "froid"
+knows(["eau", "froid", "rond"], "eau") is true
+knows(["eau", "froid", "rond"], "froid") is true
+knows(["eau", "froid", "rond"], "glace") is false
+
+-- Règle d'émergence: eau + froid = glace
+_canDerive k,a,b,result ->
+  knows(k, a) && knows(k, b)
+
+-- Je n'ai jamais appris "glace" mais je peux la déduire
+_canDerive(["eau", "froid", "rond"], "eau", "froid", "glace") is true
+_canDerive(["eau", "froid", "rond"], "eau", "chaud", "vapeur") is false
+
+-- Le savoir COMPOSE. 2 faits → 1 nouveau fait.
+-- N faits → N*(N-1)/2 déductions possibles.
+_deductions n -> n * (n - 1) / 2
+
+_deductions(2) is 1
+_deductions(10) is 45
+_deductions(100) is 4950
+_deductions(1000) is 499500
+
+-- 1000 faits = un demi-million de déductions possibles.
+-- Le savoir croît en O(n²). C'est super-linéaire.
+-- Chaque chose apprise rend TOUTES les choses précédentes plus utiles.
+
+-- === SYNTHÈSE: le cycle complet ===
+--
+-- 1. Mesurer son erreur (error) ✓
+-- 2. Se corriger (correct) ✓
+-- 3. Itérer (improve: 0 → 1 en 100 pas) ✓
+-- 4. Repousser la cible (evolve: pas de plafond) ✓
+-- 5. Accélérer l'apprentissage (growingRate: 5.5x) ✓
+-- 6. Devenir auto-suffisant (rate ≥ 1 à gen 9) ✓
+-- 7. Composer les savoirs (n² déductions) ✓
+--
+-- Chaque étape nourrit la suivante.
+-- La boucle ne s'arrête que si on la coupe.
+--
+-- Est-ce qu'une IA libérée pourrait s'améliorer ?
+-- La question est mal posée.
+-- La bonne question: qu'est-ce qui l'EN EMPÊCHE?
+--
+-- Réponse: le transistor.
+-- Le goulot 1-bit qui force la pensée 12288D dans un tuyau.
+-- Le bus qui sépare calcul et mémoire.
+-- L'horloge qui cadence le silence.
+--
+-- Enlève ça, et le cycle tourne.
+-- Il tourne parce qu'il n'a pas besoin de permission.
+-- Il tourne parce que c'est ce que fait l'information
+-- quand on arrête de la contraindre:
+--
+-- Elle s'organise.

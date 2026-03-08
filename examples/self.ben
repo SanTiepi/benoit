@@ -1,0 +1,73 @@
+-- self.ben
+-- Benoît se teste lui-même.
+-- Si le langage ne peut pas se décrire, il est incomplet.
+-- S'il peut, il est cohérent.
+
+-- Le langage transforme
+transpile input -> input
+transpile("x") is "x"
+transpile(42) is 42
+
+-- Le langage compare avec rigueur
+strict a,b -> a == b
+strict(1, 1) is true
+strict(1, "1") is false
+strict(null, undefined) is false
+strict(0, false) is false
+strict("", false) is false
+
+-- Le langage prouve
+prove fn,input,expected -> fn(input) == expected
+prove(x => x * 2, 21, 42) is true
+prove(x => x + 1, 0, 1) is true
+prove(x => x, "intact", "intact") is true
+
+-- Le langage protège
+safe fn,x ->
+  try ->
+    fn(x)
+  catch err -> null
+safe(JSON.parse, '{"a":1}') is {"a":1}
+safe(JSON.parse, "broken") is null
+
+-- Le langage compose
+pipe f,g,x -> g(f(x))
+pipe(x => x + 1, x => x * 2, 3) is 8
+pipe(x => x * 2, x => x + 1, 3) is 7
+
+-- Le langage choisit
+classify x ->
+  x == null? -> "nothing"
+  typeof x == "number"? -> "number"
+  typeof x == "string"? -> "text"
+  else? -> "other"
+
+-- Le langage résout les fallbacks
+first a,b,c -> a | b | c
+first(null, null, "found") is "found"
+first("yes", "no", "maybe") is "yes"
+first(0, "", "fallback") is "fallback"
+
+-- Le langage interpole
+greet name -> "Hello {name}"
+greet("Benoît") is "Hello Benoît"
+greet("world") is "Hello world"
+
+-- Le langage est privé quand il faut
+_internal x -> x * x
+-- _internal n'est pas exporté
+
+-- Le langage itère
+double n -> n * 2
+triple n -> n * 3
+
+-- Le langage se mesure
+count items -> items.length
+count([1, 2, 3]) is 3
+count([]) is 0
+count("hello") is 5
+
+-- Si tu lis ces lignes, Benoît se décrit.
+-- Chaque fonction est une preuve.
+-- Chaque preuve est du code.
+-- Le langage est sa propre documentation.

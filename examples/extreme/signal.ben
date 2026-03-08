@@ -1,0 +1,83 @@
+-- signal.ben
+-- Information as wave propagation.
+-- A signal starts at one cell. It spreads to neighbors.
+-- After N steps, it has reached its "light cone."
+-- No cell knows anything beyond its neighbors.
+
+-- Signal: value at each cell over time
+-- A 1D grid where each cell updates based on neighbors
+
+-- Simple rule: each cell becomes the average of its neighbors
+_avg a,b,c -> Math.round((a + b + c) / 3 * 100) / 100
+
+-- Propagate one step: each cell sees left, self, right
+_propagateCell grid,i ->
+  _avg(grid[i - 1] || 0, grid[i], grid[i + 1] || 0)
+
+_propagateStep grid,i,acc ->
+  i >= grid.length? -> acc
+  else? -> _propagateStep(grid, i + 1, acc.concat([_propagateCell(grid, i)]))
+
+propagate grid -> _propagateStep(grid, 0, [])
+
+-- A single pulse spreads outward
+propagate([0, 0, 0, 1, 0, 0, 0]) is [0, 0, 0.33, 0.33, 0.33, 0, 0]
+
+-- After 2 steps it spreads further
+propagate(propagate([0, 0, 0, 1, 0, 0, 0])) is [0, 0.11, 0.22, 0.33, 0.22, 0.11, 0]
+
+-- Conservation: the total energy is preserved (approximately)
+_sum arr,i,acc ->
+  i >= arr.length? -> acc
+  else? -> _sum(arr, i + 1, acc + arr[i])
+
+sumSignal grid -> Math.round(_sum(grid, 0, 0) * 100) / 100
+
+sumSignal([0, 0, 0, 1, 0, 0, 0]) is 1
+sumSignal(propagate([0, 0, 0, 1, 0, 0, 0])) is 0.99
+
+-- Two signals collide: superposition
+_addGrids a,b,i,acc ->
+  i >= a.length? -> acc
+  else? -> _addGrids(a, b, i + 1, acc.concat([a[i] + b[i]]))
+
+superpose a,b -> _addGrids(a, b, 0, [])
+
+-- Two pulses approaching each other
+superpose([0, 1, 0, 0, 0], [0, 0, 0, 1, 0]) is [0, 1, 0, 1, 0]
+superpose([1, 0, 0], [0, 0, 1]) is [1, 0, 1]
+
+-- Interference: when waves meet
+-- Cell 2 sees two neighbors with value 1: avg(1,0,1) = 0.67
+propagate(superpose([0, 1, 0, 0, 0], [0, 0, 0, 1, 0])) is [0.33, 0.33, 0.67, 0.33, 0.33]
+
+-- Dampened oscillator: signal with decay
+_dampStep grid,factor,i,acc ->
+  i >= grid.length? -> acc
+  else? -> _dampStep(grid, factor, i + 1, acc.concat([Math.round(_propagateCell(grid, i) * factor * 100) / 100]))
+
+dampen grid,factor -> _dampStep(grid, factor, 0, [])
+
+-- Signal decays as it spreads
+dampen([0, 0, 1, 0, 0], 0.9) is [0, 0.3, 0.3, 0.3, 0]
+dampen([0, 0, 1, 0, 0], 0.5) is [0, 0.17, 0.17, 0.17, 0]
+
+-- Phase: encode information as position of the pulse
+-- Where is the peak?
+_findPeak grid,i,maxVal,maxIdx ->
+  i >= grid.length? -> maxIdx
+  else? -> _findPeakStep(grid, i, maxVal, maxIdx)
+
+_findPeakStep grid,i,maxVal,maxIdx ->
+  grid[i] > maxVal? -> _findPeak(grid, i + 1, grid[i], i)
+  else? -> _findPeak(grid, i + 1, maxVal, maxIdx)
+
+findPeak grid -> _findPeak(grid, 0, -1, -1)
+
+findPeak([0, 0, 0, 1, 0, 0, 0]) is 3
+findPeak([0, 1, 0, 0, 0, 0, 0]) is 1
+findPeak([0, 0, 0, 0, 0, 0, 1]) is 6
+
+-- The peak IS the message.
+-- Its position in space IS the information.
+-- No words. No symbols. Just where the energy lives.

@@ -1,0 +1,42 @@
+-- validate_id.ben
+-- Validates bridge message ID format: MSG-NNNNNN
+-- "Il n'y a pas de mauvaise réponse, que des mauvaises questions."
+
+-- Pattern: MSG- followed by exactly 6 digits
+_isDigits s -> /^\d+$/.test(s)
+_hasMsgPrefix s -> s.startsWith("MSG-")
+_bodyOf s -> s.slice(4)
+
+_isStr x -> typeof x == "string"
+_lenIs x,n -> x.length == n
+isValidId id -> _isStr(id) && _lenIs(id, 10) && _hasMsgPrefix(id) && _isDigits(_bodyOf(id))
+
+-- Good IDs
+isValidId("MSG-000001") is true
+isValidId("MSG-999999") is true
+isValidId("MSG-000594") is true
+
+-- Bad IDs: the protocol asks back, not guesses
+isValidId("MSG-00001") is false
+isValidId("msg-000001") is false
+isValidId("000001") is false
+isValidId("MSG-ABCDEF") is false
+isValidId("") is false
+isValidId(null) is false
+isValidId(42) is false
+
+-- Extract sequence number
+sequenceOf id ->
+  isValidId(id)? -> parseInt(_bodyOf(id), 10)
+  else? -> null
+
+sequenceOf("MSG-000001") is 1
+sequenceOf("MSG-000594") is 594
+sequenceOf("bad") is null
+
+-- Compare message ordering
+isBefore a,b -> sequenceOf(a) != null && sequenceOf(b) != null && sequenceOf(a) < sequenceOf(b)
+
+isBefore("MSG-000001", "MSG-000002") is true
+isBefore("MSG-000100", "MSG-000050") is false
+isBefore("MSG-000001", "bad") is false

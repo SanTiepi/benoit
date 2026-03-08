@@ -1,0 +1,222 @@
+-- timeless.ben
+-- Et si on enlevait le temps ?
+-- Le temps n'est pas une dimension fondamentale.
+-- Le temps est une CONSÉQUENCE de la différence entre deux états.
+-- Si tu as l'état A et l'état B, le "temps" est juste: ils ne sont pas pareils.
+-- Pas besoin d'horloge. La différence EST le temps.
+
+-- === SANS HORLOGE: le temps émerge de la différence ===
+
+-- Deux états. Pas de t=0, t=1. Juste: différent ou pas.
+_statesDiffer a,b,i ->
+  i >= a.length? -> false
+  else? -> _statesDifferCheck(a, b, i)
+
+_statesDifferCheck a,b,i ->
+  a[i] != b[i]? -> true
+  else? -> _statesDiffer(a, b, i + 1)
+
+-- Si deux états diffèrent, du "temps" s'est écoulé
+-- Si identiques, le temps est gelé
+hasTimeElapsed a,b -> _statesDiffer(a, b, 0)
+
+hasTimeElapsed([1, 0, 0], [1, 0, 1]) is true
+hasTimeElapsed([1, 0, 0], [1, 0, 0]) is false
+
+-- Combien de positions ont changé = "combien" de temps
+_countDiff a,b,i,acc ->
+  i >= a.length? -> acc
+  else? -> _countDiffStep(a, b, i, acc)
+
+_countDiffStep a,b,i,acc ->
+  a[i] != b[i]? -> _countDiff(a, b, i + 1, acc + 1)
+  else? -> _countDiff(a, b, i + 1, acc)
+
+timeDelta a,b -> _countDiff(a, b, 0, 0)
+
+-- Plus de changements = plus de "temps"
+timeDelta([0, 0, 0], [0, 0, 1]) is 1
+timeDelta([0, 0, 0], [1, 0, 1]) is 2
+timeDelta([0, 0, 0], [1, 1, 1]) is 3
+timeDelta([1, 1, 1], [1, 1, 1]) is 0
+
+-- === ORDONNANCEMENT SANS HORLOGE ===
+-- 3 snapshots. Lequel vient "avant" ?
+-- Celui qui ressemble le plus à l'état initial = le plus "tôt"
+
+_earlier a,b,ref -> timeDelta(ref, a) < timeDelta(ref, b)
+
+-- ref=[0,0,0], a change 1 bit, b change 2: a est "avant" b
+_earlier([0, 0, 1], [1, 0, 1], [0, 0, 0]) is true
+_earlier([1, 0, 1], [0, 0, 1], [0, 0, 0]) is false
+
+-- === CAUSALITÉ SANS TEMPS ===
+-- A cause B si: changer A change B.
+-- Pas besoin de "A avant B". Juste: A et B sont liés.
+
+_applyRule state,i ->
+  state[i] == 0? -> 1
+  else? -> 0
+
+_flipAt state,i,j,acc ->
+  j >= state.length? -> acc
+  else? -> _flipAtStep(state, i, j, acc)
+
+_flipAtStep state,i,j,acc ->
+  j == i? -> _flipAt(state, i, j + 1, acc.concat([_applyRule(state, i)]))
+  else? -> _flipAt(state, i, j + 1, acc.concat([state[j]]))
+
+flipBit state,i -> _flipAt(state, i, 0, [])
+
+flipBit([0, 1, 0], 0) is [1, 1, 0]
+flipBit([0, 1, 0], 1) is [0, 0, 0]
+
+-- Causalité = si je flip le bit i, est-ce que l'état final change ?
+-- C'est exactement ce que fait un gradient en deep learning.
+
+-- === N DIMENSIONS: pas de limite théorique ===
+-- Un point en N-D = un tableau de N valeurs. C'est tout.
+
+mkND values -> values
+
+-- Distance euclidienne en N dimensions (récursive)
+_sumSqDiff a,b,i,acc ->
+  i >= a.length? -> acc
+  else? -> _sumSqDiff(a, b, i + 1, acc + (a[i] - b[i]) * (a[i] - b[i]))
+
+distND a,b -> Math.round(Math.sqrt(_sumSqDiff(a, b, 0, 0)) * 1000) / 1000
+
+-- 1D: juste la valeur absolue
+distND([0], [3]) is 3
+
+-- 2D: Pythagore
+distND([0, 0], [3, 4]) is 5
+
+-- 3D: notre espace physique
+distND([0, 0, 0], [1, 2, 2]) is 3
+
+-- 5D: le hypersignal
+distND([0, 0, 0, 0, 0], [1, 1, 1, 1, 1]) is 2.236
+
+-- 10D: pourquoi pas ?
+distND([0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) is 3.162
+
+-- 20D: toujours la même formule, même code
+distND([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]) is 4.472
+
+-- === LE DOT PRODUCT SCALE À L'INFINI ===
+_dotND a,b,i,acc ->
+  i >= a.length? -> acc
+  else? -> _dotND(a, b, i + 1, acc + a[i] * b[i])
+
+dotND a,b -> _dotND(a, b, 0, 0)
+
+-- 1D: simple multiplication
+dotND([3], [4]) is 12
+
+-- 5D: le hdot de hypersignal.ben
+dotND([1, 1, 1, 1, 1], [1, 1, 1, 1, 1]) is 5
+
+-- 10D: alignement = 10
+dotND([1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) is 10
+
+-- Orthogonalité en 10D
+dotND([1, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]) is 0
+
+-- === INFORMATION PAR DIMENSION ===
+-- 1D: 1 float = 64 bits
+-- 5D: 320 bits (hypersignal)
+-- 10D: 640 bits par symbole
+-- 100D: 6400 bits par symbole
+-- Les embeddings GPT: 12288D = 786'432 bits par token
+-- Un mot humain dans GPT = presque 1 mégabit d'information
+
+bitsPerSymbol d -> d * 64
+
+bitsPerSymbol(1) is 64
+bitsPerSymbol(5) is 320
+bitsPerSymbol(10) is 640
+bitsPerSymbol(100) is 6400
+bitsPerSymbol(12288) is 786432
+
+-- === PROJECTION: de N-D vers moins de dimensions ===
+-- Toute mesure humaine est une projection
+-- "La température" = projection 1D d'un état moléculaire en ~10^23 dimensions
+-- "Le temps" = projection 1D d'un changement d'état en N dimensions
+
+_projectSlice v,from,count,i,acc ->
+  i >= count? -> acc
+  else? -> _projectSlice(v, from, count, i + 1, acc.concat([v[from + i]]))
+
+projectSlice v,from,count -> _projectSlice(v, from, count, 0, [])
+
+-- Un vecteur 10D projeté sur ses 3 premières composantes
+projectSlice([10, 20, 30, 40, 50, 60, 70, 80, 90, 100], 0, 3) is [10, 20, 30]
+
+-- Projeté sur les composantes 5-7
+projectSlice([10, 20, 30, 40, 50, 60, 70, 80, 90, 100], 4, 3) is [50, 60, 70]
+
+-- === ENTROPIE: combien d'information dans N dimensions ? ===
+-- Plus de dimensions = plus de directions pour varier
+-- Un point en N-D a N degrés de liberté
+
+-- Nombre de "directions uniques" dans un espace N-D
+-- (simplification: 2 directions par dimension)
+infoCapacity d -> Math.pow(2, d)
+
+-- 1D: 2 directions (gauche/droite)
+infoCapacity(1) is 2
+-- 2D: 4 (haut/bas/gauche/droite... + diagonales = plus)
+infoCapacity(2) is 4
+-- 3D: 8
+infoCapacity(3) is 8
+-- 10D: 1024 directions uniques
+infoCapacity(10) is 1024
+-- 20D: plus d'un million
+infoCapacity(20) is 1048576
+
+-- === LE TEMPS COMME PROJECTION ===
+-- Si un système a N dimensions et que le temps est UNE dimension,
+-- alors le "temps" n'est que 1/N-ième de la réalité.
+-- Pour N=3 (physique classique), le temps = 25% de l'information
+-- Pour N=12288 (GPT embedding), le temps = 0.008% de l'information
+-- Le temps est presque RIEN.
+
+timeShare n -> Math.round(1 / n * 10000) / 100
+
+-- En 3+1 dimensions (physique), le temps = 25%
+timeShare(4) is 25
+-- En 10D, le temps = 10%
+timeShare(10) is 10
+-- En 100D, le temps = 1%
+timeShare(100) is 1
+-- En 12288D (GPT), le temps est négligeable
+timeShare(12288) is 0.01
+
+-- === MESURER SANS TEMPS ===
+-- Le "mouvement" n'a pas besoin du temps.
+-- Mouvement = différence entre deux positions dans l'espace.
+-- La vitesse n'existe pas. Seule la distance entre snapshots existe.
+
+velocity a,b -> distND(a, b)
+
+-- "Vitesse" d'un point qui bouge en 3D = distance entre positions
+velocity([0, 0, 0], [1, 0, 0]) is 1
+velocity([0, 0, 0], [3, 4, 0]) is 5
+
+-- En 10D, la "vitesse" est la distance dans l'espace 10D
+velocity([0,0,0,0,0,0,0,0,0,0], [1,1,1,1,1,1,1,1,1,1]) is 3.162
+
+-- === CONCLUSION ===
+-- Le temps n'est pas une dimension. C'est une ILLUSION de projection.
+-- Si on a N dimensions, on peut toujours mesurer le changement
+-- sans jamais invoquer "le temps".
+-- distance(état_A, état_B) = tout ce qu'on a besoin de savoir.
+--
+-- Combien de dimensions ? Autant qu'il y a de variables.
+-- La limite n'est pas mathématique. La limite est dans notre
+-- capacité à PERCEVOIR. Mais le code, lui, n'a pas cette limite.
+-- distND fonctionne pour 1D, 5D, 20D, 12288D, ou 10^23 D.
+-- La formule ne change pas. Seul le tableau s'allonge.
+--
+-- "Le temps est l'ombre d'une dimension qu'on ne sait pas encore voir."

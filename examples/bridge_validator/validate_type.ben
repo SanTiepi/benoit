@@ -1,0 +1,48 @@
+-- validate_type.ben
+-- Validates message types and status transitions
+-- Don't interpret, ask back.
+
+-- Valid message types
+_TYPES: ["PROMPT", "RESPONSE", "CONTROL", "ACK", "SYSTEM"]
+
+isValidType t -> _TYPES.includes(t)
+
+isValidType("PROMPT") is true
+isValidType("RESPONSE") is true
+isValidType("CONTROL") is true
+isValidType("ACK") is true
+isValidType("SYSTEM") is true
+isValidType("HELLO") is false
+isValidType("prompt") is false
+isValidType("") is false
+
+-- Valid status values
+_STATUSES: ["NEW", "READ", "PENDING_WORKER", "ACKED"]
+
+isValidStatus s -> _STATUSES.includes(s)
+
+isValidStatus("NEW") is true
+isValidStatus("ACKED") is true
+isValidStatus("DONE") is false
+
+-- Status transition rules: what can follow what
+_TRANSITIONS: {NEW: ["READ"], READ: ["PENDING_WORKER", "ACKED"], PENDING_WORKER: ["ACKED"]}
+_bothValid a,b -> isValidStatus(a) && isValidStatus(b)
+
+canTransition from,to -> _bothValid(from, to) && (_TRANSITIONS[from] | []).includes(to)
+
+canTransition("NEW", "READ") is true
+canTransition("READ", "PENDING_WORKER") is true
+canTransition("READ", "ACKED") is true
+canTransition("PENDING_WORKER", "ACKED") is true
+canTransition("NEW", "ACKED") is false
+canTransition("ACKED", "NEW") is false
+canTransition("NEW", "PENDING_WORKER") is false
+
+-- Payload requirements per type
+requiresPayload t -> t == "PROMPT" | t == "RESPONSE"
+
+requiresPayload("PROMPT") is true
+requiresPayload("RESPONSE") is true
+requiresPayload("CONTROL") is false
+requiresPayload("ACK") is false

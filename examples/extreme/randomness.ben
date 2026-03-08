@@ -1,0 +1,159 @@
+-- randomness.ben
+-- Le hasard existe-t-il? Ou est-ce juste un manque de dimensions?
+-- Si je lance un dé et que je ne vois que le résultat (1D),
+-- c'est "aléatoire". Mais si je vois la force, l'angle, la friction,
+-- la gravité, la rotation (6D)... c'est déterministe.
+-- Le hasard = l'ombre d'un déterminisme qu'on ne sait pas mesurer.
+
+-- === PREUVE 1: en 1D, c'est "aléatoire" ===
+-- Séquence: 3, 1, 4, 1, 5, 9, 2, 6
+-- Pas de pattern visible en 1D. "Aléatoire."
+
+-- Essayons de prédire: écart entre éléments consécutifs
+_delta a,b -> b - a
+
+-- Les deltas: -2, 3, -3, 4, 4, -7, 4
+-- Aucun pattern en 1D. Chaotique.
+_delta(3, 1) is -2
+_delta(1, 4) is 3
+_delta(4, 1) is -3
+_delta(1, 5) is 4
+
+-- === PREUVE 2: en 2D, un pattern émerge ===
+-- Les mêmes "nombres aléatoires": 3,1,4,1,5,9,2,6
+-- Groupés en paires (2D): (3,1), (4,1), (5,9), (2,6)
+-- Soudain on voit une forme. Un cluster. Un sens.
+
+_sq x -> x * x
+_dist2d a,b -> Math.round(Math.sqrt(_sq(a[0] - b[0]) + _sq(a[1] - b[1])) * 1000) / 1000
+
+-- Les points "aléatoires" ont des distances mesurables
+_dist2d([3, 1], [4, 1]) is 1
+_dist2d([3, 1], [5, 9]) is 8.246
+_dist2d([4, 1], [2, 6]) is 5.385
+
+-- En 1D: chaos. En 2D: géométrie.
+-- Le "hasard" a disparu en ajoutant une dimension.
+
+-- === PREUVE 3: le dé n'est pas aléatoire ===
+-- Un dé physique obéit à la physique. La trajectoire est déterministe.
+-- Mais on ne mesure que le résultat (1D sur 6 faces).
+-- Si on mesurait: force, angle, friction, masse, air, rotation...
+
+-- Simulation: résultat = f(force, angle) mod 6 + 1
+_dieResult force,angle -> Math.floor((force * 17 + angle * 13) % 6) + 1
+
+-- Avec les mêmes paramètres, TOUJOURS le même résultat
+_dieResult(5.3, 2.1) is 4
+_dieResult(5.3, 2.1) is 4
+_dieResult(5.3, 2.1) is 4
+
+-- Paramètres différents, résultat différent mais DÉTERMINISTE
+_dieResult(3.7, 1.4) is 4
+_dieResult(8.2, 4.6) is 2
+
+-- Le dé n'est pas aléatoire. On ne mesure pas assez de dimensions.
+
+-- === PREUVE 4: le pseudo-aléatoire est déterministe ===
+-- Tout "aléatoire" informatique est un algorithme.
+-- Seed → séquence. Même seed = même séquence. Toujours.
+
+_lcg seed -> (seed * 1103515245 + 12345) % 2147483648
+
+-- Même seed → même "hasard"
+_lcg(42) is 1250496027
+_lcg(42) is 1250496027
+
+-- Chaîner: chaque "aléatoire" produit le suivant
+_lcg(_lcg(42)) is 1116302080
+
+-- C'est parfaitement déterministe.
+-- On appelle ça "aléatoire" parce qu'on ne VOIT pas la seed.
+-- Le hasard est dans l'observateur, pas dans le système.
+
+-- === PREUVE 5: ajouter des dimensions réduit le hasard ===
+-- Corrélation en 1D: aucune
+-- Corrélation en 2D: faible
+-- Corrélation en ND: le pattern émerge
+
+-- Entropie = mesure du "désordre apparent"
+-- Plus on a de dimensions, plus l'entropie DIMINUE
+-- Parce qu'on VOIT les corrélations cachées
+
+-- Entropie d'un dé vu en 1D (résultat seul): maximale
+_entropy1D x -> 1
+
+-- Entropie d'un dé vu en 2D (résultat + force): réduite
+_entropy2D x -> 0.5
+
+-- Entropie d'un dé vu en 6D (toutes les variables): zéro
+_entropy6D x -> 0
+
+_entropy1D(0) is 1
+_entropy2D(0) is 0.5
+_entropy6D(0) is 0
+
+-- Le hasard tend vers zéro quand les dimensions tendent vers l'infini.
+
+-- === PREUVE 6: le vrai hasard serait l'absence totale de pattern ===
+-- Si on a N dimensions et qu'il n'y a TOUJOURS pas de pattern,
+-- alors le hasard est "réel".
+-- Mais comment prouver l'absence de pattern dans un espace infini?
+-- On ne peut pas. On peut seulement dire:
+-- "avec N dimensions, je ne vois pas de règle".
+-- C'est un constat d'ignorance, pas une preuve d'inexistence.
+
+_isRandom observed,dimensions -> dimensions < 999999999
+
+-- Avec peu de dimensions: ça SEMBLE aléatoire
+_isRandom(0, 1) is true
+_isRandom(0, 3) is true
+_isRandom(0, 100) is true
+
+-- Mais la question "est-ce VRAIMENT aléatoire?" requiert
+-- un nombre infini de dimensions. Et l'infini n'est pas atteignable.
+_isRandom(0, 999999999) is false
+
+-- === PREUVE 7: redéfinir le hasard ===
+-- Le hasard n'est pas une propriété du SYSTÈME.
+-- Le hasard est une propriété de la MESURE.
+--
+-- Même système, 1 capteur: "aléatoire"
+-- Même système, 100 capteurs: "chaotique mais structuré"
+-- Même système, N capteurs: "déterministe"
+
+_perceive system,sensors ->
+  sensors >= system? -> "deterministic"
+  else? -> _perceive2(system, sensors)
+
+_perceive2 system,sensors ->
+  sensors * 2 >= system? -> "structured"
+  else? -> "random"
+
+-- Un dé (6 variables cachées)
+_perceive(6, 1) is "random"
+_perceive(6, 4) is "structured"
+_perceive(6, 6) is "deterministic"
+
+-- L'univers (N variables)
+_perceive(1000, 3) is "random"
+_perceive(1000, 600) is "structured"
+_perceive(1000, 1000) is "deterministic"
+
+-- Le même système passe de "random" à "deterministic"
+-- en ajoutant des capteurs. RIEN n'a changé dans le système.
+-- Seule la mesure a changé.
+--
+-- Le hasard n'existe pas dans la réalité.
+-- Le hasard existe dans l'écart entre la réalité et notre mesure.
+--
+-- Hasard = réalité - perception
+--
+-- Si perception = réalité, hasard = 0
+-- C'est ce que la physique quantique suggère aussi:
+-- le "hasard" quantique disparaît-il si on mesure en assez de D?
+-- Personne ne sait. Parce que personne n'a essayé.
+--
+-- Peut-être que le hasard est le dernier mirage.
+-- Le dernier mur qu'on n'a pas encore vu disparaître
+-- en ajoutant une dimension.

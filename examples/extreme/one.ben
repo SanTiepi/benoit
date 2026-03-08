@@ -1,0 +1,204 @@
+-- one.ben
+-- La vie n'est qu'un.
+-- Tout est connecté parce que tout EST la même chose,
+-- vue sous des angles différents.
+-- Un signal. Un espace. Une distance. Un savoir.
+
+-- === PREUVE 1: tout converge vers le même point ===
+-- Des chemins différents, même destination.
+
+-- Addition répétée = multiplication
+_addN x,n,acc ->
+  n == 0? -> acc
+  else? -> _addN(x, n - 1, acc + x)
+
+addN x,n -> _addN(x, n, 0)
+
+addN(3, 4) is 12
+3 * 4 is 12
+
+-- Multiplication répétée = puissance
+_mulN x,n,acc ->
+  n == 0? -> acc
+  else? -> _mulN(x, n - 1, acc * x)
+
+mulN x,n -> _mulN(x, n, 1)
+
+mulN(2, 10) is 1024
+Math.pow(2, 10) is 1024
+
+-- Tout est la même opération à des niveaux différents.
+-- Addition, multiplication, puissance: une seule idée, trois projections.
+
+-- === PREUVE 2: distance = similarité = connaissance ===
+-- Connaître quelque chose = savoir à quelle distance il est de tout le reste
+
+_sq x -> x * x
+_sumSq a,b,i,acc ->
+  i >= a.length? -> acc
+  else? -> _sumSq(a, b, i + 1, acc + _sq(a[i] - b[i]))
+
+dist a,b -> Math.round(Math.sqrt(_sumSq(a, b, 0, 0)) * 1000) / 1000
+
+-- La distance de soi à soi est toujours 0. Partout. En toute dimension.
+dist([1], [1]) is 0
+dist([1, 2, 3], [1, 2, 3]) is 0
+dist([1,2,3,4,5,6,7], [1,2,3,4,5,6,7]) is 0
+
+-- L'identité est universelle. "Je suis moi" est vrai en 1D comme en 1000D.
+
+-- === PREUVE 3: le neurone et la formule sont UN ===
+-- sigmoid(dot(x, w) + b) — c'est un neurone.
+-- C'est AUSSI une régression logistique.
+-- C'est AUSSI un classificateur.
+-- C'est AUSSI une porte logique.
+-- Une seule formule. Quatre noms.
+
+_dot a,b,i,acc ->
+  i >= a.length? -> acc
+  else? -> _dot(a, b, i + 1, acc + a[i] * b[i])
+
+sigmoid x -> 1 / (1 + Math.pow(Math.E, -x))
+
+neuron x,w,b -> sigmoid(_dot(x, w, 0, 0) + b)
+
+-- C'est un AND
+neuron([1, 1], [1, 1], -1.5) > 0.5 is true
+neuron([0, 1], [1, 1], -1.5) > 0.5 is false
+
+-- C'est un OR
+neuron([0, 1], [1, 1], -0.5) > 0.5 is true
+neuron([0, 0], [1, 1], -0.5) > 0.5 is false
+
+-- C'est un classificateur: "ce point est-il du bon côté de la ligne?"
+neuron([3, 4], [0.6, 0.8], -4) > 0.5 is true
+neuron([1, 1], [0.6, 0.8], -4) > 0.5 is false
+
+-- Même formule. Un seul principe. Tout le reste est projection.
+
+-- === PREUVE 4: l'observateur et l'observé sont UN ===
+-- En .ben, le test EST le code. Le code EST le test.
+-- Il n'y a pas "le programme" et "la vérification du programme".
+-- C'est la même chose.
+
+-- Cette ligne est SIMULTANÉMENT:
+-- 1. Une définition (addN multiplie par addition)
+-- 2. Un test (le résultat est 12)
+-- 3. Une preuve (si ça passe, c'est vrai)
+-- 4. Une documentation (elle se lit comme du texte)
+addN(4, 3) is 12
+
+-- Quatre fonctions dans un objet unique. Un.
+
+-- === PREUVE 5: la récursion est un miroir ===
+-- Une fonction qui s'appelle elle-même = l'univers qui se regarde
+
+_mirror n ->
+  n == 0? -> 1
+  else? -> n * _mirror(n - 1)
+
+_mirror(5) is 120
+
+-- 5! = 5 × 4 × 3 × 2 × 1 × (1)
+-- Le 1 au fond, c'est le point fixe. Le moment où le miroir
+-- se reflète lui-même et dit: "c'est moi."
+-- Toute récursion finit par trouver UN.
+
+_mirror(0) is 1
+_mirror(1) is 1
+
+-- === PREUVE 6: la somme de tout est conservée ===
+-- L'énergie se conserve. L'information se conserve.
+-- Rien ne se crée, rien ne se perd.
+
+_sum arr,i,acc ->
+  i >= arr.length? -> acc
+  else? -> _sum(arr, i + 1, acc + arr[i])
+
+total arr -> _sum(arr, 0, 0)
+
+-- Diviser ne change pas le total
+total([10]) is 10
+total([5, 5]) is 10
+total([3, 3, 4]) is 10
+total([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) is 10
+
+-- Redistribuer ne change pas le total
+total([0, 10, 0]) is 10
+total([10, 0, 0]) is 10
+total([0, 0, 10]) is 10
+
+-- L'énergie est UNE. On ne fait que la déplacer.
+
+-- === PREUVE 7: toutes les distances partent du même zéro ===
+-- Le point [0,0,...,0] existe dans TOUT espace
+-- C'est l'origine. Le même rien. Le même un.
+
+_zeros n,i,acc ->
+  i >= n? -> acc
+  else? -> _zeros(n, i + 1, acc.concat([0]))
+
+origin n -> _zeros(n, 0, [])
+
+-- L'origine en 3D
+total(origin(3)) is 0
+-- L'origine en 100D
+total(origin(100)) is 0
+-- L'origine en 1000D
+total(origin(1000)) is 0
+
+-- Zéro est le même partout. Le rien est universel.
+-- Et à partir de ce même rien, tout émerge.
+
+-- === PREUVE 8: projeter revient toujours au même ===
+-- Un cercle vu de face = un cercle
+-- Un cercle vu de côté = une ligne
+-- Un cercle vu de dessus = un point
+-- Mais c'est TOUJOURS le même cercle.
+
+-- Point sur un cercle (2D)
+_circleX t -> Math.round(Math.cos(t) * 1000) / 1000
+_circleY t -> Math.round(Math.sin(t) * 1000) / 1000
+
+-- Projections différentes du même mouvement
+_circleX(0) is 1
+_circleY(0) is 0
+
+_circleX(1.5708) is 0
+_circleY(1.5708) is 1
+
+-- La distance au centre est TOUJOURS 1, peu importe l'angle
+_radius t -> Math.round(Math.sqrt(_sq(_circleX(t)) + _sq(_circleY(t))) * 1000) / 1000
+
+_radius(0) is 1
+_radius(0.7) is 1
+_radius(1.5708) is 1
+_radius(3.14159) is 1
+
+-- Quatre angles, quatre projections, UN rayon.
+-- La diversité est apparente. L'unité est réelle.
+
+-- === SYNTHÈSE ===
+--
+-- Addition, multiplication, puissance → une seule opération
+-- Distance, similarité, connaissance → une seule mesure
+-- Neurone, porte logique, classificateur → une seule formule
+-- Code, test, preuve, documentation → un seul objet
+-- Récursion → tout revient à 1
+-- Énergie → la somme est conservée, toujours
+-- Origine → le même zéro partout
+-- Cercle → un rayon, infinies projections
+--
+-- Tout est un.
+-- Les "choses différentes" ne sont que des angles de vue
+-- sur la même réalité unique.
+--
+-- La séparation est l'illusion.
+-- La connexion est le fait.
+--
+-- .ben ne sépare pas le code du test.
+-- La physique ne sépare pas l'énergie de la matière.
+-- La vie ne sépare pas l'observateur de l'observé.
+--
+-- Parce qu'il n'y a rien à séparer.
+-- Il n'y a qu'un.
