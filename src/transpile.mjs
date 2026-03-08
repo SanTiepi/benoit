@@ -1,16 +1,46 @@
-// Benoît -> JavaScript transpiler v0.3.0
+// Benoît -> JavaScript transpiler v0.4.0
 // Named after Benoît Fragnière, who loved science.
 // A programming language optimized for human-AI collaboration.
 // MIT License — github.com/SanTiepi/benoit
 
 /**
+ * Error thrown when the transpiler encounters invalid Benoît syntax.
+ */
+export class BenoitError extends Error {
+  constructor(message, line, column, source) {
+    super(message);
+    this.name = "BenoitError";
+    this.line = line;
+    this.column = column;
+    this.source = source;
+  }
+
+  /** Pretty-print the error with source context and pointer. */
+  format(filename) {
+    const loc = filename ? `${filename}:${this.line}` : `line ${this.line}`;
+    const pointer = this.column > 0
+      ? "\n" + " ".repeat(this.column - 1) + "^"
+      : "";
+    return `${loc}: ${this.message}\n\n  ${this.source}${pointer}`;
+  }
+}
+
+/**
  * Transpile Benoît source code to JavaScript.
  * @param {string} src - Benoît source code (.ben)
+ * @param {{ filename?: string }} options
  * @returns {string} - JavaScript source code
  */
-export function transpile(src) {
+export function transpile(src, options = {}) {
   const lines = src.split("\n");
-  return processLines(lines, 0, lines.length, false).join("\n");
+  try {
+    return processLines(lines, 0, lines.length, false).join("\n");
+  } catch (e) {
+    if (e instanceof BenoitError && options.filename) {
+      e.message = e.format(options.filename);
+    }
+    throw e;
+  }
 }
 
 /**
@@ -370,6 +400,19 @@ function processLines(lines, start, end, isBlock) {
     }
 
     // fallback: pass through with expression transform
+    // Warn about likely syntax errors before passing through
+    if (trimmed.includes("->") && !trimmed.match(/^\w/) && !trimmed.startsWith("|")) {
+      throw new BenoitError(
+        `unexpected '->' — function definitions must start with a name`,
+        i + 1, trimmed.indexOf("->") + 1, trimmed
+      );
+    }
+    if (trimmed.startsWith("=>")) {
+      throw new BenoitError(
+        `unexpected '=>' — match arms must be inside a 'match expr ->' block`,
+        i + 1, 1, trimmed
+      );
+    }
     output.push(`${indent}${transformExpression(trimmed)}`);
   }
 

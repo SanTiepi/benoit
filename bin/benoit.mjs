@@ -9,8 +9,8 @@
 //   benoit check <file.ben>            → transpile + test + stats
 //   benoit stats <file.ben>            → token/noise analysis
 
-import { readFileSync, writeFileSync, unlinkSync } from "node:fs";
-import { transpile, extractTests } from "../src/transpile.mjs";
+import { readFileSync, writeFileSync, unlinkSync, watchFile } from "node:fs";
+import { transpile, extractTests, BenoitError } from "../src/transpile.mjs";
 import { pathToFileURL } from "node:url";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -23,7 +23,7 @@ if (command === "repl") {
   startRepl();
 } else if (!command || !files.length) {
   console.log(`
-  Benoît v0.3.0 — A programming language for human-AI collaboration
+  Benoît v0.4.0 — A programming language for human-AI collaboration
   En mémoire de Benoît Fragnière
 
   Usage:
@@ -32,6 +32,7 @@ if (command === "repl") {
     benoit test <file.ben>        Run inline assertions
     benoit check <file.ben>       Transpile + test + stats
     benoit stats <file.ben>       Token/noise analysis
+    benoit watch <file.ben>       Watch and re-run on change
     benoit repl                   Interactive REPL session
   `);
   process.exit(0);
@@ -42,12 +43,12 @@ for (const file of files) {
 
   switch (command) {
     case "transpile": {
-      console.log(transpile(src));
+      console.log(transpile(src, { filename: file }));
       break;
     }
 
     case "run": {
-      const js = transpile(src);
+      const js = transpile(src, { filename: file });
       const tmpFile = join(tmpdir(), `ben_run_${Date.now()}.mjs`);
       writeFileSync(tmpFile, js);
       try {
@@ -65,7 +66,7 @@ for (const file of files) {
         break;
       }
 
-      const js = transpile(src);
+      const js = transpile(src, { filename: file });
       const tmpFile = join(tmpdir(), `ben_test_${Date.now()}.mjs`);
       writeFileSync(tmpFile, js);
 
@@ -108,7 +109,7 @@ for (const file of files) {
     case "check": {
       console.log(`=== ${file} ===\n`);
 
-      const js = transpile(src);
+      const js = transpile(src, { filename: file });
       console.log("--- Transpiled JS ---");
       console.log(js);
 
@@ -158,8 +159,33 @@ for (const file of files) {
       break;
     }
 
+    case "watch": {
+      console.log(`Watching ${file} for changes...`);
+      const run = () => {
+        try {
+          const freshSrc = readFileSync(file, "utf8");
+          const js = transpile(freshSrc, { filename: file });
+          const tmpFile = join(tmpdir(), `ben_watch_${Date.now()}.mjs`);
+          writeFileSync(tmpFile, js);
+          import(pathToFileURL(tmpFile).href)
+            .then(() => console.log(`\n✓ ${file} — OK`))
+            .catch(e => console.error(`\n✗ Runtime error: ${e.message}`))
+            .finally(() => unlinkSync(tmpFile));
+        } catch (e) {
+          if (e instanceof BenoitError) {
+            console.error(`\n✗ ${e.format(file)}`);
+          } else {
+            console.error(`\n✗ ${e.message}`);
+          }
+        }
+      };
+      run();
+      watchFile(file, { interval: 500 }, run);
+      break;
+    }
+
     case "stats": {
-      const jsEquivalent = transpile(src);
+      const jsEquivalent = transpile(src, { filename: file });
       const result = compare(jsEquivalent, src);
       const srcNoise = noiseAnalysis(src);
       const jsNoise = noiseAnalysis(jsEquivalent);
@@ -177,3 +203,12 @@ for (const file of files) {
   }
 }
 }
+
+// Global error handler for BenoitError
+process.on("uncaughtException", (e) => {
+  if (e instanceof BenoitError) {
+    console.error(e.format());
+    process.exit(1);
+  }
+  throw e;
+});
