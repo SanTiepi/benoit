@@ -1,0 +1,44 @@
+{
+  "name": "benoit",
+  "version": "0.3.0",
+  "description": "Benoît — A programming language optimized for human-AI collaboration. Named after Benoît Fragnière.",
+  "type": "module",
+  "main": "./src/transpile.mjs",
+  "exports": {
+    ".": "./src/transpile.mjs",
+    "./tokenizer": "./src/tokenizer.mjs"
+  },
+  "bin": {
+    "benoit": "./bin/benoit.mjs"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  },
+  "keywords": [
+    "language",
+    "transpiler",
+    "ai",
+    "human-ai-collaboration",
+    "token-efficient",
+    "pattern-matching",
+    "functional",
+    "benoit"
+  ],
+  "author": "Robin Fragnière",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robinfragniere/benoit"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "src/",
+    "bin/",
+    "examples/",
+    "LICENSE",
+    "README.md",
+    "SPEC.md"
+  ]
+}

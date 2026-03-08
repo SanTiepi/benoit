@@ -1,0 +1,31 @@
+-- Benoît: code AND tests in one file
+-- Every function proves itself
+
+add a,b -> a + b
+add(2, 3) == 5
+add(-1, 1) == 0
+add(0, 0) == 0
+
+multiply a,b -> a * b
+multiply(4, 5) == 20
+multiply(-2, 3) == -6
+
+square x -> x * x
+square(7) == 49
+square(0) == 0
+square(-3) == 9
+
+clamp x,min,max -> Math.max(min, Math.min(max, x))
+clamp(50, 0, 100) == 50
+clamp(-5, 0, 100) == 0
+clamp(200, 0, 100) == 100
+
+-- Fallback chains
+resolve a,b,c -> a | b | c
+resolve(null, "backup", "last") == "backup"
+resolve("first", "x", "y") == "first"
+
+-- Higher-order functions
+multiplier factor ->
+  _apply x -> x * factor
+  _apply

@@ -1,0 +1,41 @@
+use crypto.randomUUID
+
+-- Benoît: every line carries meaning, zero noise
+
+-- Pure functions: name args -> expression
+add a,b -> a + b
+square x -> x * x
+clamp x,min,max -> Math.max(min, Math.min(max, x))
+
+-- Fallback chains: a | b | c (try each, use first truthy)
+resolve primary,backup,fallback -> primary | backup | fallback
+
+-- Private functions: _ prefix = not exported
+_validate x -> typeof x === "number" && !isNaN(x)
+
+-- Closures via block functions
+multiplier factor ->
+  _apply x -> x * factor
+  _apply
+
+-- Factory pattern: returns object with closures
+counter start=0 ->
+  state: {value: start}
+  _increment -> state.value++
+  _get -> state.value
+  _reset -> state.value = start
+  {increment: _increment, get: _get, reset: _reset}
+
+-- Data structures
+createCache maxSize=1000 ->
+  store: Map
+
+  _set key,value ->
+    store.size >= maxSize? store.delete(store.keys().next().value)
+    store.set(key, {value, ts: Date.now()})
+
+  _get key -> store.get(key)?.value
+  _has key -> store.has(key)
+  _size -> store.size
+  _clear -> store.clear()
+  {set: _set, get: _get, has: _has, size: _size, clear: _clear}
