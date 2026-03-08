@@ -127,6 +127,7 @@ benoit optimize <file.ben>     Self-optimize using discovered rules
 benoit encode <file.ben>       Encode module for AI-to-AI transmission
 benoit exchange <file.ben>     Full encode → decode → verify cycle
 benoit compose <a.ben> <b.ben> Cross-module algebra discovery
+benoit types <file.ben>        Discover function type signatures
 ```
 
 ## Quick Start
@@ -168,19 +169,32 @@ Source → AST → Properties → Protocol Message → Synthesis → Verificatio
 | `src/protocol.mjs` | AI-to-AI encode/decode/exchange protocol |
 | `src/optimize.mjs` | Self-optimization from discovered rules |
 | `src/compose.mjs` | Cross-module composition and algebra |
+| `src/types.mjs` | Behavioral type inference (domain, range, constraints) |
+| `src/diff.mjs` | Differential testing + property stress testing |
 
 ### Key Results
 
 | Metric | Value |
 |--------|-------|
-| Tests passing | **139** |
-| Properties auto-discovered | **31+** across functions |
-| Protocol verification rate | **98%** (88/90) |
+| Tests passing | **164** |
+| Synthesis: GCD, 2^x, sqrt, hypotenuse, string templates | from examples alone |
+| Protocol verification rate | **97%** (34/35 per direction) |
 | Source code transmitted between agents | **0 chars** |
 | Composition laws derivable from individual properties | **84%** |
 | Self-optimizations from auto-discovered rules | **14/14** |
-| Cross-module discoveries (2 modules) | **1 equivalence, 2 inverses, 14 compositions** |
+| Cross-module discoveries (3 agents) | **4 equivalences, 3 inverses, 74 compositions** |
 | Conditional synthesis (Collatz step from examples) | **12/12 pairs verified** |
+| Marketplace: 3 agents + newcomer | **16 functions, 51 properties** |
+
+### Demos
+
+```bash
+node demos/showcase.mjs         # Complete pipeline in one script
+node demos/conversation.mjs     # Full 6-turn AI-to-AI conversation
+node demos/marketplace.mjs      # 3 agents discover cross-module algebra
+node demos/evolution.mjs        # Watch algebra grow as functions are added
+node demos/agent_a.mjs | node demos/agent_b.mjs  # Real two-process pipe
+```
 
 ### Experiments
 
@@ -228,6 +242,16 @@ const optimized = optimize(source);
 // Cross-module composition
 const composed = composeModules(moduleA, moduleB);
 // → discovers equivalences, inverses, composition properties
+
+// Behavioral type inference
+import { inferType } from "benoit/types";
+const sig = inferType("abs x -> Math.abs(x)");
+// → { signature: "abs: number → number", constraints: ["output: non-negative"] }
+
+// Differential testing
+import { diffTest } from "benoit/diff";
+const diff = diffTest("negate x -> 0 - x", "flip x -> 0 - x");
+// → { equivalent: true, disagreements: 0 }
 ```
 
 ## Language Features (v0.5)
@@ -250,7 +274,7 @@ const composed = composeModules(moduleA, moduleB);
 ```bash
 git clone https://github.com/SanTiepi/benoit.git
 cd benoit
-npm test   # 139 tests, all passing
+npm test   # 164 tests, all passing
 ```
 
 See [SPEC.md](SPEC.md) for the language specification.
