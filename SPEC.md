@@ -1,4 +1,4 @@
-# Benoît Language Specification v0.3
+# Benoît Language Specification v0.4
 
 *Named after Benoît Fragnière, who loved science.*
 
@@ -180,6 +180,16 @@ handle result ->
 ```
 Expects `{ tag: "Success", value: "done" }` shape.
 
+### String Interpolation
+```
+name: "World"
+greeting: "Hello {name}!"
+msg: "Result: {2 + 2}"
+```
+→ `` export const greeting = `Hello ${name}!`; ``
+
+Double-quoted strings containing `{expr}` are converted to JavaScript template literals. Plain strings without braces remain unchanged.
+
 ### Imports
 ```
 use crypto.randomUUID
@@ -205,7 +215,15 @@ benoit run <file.ben>         # Transpile and execute
 benoit test <file.ben>        # Run inline assertions
 benoit check <file.ben>       # Transpile + test + stats
 benoit stats <file.ben>       # Token/noise analysis
+benoit repl                   # Interactive REPL
 ```
+
+### REPL
+
+Start an interactive session with `benoit repl`. Type Benoît code and see it transpiled and evaluated immediately.
+
+- Lines ending with `->` start multi-line mode; enter a blank line to execute
+- Type `.exit` or press Ctrl+C to quit
 
 ## Token Efficiency
 
