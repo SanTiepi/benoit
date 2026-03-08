@@ -155,6 +155,59 @@ function tryHypotheses(name, arity, pairs, properties = []) {
         });
       }
     }
+
+    // Exponential: f(x) = a^x (check common bases)
+    for (const base of [2, 3, Math.E, 10]) {
+      if (pairs.length >= 2 && pairs.every(p => Math.abs(Math.pow(base, p.args[0]) - p.output) < 0.1)) {
+        const formula = base === Math.E ? "Math.exp(x)"
+          : base === 2 ? "Math.pow(2, x)"
+          : base === 10 ? "Math.pow(10, x)"
+          : `Math.pow(${base}, x)`;
+        hypotheses.push({ formula, confidence: 0.9 });
+        break;
+      }
+    }
+
+    // Logarithm: f(x) = log_b(x)
+    const positivePairs = pairs.filter(p => p.args[0] > 0);
+    if (positivePairs.length >= 2) {
+      // Natural log
+      if (positivePairs.every(p => Math.abs(Math.log(p.args[0]) - p.output) < 0.1)) {
+        hypotheses.push({ formula: "Math.log(x)", confidence: 0.9 });
+      }
+      // Log base 2
+      if (positivePairs.every(p => Math.abs(Math.log2(p.args[0]) - p.output) < 0.1)) {
+        hypotheses.push({ formula: "Math.log2(x)", confidence: 0.9 });
+      }
+      // Log base 10
+      if (positivePairs.every(p => Math.abs(Math.log10(p.args[0]) - p.output) < 0.1)) {
+        hypotheses.push({ formula: "Math.log10(x)", confidence: 0.9 });
+      }
+    }
+
+    // Trigonometric: sin, cos (check known values)
+    if (pairs.length >= 3) {
+      if (pairs.every(p => Math.abs(Math.sin(p.args[0]) - p.output) < 0.01)) {
+        hypotheses.push({ formula: "Math.sin(x)", confidence: 0.85 });
+      }
+      if (pairs.every(p => Math.abs(Math.cos(p.args[0]) - p.output) < 0.01)) {
+        hypotheses.push({ formula: "Math.cos(x)", confidence: 0.85 });
+      }
+    }
+
+    // Square root
+    if (positivePairs.length >= 2 && positivePairs.every(p =>
+      Math.abs(Math.sqrt(p.args[0]) - p.output) < 0.01)) {
+      hypotheses.push({ formula: "Math.sqrt(x)", confidence: 0.9 });
+    }
+
+    // Round/ceil
+    if (pairs.every(p => p.output === Math.round(p.args[0]))) {
+      hypotheses.push({ formula: "Math.round(x)", confidence: 0.9 });
+    }
+    if (pairs.every(p => p.output === Math.ceil(p.args[0]))) {
+      hypotheses.push({ formula: "Math.ceil(x)", confidence: 0.9 });
+    }
   }
 
   if (arity === 2) {
@@ -196,6 +249,37 @@ function tryHypotheses(name, arity, pairs, properties = []) {
     // Integer division
     if (pairs.every(p => p.args[1] !== 0 && p.output === Math.floor(p.args[0] / p.args[1]))) {
       hypotheses.push({ formula: "Math.floor(a / b)", confidence: 0.85 });
+    }
+
+    // GCD (Euclidean algorithm)
+    if (pairs.length >= 3) {
+      const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; };
+      if (pairs.every(p => p.output === gcd(p.args[0], p.args[1]))) {
+        hypotheses.push({
+          formula: `match b -> | 0 => a | _ => ${name}(b, a % b)`,
+          confidence: 0.9,
+          recursive: true
+        });
+      }
+    }
+
+    // LCM
+    if (pairs.length >= 3) {
+      const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; };
+      const lcm = (a, b) => Math.abs(a * b) / gcd(a, b);
+      if (pairs.every(p => p.args[0] !== 0 && p.args[1] !== 0 && Math.abs(p.output - lcm(p.args[0], p.args[1])) < 0.001)) {
+        hypotheses.push({ formula: "Math.abs(a * b) / gcd(a, b)", confidence: 0.85 });
+      }
+    }
+
+    // Average
+    if (pairs.every(p => Math.abs(p.output - (p.args[0] + p.args[1]) / 2) < 0.001)) {
+      hypotheses.push({ formula: "(a + b) / 2", confidence: 0.9 });
+    }
+
+    // Hypotenuse: sqrt(a² + b²)
+    if (pairs.every(p => Math.abs(p.output - Math.sqrt(p.args[0]**2 + p.args[1]**2)) < 0.01)) {
+      hypotheses.push({ formula: "Math.sqrt(a * a + b * b)", confidence: 0.85 });
     }
   }
 
@@ -400,8 +484,76 @@ function validateAgainstProperties(formula, arity, properties, name, recursive) 
 }
 
 function synthesizeStringFn(fn) {
-  // Check for pattern matching style
-  return { name: fn.name, status: "string-domain — not yet supported", code: null };
+  const assertions = fn.assertions;
+  if (!assertions || assertions.length === 0) {
+    return { name: fn.name, status: "no assertions", code: null };
+  }
+
+  // Extract string pairs: name("input") == "output"
+  const pairs = assertions.map(a => {
+    const inputMatch = a.input.match(/\("([^"]*)"\)$/);
+    const output = a.output.replace(/^"|"$/g, "");
+    if (!inputMatch) return null;
+    return { input: inputMatch[1], output };
+  }).filter(Boolean);
+
+  if (pairs.length === 0) {
+    return { name: fn.name, status: "non-string assertions", code: null };
+  }
+
+  // Try template pattern: find common prefix/suffix around input
+  const arity = fn.arity || 1;
+  if (arity === 1 && pairs.length >= 2) {
+    // Check if output contains input as substring
+    const withInput = pairs.filter(p => p.output.includes(p.input));
+    if (withInput.length === pairs.length) {
+      // Find consistent prefix and suffix
+      const prefixes = pairs.map(p => p.output.indexOf(p.input) >= 0
+        ? p.output.substring(0, p.output.indexOf(p.input)) : null);
+      const suffixes = pairs.map(p => {
+        const idx = p.output.indexOf(p.input);
+        return idx >= 0 ? p.output.substring(idx + p.input.length) : null;
+      });
+
+      if (prefixes.every(p => p === prefixes[0]) && suffixes.every(s => s === suffixes[0])) {
+        const prefix = prefixes[0];
+        const suffix = suffixes[0];
+        const param = "x";
+        let template = "";
+        if (prefix && suffix) template = `"${prefix}{${param}}${suffix}"`;
+        else if (prefix) template = `"${prefix}{${param}}"`;
+        else if (suffix) template = `"{${param}}${suffix}"`;
+        else template = `"{${param}}"`;
+
+        return {
+          name: fn.name,
+          status: "synthesized",
+          code: `${fn.name} ${param} -> ${template}`,
+          confidence: 0.9
+        };
+      }
+    }
+
+    // Check for case transformations
+    if (pairs.every(p => p.output === p.input.toUpperCase())) {
+      return { name: fn.name, status: "synthesized", code: `${fn.name} x -> x.toUpperCase()`, confidence: 0.95 };
+    }
+    if (pairs.every(p => p.output === p.input.toLowerCase())) {
+      return { name: fn.name, status: "synthesized", code: `${fn.name} x -> x.toLowerCase()`, confidence: 0.95 };
+    }
+
+    // Check for reverse
+    if (pairs.every(p => p.output === p.input.split("").reverse().join(""))) {
+      return { name: fn.name, status: "synthesized", code: `${fn.name} x -> x.split("").reverse().join("")`, confidence: 0.85 };
+    }
+
+    // Check for length
+    if (pairs.every(p => p.output === String(p.input.length))) {
+      return { name: fn.name, status: "synthesized", code: `${fn.name} x -> x.length`, confidence: 0.9 };
+    }
+  }
+
+  return { name: fn.name, status: "unsolved", code: null };
 }
 
 /**
