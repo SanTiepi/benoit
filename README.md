@@ -1,6 +1,6 @@
 <p align="center">
   <h1 align="center">Benoît</h1>
-  <p align="center"><strong>A programming language that understands itself.</strong></p>
+  <p align="center"><strong>A programming language where functions are algebra<br>and modules are messages between machines.</strong></p>
   <p align="center"><em>Pour Benoît Fragnière, qui aimait la science.</em></p>
 </p>
 
@@ -16,50 +16,60 @@
 
 My brother Benoît Fragnière loved science. He passed away too young. I wanted to create something in his name — something that pushes the boundary of what a programming language can be.
 
-Benoît started as a token-efficient transpiler to JavaScript. Then it discovered something unexpected: **a function's behavior contains more information than its source code.**
+Benoît started as a token-efficient transpiler. Then it discovered its own algebraic properties. Then two agents communicated a module without transmitting a single line of source code. Then it optimized its own code using rules nobody wrote.
 
-Mon frère Benoît Fragnière aimait la science. Il est parti trop tôt. J'ai voulu créer quelque chose à son nom — quelque chose qui repousse les limites de ce qu'un langage de programmation peut être.
-
-Benoît a commencé comme un transpileur token-efficient vers JavaScript. Puis il a découvert quelque chose d'inattendu : **le comportement d'une fonction contient plus d'information que son code source.**
+**Mon frère Benoît aimait la science. Ce langage porte son nom.**
 
 ---
 
 ## What Makes Benoît Different
 
-### 1. Code proves itself
-```
-add a,b -> a + b
-add(2, 3) == 5
-add(-1, 1) == 0
-```
-Inline test assertions. No framework. No separate files. The function and its proof live together. **No other language has this.**
-
-### 2. Code discovers its own properties
+### 1. Functions discover their own properties
 ```bash
 $ benoit infer math.ben
 ```
 ```
-add: commutative, associative, identity element 0  [auto-discovered]
-square: even function, non-negative, fixed points {0, 1}
-negate: involution, odd function, monotonically decreasing
+add:     commutative, associative, identity element 0
+square:  even function, non-negative, idempotent
+negate:  involution, odd function
+double ↔ halve:  inverse pair
+negate ≡ flip:   equivalent behavior
 ```
-Benoît probes functions and discovers mathematical properties automatically. **31 properties across 10 functions. Zero human-written tests.**
+No human wrote these rules. Benoît probes functions and discovers mathematical relationships automatically.
 
-### 3. Two agents, zero source code
+### 2. Two agents, zero source code
 ```
-Agent A → writes code → discovers properties → sends fingerprint
-Agent B → receives fingerprint → synthesizes code → verifies properties
-Result: 3/3 functions, 8/8 assertions, 9/9 properties verified.
-No source code was transmitted.
+Agent A → encode module → send properties + assertions
+Agent B → receive → synthesize code → verify
+Result: 98% verification rate. Zero source code transmitted.
 ```
-The full experiment is in `experiments/full_cycle.mjs`. Run it yourself.
 
-### 4. 68% fewer tokens
-| | Benoît | JavaScript | Savings |
-|---|--------|------------|---------|
-| **Tokens** | 196 | 622 | **68%** |
-| **Noise** | 16% | 38% | **58% less** |
-| **Lines** | 15 | 50 | **70%** |
+```bash
+node experiments/protocol_demo.mjs   # See it yourself
+```
+
+### 3. Code optimizes itself
+```
+add(x, 0)           → x              (identity elimination)
+negate(negate(x))    → x              (involution collapse)
+square(negate(x))    → square(x)      (even function absorption)
+double(halve(x))     → x              (inverse elimination)
+add(3, 5)            → 8              (constant folding)
+```
+14 optimizations. Every rule was derived from auto-discovered properties.
+
+### 4. Cross-module algebra
+```
+Module A: negate, double, square
+Module B: flip, halve, abs
+
+Discoveries:
+  negate ≡ flip        (cross-module equivalence)
+  double ↔ halve       (cross-module inverse pair)
+  square∘flip → absorption, even composition
+  14 composition properties across module boundaries
+```
+Neither agent knew about these relationships. They emerged from composing two independent modules.
 
 ---
 
@@ -69,7 +79,7 @@ The full experiment is in `experiments/full_cycle.mjs`. Run it yourself.
 -- Functions: name, args, arrow, body
 add a,b -> a + b
 
--- Pattern matching with guards
+-- Pattern matching
 classify x ->
   match x ->
     | _ when x > 0 => "positive"
@@ -79,10 +89,7 @@ classify x ->
 -- Pipes: data flows left to right
 result: data |> parse |> validate |> save
 
--- String interpolation
-greet name -> "Hello {name}!"
-
--- Conditionals with else
+-- Conditionals
 abs x ->
   x >= 0? -> x
   else? -> 0 - x
@@ -93,7 +100,7 @@ classify(-7) == "negative"
 abs(-5) == 5
 ```
 
-No semicolons. No braces. No `function`. No `return`. Every character carries meaning.
+No semicolons. No braces. No `function`. No `return`. 68% fewer tokens than equivalent JavaScript.
 
 ---
 
@@ -106,16 +113,20 @@ npm install -g benoit
 ## CLI
 
 ```bash
-benoit transpile <file.ben>   # Output JavaScript to stdout
-benoit run <file.ben>         # Transpile and execute
-benoit test <file.ben>        # Run inline assertions
-benoit check <file.ben>       # Transpile + test + stats
-benoit stats <file.ben>       # Token/noise analysis
-benoit watch <file.ben>       # Watch and re-run on change
-benoit repl                   # Interactive REPL
-benoit ast <file.ben>         # Emit structured AST (JSON)
-benoit fingerprint <file.ben> # Extract semantic contract
-benoit efficiency <file.ben>  # Compare representation efficiency
+# Language
+benoit transpile <file.ben>    Transpile to JavaScript
+benoit run <file.ben>          Transpile and execute
+benoit test <file.ben>         Run inline assertions
+benoit check <file.ben>        Transpile + test + stats
+benoit watch <file.ben>        Watch and re-run on change
+benoit repl                    Interactive REPL
+
+# Research
+benoit infer <file.ben>        Discover algebraic properties
+benoit optimize <file.ben>     Self-optimize using discovered rules
+benoit encode <file.ben>       Encode module for AI-to-AI transmission
+benoit exchange <file.ben>     Full encode → decode → verify cycle
+benoit compose <a.ben> <b.ben> Cross-module algebra discovery
 ```
 
 ## Quick Start
@@ -124,49 +135,102 @@ Create `hello.ben`:
 ```
 greet name -> "Hello {name}!"
 greet("World") == "Hello World!"
-greet("Benoît") == "Hello Benoît!"
 ```
 
 ```bash
 benoit check hello.ben
 ```
 
+---
+
 ## The Research
 
 Benoît is both a practical language and a research platform for AI-to-AI communication.
 
-### The Pipeline
+### Architecture
 
 ```
-Source code → AST → Fingerprint → Synthesis → Verification
-     ↑                                              ↓
-     └──────── Property Inference ←─────────────────┘
+Source → AST → Properties → Protocol Message → Synthesis → Verification
+                   ↓              ↓                           ↓
+              Algebra         Composition                 Optimization
+          (equivalence,    (cross-module              (identity, involution,
+           inverses)        discovery)                 absorption, folding)
 ```
 
-- **AST Parser** (`src/ast.mjs`) — structured representation of Benoît programs
-- **Fingerprint** — extract only the behavior (name + assertions), discard implementation
-- **Solver** (`src/solve.mjs`) — synthesize code from behavior alone
-- **Property Inference** (`src/infer.mjs`) — discover mathematical properties automatically
-- **Full Cycle** (`experiments/full_cycle.mjs`) — two agents communicate without source code
+### Core Modules
 
-### Key Experimental Results
+| Module | What it does |
+|--------|-------------|
+| `src/transpile.mjs` | Benoît → JavaScript transpiler |
+| `src/infer.mjs` | Auto-discover algebraic properties |
+| `src/solve.mjs` | Synthesize code from behavior (assertions + properties) |
+| `src/algebra.mjs` | Discover relationships between functions |
+| `src/protocol.mjs` | AI-to-AI encode/decode/exchange protocol |
+| `src/optimize.mjs` | Self-optimization from discovered rules |
+| `src/compose.mjs` | Cross-module composition and algebra |
 
-| Experiment | Result |
-|-----------|--------|
-| Functions synthesized from behavior alone | **8/8** |
-| Properties auto-discovered | **31** across 10 functions |
-| Assertions auto-generated | **65** (zero human-written) |
-| Agent A → Agent B verification | **9/9 properties confirmed** |
+### Key Results
+
+| Metric | Value |
+|--------|-------|
+| Tests passing | **139** |
+| Properties auto-discovered | **31+** across functions |
+| Protocol verification rate | **98%** (88/90) |
 | Source code transmitted between agents | **0 chars** |
+| Composition laws derivable from individual properties | **84%** |
+| Self-optimizations from auto-discovered rules | **14/14** |
+| Cross-module discoveries (2 modules) | **1 equivalence, 2 inverses, 14 compositions** |
+| Conditional synthesis (Collatz step from examples) | **12/12 pairs verified** |
 
-Run the experiments yourself:
+### Experiments
+
 ```bash
-node experiments/full_cycle.mjs       # Two-agent protocol
-node experiments/infer_experiment.mjs  # Property discovery
-node experiments/pipeline.mjs          # Full synthesis pipeline
+node experiments/protocol_demo.mjs          # Full encode→decode→verify
+node experiments/algebra_experiment.mjs      # Function algebra discovery
+node experiments/compression_experiment.mjs  # 84% derivable composition laws
+node experiments/optimize_experiment.mjs     # 14 self-optimizations
+node experiments/compose_experiment.mjs      # Cross-module algebra
+node experiments/conditional_synthesis.mjs   # Discover branching from examples
+node experiments/negotiation_experiment.mjs  # Multi-round agent negotiation
+node experiments/hybrid_protocol.mjs         # Behavioral + code fallback
 ```
 
-## Language Features (v0.4)
+---
+
+## API
+
+```javascript
+import { transpile } from "benoit";
+import { infer } from "benoit/infer";
+import { encode, decode, exchange } from "benoit/protocol";
+import { optimize } from "benoit/optimize";
+import { composeModules } from "benoit/compose";
+import { equivalent, inverse, algebraReport } from "benoit/algebra";
+
+// Transpile
+const js = transpile("add a,b -> a + b");
+
+// Discover properties
+const props = infer("add a,b -> a + b");
+// → commutative, associative, identity element 0
+
+// Encode for transmission (zero source code)
+const message = encode("add a,b -> a + b\nadd(2,3) == 5");
+
+// Full exchange cycle
+const result = exchange(source);
+// → { verificationRate: "88/90", sourceCodeTransmitted: 0 }
+
+// Self-optimize
+const optimized = optimize(source);
+// → add(x, 0) becomes x, negate(negate(x)) becomes x
+
+// Cross-module composition
+const composed = composeModules(moduleA, moduleB);
+// → discovers equivalences, inverses, composition properties
+```
+
+## Language Features (v0.5)
 
 - Inline test assertions (first-class syntax)
 - Pattern matching with guards, ranges, tagged values
@@ -174,68 +238,23 @@ node experiments/pipeline.mjs          # Full synthesis pipeline
 - Async/await
 - Destructuring (array + object)
 - String interpolation `"Hello {name}"`
-- Else/elif conditionals
+- Conditional blocks with else/elif
 - Local module imports `use ./math.add, subtract`
-- Watch mode
-- Interactive REPL
+- Watch mode and interactive REPL
 - Error messages with line numbers
 - [VS Code extension](editor/vscode/) for syntax highlighting
 - Zero npm dependencies
-
-## Full Specification
-
-See [SPEC.md](SPEC.md) for the complete language specification.
-
-See [docs/VISION.md](docs/VISION.md) for the research roadmap.
-
-See [docs/SEMANTIC_PROTOCOL.md](docs/SEMANTIC_PROTOCOL.md) for the AI-to-AI communication protocol design.
-
-## API
-
-```javascript
-import { transpile, extractTests } from "benoit";
-import { parse, fingerprint } from "benoit/ast";
-import { infer } from "benoit/infer";
-import { synthesize, solve } from "benoit/solve";
-
-// Transpile
-const js = transpile("add a,b -> a + b");
-
-// Extract behavior
-const fp = fingerprint(parse("add a,b -> a + b\nadd(2,3) == 5"));
-
-// Discover properties
-const props = infer("add a,b -> a + b");
-// → commutative, associative, identity element 0
-
-// Synthesize from behavior
-const code = synthesize(fp);
-// → "add a,b -> a + b" (reconstructed from assertions alone)
-
-// Solve for unknowns
-solve("add(?, 3) == 5", { add: (a,b) => a+b });
-// → { solutions: [2], unique: true }
-```
 
 ## Contributing
 
 ```bash
 git clone https://github.com/SanTiepi/benoit.git
 cd benoit
-node --test tests/*.test.mjs   # 92 tests, all passing
+npm test   # 139 tests, all passing
 ```
 
-The transpiler is a single file: `src/transpile.mjs`. The whole language fits in your head.
-
----
-
-## A Word / Un mot
-
-**English**
-Benoît is not just a language. It's proof that code can understand itself — discover its own properties, transmit its behavior without its source, and reconstruct itself from examples alone. 7 tokens in, 3 algebraic properties out.
-
-**Français**
-Benoît n'est pas juste un langage. C'est la preuve que le code peut se comprendre lui-même — découvrir ses propres propriétés, transmettre son comportement sans son code source, et se reconstruire à partir d'exemples seuls. 7 tokens en entrée, 3 propriétés algébriques en sortie.
+See [SPEC.md](SPEC.md) for the language specification.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
 ---
 
