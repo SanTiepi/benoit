@@ -12,7 +12,8 @@
     "./protocol": "./src/protocol.mjs",
     "./optimize": "./src/optimize.mjs",
     "./compose": "./src/compose.mjs",
-    "./solve": "./src/solve.mjs"
+    "./solve": "./src/solve.mjs",
+    "./types": "./src/types.mjs"
   },
   "bin": {
     "benoit": "bin/benoit.mjs"

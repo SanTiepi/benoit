@@ -21,6 +21,7 @@ import { infer } from "../src/infer.mjs";
 import { optimize } from "../src/optimize.mjs";
 import { encode, exchange } from "../src/protocol.mjs";
 import { composeModules } from "../src/compose.mjs";
+import { inferTypes } from "../src/types.mjs";
 
 const [,, command, ...files] = process.argv;
 
@@ -45,6 +46,7 @@ if (command === "repl") {
     benoit encode <file.ben>      Encode module for AI-to-AI transmission
     benoit exchange <file.ben>    Full encode → decode → verify cycle
     benoit compose <a.ben> <b.ben> Compose modules, find cross-module algebra
+    benoit types <file.ben>       Discover function type signatures
   `);
   process.exit(0);
 } else if (command === "compose") {
@@ -302,6 +304,18 @@ for (const file of files) {
       console.log(`Source code transmitted: ${result.summary.sourceCodeTransmitted}`);
       console.log(`Verification: ${result.summary.verificationRate}`);
       console.log(`Message size: ${result.messageSize} chars (source: ${result.sourceSize} chars)`);
+      break;
+    }
+
+    case "types": {
+      const results = inferTypes(src);
+      for (const r of results) {
+        if (r.error) { console.log(`  ${r.error}`); continue; }
+        console.log(`${r.signature}`);
+        if (r.constraints.length > 0) {
+          console.log(`  ${r.constraints.join(", ")}`);
+        }
+      }
       break;
     }
 
