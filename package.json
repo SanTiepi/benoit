@@ -9,7 +9,7 @@
     "./tokenizer": "./src/tokenizer.mjs"
   },
   "bin": {
-    "benoit": "./bin/benoit.mjs"
+    "benoit": "bin/benoit.mjs"
   },
   "scripts": {
     "test": "node --test tests/*.test.mjs"
@@ -28,7 +28,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanTiepi/benoit"
+    "url": "git+https://github.com/SanTiepi/benoit.git"
   },
   "engines": {
     "node": ">=18.0.0"

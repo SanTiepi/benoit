@@ -131,7 +131,24 @@ function processLines(lines, start, end, isBlock) {
       continue;
     }
 
-    // 1. use X.Y -> import { Y } from "node:X";
+    // 1a. Local import: use ./path.name1, name2 -> import { name1, name2 } from "./path.mjs";
+    const useLocalMatch = trimmed.match(/^use\s+(\.\/.+?)\.(\w[\w,\s]*)$/);
+    if (useLocalMatch) {
+      const [, modPath, names] = useLocalMatch;
+      const nameList = names.split(/\s*,\s*/).map(n => n.trim()).filter(Boolean).join(", ");
+      output.push(`${indent}import { ${nameList} } from "${modPath}.mjs";`);
+      continue;
+    }
+
+    // 1b. Local wildcard import: use ./path -> import * as path from "./path.mjs";
+    const useLocalWild = trimmed.match(/^use\s+\.\/(\w+)$/);
+    if (useLocalWild) {
+      const [, mod] = useLocalWild;
+      output.push(`${indent}import * as ${mod} from "./${mod}.mjs";`);
+      continue;
+    }
+
+    // 1c. Node builtin: use X.Y -> import { Y } from "node:X";
     const useMatch = trimmed.match(/^use\s+(\w+)\.(\w+)$/);
     if (useMatch) {
       const [, mod, name] = useMatch;

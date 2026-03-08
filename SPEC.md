@@ -191,10 +191,24 @@ msg: "Result: {2 + 2}"
 Double-quoted strings containing `{expr}` are converted to JavaScript template literals. Plain strings without braces remain unchanged.
 
 ### Imports
+
+**Node builtins:**
 ```
 use crypto.randomUUID
 ```
 → `import { randomUUID } from "node:crypto";`
+
+**Local named imports:**
+```
+use ./math.add, subtract
+```
+→ `import { add, subtract } from "./math.mjs";`
+
+**Local wildcard imports:**
+```
+use ./utils
+```
+→ `import * as utils from "./utils.mjs";`
 
 ### Inline Test Assertions
 ```
