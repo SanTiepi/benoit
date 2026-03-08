@@ -206,6 +206,12 @@ function tryHypotheses(name, arity, pairs, properties = []) {
     }
   }
 
+  // If no direct hypothesis found, try conditional synthesis (for arity 1)
+  if (hypotheses.length === 0 && arity === 1) {
+    const condResult = tryConditionalSynthesis(name, pairs);
+    if (condResult) hypotheses.push(condResult);
+  }
+
   if (hypotheses.length === 0) {
     return { name, status: "unsolved", code: null, pairs };
   }
@@ -242,6 +248,9 @@ function tryHypotheses(name, arity, pairs, properties = []) {
     } else {
       code = `${name} n ->\n  ${formula}`;
     }
+  } else if (best.conditional) {
+    // Conditional: block form with if/else
+    code = `${name} ${params} ->\n  ${formula}`;
   } else {
     code = `${name} ${params} -> ${formula}`;
   }
@@ -253,6 +262,58 @@ function tryHypotheses(name, arity, pairs, properties = []) {
     confidence: best.confidence,
     alternatives: hypotheses.length > 1 ? hypotheses.slice(1).map(h => h.formula) : []
   };
+}
+
+/**
+ * Try to synthesize a conditional function: condition? → branch1, else? → branch2
+ */
+function tryConditionalSynthesis(name, pairs) {
+  const CONDITIONS = [
+    { name: "x % 2 == 0", test: x => x % 2 === 0, ben: "x % 2 == 0" },
+    { name: "x > 0", test: x => x > 0, ben: "x > 0" },
+    { name: "x < 0", test: x => x < 0, ben: "x < 0" },
+    { name: "x >= 0", test: x => x >= 0, ben: "x >= 0" },
+  ];
+
+  const points = pairs.map(p => ({ x: p.args[0], y: p.output }));
+
+  for (const cond of CONDITIONS) {
+    const trueBranch = points.filter(p => cond.test(p.x));
+    const falseBranch = points.filter(p => !cond.test(p.x));
+    if (trueBranch.length < 2 || falseBranch.length < 2) continue;
+
+    const trueFit = fitBranchLinear(trueBranch) || fitBranchDivision(trueBranch);
+    const falseFit = fitBranchLinear(falseBranch) || fitBranchDivision(falseBranch);
+
+    if (trueFit && falseFit) {
+      return {
+        formula: `${cond.ben}? -> ${trueFit}\n  else? -> ${falseFit}`,
+        confidence: 0.85,
+        conditional: true
+      };
+    }
+  }
+  return null;
+}
+
+function fitBranchLinear(points) {
+  if (points.length < 2) return null;
+  const [p1, p2] = points;
+  if (p1.x === p2.x) return null;
+  const a = (p2.y - p1.y) / (p2.x - p1.x);
+  const b = p1.y - a * p1.x;
+  if (!points.every(p => Math.abs(a * p.x + b - p.y) < 0.001)) return null;
+  if (Math.abs(a) < 0.001 && Math.abs(b) < 0.001) return "0";
+  if (Math.abs(a) < 0.001) return `${b}`;
+  if (Math.abs(b) < 0.001) return a === 1 ? "x" : `${a} * x`;
+  return `${a} * x + ${b}`;
+}
+
+function fitBranchDivision(points) {
+  for (const k of [2, 3, 4, 5, 10]) {
+    if (points.every(p => Math.abs(p.x / k - p.y) < 0.001)) return `x / ${k}`;
+  }
+  return null;
 }
 
 /**
