@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benoît — A programming language for the AI era</title>
+<meta name="description" content="Benoît transpiles to JavaScript with 68% fewer tokens. Inline test assertions, pattern matching, pipe operator. Built for human-AI collaboration.">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0d1117;color:#c9d1d9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.6}
+  a{color:#58a6ff;text-decoration:none}
+  a:hover{text-decoration:underline}
+  .container{max-width:900px;margin:0 auto;padding:0 24px}
+  .hero{text-align:center;padding:80px 0 60px}
+  .hero h1{font-size:4rem;font-weight:700;color:#f0f6fc;letter-spacing:-0.02em}
+  .hero .tagline{font-size:1.4rem;color:#58a6ff;margin:12px 0 8px}
+  .hero .subtitle{font-size:1.1rem;color:#8b949e;max-width:600px;margin:0 auto}
+  .install{text-align:center;margin:40px 0}
+  .install code{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px 28px;font-size:1.1rem;font-family:'SF Mono',Consolas,'Liberation Mono',Menlo,monospace;color:#58a6ff;display:inline-block}
+  .code-section{margin:60px 0}
+  .code-section h2{font-size:1.6rem;color:#f0f6fc;margin-bottom:20px;text-align:center}
+  .code-block{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px 28px;overflow-x:auto}
+  .code-block pre{font-family:'SF Mono',Consolas,'Liberation Mono',Menlo,monospace;font-size:0.95rem;line-height:1.7;color:#c9d1d9}
+  .comment{color:#8b949e}
+  .keyword{color:#ff7b72}
+  .fn-name{color:#d2a8ff}
+  .number{color:#79c0ff}
+  .operator{color:#ff7b72}
+  .assertion{color:#3fb950}
+  .features{margin:60px 0}
+  .features h2{font-size:1.6rem;color:#f0f6fc;margin-bottom:28px;text-align:center}
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+  .feature{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:24px}
+  .feature h3{color:#f0f6fc;font-size:1.1rem;margin-bottom:8px}
+  .feature p{color:#8b949e;font-size:0.95rem}
+  .tribute{text-align:center;margin:60px 0;padding:40px 0;border-top:1px solid #21262d;border-bottom:1px solid #21262d}
+  .tribute p{color:#8b949e;font-style:italic;font-size:1.05rem}
+  .links{text-align:center;margin:50px 0}
+  .links a{display:inline-block;margin:0 12px;padding:12px 28px;border-radius:8px;font-weight:600;font-size:1rem}
+  .links .primary{background:#238636;color:#fff;border:1px solid #2ea043}
+  .links .primary:hover{background:#2ea043;text-decoration:none}
+  .links .secondary{background:#21262d;color:#c9d1d9;border:1px solid #30363d}
+  .links .secondary:hover{background:#30363d;text-decoration:none}
+  footer{text-align:center;padding:40px 0;color:#484f58;font-size:0.9rem}
+  footer a{color:#484f58}
+  @media(max-width:600px){
+    .hero h1{font-size:2.5rem}
+    .hero .tagline{font-size:1.1rem}
+    .features-grid{grid-template-columns:1fr}
+    .links a{display:block;margin:8px 0}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <section class="hero">
+    <h1>Beno&icirc;t</h1>
+    <p class="tagline">A programming language for the AI era</p>
+    <p class="subtitle">68% fewer tokens. Inline test assertions. Transpiles to JavaScript.</p>
+  </section>
+  <section class="install">
+    <code>npm install benoit</code>
+  </section>
+  <section class="code-section">
+    <h2>Write less. Test inline. Ship faster.</h2>
+    <div class="code-block"><pre><span class="fn-name">fibonacci</span> n <span class="operator">-&gt;</span>
+  <span class="keyword">match</span> n <span class="operator">-&gt;</span>
+    <span class="operator">|</span> <span class="number">0</span> <span class="operator">=&gt;</span> <span class="number">0</span>
+    <span class="operator">|</span> <span class="number">1</span> <span class="operator">=&gt;</span> <span class="number">1</span>
+    <span class="operator">|</span> _ <span class="operator">=&gt;</span> fibonacci(n<span class="number">-1</span>) + fibonacci(n<span class="number">-2</span>)
+
+<span class="comment">-- Inline test assertions</span>
+<span class="assertion">fibonacci(0) == 0</span>
+<span class="assertion">fibonacci(10) == 55</span></pre></div>
+  </section>
+  <section class="features">
+    <h2>Features</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <h3>Inline Test Assertions</h3>
+        <p>Tests live next to the function as first-class syntax. No framework. No separate files. Stripped in production, executed in test mode.</p>
+      </div>
+      <div class="feature">
+        <h3>Pattern Matching</h3>
+        <p>Match expressions with guards, ranges, tagged values, and wildcards. Clean and expressive control flow.</p>
+      </div>
+      <div class="feature">
+        <h3>Pipe Operator</h3>
+        <p>Chain transformations: data |&gt; parse |&gt; validate |&gt; save. Top to bottom. No nesting.</p>
+      </div>
+      <div class="feature">
+        <h3>68% Token Reduction</h3>
+        <p>Same logic, far fewer tokens. Your AI sees more code, reasons better, and costs less per API call.</p>
+      </div>
+      <div class="feature">
+        <h3>Zero Dependencies</h3>
+        <p>The entire transpiler is a single file with no npm dependencies. Install it and it just works.</p>
+      </div>
+      <div class="feature">
+        <h3>~500 Lines</h3>
+        <p>Small enough to read in an afternoon. Small enough for an AI to hold entirely in context. Hackable by design.</p>
+      </div>
+    </div>
+  </section>
+  <section class="tribute">
+    <p>Named after Beno&icirc;t Fragni&egrave;re, who loved science.</p>
+  </section>
+  <section class="links">
+    <a href="https://github.com/SanTiepi/benoit" class="primary">GitHub</a>
+    <a href="https://www.npmjs.com/package/benoit" class="secondary">npm</a>
+    <a href="https://github.com/SanTiepi/benoit/blob/main/SPEC.md" class="secondary">Spec</a>
+  </section>
+</div>
+<footer>
+  <p>MIT License &middot; Created by <a href="https://github.com/SanTiepi">Robin Fragni&egrave;re</a></p>
+</footer>
+</body>
+</html>
