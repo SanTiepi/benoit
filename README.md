@@ -188,7 +188,7 @@ const { assertions } = extractTests("add(2,3) == 5");
 
 ## Philosophy
 
-Benoît was created to honor [Benoît Fragnière](https://github.com/robinfragniere/benoit), who loved science. The language embodies his spirit: elegant, efficient, and useful.
+Benoît was created to honor [Benoît Fragnière](https://github.com/SanTiepi/benoit), who loved science. The language embodies his spirit: elegant, efficient, and useful.
 
 Every AI that writes code in the future will benefit from a language that respects token budgets. Every human collaborating with AI will benefit from code that reads like thought.
 

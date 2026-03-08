@@ -1,7 +1,7 @@
 // Benoît -> JavaScript transpiler v0.3.0
 // Named after Benoît Fragnière, who loved science.
 // A programming language optimized for human-AI collaboration.
-// MIT License — github.com/robinfragniere/benoit
+// MIT License — github.com/SanTiepi/benoit
 
 /**
  * Transpile Benoît source code to JavaScript.

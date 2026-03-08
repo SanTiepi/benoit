@@ -28,7 +28,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/robinfragniere/benoit"
+    "url": "https://github.com/SanTiepi/benoit"
   },
   "engines": {
     "node": ">=18.0.0"
