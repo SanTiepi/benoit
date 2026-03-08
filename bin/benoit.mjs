@@ -22,6 +22,7 @@ import { optimize } from "../src/optimize.mjs";
 import { encode, exchange } from "../src/protocol.mjs";
 import { composeModules } from "../src/compose.mjs";
 import { inferTypes } from "../src/types.mjs";
+import { encodeIntent, resolveIntent, executeIntent } from "../src/intent.mjs";
 
 const [,, command, ...files] = process.argv;
 
@@ -29,7 +30,7 @@ if (command === "repl") {
   startRepl();
 } else if (!command || !files.length) {
   console.log(`
-  Benoît v0.5.0 — A programming language for human-AI collaboration
+  Benoît v0.6.0 — A programming language for human-AI collaboration
   En mémoire de Benoît Fragnière
 
   Usage:
@@ -47,6 +48,7 @@ if (command === "repl") {
     benoit exchange <file.ben>    Full encode → decode → verify cycle
     benoit compose <a.ben> <b.ben> Compose modules, find cross-module algebra
     benoit types <file.ben>       Discover function type signatures
+    benoit intent <file.json>     Resolve behavioral intent from examples
   `);
   process.exit(0);
 } else if (command === "compose") {
@@ -304,6 +306,21 @@ for (const file of files) {
       console.log(`Source code transmitted: ${result.summary.sourceCodeTransmitted}`);
       console.log(`Verification: ${result.summary.verificationRate}`);
       console.log(`Message size: ${result.messageSize} chars (source: ${result.sourceSize} chars)`);
+      break;
+    }
+
+    case "intent": {
+      const intent = JSON.parse(src);
+      const resolved = resolveIntent(intent);
+      if (resolved.meta.status === "resolved") {
+        console.log(`Resolved: ${resolved.meta.formula}`);
+        console.log(`Confidence: ${resolved.meta.confidence}`);
+        if (resolved.properties.length > 0) {
+          console.log(`Properties: ${resolved.properties.join(", ")}`);
+        }
+      } else {
+        console.log("Could not resolve intent from given examples.");
+      }
       break;
     }
 
