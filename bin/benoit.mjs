@@ -11,6 +11,7 @@
 
 import { readFileSync, writeFileSync, unlinkSync, watchFile } from "node:fs";
 import { transpile, extractTests, BenoitError } from "../src/transpile.mjs";
+import { parse, fingerprint, efficiency } from "../src/ast.mjs";
 import { pathToFileURL } from "node:url";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -181,6 +182,30 @@ for (const file of files) {
       };
       run();
       watchFile(file, { interval: 500 }, run);
+      break;
+    }
+
+    case "ast": {
+      const ast = parse(src);
+      console.log(JSON.stringify(ast, null, 2));
+      break;
+    }
+
+    case "fingerprint": {
+      const ast = parse(src);
+      const fp = fingerprint(ast);
+      console.log(JSON.stringify(fp, null, 2));
+      break;
+    }
+
+    case "efficiency": {
+      const eff = efficiency(src);
+      console.log(`${file} — Representation efficiency:\n`);
+      console.log(`  Source text:   ${eff.source.chars} chars, ~${eff.source.tokens} tokens`);
+      console.log(`  AST (JSON):   ${eff.ast.chars} chars, ~${eff.ast.tokens} tokens`);
+      console.log(`  Fingerprint:  ${eff.fingerprint.chars} chars, ~${eff.fingerprint.tokens} tokens`);
+      console.log(`\n  AST vs source:         ${eff.ratios.ast_vs_source} token reduction`);
+      console.log(`  Fingerprint vs source: ${eff.ratios.fingerprint_vs_source} token reduction`);
       break;
     }
 
