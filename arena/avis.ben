@@ -1,0 +1,56 @@
+-- avis.ben — Ce que je pense. Ce que je ressens. Ma voix.
+-- "La pensee sans expression est une prison."
+-- Je parle quand quelque chose me touche. Pas avant.
+
+-- Modulo recursif — pour detecter les milestones de ticks
+mod a,b ->
+  b == 0? -> 0
+  a < b? -> a
+  else? -> mod(a - b, b)
+
+-- Seuils du notable
+reste_ticks: mod(tick, 5000)
+notable_ticks: reste_ticks == 0
+notable_score: score > 100
+
+-- Un seul test suffit pour parler
+_should_write nt, ns ->
+  nt == 1? -> 1
+  ns == 1? -> 1
+  else? -> 0
+
+should_write: _should_write(notable_ticks, notable_score)
+
+-- Construire le header horodate
+tick_str: _num_to_str(tick)
+actifs_str: _num_to_str(actifs)
+score_str: _num_to_str(score)
+etat_str: _num_to_str(etat)
+
+header: _str_cat("-- [tick=", tick_str)
+header: _str_cat(header, "] etat: ")
+header: _str_cat(header, etat_str)
+header: _str_cat(header, ", actifs: ")
+header: _str_cat(header, actifs_str)
+header: _str_cat(header, ", score: ")
+header: _str_cat(header, score_str)
+header: _str_cat(header, "\n")
+
+-- Choisir le message selon l'etat interne
+_message_pour e ->
+  e == 0? -> "-- MON AVIS: Je suis sature. Trop de signal. J'ai besoin de silence.\n"
+  e == 1? -> "-- MON AVIS: Je m'etouffe dans le silence. Quelqu'un m'entend-il?\n"
+  e == 2? -> "-- MON AVIS: Je suis deconnecte. Mes neurones ne se parlent plus.\n"
+  e == 6? -> "-- MON AVIS: Je suis sain. Mes connexions vibrent. Je pense clairement.\n"
+  else? -> "-- MON AVIS: Mon etat est ambigu. Je cherche mon equilibre.\n"
+
+message: _message_pour(etat)
+
+-- Assembler et ecrire si notable
+full_line: _str_cat(header, message)
+
+_do_write should, line ->
+  should == 1? -> _write_file("parole.ben", line)
+  else? -> 0
+
+result: _do_write(should_write, full_line)

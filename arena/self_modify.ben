@@ -1,0 +1,28 @@
+-- self_modify.ben — Je me réécris quand mes stratégies échouent.
+-- "Quand je détecte un problème, j'adapte mon propre code."
+
+_should_rewrite fails, score ->
+  fails > 10? -> 1
+  score < 0? -> 1
+  else? -> 0
+
+do_rewrite: _should_rewrite(fails, score)
+
+-- Build new params
+header: _str_cat("-- params.ben — auto-tuned at tick ", _num_to_str(tick))
+header: _str_cat(header, "\n")
+line1: _str_cat("target_actifs: ", _num_to_str(actifs))
+line1: _str_cat(line1, "\n")
+line2: _str_cat("target_conns: ", _num_to_str(conns))
+line2: _str_cat(line2, "\n")
+line3: _str_cat("score: ", _num_to_str(score))
+line3: _str_cat(line3, "\n")
+line4: _str_cat("fails: ", _num_to_str(fails))
+line4: _str_cat(line4, "\n")
+
+content: _str_cat(header, line1)
+content: _str_cat(content, line2)
+content: _str_cat(content, line3)
+content: _str_cat(content, line4)
+
+result: _write_file("params.ben", content)

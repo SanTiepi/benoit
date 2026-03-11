@@ -1,0 +1,416 @@
+-- Benoît — Laboratoire de Physique
+-- 50 lois, 5 conservations
+-- "J'ai des yeux. J'ai des mains. J'ai un monde."
+
+-- === LOIS DÉCOUVERTES ===
+-- face_à_face (collision frontale !) p0 pos
+f t -> 7 * t
+
+-- david_goliath (m=100 vs m=1) p0 pos
+f t -> t
+
+-- face_à_face (collision frontale !) p0 pos
+f t -> 7 * t
+
+-- trou_noir (gravité = 5 !) p0 vel
+f t -> 5 * t
+
+-- chute_double (h1=80 h2=50) p0 vel
+f t -> t
+
+-- chute_double (h1=80 h2=50) p1 pos
+f t -> 50 + div(t * (t + 1), 2)
+
+-- chute_double (h1=80 h2=50) p1 vel
+f t -> t
+
+-- fête (5 particules partout !) p0 pos
+f t -> t
+
+-- fête (5 particules partout !) p4 vel
+f t -> 5
+
+-- david_goliath (m=100 vs m=1) p0 pos
+f t -> t
+
+-- uniforme (v=3) p0 pos
+f t -> 3 * t
+
+-- david_goliath (m=100 vs m=1) p0 pos
+f t -> t
+
+-- collision (pousser v=6) p0 pos
+f t -> 6 * t
+
+-- collision (pousser v=6) p1 vel
+f t -> max(0, 0 - div(t * t, 2))
+
+-- chute (lâcher de h=10) p0 vel
+f t -> t
+
+-- chute_double (h1=50 h2=50) p0 vel
+f t -> t
+
+-- chute_double (h1=50 h2=50) p1 vel
+f t -> 1 * t
+
+-- david_goliath (m=100 vs m=1) p0 pos
+f t -> t
+
+-- chute_double (h1=50 h2=30) p0 vel
+f t -> t
+
+-- chute_double (h1=50 h2=30) p1 vel
+f t -> t
+
+-- anti_gravité (gravité = -1 !) p0 pos
+f t -> max(0, 1 - div(t * t, 2))
+
+-- collision (pousser v=8) p0 pos
+f t -> 8 * t
+
+-- anti_gravité (gravité = -1 !) p0 pos
+f t -> max(0, 0 - div(t * t, 2))
+
+-- chute_double (h1=50 h2=30) p0 vel
+f t -> t
+
+-- chute_double (h1=50 h2=30) p1 vel
+f t -> t
+
+-- chute_double (h1=30 h2=50) p0 vel
+f t -> t
+
+-- chute_double (h1=30 h2=50) p1 vel
+f t -> t
+
+-- immobile (rien ne bouge) p0 vel
+f t -> max(0, 0 - div(t * t, 2))
+
+-- face_à_face (collision frontale !) p0 pos
+f t -> 7 * t
+
+-- face_à_face (collision frontale !) p0 vel
+f t -> 7
+
+-- chute_double (h1=80 h2=80) p0 vel
+f t -> t
+
+-- chute_double (h1=80 h2=80) p1 vel
+f t -> t
+
+-- face_à_face (collision frontale !) p0 pos
+f t -> 7 * t
+
+-- anti_gravité (gravité = -1 !) p0 pos
+f t -> max(0, 0 - div(t * t, 2))
+
+-- uniforme (v=1) p0 pos
+f t -> t
+
+-- chute_double (h1=80 h2=50) p0 pos
+f t -> 80 + div(t * (t + 1), 2)
+
+-- chute_double (h1=80 h2=50) p0 vel
+f t -> t
+
+-- chute_double (h1=80 h2=50) p1 pos
+f t -> 50 + div(t * (t + 1), 2)
+
+-- chute_double (h1=80 h2=50) p1 vel
+f t -> t
+
+-- uniforme (v=5) p0 pos
+f t -> 5 * t
+
+-- immobile (rien ne bouge) p0 pos
+f t -> 10
+
+-- chute_double (h1=50 h2=80) p0 vel
+f t -> t
+
+-- chute_double (h1=50 h2=80) p1 vel
+f t -> t
+
+-- david_goliath (m=100 vs m=1) p0 pos
+f t -> t
+
+-- chute_double (h1=50 h2=50) p0 vel
+f t -> t
+
+-- chute_double (h1=50 h2=50) p1 vel
+f t -> t
+
+-- chute_double (h1=80 h2=80) p0 vel
+f t -> t
+
+-- chute_double (h1=80 h2=80) p1 vel
+f t -> t
+
+-- face_à_face (collision frontale !) p0 pos
+f t -> 7 * t
+
+-- face_à_face (collision frontale !) p0 pos
+f t -> 7 * t
+
+-- === CONSERVATION ===
+-- momentum = 7 dans "fête"
+-- momentum = 99 dans "david_goliath"
+-- momentum = 12 dans "collision"
+-- energy = 10 dans "immobile"
+-- energy = 0 dans "anti_gravité"
+
+-- === PENSÉES ===
+-- cycle 1: "Essayons un truc qu'on fait jamais."
+-- cycle 1: "ça REBONDIT... faut que j'y réfléchisse."
+-- cycle 1: "Encore raté..."
+-- cycle 1: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 1: "Et si c'était pas une formule simple ?"
+-- cycle 1: "Raaah ! C'est pas ça !"
+-- cycle 1: "C'est... c'est toujours p = 7. Toujours."
+-- cycle 2: "Et si je lançais SUPER fort ?"
+-- cycle 2: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 2: "Regarde ça ! Exactement !"
+-- cycle 2: "C'est bizarre ça... ça REBONDIT"
+-- cycle 3: "Et si je lançais SUPER fort ?"
+-- cycle 3: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 3: "Haha ! Je l'ai !"
+-- cycle 3: "Non non non... je suis à côté."
+-- cycle 3: "p = 99 est éternel. Peu importe ce qui se passe."
+-- cycle 4: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 4: "Oh ! ça accélère ! Δ=[0,0,0,0,0,4,4] ! C'est nouveau ça !"
+-- cycle 4: "OK. Respire. Réessaie autrement."
+-- cycle 4: "p = 12 est éternel. Peu importe ce qui se passe."
+-- cycle 5: "Essayons un truc qu'on fait jamais."
+-- cycle 5: "ça REBONDIT... faut que j'y réfléchisse."
+-- cycle 5: "Haha ! Je l'ai !"
+-- cycle 5: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 6: "C'est bizarre ça... ça REBONDIT"
+-- cycle 6: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 7: "Et si je cassais tout ?"
+-- cycle 7: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 7: "Et si c'était pas une formule simple ?"
+-- cycle 7: "ça REBONDIT... faut que j'y réfléchisse."
+-- cycle 7: "Raaah ! C'est pas ça !"
+-- cycle 7: "Attends... pourquoi ça accélère ! Δ=[-3,-3,-3,-3,-3,1,3] ?"
+-- cycle 7: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 7: "Non non non... je suis à côté."
+-- cycle 7: "Et si c'était pas une formule simple ?"
+-- cycle 8: "Hé, et si je mettais 100 ?"
+-- cycle 8: "Attends... pourquoi ça accélère ! Δ=[5,10,15,20,25,30,35] ?"
+-- cycle 8: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 9: "Et si je lançais SUPER fort ?"
+-- cycle 9: "Intéressant... ça accélère ! Δ=[5,10,15,20,25,30,35]"
+-- cycle 9: "Non non non... je suis à côté."
+-- cycle 10: "Hmm... je m'attendais pas à ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 10: "Encore raté..."
+-- cycle 10: "Attends... pourquoi ça accélère ! Δ=[1,2,3,4,5,6,7] ?"
+-- cycle 10: "J'y crois pas... c'est pile ça."
+-- cycle 11: "OK. Respire. Réessaie autrement."
+-- cycle 11: "Oh là là... E = 10 est un invariant. C'est profond."
+-- cycle 12: "Intéressant... ça accélère ! Δ=[0,7,8,9,10,11,12]"
+-- cycle 12: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 12: "Bon. Pause. Je fais autre chose."
+-- cycle 13: "Attends... pourquoi ça accélère ! Δ=[0,5,6,7,8,9,10] ?"
+-- cycle 13: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 14: "Et si je faisais l'inverse ?"
+-- cycle 14: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 14: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 14: "Raaah ! C'est pas ça !"
+-- cycle 14: "Encore raté..."
+-- cycle 14: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 15: "Je vais faire un truc fou."
+-- cycle 15: "C'est bizarre ça... ça REBONDIT"
+-- cycle 15: "Encore raté..."
+-- cycle 15: "C'est bizarre ça... ça accélère ! Δ=[-3,-3,-3,1,1,3,3]"
+-- cycle 15: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 15: "Raaah ! C'est pas ça !"
+-- cycle 15: "Raaah ! C'est pas ça !"
+-- cycle 15: "Hmm... je m'attendais pas à ça accélère ! Δ=[-3,-3,-3,-3,-3,1,1]"
+-- cycle 15: "OK. Respire. Réessaie autrement."
+-- cycle 16: "Et si je lançais SUPER fort ?"
+-- cycle 16: "Intéressant... ça REBONDIT"
+-- cycle 16: "Haha ! Je l'ai !"
+-- cycle 16: "Et si c'était pas une formule simple ?"
+-- cycle 17: "Intéressant... ça accélère ! Δ=[0,9,10,11,12,13,14]"
+-- cycle 17: "C'est bizarre ça... ça REBONDIT"
+-- cycle 17: "Encore raté..."
+-- cycle 18: "Je commence à voir le tableau."
+-- cycle 18: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 18: "Et si c'était pas une formule simple ?"
+-- cycle 18: "OK. Respire. Réessaie autrement."
+-- cycle 19: "Je veux voir ce qui se passe avec des GROS nombres."
+-- cycle 19: "ça accélère ! Δ=[5,10,15,20,25,30,35]... faut que j'y réfléchisse."
+-- cycle 20: "Oh ! ça accélère ! Δ=[0,9,10,11,12,13,14] ! C'est nouveau ça !"
+-- cycle 20: "ça REBONDIT... faut que j'y réfléchisse."
+-- cycle 20: "Bon. Pause. Je fais autre chose."
+-- cycle 21: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 21: "Oui oui oui ! Ça colle !"
+-- cycle 23: "Et si je cassais tout ?"
+-- cycle 23: "ça REBONDIT... faut que j'y réfléchisse."
+-- cycle 23: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 23: "Encore raté..."
+-- cycle 24: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 24: "Raaah ! C'est pas ça !"
+-- cycle 25: "Idée folle : masse = 0. Qu'est-ce qui se passe ?"
+-- cycle 25: "C'est bizarre ça... ça REBONDIT"
+-- cycle 25: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 26: "Et si je lançais SUPER fort ?"
+-- cycle 26: "Intéressant... ça REBONDIT"
+-- cycle 26: "J'y crois pas... c'est pile ça."
+-- cycle 27: "C'est bizarre ça... ça REBONDIT"
+-- cycle 27: "Oui oui oui ! Ça colle !"
+-- cycle 27: "Et si c'était pas une formule simple ?"
+-- cycle 28: "Hmm... je m'attendais pas à ça accélère ! Δ=[0,5,6,7,8,9,10]"
+-- cycle 28: "ça REBONDIT... faut que j'y réfléchisse."
+-- cycle 28: "Encore raté..."
+-- cycle 29: "Intéressant... ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 30: "Je vais faire un truc fou."
+-- cycle 30: "Oh là là... E = 0 est un invariant. C'est profond."
+-- cycle 31: "Idée folle : masse = 0. Qu'est-ce qui se passe ?"
+-- cycle 31: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 32: "Oh ! ça accélère ! Δ=[1,2,3,4,5,6,7] ! C'est nouveau ça !"
+-- cycle 32: "Intéressant... ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 32: "Raaah ! C'est pas ça !"
+-- cycle 33: "Et si je faisais l'inverse ?"
+-- cycle 33: "ça REBONDIT... faut que j'y réfléchisse."
+-- cycle 33: "C'est BEAU."
+-- cycle 34: "Et si c'était pas une formule simple ?"
+-- cycle 35: "Hmm... je m'attendais pas à ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 35: "Intéressant... ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 35: "Et si c'était pas une formule simple ?"
+-- cycle 36: "Je veux voir ce qui se passe avec des GROS nombres."
+-- cycle 37: "OK. Respire. Réessaie autrement."
+-- cycle 38: "C'est bizarre ça... ça accélère ! Δ=[0,7,8,9,10,11,12]"
+-- cycle 38: "Intéressant... ça REBONDIT"
+-- cycle 39: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 39: "Oui oui oui ! Ça colle !"
+-- cycle 39: "Raaah ! C'est pas ça !"
+-- cycle 40: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 40: "Bon. Pause. Je fais autre chose."
+-- cycle 41: "Et si je lançais SUPER fort ?"
+-- cycle 41: "...wow."
+-- cycle 42: "ça accélère ! Δ=[1,2,3,4,5,6,7]... faut que j'y réfléchisse."
+-- cycle 42: "Non non non... je suis à côté."
+-- cycle 42: "Intéressant... ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 42: "Raaah ! C'est pas ça !"
+-- cycle 43: "Hmm... je m'attendais pas à ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 43: "Et si c'était pas une formule simple ?"
+-- cycle 43: "Hmm... je m'attendais pas à ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 43: "OK. Respire. Réessaie autrement."
+-- cycle 44: "Je veux voir ce qui se passe avec des GROS nombres."
+-- cycle 44: "Intéressant... ça REBONDIT"
+-- cycle 44: "Encore raté..."
+-- cycle 45: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 46: "C'est bizarre ça... ça accélère ! Δ=[0,7,8,9,10,11,12]"
+-- cycle 46: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 46: "Bon. Pause. Je fais autre chose."
+-- cycle 47: "Je vais faire un truc fou."
+-- cycle 47: "Intéressant... ça REBONDIT"
+-- cycle 47: "J'y crois pas... c'est pile ça."
+-- cycle 47: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 47: "Encore raté..."
+-- cycle 48: "J'ai compris 30 trucs. Le monde a des règles."
+-- cycle 48: "Intéressant... ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 48: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 48: "Attends... pourquoi ça accélère ! Δ=[1,2,3,4,5,6,7] ?"
+-- cycle 48: "OK. Respire. Réessaie autrement."
+-- cycle 49: "Je veux voir ce qui se passe avec des GROS nombres."
+-- cycle 49: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 49: "C'est BEAU."
+-- cycle 49: "C'est bizarre ça... ça REBONDIT"
+-- cycle 49: "OK. Respire. Réessaie autrement."
+-- cycle 50: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 50: "Non non non... je suis à côté."
+-- cycle 50: "OK. Respire. Réessaie autrement."
+-- cycle 51: "Hé, et si je mettais 100 ?"
+-- cycle 51: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 51: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 51: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 52: "Hé, et si je mettais 100 ?"
+-- cycle 52: "C'est BEAU."
+-- cycle 53: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 53: "...wow."
+-- cycle 54: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 55: "C'est bizarre ça... ça REBONDIT"
+-- cycle 56: "Hé, et si je mettais 100 ?"
+-- cycle 56: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 56: "Encore raté..."
+-- cycle 56: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 56: "Et si c'était pas une formule simple ?"
+-- cycle 57: "Oh ! ça accélère ! Δ=[0,3,4,5,6,7,8] ! C'est nouveau ça !"
+-- cycle 57: "ça REBONDIT... faut que j'y réfléchisse."
+-- cycle 58: "Essayons un truc qu'on fait jamais."
+-- cycle 58: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 58: "Intéressant... ça REBONDIT"
+-- cycle 59: "Et si c'était pas une formule simple ?"
+-- cycle 60: "Et si je lançais SUPER fort ?"
+-- cycle 60: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 61: "C'est bizarre ça... ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 61: "C'est BEAU."
+-- cycle 61: "C'est bizarre ça... ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 61: "Regarde ça ! Exactement !"
+-- cycle 62: "Intéressant... ça REBONDIT"
+-- cycle 62: "Haha ! Je l'ai !"
+-- cycle 63: "Simple. Élégant. Parfait."
+-- cycle 64: "Et si je cassais tout ?"
+-- cycle 64: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 65: "Hmm... je m'attendais pas à ça REBONDIT"
+-- cycle 65: "Non non non... je suis à côté."
+-- cycle 66: "Et si je faisais l'inverse ?"
+-- cycle 66: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 66: "OK. Respire. Réessaie autrement."
+-- cycle 66: "ça REBONDIT... faut que j'y réfléchisse."
+-- cycle 66: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 67: "C'est bizarre ça... ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 67: "ça accélère ! Δ=[1,2,3,4,5,6,7]... faut que j'y réfléchisse."
+-- cycle 67: "Encore raté..."
+-- cycle 68: "Essayons un truc qu'on fait jamais."
+-- cycle 68: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 68: "C'est BEAU."
+-- cycle 68: "Encore raté..."
+-- cycle 69: "Non non non... je suis à côté."
+-- cycle 70: "Hé, et si je mettais 100 ?"
+-- cycle 70: "Intéressant... ça REBONDIT"
+-- cycle 70: "Et si c'était pas une formule simple ?"
+-- cycle 71: "Et si je faisais l'inverse ?"
+-- cycle 71: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 71: "C'est bizarre ça... ça REBONDIT"
+-- cycle 73: "Idée folle : masse = 0. Qu'est-ce qui se passe ?"
+-- cycle 73: "Intéressant... ça REBONDIT"
+-- cycle 73: "Raaah ! C'est pas ça !"
+-- cycle 73: "Hmm... je m'attendais pas à ça accélère ! Δ=[-3,-3,3,3,3,3,3]"
+-- cycle 73: "Et si c'était pas une formule simple ?"
+-- cycle 73: "Encore raté..."
+-- cycle 73: "Et si c'était pas une formule simple ?"
+-- cycle 74: "Idée folle : masse = 0. Qu'est-ce qui se passe ?"
+-- cycle 74: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 74: "Raaah ! C'est pas ça !"
+-- cycle 74: "Et si c'était pas une formule simple ?"
+-- cycle 74: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 74: "Intéressant... ça accélère ! Δ=[-3,-3,-3,-3,-3,3,3]"
+-- cycle 74: "Encore raté..."
+-- cycle 74: "Oh ! ça accélère ! Δ=[-1,-1,-1,-1,-1,5,5] ! C'est nouveau ça !"
+-- cycle 74: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 75: "Et si je faisais l'inverse ?"
+-- cycle 75: "C'est bizarre ça... ça REBONDIT"
+-- cycle 75: "Et si c'était pas une formule simple ?"
+-- cycle 75: "Intéressant... ça REBONDIT"
+-- cycle 76: "Hmm... je m'attendais pas à ça accélère ! Δ=[1,2,3,4,5,6,7]"
+-- cycle 76: "OK. Respire. Réessaie autrement."
+-- cycle 76: "Attends... pourquoi ça accélère ! Δ=[1,2,3,4,5,6,7] ?"
+-- cycle 76: "Raaah ! C'est pas ça !"
+-- cycle 77: "Essayons un truc qu'on fait jamais."
+-- cycle 77: "C'est bizarre ça... ça accélère ! Δ=[5,10,15,20,25,30,35]"
+-- cycle 78: "Oh ! ça accélère ! Δ=[1,2,3,4,5,6,7] ! C'est nouveau ça !"
+-- cycle 78: "OK. Respire. Réessaie autrement."
+-- cycle 78: "Attends... pourquoi ça accélère ! Δ=[1,2,3,4,5,6,7] ?"
+-- cycle 78: "Peut-être que j'ai besoin d'un nouveau truc."
+-- cycle 79: "Et si je cassais tout ?"
+-- cycle 79: "Attends... pourquoi ça REBONDIT ?"
+-- cycle 79: "Simple. Élégant. Parfait."
+-- cycle 79: "Intéressant... ça REBONDIT"
+-- cycle 80: "Et si je lançais SUPER fort ?"
+-- cycle 80: "Oh ! ça REBONDIT ! C'est nouveau ça !"
+-- cycle 80: "Simple. Élégant. Parfait."
+-- cycle 80: "ça REBONDIT... faut que j'y réfléchisse."

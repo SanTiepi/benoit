@@ -1,0 +1,15 @@
+# Normalize line endings
+* text=auto eol=lf
+
+# Force LF for C source and .ben files
+*.c   text eol=lf
+*.cu  text eol=lf
+*.h   text eol=lf
+*.ben text eol=lf
+*.sh  text eol=lf
+Makefile text eol=lf
+
+# Binary files — no conversion
+*.bin binary
+*.exe binary
+*.o   binary

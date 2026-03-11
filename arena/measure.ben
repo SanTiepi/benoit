@@ -1,0 +1,8 @@
+-- measure.ben — Je mesure.
+_eval score, fails ->
+  score > 5? -> 1
+  score > 0? -> 0
+  fails > 20? -> -1
+  else? -> 0
+
+quality: _eval(score, fails)

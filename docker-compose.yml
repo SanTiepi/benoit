@@ -1,0 +1,34 @@
+services:
+  benoit:
+    build: .
+    container_name: benoit_pulse
+    restart: unless-stopped
+    ports:
+      - "3742:3742"
+    volumes:
+      - /mnt/data/benoit/brain:/home/benoit/data
+      - /mnt/data/benoit/arena:/home/benoit/arena
+    mem_limit: 512m
+    cpus: 1.0
+    networks:
+      - batiscan_default
+
+  benoit-cuda:
+    build:
+      context: .
+      dockerfile: Dockerfile.cuda
+    image: benoit-cuda:latest
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    ports:
+      - "3742:3742"
+    volumes:
+      - /mnt/data/benoit:/data
+    restart: unless-stopped
+    networks:
+      - batiscan_default
+
+networks:
+  batiscan_default:
+    external: true

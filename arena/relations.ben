@@ -1,0 +1,4759 @@
+-- Relations découvertes par Benoît
+-- Exploration multi-dimensionnelle — f(a, b)
+-- 317 relations uniques avec propriétés émergentes
+
+-- Relation #1
+-- Propriétés: [commutative, neutral:0, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 * b * 2 * b + 1 - 1 + a + b
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 3
+f(1, 2) is 3
+f(3, 2) is 5
+f(2, 3) is 5
+f(5, 5) is 10
+
+-- Relation #2
+-- Propriétés: [neutral-left:0, antisymmetric, mono-b, nilpotent, linear-in-b, linear-in-a]
+f a,b ->
+  1 * b - 0 - a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -1
+f(1, 2) is 1
+f(3, 2) is -1
+f(2, 3) is 1
+f(5, 5) is 0
+
+-- Relation #3
+-- Propriétés: [commutative, identity:1, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b - 1 + a + 0
+
+f(0, 0) is -1
+f(1, 0) is 0
+f(0, 1) is 0
+f(1, 1) is 1
+f(2, 1) is 2
+f(1, 2) is 2
+f(3, 2) is 4
+f(2, 3) is 4
+f(5, 5) is 9
+
+-- Relation #4
+-- Propriétés: [neutral-right:0, antisymmetric, mono-a, nilpotent, linear-in-b, linear-in-a]
+f a,b ->
+  a - b - 1 * 1 + 1
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is -1
+f(1, 1) is 0
+f(2, 1) is 1
+f(1, 2) is -1
+f(3, 2) is 1
+f(2, 3) is -1
+f(5, 5) is 0
+
+-- Relation #5
+-- Propriétés: [commutative, neutral:0, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + a * b + b * 1 - 0 * b
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 1
+f(1, 1) is 3
+f(2, 1) is 5
+f(1, 2) is 5
+f(3, 2) is 11
+f(2, 3) is 11
+f(5, 5) is 35
+
+-- Relation #6
+-- Propriétés: [neutral-left:0, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + a + 0 * 0 + 1 * b * 1 + a
+
+f(0, 0) is 0
+f(1, 0) is 3
+f(0, 1) is 1
+f(1, 1) is 4
+f(2, 1) is 7
+f(1, 2) is 5
+f(3, 2) is 11
+f(2, 3) is 9
+f(5, 5) is 20
+
+-- Relation #7
+-- Propriétés: [antisymmetric, mono-b, nilpotent, linear-in-b, linear-in-a]
+f a,b ->
+  2 * b - a - b - a + b
+
+f(0, 0) is 0
+f(1, 0) is -2
+f(0, 1) is 2
+f(1, 1) is 0
+f(2, 1) is -2
+f(1, 2) is 2
+f(3, 2) is -2
+f(2, 3) is 2
+f(5, 5) is 0
+
+-- Relation #8
+-- Propriétés: [commutative, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + 2 + 2 * 0 + b + a
+
+f(0, 0) is 4
+f(1, 0) is 5
+f(0, 1) is 5
+f(1, 1) is 6
+f(2, 1) is 7
+f(1, 2) is 7
+f(3, 2) is 9
+f(2, 3) is 9
+f(5, 5) is 14
+
+-- Relation #9
+-- Propriétés: [neutral-right:0, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + a + 0 + b
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 2
+f(1, 1) is 3
+f(2, 1) is 4
+f(1, 2) is 5
+f(3, 2) is 7
+f(2, 3) is 8
+f(5, 5) is 15
+
+-- Relation #10
+-- Propriétés: [neutral-left:0, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 + a * b + b + a + 0 + a
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 4
+f(2, 1) is 7
+f(1, 2) is 6
+f(3, 2) is 14
+f(2, 3) is 13
+f(5, 5) is 40
+
+-- Relation #11
+-- Propriétés: [identity:1, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 * 2 * a * 1 - 2 + b * 1 + 0
+
+f(0, 0) is -2
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is 1
+f(2, 1) is 3
+f(1, 2) is 2
+f(3, 2) is 6
+f(2, 3) is 5
+f(5, 5) is 13
+
+-- Relation #12
+-- Propriétés: [commutative, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 2 * 2 - 1 + b + b - 1 + a
+
+f(0, 0) is -6
+f(1, 0) is -4
+f(0, 1) is -4
+f(1, 1) is -2
+f(2, 1) is 0
+f(1, 2) is 0
+f(3, 2) is 4
+f(2, 3) is 4
+f(5, 5) is 14
+
+-- Relation #13
+-- Propriétés: [commutative, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + 1 - 0 + b
+
+f(0, 0) is 1
+f(1, 0) is 2
+f(0, 1) is 2
+f(1, 1) is 3
+f(2, 1) is 4
+f(1, 2) is 4
+f(3, 2) is 6
+f(2, 3) is 6
+f(5, 5) is 11
+
+-- Relation #14
+-- Propriétés: [commutative, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 - 2 + b - 1 - 0 + a
+
+f(0, 0) is -2
+f(1, 0) is -1
+f(0, 1) is -1
+f(1, 1) is 0
+f(2, 1) is 1
+f(1, 2) is 1
+f(3, 2) is 3
+f(2, 3) is 3
+f(5, 5) is 8
+
+-- Relation #15
+-- Propriétés: [neutral-left:0, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 0 + a * 2
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 3
+f(2, 1) is 5
+f(1, 2) is 4
+f(3, 2) is 8
+f(2, 3) is 7
+f(5, 5) is 15
+
+-- Relation #16
+-- Propriétés: [neutral-right:0, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b * a + 0 + a
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 0
+f(1, 1) is 2
+f(2, 1) is 4
+f(1, 2) is 3
+f(3, 2) is 9
+f(2, 3) is 8
+f(5, 5) is 30
+
+-- Relation #17
+-- Propriétés: [commutative, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 1 + b + 1 * a
+
+f(0, 0) is 2
+f(1, 0) is 3
+f(0, 1) is 3
+f(1, 1) is 4
+f(2, 1) is 5
+f(1, 2) is 5
+f(3, 2) is 7
+f(2, 3) is 7
+f(5, 5) is 12
+
+-- Relation #18
+-- Propriétés: [commutative, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 1 + 2 + 2 + b
+
+f(0, 0) is 3
+f(1, 0) is 4
+f(0, 1) is 4
+f(1, 1) is 5
+f(2, 1) is 6
+f(1, 2) is 6
+f(3, 2) is 8
+f(2, 3) is 8
+f(5, 5) is 13
+
+-- Relation #19
+-- Propriétés: [commutative, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 - a * 0 + a + b * 2 + a - 2
+
+f(0, 0) is -2
+f(1, 0) is 0
+f(0, 1) is 0
+f(1, 1) is 2
+f(2, 1) is 4
+f(1, 2) is 4
+f(3, 2) is 8
+f(2, 3) is 8
+f(5, 5) is 18
+
+-- Relation #20
+-- Propriétés: [commutative, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 + b - 0 * 2 + a - 2 - 1
+
+f(0, 0) is -3
+f(1, 0) is -2
+f(0, 1) is -2
+f(1, 1) is -1
+f(2, 1) is 0
+f(1, 2) is 0
+f(3, 2) is 2
+f(2, 3) is 2
+f(5, 5) is 7
+
+-- Relation #21
+-- Propriétés: [neutral-left:0, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a * b + b - b - 0 + b + 0
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 3
+f(1, 2) is 4
+f(3, 2) is 8
+f(2, 3) is 9
+f(5, 5) is 30
+
+-- Relation #22
+-- Propriétés: [neutral-right:0, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + b * 2 * a
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 0
+f(1, 1) is 3
+f(2, 1) is 6
+f(1, 2) is 5
+f(3, 2) is 15
+f(2, 3) is 14
+f(5, 5) is 55
+
+-- Relation #23
+-- Propriétés: [antisymmetric, mono-a, nilpotent, linear-in-b, linear-in-a]
+f a,b ->
+  a - 2 * b + a + 0 * a
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is -2
+f(1, 1) is 0
+f(2, 1) is 2
+f(1, 2) is -2
+f(3, 2) is 2
+f(2, 3) is -2
+f(5, 5) is 0
+
+-- Relation #24
+-- Propriétés: [neutral-right:0, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + b - 0 + b + a - 0
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 3
+f(1, 1) is 4
+f(2, 1) is 5
+f(1, 2) is 7
+f(3, 2) is 9
+f(2, 3) is 11
+f(5, 5) is 20
+
+-- Relation #25
+-- Propriétés: [commutative, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 * a - 2 + b - 1 * 2
+
+f(0, 0) is -4
+f(1, 0) is -3
+f(0, 1) is -3
+f(1, 1) is -2
+f(2, 1) is -1
+f(1, 2) is -1
+f(3, 2) is 1
+f(2, 3) is 1
+f(5, 5) is 6
+
+-- Relation #26
+-- Propriétés: [commutative, mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * b - 0 - 0 * 0 * a + a * 2
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is 2
+f(1, 1) is 4
+f(2, 1) is 6
+f(1, 2) is 6
+f(3, 2) is 10
+f(2, 3) is 10
+f(5, 5) is 20
+
+-- Relation #27
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 * 2 * b - 0 + 2 * 1 - 0
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 4
+f(1, 1) is 4
+f(2, 1) is 4
+f(1, 2) is 6
+f(3, 2) is 6
+f(2, 3) is 8
+f(5, 5) is 12
+
+-- Relation #28
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + a - 2
+
+f(0, 0) is -2
+f(1, 0) is 0
+f(0, 1) is -2
+f(1, 1) is 0
+f(2, 1) is 2
+f(1, 2) is 0
+f(3, 2) is 4
+f(2, 3) is 2
+f(5, 5) is 8
+
+-- Relation #29
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + a + a + 0 * 0 * 1
+
+f(0, 0) is 0
+f(1, 0) is 3
+f(0, 1) is 0
+f(1, 1) is 3
+f(2, 1) is 6
+f(1, 2) is 3
+f(3, 2) is 9
+f(2, 3) is 6
+f(5, 5) is 15
+
+-- Relation #30
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - b + b + 2 * a + 1 + a
+
+f(0, 0) is 1
+f(1, 0) is 5
+f(0, 1) is 1
+f(1, 1) is 5
+f(2, 1) is 9
+f(1, 2) is 5
+f(3, 2) is 13
+f(2, 3) is 9
+f(5, 5) is 21
+
+-- Relation #31
+-- Propriétés: [identity:1, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 1 - 0 * 0 - a
+
+f(0, 0) is 1
+f(1, 0) is 0
+f(0, 1) is 2
+f(1, 1) is 1
+f(2, 1) is 0
+f(1, 2) is 2
+f(3, 2) is 0
+f(2, 3) is 2
+f(5, 5) is 1
+
+-- Relation #32
+-- Propriétés: [mono-a, idempotent, linear-in-b, linear-in-a]
+f a,b ->
+  a * 2 * 1 - b + b - b
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is -1
+f(1, 1) is 1
+f(2, 1) is 3
+f(1, 2) is 0
+f(3, 2) is 4
+f(2, 3) is 1
+f(5, 5) is 5
+
+-- Relation #33
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + 0 + 1 + a + 1 + 1 * 1
+
+f(0, 0) is 5
+f(1, 0) is 6
+f(0, 1) is 5
+f(1, 1) is 6
+f(2, 1) is 7
+f(1, 2) is 6
+f(3, 2) is 8
+f(2, 3) is 7
+f(5, 5) is 10
+
+-- Relation #34
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 - 2 + b
+
+f(0, 0) is -1
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 0
+f(1, 2) is 1
+f(3, 2) is 1
+f(2, 3) is 2
+f(5, 5) is 4
+
+-- Relation #35
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 2 - b * 0
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 3
+f(1, 1) is 3
+f(2, 1) is 3
+f(1, 2) is 4
+f(3, 2) is 4
+f(2, 3) is 5
+f(5, 5) is 7
+
+-- Relation #36
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 + 1 * b - 1 * 2 * 2 - 2
+
+f(0, 0) is -6
+f(1, 0) is -6
+f(0, 1) is -5
+f(1, 1) is -5
+f(2, 1) is -5
+f(1, 2) is -4
+f(3, 2) is -4
+f(2, 3) is -3
+f(5, 5) is -1
+
+-- Relation #37
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 1 + 0
+
+f(0, 0) is -1
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is 0
+f(2, 1) is 1
+f(1, 2) is 0
+f(3, 2) is 2
+f(2, 3) is 1
+f(5, 5) is 4
+
+-- Relation #38
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + a + 0 * b + 2
+
+f(0, 0) is 2
+f(1, 0) is 4
+f(0, 1) is 2
+f(1, 1) is 4
+f(2, 1) is 6
+f(1, 2) is 4
+f(3, 2) is 8
+f(2, 3) is 6
+f(5, 5) is 12
+
+-- Relation #39
+-- Propriétés: [identity:1, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 1 - a * 2 + 1
+
+f(0, 0) is 2
+f(1, 0) is 0
+f(0, 1) is 3
+f(1, 1) is 1
+f(2, 1) is -1
+f(1, 2) is 2
+f(3, 2) is -2
+f(2, 3) is 1
+f(5, 5) is -3
+
+-- Relation #40
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 - 1 + a + 2 + 2 + a + a * 2
+
+f(0, 0) is 5
+f(1, 0) is 9
+f(0, 1) is 5
+f(1, 1) is 9
+f(2, 1) is 13
+f(1, 2) is 9
+f(3, 2) is 17
+f(2, 3) is 13
+f(5, 5) is 25
+
+-- Relation #41
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + 1 + b + b + b + a
+
+f(0, 0) is 3
+f(1, 0) is 4
+f(0, 1) is 6
+f(1, 1) is 7
+f(2, 1) is 8
+f(1, 2) is 10
+f(3, 2) is 12
+f(2, 3) is 14
+f(5, 5) is 23
+
+-- Relation #42
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a * 2 - 1
+
+f(0, 0) is -1
+f(1, 0) is 1
+f(0, 1) is -1
+f(1, 1) is 1
+f(2, 1) is 3
+f(1, 2) is 1
+f(3, 2) is 5
+f(2, 3) is 3
+f(5, 5) is 9
+
+-- Relation #43
+-- Propriétés: [neutral-right:0, mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  a - b - b + 0
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is -2
+f(1, 1) is -1
+f(2, 1) is 0
+f(1, 2) is -3
+f(3, 2) is -1
+f(2, 3) is -4
+f(5, 5) is -5
+
+-- Relation #44
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b - 1 + 1 + b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 2
+f(1, 2) is 4
+f(3, 2) is 4
+f(2, 3) is 6
+f(5, 5) is 10
+
+-- Relation #45
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 2 - 1 + 1
+
+f(0, 0) is -2
+f(1, 0) is -1
+f(0, 1) is -2
+f(1, 1) is -1
+f(2, 1) is 0
+f(1, 2) is -1
+f(3, 2) is 1
+f(2, 3) is 0
+f(5, 5) is 3
+
+-- Relation #46
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 + b + b - b + b - b
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 2
+f(1, 2) is 3
+f(3, 2) is 3
+f(2, 3) is 4
+f(5, 5) is 6
+
+-- Relation #47
+-- Propriétés: [neutral-left:0, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b * 1 - a - a
+
+f(0, 0) is 0
+f(1, 0) is -2
+f(0, 1) is 1
+f(1, 1) is -1
+f(2, 1) is -3
+f(1, 2) is 0
+f(3, 2) is -4
+f(2, 3) is -1
+f(5, 5) is -5
+
+-- Relation #48
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a * 2 - 1 + 2 - 1 + 0
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is 0
+f(1, 1) is 2
+f(2, 1) is 4
+f(1, 2) is 2
+f(3, 2) is 6
+f(2, 3) is 4
+f(5, 5) is 10
+
+-- Relation #49
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a * 1 - a + 2 - 1 + 2 * b - 2
+
+f(0, 0) is -1
+f(1, 0) is -1
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is 1
+f(1, 2) is 3
+f(3, 2) is 3
+f(2, 3) is 5
+f(5, 5) is 9
+
+-- Relation #50
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + 1 + 0
+
+f(0, 0) is 1
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 3
+f(1, 2) is 2
+f(3, 2) is 4
+f(2, 3) is 3
+f(5, 5) is 6
+
+-- Relation #51
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 2 * 1 * b - 0
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 3
+f(1, 1) is 3
+f(2, 1) is 3
+f(1, 2) is 6
+f(3, 2) is 6
+f(2, 3) is 9
+f(5, 5) is 15
+
+-- Relation #52
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + 2
+
+f(0, 0) is 2
+f(1, 0) is 3
+f(0, 1) is 2
+f(1, 1) is 3
+f(2, 1) is 4
+f(1, 2) is 3
+f(3, 2) is 5
+f(2, 3) is 4
+f(5, 5) is 7
+
+-- Relation #53
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 2 + 0 + 1 * b
+
+f(0, 0) is 4
+f(1, 0) is 4
+f(0, 1) is 5
+f(1, 1) is 5
+f(2, 1) is 5
+f(1, 2) is 6
+f(3, 2) is 6
+f(2, 3) is 7
+f(5, 5) is 9
+
+-- Relation #54
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 + 0 * 1 + b * 2
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is 3
+f(1, 1) is 3
+f(2, 1) is 3
+f(1, 2) is 5
+f(3, 2) is 5
+f(2, 3) is 7
+f(5, 5) is 11
+
+-- Relation #55
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + 2 + b + a * 2 - a * 0
+
+f(0, 0) is 2
+f(1, 0) is 5
+f(0, 1) is 3
+f(1, 1) is 6
+f(2, 1) is 9
+f(1, 2) is 7
+f(3, 2) is 13
+f(2, 3) is 11
+f(5, 5) is 22
+
+-- Relation #56
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + a - 0 + 0 - b + 1 + b
+
+f(0, 0) is 1
+f(1, 0) is 3
+f(0, 1) is 1
+f(1, 1) is 3
+f(2, 1) is 5
+f(1, 2) is 3
+f(3, 2) is 7
+f(2, 3) is 5
+f(5, 5) is 11
+
+-- Relation #57
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 1 * b + 2 + a
+
+f(0, 0) is 2
+f(1, 0) is 3
+f(0, 1) is 4
+f(1, 1) is 5
+f(2, 1) is 6
+f(1, 2) is 7
+f(3, 2) is 9
+f(2, 3) is 10
+f(5, 5) is 17
+
+-- Relation #58
+-- Propriétés: [mono-b, idempotent, linear-in-b, linear-in-a]
+f a,b ->
+  1 * 2 * b - a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 2
+f(1, 1) is 1
+f(2, 1) is 0
+f(1, 2) is 3
+f(3, 2) is 1
+f(2, 3) is 4
+f(5, 5) is 5
+
+-- Relation #59
+-- Propriétés: [neutral-right:0, mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  b * a + a - 0 - b + b * a
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is -1
+f(1, 1) is 2
+f(2, 1) is 5
+f(1, 2) is 3
+f(3, 2) is 13
+f(2, 3) is 11
+f(5, 5) is 50
+
+-- Relation #60
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 2 + 2 * a
+
+f(0, 0) is -2
+f(1, 0) is 1
+f(0, 1) is -2
+f(1, 1) is 1
+f(2, 1) is 4
+f(1, 2) is 1
+f(3, 2) is 7
+f(2, 3) is 4
+f(5, 5) is 13
+
+-- Relation #61
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + 2 - 0 * 2 + 1 + 0 + a + 1
+
+f(0, 0) is 4
+f(1, 0) is 6
+f(0, 1) is 4
+f(1, 1) is 6
+f(2, 1) is 8
+f(1, 2) is 6
+f(3, 2) is 10
+f(2, 3) is 8
+f(5, 5) is 14
+
+-- Relation #62
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 2 * 2 - 0
+
+f(0, 0) is -4
+f(1, 0) is -3
+f(0, 1) is -4
+f(1, 1) is -3
+f(2, 1) is -2
+f(1, 2) is -3
+f(3, 2) is -1
+f(2, 3) is -2
+f(5, 5) is 1
+
+-- Relation #63
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * a - a * 1 - 2 + b - 1 * a
+
+f(0, 0) is -2
+f(1, 0) is -2
+f(0, 1) is -1
+f(1, 1) is -1
+f(2, 1) is -1
+f(1, 2) is 0
+f(3, 2) is 0
+f(2, 3) is 1
+f(5, 5) is 3
+
+-- Relation #64
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 0 - 0 + 2 - a + a + 0 + 2
+
+f(0, 0) is 4
+f(1, 0) is 5
+f(0, 1) is 4
+f(1, 1) is 5
+f(2, 1) is 6
+f(1, 2) is 5
+f(3, 2) is 7
+f(2, 3) is 6
+f(5, 5) is 9
+
+-- Relation #65
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + 2 * 2 * a + 0 + 2 - 1
+
+f(0, 0) is 3
+f(1, 0) is 7
+f(0, 1) is 3
+f(1, 1) is 7
+f(2, 1) is 11
+f(1, 2) is 7
+f(3, 2) is 15
+f(2, 3) is 11
+f(5, 5) is 23
+
+-- Relation #66
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 + 2 * 2 - 1 * 2 + a + 2 * a
+
+f(0, 0) is 3
+f(1, 0) is 6
+f(0, 1) is 3
+f(1, 1) is 6
+f(2, 1) is 9
+f(1, 2) is 6
+f(3, 2) is 12
+f(2, 3) is 9
+f(5, 5) is 18
+
+-- Relation #67
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 2 + 1 - 0
+
+f(0, 0) is 3
+f(1, 0) is 3
+f(0, 1) is 4
+f(1, 1) is 4
+f(2, 1) is 4
+f(1, 2) is 5
+f(3, 2) is 5
+f(2, 3) is 6
+f(5, 5) is 8
+
+-- Relation #68
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 2 - 1 + b + b - 0 + b - 2
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is 4
+f(1, 1) is 4
+f(2, 1) is 4
+f(1, 2) is 7
+f(3, 2) is 7
+f(2, 3) is 10
+f(5, 5) is 16
+
+-- Relation #69
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + 2 * a + a - 0 + 0
+
+f(0, 0) is 0
+f(1, 0) is 4
+f(0, 1) is 0
+f(1, 1) is 4
+f(2, 1) is 8
+f(1, 2) is 4
+f(3, 2) is 12
+f(2, 3) is 8
+f(5, 5) is 20
+
+-- Relation #70
+-- Propriétés: [neutral-left:0, mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * 1 + b * b * a - 0 * 2
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 3
+f(1, 2) is 6
+f(3, 2) is 14
+f(2, 3) is 21
+f(5, 5) is 130
+
+-- Relation #71
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b * 1 + 0 - 2 + b
+
+f(0, 0) is -2
+f(1, 0) is -2
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 0
+f(1, 2) is 2
+f(3, 2) is 2
+f(2, 3) is 4
+f(5, 5) is 8
+
+-- Relation #72
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 2 + a - 2 * 1
+
+f(0, 0) is -4
+f(1, 0) is -2
+f(0, 1) is -4
+f(1, 1) is -2
+f(2, 1) is 0
+f(1, 2) is -2
+f(3, 2) is 2
+f(2, 3) is 0
+f(5, 5) is 6
+
+-- Relation #73
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b * a - 1 + b * 1
+
+f(0, 0) is -1
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is 1
+f(2, 1) is 2
+f(1, 2) is 3
+f(3, 2) is 7
+f(2, 3) is 8
+f(5, 5) is 29
+
+-- Relation #74
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + b * 2 + 1 + 2 - 2 + 2
+
+f(0, 0) is 5
+f(1, 0) is 5
+f(0, 1) is 7
+f(1, 1) is 7
+f(2, 1) is 7
+f(1, 2) is 9
+f(3, 2) is 9
+f(2, 3) is 11
+f(5, 5) is 15
+
+-- Relation #75
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 2 + 2 * 2 + 0
+
+f(0, 0) is 6
+f(1, 0) is 6
+f(0, 1) is 7
+f(1, 1) is 7
+f(2, 1) is 7
+f(1, 2) is 8
+f(3, 2) is 8
+f(2, 3) is 9
+f(5, 5) is 11
+
+-- Relation #76
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 0 * 1 + b + a + 0 - 2
+
+f(0, 0) is -2
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is 1
+f(2, 1) is 2
+f(1, 2) is 3
+f(3, 2) is 5
+f(2, 3) is 6
+f(5, 5) is 13
+
+-- Relation #77
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * b + a * b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 2
+f(1, 1) is 3
+f(2, 1) is 4
+f(1, 2) is 6
+f(3, 2) is 10
+f(2, 3) is 12
+f(5, 5) is 35
+
+-- Relation #78
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + 1 + b * 1 * a + 1 * b
+
+f(0, 0) is 3
+f(1, 0) is 3
+f(0, 1) is 4
+f(1, 1) is 5
+f(2, 1) is 6
+f(1, 2) is 7
+f(3, 2) is 11
+f(2, 3) is 12
+f(5, 5) is 33
+
+-- Relation #79
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 + 2 - 1 + 2 + a
+
+f(0, 0) is 3
+f(1, 0) is 4
+f(0, 1) is 3
+f(1, 1) is 4
+f(2, 1) is 5
+f(1, 2) is 4
+f(3, 2) is 6
+f(2, 3) is 5
+f(5, 5) is 8
+
+-- Relation #80
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + 2 * 2 + 2
+
+f(0, 0) is 6
+f(1, 0) is 7
+f(0, 1) is 6
+f(1, 1) is 7
+f(2, 1) is 8
+f(1, 2) is 7
+f(3, 2) is 9
+f(2, 3) is 8
+f(5, 5) is 11
+
+-- Relation #81
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * a * 2 - b + b + 2 + 0 + 2
+
+f(0, 0) is 4
+f(1, 0) is 8
+f(0, 1) is 4
+f(1, 1) is 8
+f(2, 1) is 12
+f(1, 2) is 8
+f(3, 2) is 16
+f(2, 3) is 12
+f(5, 5) is 24
+
+-- Relation #82
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b - a + a + b + 2 * 1 + 2
+
+f(0, 0) is 4
+f(1, 0) is 4
+f(0, 1) is 6
+f(1, 1) is 6
+f(2, 1) is 6
+f(1, 2) is 8
+f(3, 2) is 8
+f(2, 3) is 10
+f(5, 5) is 14
+
+-- Relation #83
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b * 1 + b + 1 + 2
+
+f(0, 0) is 3
+f(1, 0) is 3
+f(0, 1) is 5
+f(1, 1) is 5
+f(2, 1) is 5
+f(1, 2) is 7
+f(3, 2) is 7
+f(2, 3) is 9
+f(5, 5) is 13
+
+-- Relation #84
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + a * b + a + 1
+
+f(0, 0) is 1
+f(1, 0) is 3
+f(0, 1) is 1
+f(1, 1) is 4
+f(2, 1) is 7
+f(1, 2) is 5
+f(3, 2) is 13
+f(2, 3) is 11
+f(5, 5) is 36
+
+-- Relation #85
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 - 2 - 1 + b
+
+f(0, 0) is -3
+f(1, 0) is -3
+f(0, 1) is -2
+f(1, 1) is -2
+f(2, 1) is -2
+f(1, 2) is -1
+f(3, 2) is -1
+f(2, 3) is 0
+f(5, 5) is 2
+
+-- Relation #86
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + b * 2 + b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 4
+f(1, 1) is 4
+f(2, 1) is 4
+f(1, 2) is 8
+f(3, 2) is 8
+f(2, 3) is 12
+f(5, 5) is 20
+
+-- Relation #87
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 + 1 + a - 2 - 2 - 0
+
+f(0, 0) is -3
+f(1, 0) is -2
+f(0, 1) is -3
+f(1, 1) is -2
+f(2, 1) is -1
+f(1, 2) is -2
+f(3, 2) is 0
+f(2, 3) is -1
+f(5, 5) is 2
+
+-- Relation #88
+-- Propriétés: [neutral-left:0, mono-a, mono-b, linear-in-b]
+f a,b ->
+  a * 1 * a + b
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 5
+f(1, 2) is 3
+f(3, 2) is 11
+f(2, 3) is 7
+f(5, 5) is 30
+
+-- Relation #89
+-- Propriétés: [commutative, neutral:0, linear-in-b, linear-in-a]
+f a,b ->
+  0 - a * b + 0 + a - 1 * 0 + b
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is 1
+f(1, 2) is 1
+f(3, 2) is -1
+f(2, 3) is -1
+f(5, 5) is -15
+
+-- Relation #90
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b - 0 + 2 - 0 + a * 0 + 1 + 2
+
+f(0, 0) is 5
+f(1, 0) is 5
+f(0, 1) is 6
+f(1, 1) is 6
+f(2, 1) is 6
+f(1, 2) is 7
+f(3, 2) is 7
+f(2, 3) is 8
+f(5, 5) is 10
+
+-- Relation #91
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 + b + b + 1 * a
+
+f(0, 0) is 1
+f(1, 0) is 2
+f(0, 1) is 3
+f(1, 1) is 4
+f(2, 1) is 5
+f(1, 2) is 6
+f(3, 2) is 8
+f(2, 3) is 9
+f(5, 5) is 16
+
+-- Relation #92
+-- Propriétés: [identity:1, mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  a * 2 * b - b - 0
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is 1
+f(2, 1) is 3
+f(1, 2) is 2
+f(3, 2) is 10
+f(2, 3) is 9
+f(5, 5) is 45
+
+-- Relation #93
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 + 2 * 2 * a - 2 + b
+
+f(0, 0) is -1
+f(1, 0) is 3
+f(0, 1) is 0
+f(1, 1) is 4
+f(2, 1) is 8
+f(1, 2) is 5
+f(3, 2) is 13
+f(2, 3) is 10
+f(5, 5) is 24
+
+-- Relation #94
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + b - 1 + a + b - 0 * b
+
+f(0, 0) is -1
+f(1, 0) is 0
+f(0, 1) is 2
+f(1, 1) is 3
+f(2, 1) is 4
+f(1, 2) is 6
+f(3, 2) is 8
+f(2, 3) is 10
+f(5, 5) is 19
+
+-- Relation #95
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + a * 2 + 2
+
+f(0, 0) is 2
+f(1, 0) is 5
+f(0, 1) is 2
+f(1, 1) is 5
+f(2, 1) is 8
+f(1, 2) is 5
+f(3, 2) is 11
+f(2, 3) is 8
+f(5, 5) is 17
+
+-- Relation #96
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b - 0 - 0 - 2 * 2 - b * 0
+
+f(0, 0) is -4
+f(1, 0) is -4
+f(0, 1) is -3
+f(1, 1) is -3
+f(2, 1) is -3
+f(1, 2) is -2
+f(3, 2) is -2
+f(2, 3) is -1
+f(5, 5) is 1
+
+-- Relation #97
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 1 + a + a
+
+f(0, 0) is -1
+f(1, 0) is 2
+f(0, 1) is -1
+f(1, 1) is 2
+f(2, 1) is 5
+f(1, 2) is 2
+f(3, 2) is 8
+f(2, 3) is 5
+f(5, 5) is 14
+
+-- Relation #98
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * a * 2 - 1
+
+f(0, 0) is -1
+f(1, 0) is 3
+f(0, 1) is -1
+f(1, 1) is 3
+f(2, 1) is 7
+f(1, 2) is 3
+f(3, 2) is 11
+f(2, 3) is 7
+f(5, 5) is 19
+
+-- Relation #99
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * a * 2 - 2
+
+f(0, 0) is -2
+f(1, 0) is 2
+f(0, 1) is -2
+f(1, 1) is 2
+f(2, 1) is 6
+f(1, 2) is 2
+f(3, 2) is 10
+f(2, 3) is 6
+f(5, 5) is 18
+
+-- Relation #100
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 * b + 2 + b + b
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 5
+f(1, 1) is 5
+f(2, 1) is 5
+f(1, 2) is 8
+f(3, 2) is 8
+f(2, 3) is 11
+f(5, 5) is 17
+
+-- Relation #101
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * b + b * a + b - b - 0 + 2
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 4
+f(1, 1) is 5
+f(2, 1) is 6
+f(1, 2) is 8
+f(3, 2) is 12
+f(2, 3) is 14
+f(5, 5) is 37
+
+-- Relation #102
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 0 - 1 + a * 2
+
+f(0, 0) is -1
+f(1, 0) is 1
+f(0, 1) is 0
+f(1, 1) is 2
+f(2, 1) is 4
+f(1, 2) is 3
+f(3, 2) is 7
+f(2, 3) is 6
+f(5, 5) is 14
+
+-- Relation #103
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 0 - 2 + 0 * 1 - 1 + a
+
+f(0, 0) is -3
+f(1, 0) is -1
+f(0, 1) is -3
+f(1, 1) is -1
+f(2, 1) is 1
+f(1, 2) is -1
+f(3, 2) is 3
+f(2, 3) is 1
+f(5, 5) is 7
+
+-- Relation #104
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 * b + 1 * 1 + 2 * b + a
+
+f(0, 0) is 1
+f(1, 0) is 2
+f(0, 1) is 4
+f(1, 1) is 5
+f(2, 1) is 6
+f(1, 2) is 8
+f(3, 2) is 10
+f(2, 3) is 12
+f(5, 5) is 21
+
+-- Relation #105
+-- Propriétés: [neutral-right:0, mono-a, mono-b, linear-in-a]
+f a,b ->
+  a * 1 - 1 * b + b * b * b
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 0
+f(1, 1) is 1
+f(2, 1) is 2
+f(1, 2) is 7
+f(3, 2) is 9
+f(2, 3) is 26
+f(5, 5) is 125
+
+-- Relation #106
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + b + b - 2 - 2 - 1
+
+f(0, 0) is -5
+f(1, 0) is -5
+f(0, 1) is -2
+f(1, 1) is -2
+f(2, 1) is -2
+f(1, 2) is 1
+f(3, 2) is 1
+f(2, 3) is 4
+f(5, 5) is 10
+
+-- Relation #107
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - 2 - 0 - 2 - 1 + a * b
+
+f(0, 0) is -5
+f(1, 0) is -4
+f(0, 1) is -5
+f(1, 1) is -3
+f(2, 1) is -1
+f(1, 2) is -2
+f(3, 2) is 4
+f(2, 3) is 3
+f(5, 5) is 25
+
+-- Relation #108
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + a + a + 2 * a + 0 * 0 + b
+
+f(0, 0) is 2
+f(1, 0) is 6
+f(0, 1) is 3
+f(1, 1) is 7
+f(2, 1) is 11
+f(1, 2) is 8
+f(3, 2) is 16
+f(2, 3) is 13
+f(5, 5) is 27
+
+-- Relation #109
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 2 * 2 + 2 * 1 - a + b + a
+
+f(0, 0) is 10
+f(1, 0) is 10
+f(0, 1) is 11
+f(1, 1) is 11
+f(2, 1) is 11
+f(1, 2) is 12
+f(3, 2) is 12
+f(2, 3) is 13
+f(5, 5) is 15
+
+-- Relation #110
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + b + b * a + 0
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 3
+f(1, 1) is 4
+f(2, 1) is 5
+f(1, 2) is 6
+f(3, 2) is 10
+f(2, 3) is 11
+f(5, 5) is 32
+
+-- Relation #111
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 + b * a + b + 2 + 1 - 0
+
+f(0, 0) is 4
+f(1, 0) is 4
+f(0, 1) is 5
+f(1, 1) is 6
+f(2, 1) is 7
+f(1, 2) is 8
+f(3, 2) is 12
+f(2, 3) is 13
+f(5, 5) is 34
+
+-- Relation #112
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b * 1 + b - 2 - 2 + b
+
+f(0, 0) is -4
+f(1, 0) is -4
+f(0, 1) is -1
+f(1, 1) is -1
+f(2, 1) is -1
+f(1, 2) is 2
+f(3, 2) is 2
+f(2, 3) is 5
+f(5, 5) is 11
+
+-- Relation #113
+-- Propriétés: [neutral-right:0, mono-a, mono-b, linear-in-a]
+f a,b ->
+  a + b * b
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 3
+f(1, 2) is 5
+f(3, 2) is 7
+f(2, 3) is 11
+f(5, 5) is 30
+
+-- Relation #114
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a - b + 1 + b - 2 - 2 * 2
+
+f(0, 0) is -5
+f(1, 0) is -4
+f(0, 1) is -5
+f(1, 1) is -4
+f(2, 1) is -3
+f(1, 2) is -4
+f(3, 2) is -2
+f(2, 3) is -3
+f(5, 5) is 0
+
+-- Relation #115
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a + b * a - 2 - 1
+
+f(0, 0) is -3
+f(1, 0) is -2
+f(0, 1) is -3
+f(1, 1) is -1
+f(2, 1) is 1
+f(1, 2) is 0
+f(3, 2) is 6
+f(2, 3) is 5
+f(5, 5) is 27
+
+-- Relation #116
+-- Propriétés: [mono-a, mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a * 2 + 2 + 1
+
+f(0, 0) is 3
+f(1, 0) is 5
+f(0, 1) is 3
+f(1, 1) is 5
+f(2, 1) is 7
+f(1, 2) is 5
+f(3, 2) is 9
+f(2, 3) is 7
+f(5, 5) is 13
+
+-- Relation #117
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b * 1 - a + 1 - a
+
+f(0, 0) is 1
+f(1, 0) is -1
+f(0, 1) is 2
+f(1, 1) is 0
+f(2, 1) is -2
+f(1, 2) is 1
+f(3, 2) is -3
+f(2, 3) is 0
+f(5, 5) is -4
+
+-- Relation #118
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 - b - 2 - 0
+
+f(0, 0) is -1
+f(1, 0) is -1
+f(0, 1) is -2
+f(1, 1) is -2
+f(2, 1) is -2
+f(1, 2) is -3
+f(3, 2) is -3
+f(2, 3) is -4
+f(5, 5) is -6
+
+-- Relation #119
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 2 - a * 1 - 1
+
+f(0, 0) is 3
+f(1, 0) is 2
+f(0, 1) is 3
+f(1, 1) is 2
+f(2, 1) is 1
+f(1, 2) is 2
+f(3, 2) is 0
+f(2, 3) is 1
+f(5, 5) is -2
+
+-- Relation #120
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 + a + 2 + a * 1 - a - b
+
+f(0, 0) is 3
+f(1, 0) is 4
+f(0, 1) is 2
+f(1, 1) is 3
+f(2, 1) is 4
+f(1, 2) is 2
+f(3, 2) is 4
+f(2, 3) is 2
+f(5, 5) is 3
+
+-- Relation #121
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  1 + b * b
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 2
+f(1, 2) is 5
+f(3, 2) is 5
+f(2, 3) is 10
+f(5, 5) is 26
+
+-- Relation #122
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  0 - b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is -1
+f(2, 1) is -1
+f(1, 2) is -2
+f(3, 2) is -2
+f(2, 3) is -3
+f(5, 5) is -5
+
+-- Relation #123
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 - a * 1 - 1 + b
+
+f(0, 0) is -1
+f(1, 0) is -2
+f(0, 1) is 0
+f(1, 1) is -1
+f(2, 1) is -2
+f(1, 2) is 0
+f(3, 2) is -2
+f(2, 3) is 0
+f(5, 5) is -1
+
+-- Relation #124
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 + 1 - a * 1
+
+f(0, 0) is 2
+f(1, 0) is 1
+f(0, 1) is 2
+f(1, 1) is 1
+f(2, 1) is 0
+f(1, 2) is 1
+f(3, 2) is -1
+f(2, 3) is 0
+f(5, 5) is -3
+
+-- Relation #125
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b - b * 1 - a + 1 * 1 - 0
+
+f(0, 0) is 1
+f(1, 0) is 0
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -1
+f(1, 2) is 0
+f(3, 2) is -2
+f(2, 3) is -1
+f(5, 5) is -4
+
+-- Relation #126
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * b + 0 - 1 * 2
+
+f(0, 0) is -2
+f(1, 0) is -2
+f(0, 1) is -1
+f(1, 1) is -1
+f(2, 1) is -1
+f(1, 2) is 2
+f(3, 2) is 2
+f(2, 3) is 7
+f(5, 5) is 23
+
+-- Relation #127
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b - 0 * 1 * b + 2 - 0 - a
+
+f(0, 0) is 2
+f(1, 0) is 1
+f(0, 1) is 3
+f(1, 1) is 2
+f(2, 1) is 1
+f(1, 2) is 3
+f(3, 2) is 1
+f(2, 3) is 3
+f(5, 5) is 2
+
+-- Relation #128
+-- Propriétés: [neutral-left:0, linear-in-b, linear-in-a]
+f a,b ->
+  0 - 1 * a * b + b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -1
+f(1, 2) is 0
+f(3, 2) is -4
+f(2, 3) is -3
+f(5, 5) is -20
+
+-- Relation #129
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  0 + 2 - b + 1
+
+f(0, 0) is 3
+f(1, 0) is 3
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 2
+f(1, 2) is 1
+f(3, 2) is 1
+f(2, 3) is 0
+f(5, 5) is -2
+
+-- Relation #130
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + b + b - a + 1 * 2 + 2 * 1
+
+f(0, 0) is 4
+f(1, 0) is 3
+f(0, 1) is 7
+f(1, 1) is 6
+f(2, 1) is 5
+f(1, 2) is 9
+f(3, 2) is 7
+f(2, 3) is 11
+f(5, 5) is 14
+
+-- Relation #131
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b + b * b - b + 0
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is 1
+f(1, 2) is 4
+f(3, 2) is 4
+f(2, 3) is 9
+f(5, 5) is 25
+
+-- Relation #132
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  a + a - b - 2
+
+f(0, 0) is -2
+f(1, 0) is 0
+f(0, 1) is -3
+f(1, 1) is -1
+f(2, 1) is 1
+f(1, 2) is -2
+f(3, 2) is 2
+f(2, 3) is -1
+f(5, 5) is 3
+
+-- Relation #133
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 - b
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 0
+f(1, 2) is -1
+f(3, 2) is -1
+f(2, 3) is -2
+f(5, 5) is -4
+
+-- Relation #134
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 + 1 - a - 1 - a - 0 + 0
+
+f(0, 0) is 1
+f(1, 0) is -1
+f(0, 1) is 1
+f(1, 1) is -1
+f(2, 1) is -3
+f(1, 2) is -1
+f(3, 2) is -5
+f(2, 3) is -3
+f(5, 5) is -9
+
+-- Relation #135
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a * 0 * 1 * a - 0 - 0 - 2 * a
+
+f(0, 0) is 0
+f(1, 0) is -2
+f(0, 1) is 0
+f(1, 1) is -2
+f(2, 1) is -4
+f(1, 2) is -2
+f(3, 2) is -6
+f(2, 3) is -4
+f(5, 5) is -10
+
+-- Relation #136
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 * b * 1 - a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is -1
+f(2, 1) is -2
+f(1, 2) is -1
+f(3, 2) is -3
+f(2, 3) is -2
+f(5, 5) is -5
+
+-- Relation #137
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a * a
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 0
+f(1, 1) is 1
+f(2, 1) is 4
+f(1, 2) is 1
+f(3, 2) is 9
+f(2, 3) is 4
+f(5, 5) is 25
+
+-- Relation #138
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 2 - a * 1 + b
+
+f(0, 0) is 4
+f(1, 0) is 3
+f(0, 1) is 5
+f(1, 1) is 4
+f(2, 1) is 3
+f(1, 2) is 5
+f(3, 2) is 3
+f(2, 3) is 5
+f(5, 5) is 4
+
+-- Relation #139
+-- Propriétés: [commutative, linear-in-b, linear-in-a]
+f a,b ->
+  b - a - b - b
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is -1
+f(1, 1) is -2
+f(2, 1) is -3
+f(1, 2) is -3
+f(3, 2) is -5
+f(2, 3) is -5
+f(5, 5) is -10
+
+-- Relation #140
+-- Propriétés: [mono-a, nilpotent, linear-in-a]
+f a,b ->
+  b * a - b * b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is 0
+f(2, 1) is 1
+f(1, 2) is -2
+f(3, 2) is 2
+f(2, 3) is -3
+f(5, 5) is 0
+
+-- Relation #141
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a * a + b * 2
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 2
+f(1, 1) is 3
+f(2, 1) is 6
+f(1, 2) is 5
+f(3, 2) is 13
+f(2, 3) is 10
+f(5, 5) is 35
+
+-- Relation #142
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  a + 1 * 1 - b + 0 * 2 * 0 + 0
+
+f(0, 0) is 1
+f(1, 0) is 2
+f(0, 1) is 0
+f(1, 1) is 1
+f(2, 1) is 2
+f(1, 2) is 0
+f(3, 2) is 2
+f(2, 3) is 0
+f(5, 5) is 1
+
+-- Relation #143
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 - b - b - 2 + 0
+
+f(0, 0) is -1
+f(1, 0) is -1
+f(0, 1) is -3
+f(1, 1) is -3
+f(2, 1) is -3
+f(1, 2) is -5
+f(3, 2) is -5
+f(2, 3) is -7
+f(5, 5) is -11
+
+-- Relation #144
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  2 - 0 + b * b + b - 1
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is 3
+f(1, 1) is 3
+f(2, 1) is 3
+f(1, 2) is 7
+f(3, 2) is 7
+f(2, 3) is 13
+f(5, 5) is 31
+
+-- Relation #145
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  2 * b * b - 2 + b * b
+
+f(0, 0) is -2
+f(1, 0) is -2
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is 1
+f(1, 2) is 10
+f(3, 2) is 10
+f(2, 3) is 25
+f(5, 5) is 73
+
+-- Relation #146
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 - a - 2 + 2 * 0
+
+f(0, 0) is -1
+f(1, 0) is -2
+f(0, 1) is -1
+f(1, 1) is -2
+f(2, 1) is -3
+f(1, 2) is -2
+f(3, 2) is -4
+f(2, 3) is -3
+f(5, 5) is -6
+
+-- Relation #147
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  b - 2 * b + 2 * a - 2 - a
+
+f(0, 0) is -2
+f(1, 0) is -1
+f(0, 1) is -3
+f(1, 1) is -2
+f(2, 1) is -1
+f(1, 2) is -3
+f(3, 2) is -1
+f(2, 3) is -3
+f(5, 5) is -2
+
+-- Relation #148
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 - b - b + a * b
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is -1
+f(1, 1) is 0
+f(2, 1) is 1
+f(1, 2) is -1
+f(3, 2) is 3
+f(2, 3) is 1
+f(5, 5) is 16
+
+-- Relation #149
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + b - 2 * a + 1 - b
+
+f(0, 0) is 3
+f(1, 0) is 1
+f(0, 1) is 3
+f(1, 1) is 1
+f(2, 1) is -1
+f(1, 2) is 1
+f(3, 2) is -3
+f(2, 3) is -1
+f(5, 5) is -7
+
+-- Relation #150
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 0 - a - 0 + 2 * 1 * 2 + 0
+
+f(0, 0) is 4
+f(1, 0) is 3
+f(0, 1) is 4
+f(1, 1) is 3
+f(2, 1) is 2
+f(1, 2) is 3
+f(3, 2) is 1
+f(2, 3) is 2
+f(5, 5) is -1
+
+-- Relation #151
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 + 2 * 2 + b - a
+
+f(0, 0) is 5
+f(1, 0) is 4
+f(0, 1) is 6
+f(1, 1) is 5
+f(2, 1) is 4
+f(1, 2) is 6
+f(3, 2) is 4
+f(2, 3) is 6
+f(5, 5) is 5
+
+-- Relation #152
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a + a * a + 2
+
+f(0, 0) is 2
+f(1, 0) is 4
+f(0, 1) is 2
+f(1, 1) is 4
+f(2, 1) is 8
+f(1, 2) is 4
+f(3, 2) is 14
+f(2, 3) is 8
+f(5, 5) is 32
+
+-- Relation #153
+-- Propriétés: [neutral-right:0, mono-a, linear-in-a]
+f a,b ->
+  a - a + 2 + a - b * b - 2
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is -1
+f(1, 1) is 0
+f(2, 1) is 1
+f(1, 2) is -3
+f(3, 2) is -1
+f(2, 3) is -7
+f(5, 5) is -20
+
+-- Relation #154
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * 1 * b - a * 0 + 2 * a - b
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is 0
+f(1, 1) is 2
+f(2, 1) is 4
+f(1, 2) is 4
+f(3, 2) is 8
+f(2, 3) is 10
+f(5, 5) is 30
+
+-- Relation #155
+-- Propriétés: [neutral-left:0, linear-in-b, linear-in-a]
+f a,b ->
+  b - a * b - a + 0
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 1
+f(1, 1) is -1
+f(2, 1) is -3
+f(1, 2) is -1
+f(3, 2) is -7
+f(2, 3) is -5
+f(5, 5) is -25
+
+-- Relation #156
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 0 - a + 2 + 0 + b + 1 + 1
+
+f(0, 0) is 4
+f(1, 0) is 3
+f(0, 1) is 6
+f(1, 1) is 5
+f(2, 1) is 4
+f(1, 2) is 7
+f(3, 2) is 5
+f(2, 3) is 8
+f(5, 5) is 9
+
+-- Relation #157
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  0 + a - 2 - 0 - 2 + a * a - 0
+
+f(0, 0) is -4
+f(1, 0) is -2
+f(0, 1) is -4
+f(1, 1) is -2
+f(2, 1) is 2
+f(1, 2) is -2
+f(3, 2) is 8
+f(2, 3) is 2
+f(5, 5) is 26
+
+-- Relation #158
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 2 - 2 - 0 + 0 - b
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is 1
+f(1, 2) is 0
+f(3, 2) is 0
+f(2, 3) is -1
+f(5, 5) is -3
+
+-- Relation #159
+-- Propriétés: [commutative, linear-in-b, linear-in-a]
+f a,b ->
+  0 + 2 + 0 + 0 * b + 1 - b - a
+
+f(0, 0) is 3
+f(1, 0) is 2
+f(0, 1) is 2
+f(1, 1) is 1
+f(2, 1) is 0
+f(1, 2) is 0
+f(3, 2) is -2
+f(2, 3) is -2
+f(5, 5) is -7
+
+-- Relation #160
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 - b * 2 * 1 + 0
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is -1
+f(1, 1) is -1
+f(2, 1) is -1
+f(1, 2) is -3
+f(3, 2) is -3
+f(2, 3) is -5
+f(5, 5) is -9
+
+-- Relation #161
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  a + b * b * a - 2 + a * 0 - 2
+
+f(0, 0) is -4
+f(1, 0) is -3
+f(0, 1) is -4
+f(1, 1) is -2
+f(2, 1) is 0
+f(1, 2) is 1
+f(3, 2) is 11
+f(2, 3) is 16
+f(5, 5) is 126
+
+-- Relation #162
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + 1 + 0 * b - 2 * a * 2
+
+f(0, 0) is 3
+f(1, 0) is -1
+f(0, 1) is 3
+f(1, 1) is -1
+f(2, 1) is -5
+f(1, 2) is -1
+f(3, 2) is -9
+f(2, 3) is -5
+f(5, 5) is -17
+
+-- Relation #163
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  2 - 2 + 1 * 1 - b + 1 - b
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 0
+f(1, 2) is -2
+f(3, 2) is -2
+f(2, 3) is -4
+f(5, 5) is -8
+
+-- Relation #164
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a * a + 1 + 2 - 1 * 2
+
+f(0, 0) is 1
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 5
+f(1, 2) is 2
+f(3, 2) is 10
+f(2, 3) is 5
+f(5, 5) is 26
+
+-- Relation #165
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  a - a - 0 - b + 1 + a - 2 * b
+
+f(0, 0) is 1
+f(1, 0) is 2
+f(0, 1) is -2
+f(1, 1) is -1
+f(2, 1) is 0
+f(1, 2) is -4
+f(3, 2) is -2
+f(2, 3) is -6
+f(5, 5) is -9
+
+-- Relation #166
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  2 - b + a
+
+f(0, 0) is 2
+f(1, 0) is 3
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 3
+f(1, 2) is 1
+f(3, 2) is 3
+f(2, 3) is 1
+f(5, 5) is 2
+
+-- Relation #167
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b - a - 2 - 0 - a
+
+f(0, 0) is -2
+f(1, 0) is -4
+f(0, 1) is -1
+f(1, 1) is -3
+f(2, 1) is -5
+f(1, 2) is -2
+f(3, 2) is -6
+f(2, 3) is -3
+f(5, 5) is -7
+
+-- Relation #168
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * b - 1 + b
+
+f(0, 0) is -1
+f(1, 0) is -1
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is 1
+f(1, 2) is 5
+f(3, 2) is 5
+f(2, 3) is 11
+f(5, 5) is 29
+
+-- Relation #169
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  1 * a * a - 0 * 0 * 1 * b - 2
+
+f(0, 0) is -2
+f(1, 0) is -1
+f(0, 1) is -2
+f(1, 1) is -1
+f(2, 1) is 2
+f(1, 2) is -1
+f(3, 2) is 7
+f(2, 3) is 2
+f(5, 5) is 23
+
+-- Relation #170
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  a - b - 0 + b - b - b + 2
+
+f(0, 0) is 2
+f(1, 0) is 3
+f(0, 1) is 0
+f(1, 1) is 1
+f(2, 1) is 2
+f(1, 2) is -1
+f(3, 2) is 1
+f(2, 3) is -2
+f(5, 5) is -3
+
+-- Relation #171
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  0 * 1 - 0 + a * a + a * 1
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is 0
+f(1, 1) is 2
+f(2, 1) is 6
+f(1, 2) is 2
+f(3, 2) is 12
+f(2, 3) is 6
+f(5, 5) is 30
+
+-- Relation #172
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  a - b + 2 + 2 - a
+
+f(0, 0) is 4
+f(1, 0) is 4
+f(0, 1) is 3
+f(1, 1) is 3
+f(2, 1) is 3
+f(1, 2) is 2
+f(3, 2) is 2
+f(2, 3) is 1
+f(5, 5) is -1
+
+-- Relation #173
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b - 2 + 1 * b - 2 - a - 2
+
+f(0, 0) is -6
+f(1, 0) is -7
+f(0, 1) is -4
+f(1, 1) is -5
+f(2, 1) is -6
+f(1, 2) is -3
+f(3, 2) is -5
+f(2, 3) is -2
+f(5, 5) is -1
+
+-- Relation #174
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * b - 1 - 1 * 0 - b - 2
+
+f(0, 0) is -3
+f(1, 0) is -3
+f(0, 1) is -3
+f(1, 1) is -3
+f(2, 1) is -3
+f(1, 2) is -1
+f(3, 2) is -1
+f(2, 3) is 3
+f(5, 5) is 17
+
+-- Relation #175
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  a + a - 0 + 1 * a - b
+
+f(0, 0) is 0
+f(1, 0) is 3
+f(0, 1) is -1
+f(1, 1) is 2
+f(2, 1) is 5
+f(1, 2) is 1
+f(3, 2) is 7
+f(2, 3) is 3
+f(5, 5) is 10
+
+-- Relation #176
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 2 + 2 - 2 * b
+
+f(0, 0) is 6
+f(1, 0) is 6
+f(0, 1) is 4
+f(1, 1) is 4
+f(2, 1) is 4
+f(1, 2) is 2
+f(3, 2) is 2
+f(2, 3) is 0
+f(5, 5) is -4
+
+-- Relation #177
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 - 0 - b + a + b + a - b - 0
+
+f(0, 0) is 1
+f(1, 0) is 3
+f(0, 1) is 0
+f(1, 1) is 2
+f(2, 1) is 4
+f(1, 2) is 1
+f(3, 2) is 5
+f(2, 3) is 2
+f(5, 5) is 6
+
+-- Relation #178
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 + 0 * 1 + 1 * a + 0 - b - 2
+
+f(0, 0) is -1
+f(1, 0) is 0
+f(0, 1) is -2
+f(1, 1) is -1
+f(2, 1) is 0
+f(1, 2) is -2
+f(3, 2) is 0
+f(2, 3) is -2
+f(5, 5) is -1
+
+-- Relation #179
+-- Propriétés: [commutative, linear-in-b, linear-in-a]
+f a,b ->
+  2 + a - a * 2 - b
+
+f(0, 0) is 2
+f(1, 0) is 1
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -1
+f(1, 2) is -1
+f(3, 2) is -3
+f(2, 3) is -3
+f(5, 5) is -8
+
+-- Relation #180
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  2 * b * b + b - 1 - 1 * 0
+
+f(0, 0) is -1
+f(1, 0) is -1
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 2
+f(1, 2) is 9
+f(3, 2) is 9
+f(2, 3) is 20
+f(5, 5) is 54
+
+-- Relation #181
+-- Propriétés: [neutral-right:0, mono-a, linear-in-a]
+f a,b ->
+  0 * a - b + a - 2 + 2 - b * b
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is -2
+f(1, 1) is -1
+f(2, 1) is 0
+f(1, 2) is -5
+f(3, 2) is -3
+f(2, 3) is -10
+f(5, 5) is -25
+
+-- Relation #182
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a - 0 * 2 + a * b * a - 2
+
+f(0, 0) is -2
+f(1, 0) is -1
+f(0, 1) is -2
+f(1, 1) is 0
+f(2, 1) is 4
+f(1, 2) is 1
+f(3, 2) is 19
+f(2, 3) is 12
+f(5, 5) is 128
+
+-- Relation #183
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  a + 2 + a - b + 2 - a
+
+f(0, 0) is 4
+f(1, 0) is 5
+f(0, 1) is 3
+f(1, 1) is 4
+f(2, 1) is 5
+f(1, 2) is 3
+f(3, 2) is 5
+f(2, 3) is 3
+f(5, 5) is 4
+
+-- Relation #184
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * b * 1 * 2 * b - b + 2
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 3
+f(1, 1) is 3
+f(2, 1) is 3
+f(1, 2) is 16
+f(3, 2) is 16
+f(2, 3) is 53
+f(5, 5) is 247
+
+-- Relation #185
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  a * b - b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is 0
+f(2, 1) is 1
+f(1, 2) is 0
+f(3, 2) is 4
+f(2, 3) is 3
+f(5, 5) is 20
+
+-- Relation #186
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * b * 2 + b * a
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 2
+f(1, 1) is 3
+f(2, 1) is 4
+f(1, 2) is 10
+f(3, 2) is 14
+f(2, 3) is 24
+f(5, 5) is 75
+
+-- Relation #187
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a * b + a * 1 - 2 * a + 0 - a
+
+f(0, 0) is 0
+f(1, 0) is -2
+f(0, 1) is 0
+f(1, 1) is -1
+f(2, 1) is -2
+f(1, 2) is 0
+f(3, 2) is 0
+f(2, 3) is 2
+f(5, 5) is 15
+
+-- Relation #188
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 1 - a * 2 - a + b
+
+f(0, 0) is 2
+f(1, 0) is -1
+f(0, 1) is 3
+f(1, 1) is 0
+f(2, 1) is -3
+f(1, 2) is 1
+f(3, 2) is -5
+f(2, 3) is -1
+f(5, 5) is -8
+
+-- Relation #189
+-- Propriétés: [commutative, linear-in-b, linear-in-a]
+f a,b ->
+  0 * b * 1 - a + 0 - b - b * a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is -1
+f(1, 1) is -3
+f(2, 1) is -5
+f(1, 2) is -5
+f(3, 2) is -11
+f(2, 3) is -11
+f(5, 5) is -35
+
+-- Relation #190
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  2 + 1 + 2 + 0 + b * b
+
+f(0, 0) is 5
+f(1, 0) is 5
+f(0, 1) is 6
+f(1, 1) is 6
+f(2, 1) is 6
+f(1, 2) is 9
+f(3, 2) is 9
+f(2, 3) is 14
+f(5, 5) is 30
+
+-- Relation #191
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * 2 * b + 2 * 2 + 2 + b
+
+f(0, 0) is 6
+f(1, 0) is 6
+f(0, 1) is 9
+f(1, 1) is 9
+f(2, 1) is 9
+f(1, 2) is 16
+f(3, 2) is 16
+f(2, 3) is 27
+f(5, 5) is 61
+
+-- Relation #192
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  2 + 2 - b + 1
+
+f(0, 0) is 5
+f(1, 0) is 5
+f(0, 1) is 4
+f(1, 1) is 4
+f(2, 1) is 4
+f(1, 2) is 3
+f(3, 2) is 3
+f(2, 3) is 2
+f(5, 5) is 0
+
+-- Relation #193
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  0 + b * b * b - 1 * b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 0
+f(1, 2) is 6
+f(3, 2) is 6
+f(2, 3) is 24
+f(5, 5) is 120
+
+-- Relation #194
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  2 - b - b * 2 + 1
+
+f(0, 0) is 3
+f(1, 0) is 3
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 0
+f(1, 2) is -3
+f(3, 2) is -3
+f(2, 3) is -6
+f(5, 5) is -12
+
+-- Relation #195
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 - a - 0 - a
+
+f(0, 0) is 2
+f(1, 0) is 0
+f(0, 1) is 2
+f(1, 1) is 0
+f(2, 1) is -2
+f(1, 2) is 0
+f(3, 2) is -4
+f(2, 3) is -2
+f(5, 5) is -8
+
+-- Relation #196
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a * a - 0 + 2 - 0 * b - a - 0
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 4
+f(1, 2) is 2
+f(3, 2) is 8
+f(2, 3) is 4
+f(5, 5) is 22
+
+-- Relation #197
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 + b - a * 1 + 1 * 1 + b
+
+f(0, 0) is 3
+f(1, 0) is 2
+f(0, 1) is 5
+f(1, 1) is 4
+f(2, 1) is 3
+f(1, 2) is 6
+f(3, 2) is 4
+f(2, 3) is 7
+f(5, 5) is 8
+
+-- Relation #198
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a * 1 * 0 - 2 - a - a + 0 - 2
+
+f(0, 0) is -4
+f(1, 0) is -6
+f(0, 1) is -4
+f(1, 1) is -6
+f(2, 1) is -8
+f(1, 2) is -6
+f(3, 2) is -10
+f(2, 3) is -8
+f(5, 5) is -14
+
+-- Relation #199
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 0 - b * 2
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is -2
+f(1, 1) is -2
+f(2, 1) is -2
+f(1, 2) is -4
+f(3, 2) is -4
+f(2, 3) is -6
+f(5, 5) is -10
+
+-- Relation #200
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a * a * 1 - 1
+
+f(0, 0) is -1
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is 0
+f(2, 1) is 3
+f(1, 2) is 0
+f(3, 2) is 8
+f(2, 3) is 3
+f(5, 5) is 24
+
+-- Relation #201
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  a * b - 1 * a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 0
+f(1, 2) is 1
+f(3, 2) is 3
+f(2, 3) is 4
+f(5, 5) is 20
+
+-- Relation #202
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  b * 1 * 0 + 1 - 2 * 2 - b * 2
+
+f(0, 0) is -3
+f(1, 0) is -3
+f(0, 1) is -5
+f(1, 1) is -5
+f(2, 1) is -5
+f(1, 2) is -7
+f(3, 2) is -7
+f(2, 3) is -9
+f(5, 5) is -13
+
+-- Relation #203
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  0 - b - 2 - b
+
+f(0, 0) is -2
+f(1, 0) is -2
+f(0, 1) is -4
+f(1, 1) is -4
+f(2, 1) is -4
+f(1, 2) is -6
+f(3, 2) is -6
+f(2, 3) is -8
+f(5, 5) is -12
+
+-- Relation #204
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a - a + b + a * a - 0 - 1 - a
+
+f(0, 0) is -1
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 2
+f(1, 2) is 1
+f(3, 2) is 7
+f(2, 3) is 4
+f(5, 5) is 24
+
+-- Relation #205
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 - a * 2 * 2 * 2
+
+f(0, 0) is 1
+f(1, 0) is -7
+f(0, 1) is 1
+f(1, 1) is -7
+f(2, 1) is -15
+f(1, 2) is -7
+f(3, 2) is -23
+f(2, 3) is -15
+f(5, 5) is -39
+
+-- Relation #206
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b * 2 * 1 + 1 * b - a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 3
+f(1, 1) is 2
+f(2, 1) is 1
+f(1, 2) is 5
+f(3, 2) is 3
+f(2, 3) is 7
+f(5, 5) is 10
+
+-- Relation #207
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 * 0 - 2 * 1 - a
+
+f(0, 0) is -2
+f(1, 0) is -3
+f(0, 1) is -2
+f(1, 1) is -3
+f(2, 1) is -4
+f(1, 2) is -3
+f(3, 2) is -5
+f(2, 3) is -4
+f(5, 5) is -7
+
+-- Relation #208
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * b - b - 2 - 2 + 2 + 2
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 0
+f(1, 2) is 2
+f(3, 2) is 2
+f(2, 3) is 6
+f(5, 5) is 20
+
+-- Relation #209
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  0 + 2 - b - b + 1
+
+f(0, 0) is 3
+f(1, 0) is 3
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is 1
+f(1, 2) is -1
+f(3, 2) is -1
+f(2, 3) is -3
+f(5, 5) is -7
+
+-- Relation #210
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * b * 1 + 0 - 2 - b
+
+f(0, 0) is -2
+f(1, 0) is -2
+f(0, 1) is -2
+f(1, 1) is -2
+f(2, 1) is -2
+f(1, 2) is 0
+f(3, 2) is 0
+f(2, 3) is 4
+f(5, 5) is 18
+
+-- Relation #211
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * b - 1 + a + b
+
+f(0, 0) is -1
+f(1, 0) is 0
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 3
+f(1, 2) is 6
+f(3, 2) is 8
+f(2, 3) is 13
+f(5, 5) is 34
+
+-- Relation #212
+-- Propriétés: [commutative, linear-in-b, linear-in-a]
+f a,b ->
+  1 - 2 + 2 * 0 * a - b - a
+
+f(0, 0) is -1
+f(1, 0) is -2
+f(0, 1) is -2
+f(1, 1) is -3
+f(2, 1) is -4
+f(1, 2) is -4
+f(3, 2) is -6
+f(2, 3) is -6
+f(5, 5) is -11
+
+-- Relation #213
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 * 0 - 2 * 2 * a
+
+f(0, 0) is 0
+f(1, 0) is -4
+f(0, 1) is 0
+f(1, 1) is -4
+f(2, 1) is -8
+f(1, 2) is -4
+f(3, 2) is -12
+f(2, 3) is -8
+f(5, 5) is -20
+
+-- Relation #214
+-- Propriétés: [commutative, linear-in-b, linear-in-a]
+f a,b ->
+  1 * 1 - a - b
+
+f(0, 0) is 1
+f(1, 0) is 0
+f(0, 1) is 0
+f(1, 1) is -1
+f(2, 1) is -2
+f(1, 2) is -2
+f(3, 2) is -4
+f(2, 3) is -4
+f(5, 5) is -9
+
+-- Relation #215
+-- Propriétés: [identity:1, mono-b, linear-in-b]
+f a,b ->
+  1 - a * a + b
+
+f(0, 0) is 1
+f(1, 0) is 0
+f(0, 1) is 2
+f(1, 1) is 1
+f(2, 1) is -2
+f(1, 2) is 2
+f(3, 2) is -6
+f(2, 3) is 0
+f(5, 5) is -19
+
+-- Relation #216
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 * b - a - 2
+
+f(0, 0) is -2
+f(1, 0) is -3
+f(0, 1) is -1
+f(1, 1) is -2
+f(2, 1) is -3
+f(1, 2) is -1
+f(3, 2) is -3
+f(2, 3) is -1
+f(5, 5) is -2
+
+-- Relation #217
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b - 2 - 2 * a - a * 1
+
+f(0, 0) is -2
+f(1, 0) is -5
+f(0, 1) is -1
+f(1, 1) is -4
+f(2, 1) is -7
+f(1, 2) is -3
+f(3, 2) is -9
+f(2, 3) is -5
+f(5, 5) is -12
+
+-- Relation #218
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 + 0 * a - 2 * 2 - b - 2
+
+f(0, 0) is -5
+f(1, 0) is -5
+f(0, 1) is -6
+f(1, 1) is -6
+f(2, 1) is -6
+f(1, 2) is -7
+f(3, 2) is -7
+f(2, 3) is -8
+f(5, 5) is -10
+
+-- Relation #219
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  2 * 1 + b * b * 2
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 4
+f(1, 1) is 4
+f(2, 1) is 4
+f(1, 2) is 10
+f(3, 2) is 10
+f(2, 3) is 20
+f(5, 5) is 52
+
+-- Relation #220
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  0 - b - 2 * 1 - 0
+
+f(0, 0) is -2
+f(1, 0) is -2
+f(0, 1) is -3
+f(1, 1) is -3
+f(2, 1) is -3
+f(1, 2) is -4
+f(3, 2) is -4
+f(2, 3) is -5
+f(5, 5) is -7
+
+-- Relation #221
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a * a - 2 - 0 * 0 - a
+
+f(0, 0) is -2
+f(1, 0) is -2
+f(0, 1) is -2
+f(1, 1) is -2
+f(2, 1) is 0
+f(1, 2) is -2
+f(3, 2) is 4
+f(2, 3) is 0
+f(5, 5) is 18
+
+-- Relation #222
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b * a - 1 - a * 2
+
+f(0, 0) is -1
+f(1, 0) is -3
+f(0, 1) is -1
+f(1, 1) is -2
+f(2, 1) is -3
+f(1, 2) is -1
+f(3, 2) is -1
+f(2, 3) is 1
+f(5, 5) is 14
+
+-- Relation #223
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a + a + 0 - 1 + a * a + 0 + a
+
+f(0, 0) is -1
+f(1, 0) is 3
+f(0, 1) is -1
+f(1, 1) is 3
+f(2, 1) is 9
+f(1, 2) is 3
+f(3, 2) is 17
+f(2, 3) is 9
+f(5, 5) is 39
+
+-- Relation #224
+-- Propriétés: [neutral-left:0, linear-in-b, linear-in-a]
+f a,b ->
+  b - a * 2 * b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 1
+f(1, 1) is -1
+f(2, 1) is -3
+f(1, 2) is -2
+f(3, 2) is -10
+f(2, 3) is -9
+f(5, 5) is -45
+
+-- Relation #225
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  0 + a * a - a
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 2
+f(1, 2) is 0
+f(3, 2) is 6
+f(2, 3) is 2
+f(5, 5) is 20
+
+-- Relation #226
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 - a + b + b
+
+f(0, 0) is 1
+f(1, 0) is 0
+f(0, 1) is 3
+f(1, 1) is 2
+f(2, 1) is 1
+f(1, 2) is 4
+f(3, 2) is 2
+f(2, 3) is 5
+f(5, 5) is 6
+
+-- Relation #227
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  0 - a - 2 - 1
+
+f(0, 0) is -3
+f(1, 0) is -4
+f(0, 1) is -3
+f(1, 1) is -4
+f(2, 1) is -5
+f(1, 2) is -4
+f(3, 2) is -6
+f(2, 3) is -5
+f(5, 5) is -8
+
+-- Relation #228
+-- Propriétés: [neutral-right:0, linear-in-b, linear-in-a]
+f a,b ->
+  b - a * b + a - b + 0
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 0
+f(1, 2) is -1
+f(3, 2) is -3
+f(2, 3) is -4
+f(5, 5) is -20
+
+-- Relation #229
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  1 + a * a + a + a
+
+f(0, 0) is 1
+f(1, 0) is 4
+f(0, 1) is 1
+f(1, 1) is 4
+f(2, 1) is 9
+f(1, 2) is 4
+f(3, 2) is 16
+f(2, 3) is 9
+f(5, 5) is 36
+
+-- Relation #230
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 - 2 * a * 2 - 2 * 1
+
+f(0, 0) is -1
+f(1, 0) is -5
+f(0, 1) is -1
+f(1, 1) is -5
+f(2, 1) is -9
+f(1, 2) is -5
+f(3, 2) is -13
+f(2, 3) is -9
+f(5, 5) is -21
+
+-- Relation #231
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  b * 2 * 2 * b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 4
+f(1, 1) is 4
+f(2, 1) is 4
+f(1, 2) is 16
+f(3, 2) is 16
+f(2, 3) is 36
+f(5, 5) is 100
+
+-- Relation #232
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 * b - 1 - 2 - a - 0
+
+f(0, 0) is -3
+f(1, 0) is -4
+f(0, 1) is -2
+f(1, 1) is -3
+f(2, 1) is -4
+f(1, 2) is -2
+f(3, 2) is -4
+f(2, 3) is -2
+f(5, 5) is -3
+
+-- Relation #233
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  b + 1 + 0 + 2 - 1 * a
+
+f(0, 0) is 3
+f(1, 0) is 2
+f(0, 1) is 4
+f(1, 1) is 3
+f(2, 1) is 2
+f(1, 2) is 4
+f(3, 2) is 2
+f(2, 3) is 4
+f(5, 5) is 3
+
+-- Relation #234
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  b + a * 2 * a - 1 - b + b
+
+f(0, 0) is -1
+f(1, 0) is 1
+f(0, 1) is 0
+f(1, 1) is 2
+f(2, 1) is 8
+f(1, 2) is 3
+f(3, 2) is 19
+f(2, 3) is 10
+f(5, 5) is 54
+
+-- Relation #235
+-- Propriétés: [commutative, linear-in-b, linear-in-a]
+f a,b ->
+  2 - b - a + 1 - 0 * 0 + 2 * 1
+
+f(0, 0) is 5
+f(1, 0) is 4
+f(0, 1) is 4
+f(1, 1) is 3
+f(2, 1) is 2
+f(1, 2) is 2
+f(3, 2) is 0
+f(2, 3) is 0
+f(5, 5) is -5
+
+-- Relation #236
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  2 - a + b * 2
+
+f(0, 0) is 2
+f(1, 0) is 1
+f(0, 1) is 4
+f(1, 1) is 3
+f(2, 1) is 2
+f(1, 2) is 5
+f(3, 2) is 3
+f(2, 3) is 6
+f(5, 5) is 7
+
+-- Relation #237
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  2 + b * 1 * 1 * b - 0 + b + 2
+
+f(0, 0) is 4
+f(1, 0) is 4
+f(0, 1) is 6
+f(1, 1) is 6
+f(2, 1) is 6
+f(1, 2) is 10
+f(3, 2) is 10
+f(2, 3) is 16
+f(5, 5) is 34
+
+-- Relation #238
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 - 2 * 2 - b
+
+f(0, 0) is -3
+f(1, 0) is -3
+f(0, 1) is -4
+f(1, 1) is -4
+f(2, 1) is -4
+f(1, 2) is -5
+f(3, 2) is -5
+f(2, 3) is -6
+f(5, 5) is -8
+
+-- Relation #239
+-- Propriétés: [neutral-left:0, mono-b, linear-in-b]
+f a,b ->
+  b - 1 * a * a - a + 0
+
+f(0, 0) is 0
+f(1, 0) is -2
+f(0, 1) is 1
+f(1, 1) is -1
+f(2, 1) is -5
+f(1, 2) is 0
+f(3, 2) is -10
+f(2, 3) is -3
+f(5, 5) is -25
+
+-- Relation #240
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  2 * a - b * 1 + 2 + 2 + a
+
+f(0, 0) is 4
+f(1, 0) is 7
+f(0, 1) is 3
+f(1, 1) is 6
+f(2, 1) is 9
+f(1, 2) is 5
+f(3, 2) is 11
+f(2, 3) is 7
+f(5, 5) is 14
+
+-- Relation #241
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  1 - b - b * 2
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is -2
+f(1, 1) is -2
+f(2, 1) is -2
+f(1, 2) is -5
+f(3, 2) is -5
+f(2, 3) is -8
+f(5, 5) is -14
+
+-- Relation #242
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  0 + 0 + b * 2 * b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 2
+f(1, 2) is 8
+f(3, 2) is 8
+f(2, 3) is 18
+f(5, 5) is 50
+
+-- Relation #243
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  2 * a - 2 - b + 1
+
+f(0, 0) is -1
+f(1, 0) is 1
+f(0, 1) is -2
+f(1, 1) is 0
+f(2, 1) is 2
+f(1, 2) is -1
+f(3, 2) is 3
+f(2, 3) is 0
+f(5, 5) is 4
+
+-- Relation #244
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  0 + 1 * a * b - b + 2
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 3
+f(1, 2) is 2
+f(3, 2) is 6
+f(2, 3) is 5
+f(5, 5) is 22
+
+-- Relation #245
+-- Propriétés: [mono-a, linear-in-b, linear-in-a]
+f a,b ->
+  b * a - 2 - b - b
+
+f(0, 0) is -2
+f(1, 0) is -2
+f(0, 1) is -4
+f(1, 1) is -3
+f(2, 1) is -2
+f(1, 2) is -4
+f(3, 2) is 0
+f(2, 3) is -2
+f(5, 5) is 13
+
+-- Relation #246
+-- Propriétés: [mono-a, mono-b, linear-in-a]
+f a,b ->
+  1 + 1 * a + a - 1 + b * b + 0
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 3
+f(2, 1) is 5
+f(1, 2) is 6
+f(3, 2) is 10
+f(2, 3) is 13
+f(5, 5) is 35
+
+-- Relation #247
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  0 * 0 + 1 + a * a * 2 - 2
+
+f(0, 0) is -1
+f(1, 0) is 1
+f(0, 1) is -1
+f(1, 1) is 1
+f(2, 1) is 7
+f(1, 2) is 1
+f(3, 2) is 17
+f(2, 3) is 7
+f(5, 5) is 49
+
+-- Relation #248
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a + a * a - 1 - 0
+
+f(0, 0) is -1
+f(1, 0) is 1
+f(0, 1) is -1
+f(1, 1) is 1
+f(2, 1) is 5
+f(1, 2) is 1
+f(3, 2) is 11
+f(2, 3) is 5
+f(5, 5) is 29
+
+-- Relation #249
+-- Propriétés: [commutative, linear-in-b, linear-in-a]
+f a,b ->
+  1 + b - a - 2 * 2 - 2 * b
+
+f(0, 0) is -3
+f(1, 0) is -4
+f(0, 1) is -4
+f(1, 1) is -5
+f(2, 1) is -6
+f(1, 2) is -6
+f(3, 2) is -8
+f(2, 3) is -8
+f(5, 5) is -13
+
+-- Relation #250
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 * 2 * a * b * 1 - a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is 1
+f(2, 1) is 2
+f(1, 2) is 3
+f(3, 2) is 9
+f(2, 3) is 10
+f(5, 5) is 45
+
+-- Relation #251
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a + b + a - 2 + b + a * a
+
+f(0, 0) is -2
+f(1, 0) is 1
+f(0, 1) is 0
+f(1, 1) is 3
+f(2, 1) is 8
+f(1, 2) is 5
+f(3, 2) is 17
+f(2, 3) is 12
+f(5, 5) is 43
+
+-- Relation #252
+-- Propriétés: [mono-a, mono-b, linear-in-b]
+f a,b ->
+  a * 1 * a * 1 + 2 - a - 1
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is 3
+f(1, 2) is 1
+f(3, 2) is 7
+f(2, 3) is 3
+f(5, 5) is 21
+
+-- Relation #253
+-- Propriétés: [mono-b, linear-in-b, linear-in-a]
+f a,b ->
+  1 - a - 2 - a * 1
+
+f(0, 0) is -1
+f(1, 0) is -3
+f(0, 1) is -1
+f(1, 1) is -3
+f(2, 1) is -5
+f(1, 2) is -3
+f(3, 2) is -7
+f(2, 3) is -5
+f(5, 5) is -11
+
+-- Relation #254
+-- Propriétés: [mono-b, linear-in-a]
+f a,b ->
+  b * 2 * b + b * a * 2 - a - a
+
+f(0, 0) is 0
+f(1, 0) is -2
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 2
+f(1, 2) is 10
+f(3, 2) is 14
+f(2, 3) is 26
+f(5, 5) is 90
+
+-- Relation #255
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  a - a * a + 2 + 2 + 1 + 0
+
+f(0, 0) is 5
+f(1, 0) is 5
+f(0, 1) is 5
+f(1, 1) is 5
+f(2, 1) is 3
+f(1, 2) is 5
+f(3, 2) is -1
+f(2, 3) is 3
+f(5, 5) is -15
+
+-- Relation #256
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  0 - a * b + a - 1 - 2
+
+f(0, 0) is -3
+f(1, 0) is -2
+f(0, 1) is -3
+f(1, 1) is -3
+f(2, 1) is -3
+f(1, 2) is -4
+f(3, 2) is -6
+f(2, 3) is -7
+f(5, 5) is -23
+
+-- Relation #257
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  2 - b * b - 0 - 0 + 0 + b
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 2
+f(1, 2) is 0
+f(3, 2) is 0
+f(2, 3) is -4
+f(5, 5) is -18
+
+-- Relation #258
+-- Propriétés: [mono-a, linear-in-b]
+f a,b ->
+  a * a - 2 - b - 1 - a - 1
+
+f(0, 0) is -4
+f(1, 0) is -4
+f(0, 1) is -5
+f(1, 1) is -5
+f(2, 1) is -3
+f(1, 2) is -6
+f(3, 2) is 0
+f(2, 3) is -5
+f(5, 5) is 11
+
+-- Relation #259
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  2 - b * b + 0 * a - 1
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 0
+f(1, 2) is -3
+f(3, 2) is -3
+f(2, 3) is -8
+f(5, 5) is -24
+
+-- Relation #260
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  b + 2 - 1 - a * b * 1
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is 2
+f(1, 1) is 1
+f(2, 1) is 0
+f(1, 2) is 1
+f(3, 2) is -3
+f(2, 3) is -2
+f(5, 5) is -19
+
+-- Relation #261
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  b + a + 2 + 1 * 1 - b * b - 2
+
+f(0, 0) is 1
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 2
+f(2, 1) is 3
+f(1, 2) is 0
+f(3, 2) is 2
+f(2, 3) is -3
+f(5, 5) is -14
+
+-- Relation #262
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  b * b * a - b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is 0
+f(2, 1) is 1
+f(1, 2) is 2
+f(3, 2) is 10
+f(2, 3) is 15
+f(5, 5) is 120
+
+-- Relation #263
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  2 * 2 * a - b * b - 0
+
+f(0, 0) is 0
+f(1, 0) is 4
+f(0, 1) is -1
+f(1, 1) is 3
+f(2, 1) is 7
+f(1, 2) is 0
+f(3, 2) is 8
+f(2, 3) is -1
+f(5, 5) is -5
+
+-- Relation #264
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  2 - b * b * 2 + 2 - 1 + 2
+
+f(0, 0) is 5
+f(1, 0) is 5
+f(0, 1) is 3
+f(1, 1) is 3
+f(2, 1) is 3
+f(1, 2) is -3
+f(3, 2) is -3
+f(2, 3) is -13
+f(5, 5) is -45
+
+-- Relation #265
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  a + 2 - a * a
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 0
+f(1, 2) is 2
+f(3, 2) is -4
+f(2, 3) is 0
+f(5, 5) is -18
+
+-- Relation #266
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  b + 2 - a * b
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 3
+f(1, 1) is 2
+f(2, 1) is 1
+f(1, 2) is 2
+f(3, 2) is -2
+f(2, 3) is -1
+f(5, 5) is -18
+
+-- Relation #267
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  2 - a * b + 0 + 2 + b * 1
+
+f(0, 0) is 4
+f(1, 0) is 4
+f(0, 1) is 5
+f(1, 1) is 4
+f(2, 1) is 3
+f(1, 2) is 4
+f(3, 2) is 0
+f(2, 3) is 1
+f(5, 5) is -16
+
+-- Relation #268
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  0 - a * a - 1
+
+f(0, 0) is -1
+f(1, 0) is -2
+f(0, 1) is -1
+f(1, 1) is -2
+f(2, 1) is -5
+f(1, 2) is -2
+f(3, 2) is -10
+f(2, 3) is -5
+f(5, 5) is -26
+
+-- Relation #269
+-- Propriétés: [mono-a, linear-in-b]
+f a,b ->
+  a + 1 - 2 - 1 + a * a - b
+
+f(0, 0) is -2
+f(1, 0) is 0
+f(0, 1) is -3
+f(1, 1) is -1
+f(2, 1) is 3
+f(1, 2) is -2
+f(3, 2) is 8
+f(2, 3) is 1
+f(5, 5) is 23
+
+-- Relation #270
+-- Propriétés: [mono-b, linear-in-a]
+f a,b ->
+  b * b - a * 2
+
+f(0, 0) is 0
+f(1, 0) is -2
+f(0, 1) is 1
+f(1, 1) is -1
+f(2, 1) is -3
+f(1, 2) is 2
+f(3, 2) is -2
+f(2, 3) is 5
+f(5, 5) is 15
+
+-- Relation #271
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  a * a * 0 - a - a * b
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is -2
+f(2, 1) is -4
+f(1, 2) is -3
+f(3, 2) is -9
+f(2, 3) is -8
+f(5, 5) is -30
+
+-- Relation #272
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  0 - 0 + 2 - b * b
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is 1
+f(1, 2) is -2
+f(3, 2) is -2
+f(2, 3) is -7
+f(5, 5) is -23
+
+-- Relation #273
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  2 - a * 2 + a - b - 0 + 2 - b
+
+f(0, 0) is 4
+f(1, 0) is 3
+f(0, 1) is 2
+f(1, 1) is 1
+f(2, 1) is 0
+f(1, 2) is -1
+f(3, 2) is -3
+f(2, 3) is -4
+f(5, 5) is -11
+
+-- Relation #274
+-- Propriétés: [mono-a, linear-in-b]
+f a,b ->
+  a * a - b + 0 * 1 + a
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is -1
+f(1, 1) is 1
+f(2, 1) is 5
+f(1, 2) is 0
+f(3, 2) is 10
+f(2, 3) is 3
+f(5, 5) is 25
+
+-- Relation #275
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  a - a - a + b * a * a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is 2
+f(1, 2) is 1
+f(3, 2) is 15
+f(2, 3) is 10
+f(5, 5) is 120
+
+-- Relation #276
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  b - 2 * a * b - 1 + b - b + b
+
+f(0, 0) is -1
+f(1, 0) is -1
+f(0, 1) is 1
+f(1, 1) is -1
+f(2, 1) is -3
+f(1, 2) is -1
+f(3, 2) is -9
+f(2, 3) is -7
+f(5, 5) is -41
+
+-- Relation #277
+-- Propriétés: [nilpotent, linear-in-a]
+f a,b ->
+  1 * b * b - b * a
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -1
+f(1, 2) is 2
+f(3, 2) is -2
+f(2, 3) is 3
+f(5, 5) is 0
+
+-- Relation #278
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  1 - a * a * 2 - 0 * b + 2 + 2
+
+f(0, 0) is 5
+f(1, 0) is 3
+f(0, 1) is 5
+f(1, 1) is 3
+f(2, 1) is -3
+f(1, 2) is 3
+f(3, 2) is -13
+f(2, 3) is -3
+f(5, 5) is -45
+
+-- Relation #279
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  0 * a - a * a * 2 - 2 + 1
+
+f(0, 0) is -1
+f(1, 0) is -3
+f(0, 1) is -1
+f(1, 1) is -3
+f(2, 1) is -9
+f(1, 2) is -3
+f(3, 2) is -19
+f(2, 3) is -9
+f(5, 5) is -51
+
+-- Relation #280
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  b - b * b * 2 - 1
+
+f(0, 0) is -1
+f(1, 0) is -1
+f(0, 1) is -2
+f(1, 1) is -2
+f(2, 1) is -2
+f(1, 2) is -7
+f(3, 2) is -7
+f(2, 3) is -16
+f(5, 5) is -46
+
+-- Relation #281
+-- Propriétés: [mono-a, linear-in-b]
+f a,b ->
+  a * a - 1 * b - a
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is -1
+f(2, 1) is 1
+f(1, 2) is -2
+f(3, 2) is 4
+f(2, 3) is -1
+f(5, 5) is 15
+
+-- Relation #282
+-- Propriétés: [mono-b, linear-in-a]
+f a,b ->
+  0 + b * 1 * 1 * b - a + 1
+
+f(0, 0) is 1
+f(1, 0) is 0
+f(0, 1) is 2
+f(1, 1) is 1
+f(2, 1) is 0
+f(1, 2) is 4
+f(3, 2) is 2
+f(2, 3) is 8
+f(5, 5) is 21
+
+-- Relation #283
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  1 - a - b - a - 2
+
+f(0, 0) is -1
+f(1, 0) is -3
+f(0, 1) is -2
+f(1, 1) is -4
+f(2, 1) is -6
+f(1, 2) is -5
+f(3, 2) is -9
+f(2, 3) is -8
+f(5, 5) is -16
+
+-- Relation #284
+-- Propriétés: [mono-a, mono-b]
+f a,b ->
+  1 - 0 + a + b * a * a * b
+
+f(0, 0) is 1
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 3
+f(2, 1) is 7
+f(1, 2) is 6
+f(3, 2) is 40
+f(2, 3) is 39
+f(5, 5) is 631
+
+-- Relation #285
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  0 * 2 - a * 2 * 1 * 2 * b - a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is -5
+f(2, 1) is -10
+f(1, 2) is -9
+f(3, 2) is -27
+f(2, 3) is -26
+f(5, 5) is -105
+
+-- Relation #286
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  a * a - 0 - a * a * 2 + a + 1
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is -1
+f(1, 2) is 1
+f(3, 2) is -5
+f(2, 3) is -1
+f(5, 5) is -19
+
+-- Relation #287
+-- Propriétés: [mono-b, linear-in-a]
+f a,b ->
+  0 * 2 - b + b * b * 2 - a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -1
+f(1, 2) is 5
+f(3, 2) is 3
+f(2, 3) is 13
+f(5, 5) is 40
+
+-- Relation #288
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  1 + 1 - a - 2 * b + 1 + 0
+
+f(0, 0) is 3
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -1
+f(1, 2) is -2
+f(3, 2) is -4
+f(2, 3) is -5
+f(5, 5) is -12
+
+-- Relation #289
+-- Propriétés: [mono-a, linear-in-b]
+f a,b ->
+  a * a + a - b * 2
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is -2
+f(1, 1) is 0
+f(2, 1) is 4
+f(1, 2) is -2
+f(3, 2) is 8
+f(2, 3) is 0
+f(5, 5) is 20
+
+-- Relation #290
+-- Propriétés: [mono-a, linear-in-b]
+f a,b ->
+  a * a + 1 - b
+
+f(0, 0) is 1
+f(1, 0) is 2
+f(0, 1) is 0
+f(1, 1) is 1
+f(2, 1) is 4
+f(1, 2) is 0
+f(3, 2) is 8
+f(2, 3) is 2
+f(5, 5) is 21
+
+-- Relation #291
+-- Propriétés: [mono-b, linear-in-a]
+f a,b ->
+  a - a - a + b * b
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -1
+f(1, 2) is 3
+f(3, 2) is 1
+f(2, 3) is 7
+f(5, 5) is 20
+
+-- Relation #292
+-- Propriétés: [linear-in-b, linear-in-a]
+f a,b ->
+  1 - a * 1 * b + 1 - b
+
+f(0, 0) is 2
+f(1, 0) is 2
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -1
+f(1, 2) is -2
+f(3, 2) is -6
+f(2, 3) is -7
+f(5, 5) is -28
+
+-- Relation #293
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  a - a * a
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is 0
+f(1, 1) is 0
+f(2, 1) is -2
+f(1, 2) is 0
+f(3, 2) is -6
+f(2, 3) is -2
+f(5, 5) is -20
+
+-- Relation #294
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  0 - 2 + 0 + b - a * a - 1
+
+f(0, 0) is -3
+f(1, 0) is -4
+f(0, 1) is -2
+f(1, 1) is -3
+f(2, 1) is -6
+f(1, 2) is -2
+f(3, 2) is -10
+f(2, 3) is -4
+f(5, 5) is -23
+
+-- Relation #295
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  a - b - 1 - b * b + b + 0 * 0
+
+f(0, 0) is -1
+f(1, 0) is 0
+f(0, 1) is -2
+f(1, 1) is -1
+f(2, 1) is 0
+f(1, 2) is -4
+f(3, 2) is -2
+f(2, 3) is -8
+f(5, 5) is -21
+
+-- Relation #296
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  b - 1 * a * a - b - a - 2
+
+f(0, 0) is -2
+f(1, 0) is -4
+f(0, 1) is -2
+f(1, 1) is -4
+f(2, 1) is -8
+f(1, 2) is -4
+f(3, 2) is -14
+f(2, 3) is -8
+f(5, 5) is -32
+
+-- Relation #297
+-- Propriétés: [mono-a, linear-in-b]
+f a,b ->
+  0 - b - b * 0 + a * a
+
+f(0, 0) is 0
+f(1, 0) is 1
+f(0, 1) is -1
+f(1, 1) is 0
+f(2, 1) is 3
+f(1, 2) is -1
+f(3, 2) is 7
+f(2, 3) is 1
+f(5, 5) is 20
+
+-- Relation #298
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  0 + 1 - b * 2 * b
+
+f(0, 0) is 1
+f(1, 0) is 1
+f(0, 1) is -1
+f(1, 1) is -1
+f(2, 1) is -1
+f(1, 2) is -7
+f(3, 2) is -7
+f(2, 3) is -17
+f(5, 5) is -49
+
+-- Relation #299
+-- Propriétés: [mono-b, linear-in-a]
+f a,b ->
+  0 * a + b - a + b * b - 1
+
+f(0, 0) is -1
+f(1, 0) is -2
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -1
+f(1, 2) is 4
+f(3, 2) is 2
+f(2, 3) is 9
+f(5, 5) is 24
+
+-- Relation #300
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  0 * 1 - a * a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is 0
+f(1, 1) is -1
+f(2, 1) is -4
+f(1, 2) is -1
+f(3, 2) is -9
+f(2, 3) is -4
+f(5, 5) is -25
+
+-- Relation #301
+-- Propriétés: [mono-b, linear-in-b]
+f a,b ->
+  b - a * a - a * 2 - 2 - 1 - 2
+
+f(0, 0) is -5
+f(1, 0) is -8
+f(0, 1) is -4
+f(1, 1) is -7
+f(2, 1) is -12
+f(1, 2) is -6
+f(3, 2) is -18
+f(2, 3) is -10
+f(5, 5) is -35
+
+-- Relation #302
+-- Propriétés: [mono-a, linear-in-a]
+f a,b ->
+  1 - 1 - b * b
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is -1
+f(2, 1) is -1
+f(1, 2) is -4
+f(3, 2) is -4
+f(2, 3) is -9
+f(5, 5) is -25
+
+-- Relation #303
+-- Propriétés: [linear-in-b]
+f a,b ->
+  a - b + a - a * a - a + 0
+
+f(0, 0) is 0
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is -1
+f(2, 1) is -3
+f(1, 2) is -2
+f(3, 2) is -8
+f(2, 3) is -5
+f(5, 5) is -25
+
+-- Relation #304
+-- Propriétés: [linear-in-a]
+f a,b ->
+  2 + a - b * b * a * b
+
+f(0, 0) is 2
+f(1, 0) is 3
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 2
+f(1, 2) is -5
+f(3, 2) is -19
+f(2, 3) is -50
+f(5, 5) is -618
+
+-- Relation #305
+-- Propriétés: [linear-in-b]
+f a,b ->
+  1 - b - a + a * a * 1 * b + 1
+
+f(0, 0) is 2
+f(1, 0) is 1
+f(0, 1) is 1
+f(1, 1) is 1
+f(2, 1) is 3
+f(1, 2) is 1
+f(3, 2) is 15
+f(2, 3) is 9
+f(5, 5) is 117
+
+-- Relation #306
+-- Propriétés: [linear-in-b]
+f a,b ->
+  1 + 2 - a * a - 1 * 0 - b
+
+f(0, 0) is 3
+f(1, 0) is 2
+f(0, 1) is 2
+f(1, 1) is 1
+f(2, 1) is -2
+f(1, 2) is 0
+f(3, 2) is -8
+f(2, 3) is -4
+f(5, 5) is -27
+
+-- Relation #307
+-- Propriétés: [linear-in-a]
+f a,b ->
+  1 - a - b * b - b
+
+f(0, 0) is 1
+f(1, 0) is 0
+f(0, 1) is -1
+f(1, 1) is -2
+f(2, 1) is -3
+f(1, 2) is -6
+f(3, 2) is -8
+f(2, 3) is -13
+f(5, 5) is -34
+
+-- Relation #308
+-- Propriétés: [linear-in-b]
+f a,b ->
+  0 * 2 - b - a * a
+
+f(0, 0) is 0
+f(1, 0) is -1
+f(0, 1) is -1
+f(1, 1) is -2
+f(2, 1) is -5
+f(1, 2) is -3
+f(3, 2) is -11
+f(2, 3) is -7
+f(5, 5) is -30
+
+-- Relation #309
+-- Propriétés: [linear-in-b]
+f a,b ->
+  a - b * a * a - 1 - 1
+
+f(0, 0) is -2
+f(1, 0) is -1
+f(0, 1) is -2
+f(1, 1) is -2
+f(2, 1) is -4
+f(1, 2) is -3
+f(3, 2) is -17
+f(2, 3) is -12
+f(5, 5) is -122
+
+-- Relation #310
+-- Propriétés: [linear-in-b]
+f a,b ->
+  2 + 0 * 2 + a - b * a * a
+
+f(0, 0) is 2
+f(1, 0) is 3
+f(0, 1) is 2
+f(1, 1) is 2
+f(2, 1) is 0
+f(1, 2) is 1
+f(3, 2) is -13
+f(2, 3) is -8
+f(5, 5) is -118
+
+-- Relation #311
+-- Propriétés: [linear-in-b]
+f a,b ->
+  b - a - a * a - b * a - b * 2
+
+f(0, 0) is 0
+f(1, 0) is -2
+f(0, 1) is -1
+f(1, 1) is -4
+f(2, 1) is -9
+f(1, 2) is -6
+f(3, 2) is -20
+f(2, 3) is -15
+f(5, 5) is -60
+
+-- Relation #312
+-- Propriétés: [linear-in-a]
+f a,b ->
+  1 - a - b * 1 * b
+
+f(0, 0) is 1
+f(1, 0) is 0
+f(0, 1) is 0
+f(1, 1) is -1
+f(2, 1) is -2
+f(1, 2) is -4
+f(3, 2) is -6
+f(2, 3) is -10
+f(5, 5) is -29
+
+-- Relation #313
+-- Propriétés: [mono-b]
+f a,b ->
+  1 * a * b * a * b - 2 * a
+
+f(0, 0) is 0
+f(1, 0) is -2
+f(0, 1) is 0
+f(1, 1) is -1
+f(2, 1) is 0
+f(1, 2) is 2
+f(3, 2) is 30
+f(2, 3) is 32
+f(5, 5) is 615
+
+-- Relation #314
+-- Propriétés: [linear-in-b]
+f a,b ->
+  1 * a * 2 * 1 * a - a * b
+
+f(0, 0) is 0
+f(1, 0) is 2
+f(0, 1) is 0
+f(1, 1) is 1
+f(2, 1) is 6
+f(1, 2) is 0
+f(3, 2) is 12
+f(2, 3) is 2
+f(5, 5) is 25
+
+-- Relation #315
+-- Propriétés: [linear-in-b]
+f a,b ->
+  1 - a - a * a * b * a * 1
+
+f(0, 0) is 1
+f(1, 0) is 0
+f(0, 1) is 1
+f(1, 1) is -1
+f(2, 1) is -9
+f(1, 2) is -2
+f(3, 2) is -56
+f(2, 3) is -25
+f(5, 5) is -629
+
+-- Relation #316
+-- Propriétés: [linear-in-b]
+f a,b ->
+  b - a - b * 2 * 2 - a * a
+
+f(0, 0) is 0
+f(1, 0) is -2
+f(0, 1) is -3
+f(1, 1) is -5
+f(2, 1) is -9
+f(1, 2) is -8
+f(3, 2) is -18
+f(2, 3) is -15
+f(5, 5) is -45
+
+-- Relation #317
+-- Propriétés: [linear-in-b]
+f a,b ->
+  2 - a * a - 1 + 1 - b
+
+f(0, 0) is 2
+f(1, 0) is 1
+f(0, 1) is 1
+f(1, 1) is 0
+f(2, 1) is -3
+f(1, 2) is -1
+f(3, 2) is -9
+f(2, 3) is -5
+f(5, 5) is -28
+

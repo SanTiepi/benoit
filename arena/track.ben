@@ -1,0 +1,65 @@
+-- track.ben — Je note ce que j'ai essayé.
+-- "Oublier ce qu'on a tenté, c'est recommencer à zéro."
+
+-- ═══════ MON ÉTAT (déjà défini par decide.ben et feedback.ben) ═══════
+-- decision, tried_* sont dans les VAR du bytecode
+-- NE PAS les redéfinir ici (sinon on écrase les phases précédentes)
+
+-- ═══════ MARQUAGE ═══════
+-- Chaque décision met à 1 le flag correspondant.
+
+_mark_tried decision, old ->
+  decision == 0? -> 1
+  else? -> old
+
+new_tried_explorer: _mark_tried(decision, tried_explorer)
+
+_mark_creer decision, old ->
+  decision == 1? -> 1
+  else? -> old
+
+new_tried_creer: _mark_creer(decision, tried_creer)
+
+_mark_augmenter decision, old ->
+  decision == 2? -> 1
+  else? -> old
+
+new_tried_augmenter: _mark_augmenter(decision, tried_augmenter)
+
+_mark_baisser decision, old ->
+  decision == 3? -> 1
+  else? -> old
+
+new_tried_baisser: _mark_baisser(decision, tried_baisser)
+
+_mark_elaguer decision, old ->
+  decision == 4? -> 1
+  else? -> old
+
+new_tried_elaguer: _mark_elaguer(decision, tried_elaguer)
+
+_mark_inhiber decision, old ->
+  decision == 5? -> 1
+  else? -> old
+
+new_tried_inhiber: _mark_inhiber(decision, tried_inhiber)
+
+_mark_desinhiber decision, old ->
+  decision == 6? -> 1
+  else? -> old
+
+new_tried_desinhiber: _mark_desinhiber(decision, tried_desinhiber)
+
+_mark_grandir decision, old ->
+  decision == 7? -> 1
+  else? -> old
+
+new_tried_grandir: _mark_grandir(decision, tried_grandir)
+
+-- ═══════ VÉRIFICATION ═══════
+new_tried_explorer is 1
+new_tried_creer is 0
+new_tried_augmenter is 0
+new_tried_baisser is 0
+
+-- "Je sais ce que j'ai déjà tenté."

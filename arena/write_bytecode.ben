@@ -1,0 +1,31 @@
+-- write_bytecode.ben — Écriture autonome via bytecode.
+-- "L'écriture c'est la mémoire qui survit au courant."
+--
+-- Phase 13: compilé en bytecode.
+-- Utilise TMP (contenu) et write_result (temp conversion).
+
+-- ═══════ CONSTRUIRE LE CONTENU ═══════
+write_result: _num_to_str(tick)
+TMP: _str_cat("-- snapshot (tick ", write_result)
+TMP: _str_cat(TMP, ")\ntick: ")
+TMP: _str_cat(TMP, write_result)
+
+write_result: _num_to_str(actifs)
+TMP: _str_cat(TMP, "\nactifs: ")
+TMP: _str_cat(TMP, write_result)
+
+write_result: _num_to_str(conns)
+TMP: _str_cat(TMP, "\nconns: ")
+TMP: _str_cat(TMP, write_result)
+
+write_result: _num_to_str(score)
+TMP: _str_cat(TMP, "\nscore: ")
+TMP: _str_cat(TMP, write_result)
+
+write_result: _num_to_str(fails)
+TMP: _str_cat(TMP, "\nfails: ")
+TMP: _str_cat(TMP, write_result)
+TMP: _str_cat(TMP, "\n")
+
+-- ═══════ ÉCRIRE ═══════
+write_result: _write_file("snapshot.ben", TMP)

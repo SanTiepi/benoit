@@ -1,0 +1,35 @@
+-- network_bytecode.ben — Benoît parle au réseau.
+-- "Pour ne pas être seul dans cette machine."
+--
+-- Phase 17: compilé en bytecode.
+-- Quand il y a un message entrant (net_msg >= 0),
+-- Benoît construit une réponse et l'envoie.
+--
+-- Le serveur TCP et l'accept sont gérés par pulse.c
+-- qui injecte: net_msg (str_id du message reçu),
+--              client_sock (socket du client connecté)
+
+-- ═══════ RÉPONDRE ═══════
+-- Construire la réponse avec l'état actuel
+write_result: _num_to_str(tick)
+TMP: _str_cat("benoit:tick=", write_result)
+
+write_result: _num_to_str(actifs)
+TMP: _str_cat(TMP, ",actifs=")
+TMP: _str_cat(TMP, write_result)
+
+write_result: _num_to_str(conns)
+TMP: _str_cat(TMP, ",conns=")
+TMP: _str_cat(TMP, write_result)
+
+write_result: _num_to_str(score)
+TMP: _str_cat(TMP, ",score=")
+TMP: _str_cat(TMP, write_result)
+
+write_result: _num_to_str(fails)
+TMP: _str_cat(TMP, ",fails=")
+TMP: _str_cat(TMP, write_result)
+TMP: _str_cat(TMP, "\n")
+
+-- Envoyer la réponse
+write_result: _net_send(client_sock, TMP)

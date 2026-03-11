@@ -1,0 +1,5581 @@
+-- Relations 3D découvertes par Benoît
+-- f(a, b, c) — exploration volumétrique
+-- 429 relations uniques
+
+-- Relation 3D #1
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  c + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 4
+f(3, 2, 1) is 3
+
+-- Relation 3D #2
+-- Propriétés: [totally-symmetric, neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + b * 1 + c * 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 6
+f(3, 2, 1) is 6
+
+-- Relation 3D #3
+-- Propriétés: [totally-symmetric, neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + c + a + b * a * c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 4
+f(2, 1, 3) is 12
+f(3, 2, 1) is 12
+
+-- Relation 3D #4
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-b, mono-c, idemp-diagonal, rotate-bc-at-0]
+f a,b,c ->
+  b * 1 + c - a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 2
+f(3, 2, 1) is 0
+
+-- Relation 3D #5
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-b, mono-c, nil-diagonal, rotate-bc-at-0]
+f a,b,c ->
+  c + b * 1 - a - a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 0
+f(3, 2, 1) is -3
+
+-- Relation 3D #6
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  c + c * b + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 7
+f(3, 2, 1) is 5
+
+-- Relation 3D #7
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + c + a + b * 0
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 7
+f(3, 2, 1) is 7
+
+-- Relation 3D #8
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 + 1 + a + b - 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 4
+f(3, 2, 1) is 6
+
+-- Relation 3D #9
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + c + b * 0
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 5
+f(3, 2, 1) is 4
+
+-- Relation 3D #10
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  1 - 1 * 2 + b + c
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 3
+f(3, 2, 1) is 2
+
+-- Relation 3D #11
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  1 * c * 1 + b * a + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 6
+f(3, 2, 1) is 9
+
+-- Relation 3D #12
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a - 2 + 0 * 2 + b
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -1
+f(0, 1, 0) is -1
+f(0, 0, 1) is -2
+f(1, 1, 1) is 0
+f(2, 1, 3) is 1
+f(3, 2, 1) is 3
+
+-- Relation 3D #13
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-c, nil-diagonal]
+f a,b,c ->
+  c + 0 - b * 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 2
+f(3, 2, 1) is -1
+
+-- Relation 3D #14
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b - 0 + 0 + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 3
+f(3, 2, 1) is 5
+
+-- Relation 3D #15
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + b + a + 2 * b * 0 + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 4
+f(2, 1, 3) is 7
+f(3, 2, 1) is 8
+
+-- Relation 3D #16
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + b - 0 * 1 * b * 0 + 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 4
+f(2, 1, 3) is 5
+f(3, 2, 1) is 7
+
+-- Relation 3D #17
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  1 + c + b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 2
+f(1, 1, 1) is 3
+f(2, 1, 3) is 5
+f(3, 2, 1) is 4
+
+-- Relation 3D #18
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + 2 - 1 + b + 2 * 2
+
+f(0, 0, 0) is 5
+f(1, 0, 0) is 6
+f(0, 1, 0) is 6
+f(0, 0, 1) is 5
+f(1, 1, 1) is 7
+f(2, 1, 3) is 8
+f(3, 2, 1) is 10
+
+-- Relation 3D #19
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + b + 2 + 2 * a + 0 - a + a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 4
+f(0, 1, 0) is 4
+f(0, 0, 1) is 2
+f(1, 1, 1) is 6
+f(2, 1, 3) is 8
+f(3, 2, 1) is 12
+
+-- Relation 3D #20
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  b + 2 * 1 + c
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 3
+f(1, 1, 1) is 4
+f(2, 1, 3) is 6
+f(3, 2, 1) is 5
+
+-- Relation 3D #21
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a * b + b + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 3
+f(2, 1, 3) is 5
+f(3, 2, 1) is 11
+
+-- Relation 3D #22
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + c + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 5
+f(3, 2, 1) is 5
+
+-- Relation 3D #23
+-- Propriétés: [neutral-00c, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  2 * a * a - 0 + c + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 4
+f(2, 1, 3) is 12
+f(3, 2, 1) is 21
+
+-- Relation 3D #24
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-c, idemp-diagonal]
+f a,b,c ->
+  a + c + b * 0 + b - b * 2
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 4
+f(3, 2, 1) is 2
+
+-- Relation 3D #25
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, nil-diagonal]
+f a,b,c ->
+  b - c - c + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is -2
+f(1, 1, 1) is 0
+f(2, 1, 3) is -3
+f(3, 2, 1) is 3
+
+-- Relation 3D #26
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + 1 + 0 * b + 2 + a
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 4
+f(0, 1, 0) is 4
+f(0, 0, 1) is 3
+f(1, 1, 1) is 5
+f(2, 1, 3) is 6
+f(3, 2, 1) is 8
+
+-- Relation 3D #27
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-b, mono-c, nil-diagonal]
+f a,b,c ->
+  c - a + 1 * 0
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 1
+f(3, 2, 1) is -2
+
+-- Relation 3D #28
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  2 + b + b - 1 * 2 * 2 + c * 2
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 6
+f(3, 2, 1) is 4
+
+-- Relation 3D #29
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + 2 * 2 + 2 * 1 * a * 0 + b
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 5
+f(0, 1, 0) is 5
+f(0, 0, 1) is 4
+f(1, 1, 1) is 6
+f(2, 1, 3) is 7
+f(3, 2, 1) is 9
+
+-- Relation 3D #30
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  b + 0 - 2 + c
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -2
+f(0, 1, 0) is -1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 2
+f(3, 2, 1) is 1
+
+-- Relation 3D #31
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b - 2 + 1 + 1 * a - 0
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 2
+f(3, 2, 1) is 4
+
+-- Relation 3D #32
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + a + c * 2
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 4
+f(2, 1, 3) is 9
+f(3, 2, 1) is 7
+
+-- Relation 3D #33
+-- Propriétés: [totally-symmetric, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + b * 2 * 1 + a - b - 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 5
+f(3, 2, 1) is 5
+
+-- Relation 3D #34
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 * b + 2 * a - 2
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is -2
+f(1, 1, 1) is 2
+f(2, 1, 3) is 4
+f(3, 2, 1) is 8
+
+-- Relation 3D #35
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  0 + c - 2 - 1 - 2 + b
+
+f(0, 0, 0) is -5
+f(1, 0, 0) is -5
+f(0, 1, 0) is -4
+f(0, 0, 1) is -4
+f(1, 1, 1) is -3
+f(2, 1, 3) is -1
+f(3, 2, 1) is -2
+
+-- Relation 3D #36
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  c * 1 + b - 2 - 0 - 1
+
+f(0, 0, 0) is -3
+f(1, 0, 0) is -3
+f(0, 1, 0) is -2
+f(0, 0, 1) is -2
+f(1, 1, 1) is -1
+f(2, 1, 3) is 1
+f(3, 2, 1) is 0
+
+-- Relation 3D #37
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  b + b * c + 1 + c + 0
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 2
+f(1, 1, 1) is 4
+f(2, 1, 3) is 8
+f(3, 2, 1) is 6
+
+-- Relation 3D #38
+-- Propriétés: [totally-symmetric, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + c + 2 + b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 3
+f(0, 0, 1) is 3
+f(1, 1, 1) is 5
+f(2, 1, 3) is 8
+f(3, 2, 1) is 8
+
+-- Relation 3D #39
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, idemp-diagonal]
+f a,b,c ->
+  2 * b * 1 - b + 1 * 0 + a - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 0
+f(3, 2, 1) is 4
+
+-- Relation 3D #40
+-- Propriétés: [totally-symmetric, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + b + 1 + c + 2 + 2 - 0 * 1
+
+f(0, 0, 0) is 5
+f(1, 0, 0) is 6
+f(0, 1, 0) is 6
+f(0, 0, 1) is 6
+f(1, 1, 1) is 8
+f(2, 1, 3) is 11
+f(3, 2, 1) is 11
+
+-- Relation 3D #41
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + c * 2 + a + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 5
+f(2, 1, 3) is 12
+f(3, 2, 1) is 8
+
+-- Relation 3D #42
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + c + 2 + c + a - 0 + 1
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 4
+f(0, 1, 0) is 4
+f(0, 0, 1) is 5
+f(1, 1, 1) is 7
+f(2, 1, 3) is 12
+f(3, 2, 1) is 10
+
+-- Relation 3D #43
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  c + c + b + 0 * b + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is 2
+f(1, 1, 1) is 4
+f(2, 1, 3) is 8
+f(3, 2, 1) is 6
+
+-- Relation 3D #44
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, idemp-diagonal]
+f a,b,c ->
+  b - c + b + 0 - 1 - 1 + 2
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is -1
+f(3, 2, 1) is 3
+
+-- Relation 3D #45
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c, nil-diagonal]
+f a,b,c ->
+  c + 2 * b - c - a - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is -1
+f(3, 2, 1) is -1
+
+-- Relation 3D #46
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a * c - b + 0 + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 8
+f(3, 2, 1) is 2
+
+-- Relation 3D #47
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c - 1 - 1 * b * 2 + 1 - b + 0
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -3
+f(0, 0, 1) is 1
+f(1, 1, 1) is -2
+f(2, 1, 3) is 0
+f(3, 2, 1) is -5
+
+-- Relation 3D #48
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a - 0 * a - c + 2 + b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 3
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 2
+f(3, 2, 1) is 6
+
+-- Relation 3D #49
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  0 + a + a + b + b - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 2
+f(0, 0, 1) is -1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 3
+f(3, 2, 1) is 9
+
+-- Relation 3D #50
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  c + 1 - a + 0 + b - 1 * 1 * a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is -1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is 1
+f(3, 2, 1) is -2
+
+-- Relation 3D #51
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, nil-diagonal]
+f a,b,c ->
+  a - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -1
+f(3, 2, 1) is 2
+
+-- Relation 3D #52
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + b + a * 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 3
+f(2, 1, 3) is 4
+f(3, 2, 1) is 7
+
+-- Relation 3D #53
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  b - 2 + c - a - 2
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -5
+f(0, 1, 0) is -3
+f(0, 0, 1) is -3
+f(1, 1, 1) is -3
+f(2, 1, 3) is -2
+f(3, 2, 1) is -4
+
+-- Relation 3D #54
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, nil-diagonal]
+f a,b,c ->
+  a - c + a - c * 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is -2
+f(1, 1, 1) is 0
+f(2, 1, 3) is -2
+f(3, 2, 1) is 4
+
+-- Relation 3D #55
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, nil-diagonal]
+f a,b,c ->
+  b - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -2
+f(3, 2, 1) is 1
+
+-- Relation 3D #56
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 + 2 + 0 * a * 1 + a + c - 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 2
+f(0, 0, 1) is 3
+f(1, 1, 1) is 4
+f(2, 1, 3) is 7
+f(3, 2, 1) is 6
+
+-- Relation 3D #57
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + c - 2 - 1 * a * 0 + a
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is 0
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 5
+f(3, 2, 1) is 5
+
+-- Relation 3D #58
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  c * b + 2 - 2 + b - a - 2 + c
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 3
+f(3, 2, 1) is 0
+
+-- Relation 3D #59
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + b + 0 * 0 + 1 * c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 3
+f(2, 1, 3) is 7
+f(3, 2, 1) is 4
+
+-- Relation 3D #60
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c, nil-diagonal]
+f a,b,c ->
+  a - 0 * b - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is 1
+f(3, 2, 1) is 1
+
+-- Relation 3D #61
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c - 2 + a + 2 + 2 + c
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 2
+f(0, 0, 1) is 4
+f(1, 1, 1) is 5
+f(2, 1, 3) is 10
+f(3, 2, 1) is 7
+
+-- Relation 3D #62
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + 2 - 1 * 1 + c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 3
+f(2, 1, 3) is 6
+f(3, 2, 1) is 5
+
+-- Relation 3D #63
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c - b - b - 0 * 2 * 0
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -2
+f(0, 0, 1) is 1
+f(1, 1, 1) is -1
+f(2, 1, 3) is 1
+f(3, 2, 1) is -3
+
+-- Relation 3D #64
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + b + 1 + c + 1
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 4
+f(0, 0, 1) is 3
+f(1, 1, 1) is 5
+f(2, 1, 3) is 7
+f(3, 2, 1) is 7
+
+-- Relation 3D #65
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c, idemp-diagonal]
+f a,b,c ->
+  a - b + a * 2 - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 3
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 4
+f(3, 2, 1) is 5
+
+-- Relation 3D #66
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + c + a + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 4
+f(2, 1, 3) is 10
+f(3, 2, 1) is 8
+
+-- Relation 3D #67
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b * 2 + a + a + 2 - c - 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 3
+f(0, 1, 0) is 3
+f(0, 0, 1) is 0
+f(1, 1, 1) is 4
+f(2, 1, 3) is 4
+f(3, 2, 1) is 10
+
+-- Relation 3D #68
+-- Propriétés: [neutral-00c, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + a - c * 0 + a * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 9
+f(3, 2, 1) is 13
+
+-- Relation 3D #69
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + c - 1 + 2 * 0 + 1 * a
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 6
+f(3, 2, 1) is 6
+
+-- Relation 3D #70
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c - 2 + a - 2 * 2 - a + a
+
+f(0, 0, 0) is -6
+f(1, 0, 0) is -5
+f(0, 1, 0) is -6
+f(0, 0, 1) is -5
+f(1, 1, 1) is -4
+f(2, 1, 3) is -1
+f(3, 2, 1) is -2
+
+-- Relation 3D #71
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c * 2 * 1 - 2 + b
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -2
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 5
+f(3, 2, 1) is 2
+
+-- Relation 3D #72
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  1 + a * 2 + c - 0 + 2 + 2
+
+f(0, 0, 0) is 5
+f(1, 0, 0) is 7
+f(0, 1, 0) is 5
+f(0, 0, 1) is 6
+f(1, 1, 1) is 8
+f(2, 1, 3) is 12
+f(3, 2, 1) is 12
+
+-- Relation 3D #73
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  1 + 2 * b + b + c + 0 * 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 4
+f(0, 0, 1) is 2
+f(1, 1, 1) is 5
+f(2, 1, 3) is 7
+f(3, 2, 1) is 8
+
+-- Relation 3D #74
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c, idemp-diagonal]
+f a,b,c ->
+  1 * c * 2 + c - a - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 1
+f(2, 1, 3) is 6
+f(3, 2, 1) is -2
+
+-- Relation 3D #75
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + b + a + 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 4
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 5
+f(2, 1, 3) is 7
+f(3, 2, 1) is 10
+
+-- Relation 3D #76
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a + b + 2 - c + 1
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 4
+f(0, 1, 0) is 4
+f(0, 0, 1) is 2
+f(1, 1, 1) is 4
+f(2, 1, 3) is 3
+f(3, 2, 1) is 7
+
+-- Relation 3D #77
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + 1 + 2 * a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 3
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 4
+f(2, 1, 3) is 8
+f(3, 2, 1) is 8
+
+-- Relation 3D #78
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, idemp-diagonal]
+f a,b,c ->
+  a - c + 0 + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 1
+f(3, 2, 1) is 5
+
+-- Relation 3D #79
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c - 2 * 2 + a - 0 * b * c
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -3
+f(0, 1, 0) is -4
+f(0, 0, 1) is -3
+f(1, 1, 1) is -2
+f(2, 1, 3) is 1
+f(3, 2, 1) is 0
+
+-- Relation 3D #80
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c, idemp-diagonal]
+f a,b,c ->
+  1 * c * 0 + 0 - b + c + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is 5
+f(3, 2, 1) is 0
+
+-- Relation 3D #81
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c - 2 + 1 * c + a
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -1
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 6
+f(3, 2, 1) is 3
+
+-- Relation 3D #82
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 * a - 2 * b * 0 + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 3
+f(2, 1, 3) is 5
+f(3, 2, 1) is 8
+
+-- Relation 3D #83
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + c * 1 + b + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 4
+f(2, 1, 3) is 10
+f(3, 2, 1) is 5
+
+-- Relation 3D #84
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a * 2 + a - 1 + b + 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 4
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 5
+f(2, 1, 3) is 8
+f(3, 2, 1) is 12
+
+-- Relation 3D #85
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c * 2 + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 3
+f(2, 1, 3) is 8
+f(3, 2, 1) is 5
+
+-- Relation 3D #86
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c * 2 + 2 - 1 + b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 3
+f(1, 1, 1) is 4
+f(2, 1, 3) is 8
+f(3, 2, 1) is 5
+
+-- Relation 3D #87
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  1 + c + 2 * a + a * 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 4
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 5
+f(2, 1, 3) is 10
+f(3, 2, 1) is 11
+
+-- Relation 3D #88
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  0 - 1 + c - c + b - 0 + c + c
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 6
+f(3, 2, 1) is 3
+
+-- Relation 3D #89
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + a + a * 2 - 1 + a
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 3
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 4
+f(2, 1, 3) is 10
+f(3, 2, 1) is 12
+
+-- Relation 3D #90
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + c + a + 1 - 2
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 7
+f(3, 2, 1) is 4
+
+-- Relation 3D #91
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a - 1 + 1 * c
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 4
+f(3, 2, 1) is 3
+
+-- Relation 3D #92
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c, idemp-diagonal]
+f a,b,c ->
+  a - b - b + b + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 3
+f(3, 2, 1) is 4
+
+-- Relation 3D #93
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a - 2 - 2 + 1 + a * 2 + b
+
+f(0, 0, 0) is -3
+f(1, 0, 0) is 0
+f(0, 1, 0) is -2
+f(0, 0, 1) is -3
+f(1, 1, 1) is 1
+f(2, 1, 3) is 4
+f(3, 2, 1) is 8
+
+-- Relation 3D #94
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + a + a - 1 + c
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 2
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 3
+f(2, 1, 3) is 8
+f(3, 2, 1) is 9
+
+-- Relation 3D #95
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a - 1 + b - c
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is -2
+f(1, 1, 1) is 0
+f(2, 1, 3) is -1
+f(3, 2, 1) is 3
+
+-- Relation 3D #96
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a - 0 - 1 + b + b
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 3
+f(3, 2, 1) is 6
+
+-- Relation 3D #97
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  1 + c + a - 2 * 2
+
+f(0, 0, 0) is -3
+f(1, 0, 0) is -2
+f(0, 1, 0) is -3
+f(0, 0, 1) is -2
+f(1, 1, 1) is -1
+f(2, 1, 3) is 2
+f(3, 2, 1) is 1
+
+-- Relation 3D #98
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 * c * 2 + 2 + b - c
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 5
+f(1, 1, 1) is 6
+f(2, 1, 3) is 12
+f(3, 2, 1) is 7
+
+-- Relation 3D #99
+-- Propriétés: [sym-ab, linear-a, linear-b, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a - 0 * 0 + b + c * 2 * c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 4
+f(2, 1, 3) is 21
+f(3, 2, 1) is 7
+
+-- Relation 3D #100
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c + a * 2 - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 6
+f(3, 2, 1) is 5
+
+-- Relation 3D #101
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  1 + b + a + b + 2 * 1 * 2
+
+f(0, 0, 0) is 5
+f(1, 0, 0) is 6
+f(0, 1, 0) is 7
+f(0, 0, 1) is 5
+f(1, 1, 1) is 8
+f(2, 1, 3) is 9
+f(3, 2, 1) is 12
+
+-- Relation 3D #102
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 + c + b + c + 1
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 3
+f(0, 1, 0) is 4
+f(0, 0, 1) is 5
+f(1, 1, 1) is 6
+f(2, 1, 3) is 10
+f(3, 2, 1) is 7
+
+-- Relation 3D #103
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  0 + b - c + a - 2
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -1
+f(0, 1, 0) is -1
+f(0, 0, 1) is -3
+f(1, 1, 1) is -1
+f(2, 1, 3) is -2
+f(3, 2, 1) is 2
+
+-- Relation 3D #104
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 + c + 2 * b + 2
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 4
+f(0, 1, 0) is 6
+f(0, 0, 1) is 5
+f(1, 1, 1) is 7
+f(2, 1, 3) is 9
+f(3, 2, 1) is 9
+
+-- Relation 3D #105
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a - 2 + b * 0 + c
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -1
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 3
+f(3, 2, 1) is 2
+
+-- Relation 3D #106
+-- Propriétés: [neutral-00c, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c * a * a + b + a + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 4
+f(2, 1, 3) is 18
+f(3, 2, 1) is 15
+
+-- Relation 3D #107
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + b + c - 2 - 2 * 1
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -4
+f(0, 1, 0) is -3
+f(0, 0, 1) is -2
+f(1, 1, 1) is -1
+f(2, 1, 3) is 3
+f(3, 2, 1) is 0
+
+-- Relation 3D #108
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c, nil-diagonal]
+f a,b,c ->
+  a - b - 0 - b + a * 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is 2
+f(3, 2, 1) is 2
+
+-- Relation 3D #109
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c * a - 1 + a + b + 1 + 0
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 3
+f(2, 1, 3) is 9
+f(3, 2, 1) is 8
+
+-- Relation 3D #110
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 + c + 2 + a
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 5
+f(0, 1, 0) is 4
+f(0, 0, 1) is 5
+f(1, 1, 1) is 6
+f(2, 1, 3) is 9
+f(3, 2, 1) is 8
+
+-- Relation 3D #111
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b * 2 + 2 + a + 0 * a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 4
+f(0, 0, 1) is 2
+f(1, 1, 1) is 5
+f(2, 1, 3) is 6
+f(3, 2, 1) is 9
+
+-- Relation 3D #112
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c, nil-diagonal]
+f a,b,c ->
+  b + c * 2 - a - 0 - b - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 0
+f(2, 1, 3) is 3
+f(3, 2, 1) is -3
+
+-- Relation 3D #113
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b * 1 - 2 + a + a
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is -2
+f(1, 1, 1) is 1
+f(2, 1, 3) is 3
+f(3, 2, 1) is 6
+
+-- Relation 3D #114
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + b + b * c - 0 - 2 + 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 5
+f(3, 2, 1) is 6
+
+-- Relation 3D #115
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  1 - 0 + 2 * 2 * c + a - c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 4
+f(1, 1, 1) is 5
+f(2, 1, 3) is 12
+f(3, 2, 1) is 7
+
+-- Relation 3D #116
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  b + c - b * c * 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 1
+f(3, 2, 1) is 1
+
+-- Relation 3D #117
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c - a - a - a * 2 + b * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -4
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -3
+f(3, 2, 1) is -5
+
+-- Relation 3D #118
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + b + c + a - 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 3
+f(2, 1, 3) is 6
+f(3, 2, 1) is 7
+
+-- Relation 3D #119
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c, rotate-bc-at-0]
+f a,b,c ->
+  b + c - a + 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is 2
+f(1, 1, 1) is 2
+f(2, 1, 3) is 3
+f(3, 2, 1) is 1
+
+-- Relation 3D #120
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a * 2 - a * 0 + 2 + b + a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 5
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 6
+f(2, 1, 3) is 9
+f(3, 2, 1) is 13
+
+-- Relation 3D #121
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  1 * 0 + b + b + a + 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 1
+f(1, 1, 1) is 4
+f(2, 1, 3) is 5
+f(3, 2, 1) is 8
+
+-- Relation 3D #122
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c * 1 - a * 2
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -1
+f(3, 2, 1) is -5
+
+-- Relation 3D #123
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + 1 + a + 2 * 1 + a
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 5
+f(0, 1, 0) is 4
+f(0, 0, 1) is 3
+f(1, 1, 1) is 6
+f(2, 1, 3) is 8
+f(3, 2, 1) is 11
+
+-- Relation 3D #124
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + b - 2 * 2 + c
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -4
+f(0, 1, 0) is -2
+f(0, 0, 1) is -3
+f(1, 1, 1) is -1
+f(2, 1, 3) is 1
+f(3, 2, 1) is 1
+
+-- Relation 3D #125
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 * 2 + b * 2 + a - 2 + 2 - 0
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 5
+f(0, 1, 0) is 6
+f(0, 0, 1) is 4
+f(1, 1, 1) is 7
+f(2, 1, 3) is 8
+f(3, 2, 1) is 11
+
+-- Relation 3D #126
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c, idemp-diagonal]
+f a,b,c ->
+  0 + c + 2 - 2 - a + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is 4
+f(3, 2, 1) is -1
+
+-- Relation 3D #127
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + b + 1 - 0 + a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 3
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 4
+f(2, 1, 3) is 6
+f(3, 2, 1) is 9
+
+-- Relation 3D #128
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 * b * c + c - a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 7
+f(3, 2, 1) is 2
+
+-- Relation 3D #129
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a * 2 + c + 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 4
+f(0, 1, 0) is 2
+f(0, 0, 1) is 3
+f(1, 1, 1) is 5
+f(2, 1, 3) is 9
+f(3, 2, 1) is 9
+
+-- Relation 3D #130
+-- Propriétés: [neutral-00c, linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + b * b - 0 * 1 + a * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 6
+f(3, 2, 1) is 11
+
+-- Relation 3D #131
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b, nil-diagonal]
+f a,b,c ->
+  b - c * 2 + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is -2
+f(1, 1, 1) is 0
+f(2, 1, 3) is -4
+f(3, 2, 1) is 2
+
+-- Relation 3D #132
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b + 0 - 1 - c + 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is -1
+f(3, 2, 1) is 2
+
+-- Relation 3D #133
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 + b + 2 + 2 + 2 - 0 - a
+
+f(0, 0, 0) is 8
+f(1, 0, 0) is 7
+f(0, 1, 0) is 9
+f(0, 0, 1) is 8
+f(1, 1, 1) is 8
+f(2, 1, 3) is 7
+f(3, 2, 1) is 7
+
+-- Relation 3D #134
+-- Propriétés: [linear-a, linear-b, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + c * c + a - a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 10
+f(3, 2, 1) is 3
+
+-- Relation 3D #135
+-- Propriétés: [linear-a, linear-b, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + a + c * c + a - 2 + c + b
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 4
+f(2, 1, 3) is 18
+f(3, 2, 1) is 9
+
+-- Relation 3D #136
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  1 + c * b + b - c - 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 1
+f(3, 2, 1) is 3
+
+-- Relation 3D #137
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 * c - a - 0 * 2 - 0 - 2 - c
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -1
+f(3, 2, 1) is -4
+
+-- Relation 3D #138
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - b - 2 - 0 + 0 + 1 - b * 2
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -4
+f(0, 0, 1) is -1
+f(1, 1, 1) is -3
+f(2, 1, 3) is -2
+f(3, 2, 1) is -4
+
+-- Relation 3D #139
+-- Propriétés: [linear-a, linear-b, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b - 0 + c * c - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 7
+f(3, 2, 1) is 2
+
+-- Relation 3D #140
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  a - b - 1 + a - c + 0
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 1
+f(0, 1, 0) is -2
+f(0, 0, 1) is -2
+f(1, 1, 1) is -1
+f(2, 1, 3) is -1
+f(3, 2, 1) is 2
+
+-- Relation 3D #141
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  0 + 2 - a + 2 - b
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 3
+f(0, 1, 0) is 3
+f(0, 0, 1) is 4
+f(1, 1, 1) is 2
+f(2, 1, 3) is 1
+f(3, 2, 1) is -1
+
+-- Relation 3D #142
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  0 - b + a + c - 0 + 2 - b - a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 3
+f(1, 1, 1) is 1
+f(2, 1, 3) is 3
+f(3, 2, 1) is -1
+
+-- Relation 3D #143
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b - 2 + 0 - 1 + b - c - 1 - c
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -4
+f(0, 1, 0) is -2
+f(0, 0, 1) is -6
+f(1, 1, 1) is -4
+f(2, 1, 3) is -8
+f(3, 2, 1) is -2
+
+-- Relation 3D #144
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - b + 0 + 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 2
+f(2, 1, 3) is 3
+f(3, 2, 1) is 3
+
+-- Relation 3D #145
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  1 - b + a + c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 2
+f(2, 1, 3) is 5
+f(3, 2, 1) is 3
+
+-- Relation 3D #146
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a - c + 1 + 2
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 4
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 3
+f(2, 1, 3) is 2
+f(3, 2, 1) is 5
+
+-- Relation 3D #147
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - b - 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is -1
+f(2, 1, 3) is 0
+f(3, 2, 1) is 0
+
+-- Relation 3D #148
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c - 0 + c - b + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 2
+f(2, 1, 3) is 7
+f(3, 2, 1) is 3
+
+-- Relation 3D #149
+-- Propriétés: [linear-a, linear-b, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c * c + 2 - 0 + b + 2 * 2
+
+f(0, 0, 0) is 6
+f(1, 0, 0) is 6
+f(0, 1, 0) is 7
+f(0, 0, 1) is 7
+f(1, 1, 1) is 8
+f(2, 1, 3) is 16
+f(3, 2, 1) is 9
+
+-- Relation 3D #150
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  1 - c + a * 1 * 1 - b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is -1
+f(3, 2, 1) is 1
+
+-- Relation 3D #151
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - 2 - b + a + a - 2 + 2
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is 1
+f(0, 1, 0) is -3
+f(0, 0, 1) is -2
+f(1, 1, 1) is 0
+f(2, 1, 3) is 3
+f(3, 2, 1) is 5
+
+-- Relation 3D #152
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  0 - 1 * 1 + 2 - c + 2 + b + 2
+
+f(0, 0, 0) is 5
+f(1, 0, 0) is 5
+f(0, 1, 0) is 6
+f(0, 0, 1) is 4
+f(1, 1, 1) is 5
+f(2, 1, 3) is 3
+f(3, 2, 1) is 6
+
+-- Relation 3D #153
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  0 - a - 2 + b
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -1
+f(0, 0, 1) is -2
+f(1, 1, 1) is -2
+f(2, 1, 3) is -3
+f(3, 2, 1) is -3
+
+-- Relation 3D #154
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  0 * c + 1 + a - c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 0
+f(3, 2, 1) is 3
+
+-- Relation 3D #155
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b + a * a - a - 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 2
+f(3, 2, 1) is 7
+
+-- Relation 3D #156
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  a - b - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is -1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -2
+f(3, 2, 1) is 0
+
+-- Relation 3D #157
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c - a + 1 * 2 - b - 1 + 0
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 0
+f(2, 1, 3) is 1
+f(3, 2, 1) is -3
+
+-- Relation 3D #158
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  1 + 2 - 1 * c + 1 + b + 2 + 0
+
+f(0, 0, 0) is 6
+f(1, 0, 0) is 6
+f(0, 1, 0) is 7
+f(0, 0, 1) is 5
+f(1, 1, 1) is 6
+f(2, 1, 3) is 4
+f(3, 2, 1) is 7
+
+-- Relation 3D #159
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a + c - a + 1 - b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is 3
+f(3, 2, 1) is 0
+
+-- Relation 3D #160
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 + 0 + a * a + 1 + b
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 4
+f(0, 1, 0) is 4
+f(0, 0, 1) is 3
+f(1, 1, 1) is 5
+f(2, 1, 3) is 8
+f(3, 2, 1) is 14
+
+-- Relation 3D #161
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b + 0 - b - c * 2 + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is -2
+f(1, 1, 1) is -1
+f(2, 1, 3) is -5
+f(3, 2, 1) is 0
+
+-- Relation 3D #162
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c - 2 * 1 * a - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -2
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -2
+f(3, 2, 1) is -7
+
+-- Relation 3D #163
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  2 - c + 0 + 2 * b - 1 * 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 3
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 0
+f(3, 2, 1) is 4
+
+-- Relation 3D #164
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b - 1 - 0 - a * 1 + 0
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -2
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -2
+f(3, 2, 1) is -2
+
+-- Relation 3D #165
+-- Propriétés: [linear-a, linear-b, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c * c - 2 + 1 * b - 1
+
+f(0, 0, 0) is -3
+f(1, 0, 0) is -3
+f(0, 1, 0) is -2
+f(0, 0, 1) is -2
+f(1, 1, 1) is -1
+f(2, 1, 3) is 7
+f(3, 2, 1) is 0
+
+-- Relation 3D #166
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  1 - b * 1 - 0 - c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is -3
+f(3, 2, 1) is -2
+
+-- Relation 3D #167
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - b * 2 - b - 2 + 0 - 2
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -3
+f(0, 1, 0) is -7
+f(0, 0, 1) is -4
+f(1, 1, 1) is -6
+f(2, 1, 3) is -5
+f(3, 2, 1) is -7
+
+-- Relation 3D #168
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b - c - 0 + 2 - 1 + 1
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 0
+f(3, 2, 1) is 3
+
+-- Relation 3D #169
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  2 + a * 2 + c + b - c * 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 4
+f(0, 1, 0) is 3
+f(0, 0, 1) is 1
+f(1, 1, 1) is 4
+f(2, 1, 3) is 4
+f(3, 2, 1) is 9
+
+-- Relation 3D #170
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - 1 * b + 2 + a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 4
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 3
+f(2, 1, 3) is 5
+f(3, 2, 1) is 6
+
+-- Relation 3D #171
+-- Propriétés: [linear-a, linear-b, mono-a, mono-b, mono-c]
+f a,b,c ->
+  b - 0 + c * c * 2 + 0 * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 3
+f(2, 1, 3) is 19
+f(3, 2, 1) is 4
+
+-- Relation 3D #172
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  a + c - b * 1 * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 3
+f(3, 2, 1) is -2
+
+-- Relation 3D #173
+-- Propriétés: [neutral-00c, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  0 + c - a * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -1
+f(3, 2, 1) is -8
+
+-- Relation 3D #174
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b + 2 + b - c - c - b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is -3
+f(3, 2, 1) is 2
+
+-- Relation 3D #175
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  b * c - 2 + c - 1 + 2 - b
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -1
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is 4
+f(3, 2, 1) is 0
+
+-- Relation 3D #176
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  c + a - b + 0 * 2 - b * c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 1
+f(3, 2, 1) is 0
+
+-- Relation 3D #177
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b - 0 - c * 2 + 2 - c + 2
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 4
+f(0, 1, 0) is 5
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is -4
+f(3, 2, 1) is 3
+
+-- Relation 3D #178
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a + 2 - c * 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is -2
+f(3, 2, 1) is 3
+
+-- Relation 3D #179
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - 1 - b * 2 - 2
+
+f(0, 0, 0) is -3
+f(1, 0, 0) is -2
+f(0, 1, 0) is -5
+f(0, 0, 1) is -3
+f(1, 1, 1) is -4
+f(2, 1, 3) is -3
+f(3, 2, 1) is -4
+
+-- Relation 3D #180
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  0 - a - a + b + 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is -1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -2
+f(3, 2, 1) is -3
+
+-- Relation 3D #181
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b - a + 2 + c - c + b * 2 - 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 4
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 2
+f(3, 2, 1) is 4
+
+-- Relation 3D #182
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b - 2 * c * 2 - 2 + 0 - 0
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -2
+f(0, 1, 0) is -1
+f(0, 0, 1) is -6
+f(1, 1, 1) is -5
+f(2, 1, 3) is -13
+f(3, 2, 1) is -4
+
+-- Relation 3D #183
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a - 2 * c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -2
+f(1, 1, 1) is -1
+f(2, 1, 3) is -4
+f(3, 2, 1) is 1
+
+-- Relation 3D #184
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a + 0 * 0 - c + 0 - 1 + 0
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is -2
+f(1, 1, 1) is -1
+f(2, 1, 3) is -2
+f(3, 2, 1) is 1
+
+-- Relation 3D #185
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  0 - b - 2 - a
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -3
+f(0, 0, 1) is -2
+f(1, 1, 1) is -4
+f(2, 1, 3) is -5
+f(3, 2, 1) is -7
+
+-- Relation 3D #186
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c + c - b + 0 * 0 + 1 + c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 4
+f(1, 1, 1) is 3
+f(2, 1, 3) is 9
+f(3, 2, 1) is 2
+
+-- Relation 3D #187
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  0 + 1 + a * 2 + b * b - 2
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 4
+f(3, 2, 1) is 9
+
+-- Relation 3D #188
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c - a - 2 - a + 0 * a * c
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -4
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is -3
+f(2, 1, 3) is -3
+f(3, 2, 1) is -7
+
+-- Relation 3D #189
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b * c - c - 0 + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 2
+f(3, 2, 1) is 4
+
+-- Relation 3D #190
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a + 2 * b * 0 - b + c * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 7
+f(3, 2, 1) is 4
+
+-- Relation 3D #191
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a + 1 + 2 - c + a - 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 3
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 2
+f(3, 2, 1) is 6
+
+-- Relation 3D #192
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c - a - 0 * a - c + 1 - b - 0
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -2
+f(3, 2, 1) is -4
+
+-- Relation 3D #193
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  1 - a + b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 0
+f(3, 2, 1) is 0
+
+-- Relation 3D #194
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  1 - a + 2 + 2 * b
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 2
+f(0, 1, 0) is 5
+f(0, 0, 1) is 3
+f(1, 1, 1) is 4
+f(2, 1, 3) is 3
+f(3, 2, 1) is 4
+
+-- Relation 3D #195
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b * 1 - a * 2 + 0
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is -3
+f(3, 2, 1) is -4
+
+-- Relation 3D #196
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c * 2 + c - b - 2 - 0 * b
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -2
+f(0, 1, 0) is -3
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 6
+f(3, 2, 1) is -1
+
+-- Relation 3D #197
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  b * c + a - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 4
+f(3, 2, 1) is 3
+
+-- Relation 3D #198
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  1 + a + 2 + c - b + 2 * 0
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 4
+f(0, 1, 0) is 2
+f(0, 0, 1) is 4
+f(1, 1, 1) is 4
+f(2, 1, 3) is 7
+f(3, 2, 1) is 5
+
+-- Relation 3D #199
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c - 0 * a + b - c - a + 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 1
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 2
+f(2, 1, 3) is 1
+f(3, 2, 1) is 1
+
+-- Relation 3D #200
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + b * 2 * 2 * b + 1 - 0 * 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 5
+f(0, 0, 1) is 1
+f(1, 1, 1) is 6
+f(2, 1, 3) is 7
+f(3, 2, 1) is 20
+
+-- Relation 3D #201
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  2 + a * 1 + 0 - c * 2 + a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 4
+f(0, 1, 0) is 2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 0
+f(3, 2, 1) is 6
+
+-- Relation 3D #202
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  c + b - a - c * 1 * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -4
+f(3, 2, 1) is -3
+
+-- Relation 3D #203
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  1 - b - 2 + a + 0 + 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 2
+f(3, 2, 1) is 2
+
+-- Relation 3D #204
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c * 1 - 2 - a - 2
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -5
+f(0, 1, 0) is -4
+f(0, 0, 1) is -3
+f(1, 1, 1) is -4
+f(2, 1, 3) is -3
+f(3, 2, 1) is -6
+
+-- Relation 3D #205
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c - 2 + c - b * 2 + b - 2
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -4
+f(0, 1, 0) is -5
+f(0, 0, 1) is -2
+f(1, 1, 1) is -3
+f(2, 1, 3) is 1
+f(3, 2, 1) is -4
+
+-- Relation 3D #206
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  2 * 0 + 2 * 1 - c - 0 - b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -2
+f(3, 2, 1) is -1
+
+-- Relation 3D #207
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 + 0 - 1 + c - a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is 2
+f(3, 2, 1) is -1
+
+-- Relation 3D #208
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a + 2 - c * 1
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 1
+f(3, 2, 1) is 4
+
+-- Relation 3D #209
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 - 1 + b + 2 * 2 - a + 1
+
+f(0, 0, 0) is 6
+f(1, 0, 0) is 5
+f(0, 1, 0) is 7
+f(0, 0, 1) is 6
+f(1, 1, 1) is 6
+f(2, 1, 3) is 5
+f(3, 2, 1) is 5
+
+-- Relation 3D #210
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b - 2 + c + b - 1 - a + 0
+
+f(0, 0, 0) is -3
+f(1, 0, 0) is -4
+f(0, 1, 0) is -1
+f(0, 0, 1) is -2
+f(1, 1, 1) is -1
+f(2, 1, 3) is 0
+f(3, 2, 1) is -1
+
+-- Relation 3D #211
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 + 0 - a + b - 2 + 2 - 0 - a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 0
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is -1
+f(3, 2, 1) is -2
+
+-- Relation 3D #212
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a * a + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 5
+f(3, 2, 1) is 11
+
+-- Relation 3D #213
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + a * a - 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 6
+f(3, 2, 1) is 9
+
+-- Relation 3D #214
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  1 - a + 1 * c + 1
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 3
+f(1, 1, 1) is 2
+f(2, 1, 3) is 3
+f(3, 2, 1) is 0
+
+-- Relation 3D #215
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b + b + b - b - 2 - c - 2
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -4
+f(0, 1, 0) is -2
+f(0, 0, 1) is -5
+f(1, 1, 1) is -3
+f(2, 1, 3) is -5
+f(3, 2, 1) is -1
+
+-- Relation 3D #216
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b - 2 - 2 - a
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -5
+f(0, 1, 0) is -3
+f(0, 0, 1) is -4
+f(1, 1, 1) is -4
+f(2, 1, 3) is -5
+f(3, 2, 1) is -5
+
+-- Relation 3D #217
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - b - 2 - 0
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -1
+f(0, 1, 0) is -3
+f(0, 0, 1) is -2
+f(1, 1, 1) is -2
+f(2, 1, 3) is -1
+f(3, 2, 1) is -1
+
+-- Relation 3D #218
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c - a - a - 2 + a * c + 0
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -4
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is -2
+f(2, 1, 3) is 3
+f(3, 2, 1) is -4
+
+-- Relation 3D #219
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a + a * c * 2 - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 13
+f(3, 2, 1) is 7
+
+-- Relation 3D #220
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 + c - a * 2 + 1 * 0 * 1 * a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is 3
+f(1, 1, 1) is 1
+f(2, 1, 3) is 1
+f(3, 2, 1) is -3
+
+-- Relation 3D #221
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c - b * 0 * c - 0 - a - b - 2
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -3
+f(0, 0, 1) is -1
+f(1, 1, 1) is -3
+f(2, 1, 3) is -2
+f(3, 2, 1) is -6
+
+-- Relation 3D #222
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  1 * 2 + a - c - c + b + a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 4
+f(0, 1, 0) is 3
+f(0, 0, 1) is 0
+f(1, 1, 1) is 3
+f(2, 1, 3) is 1
+f(3, 2, 1) is 8
+
+-- Relation 3D #223
+-- Propriétés: [neutral-00c, linear-a, linear-c, mono-a, mono-c]
+f a,b,c ->
+  1 - b * 1 * b - 1 + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 2
+f(3, 2, 1) is -3
+
+-- Relation 3D #224
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c + c - b - 2 * 1
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -2
+f(0, 1, 0) is -3
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is 3
+f(3, 2, 1) is -2
+
+-- Relation 3D #225
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c - 1 * a + 2 - b + 1
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 2
+f(0, 1, 0) is 2
+f(0, 0, 1) is 4
+f(1, 1, 1) is 2
+f(2, 1, 3) is 3
+f(3, 2, 1) is -1
+
+-- Relation 3D #226
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  0 * 2 - c + a + 1 * 0 - 2
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -1
+f(0, 1, 0) is -2
+f(0, 0, 1) is -3
+f(1, 1, 1) is -2
+f(2, 1, 3) is -3
+f(3, 2, 1) is 0
+
+-- Relation 3D #227
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  a - a * b + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 1
+f(3, 2, 1) is -1
+
+-- Relation 3D #228
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  1 + c - a * 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 0
+f(2, 1, 3) is 0
+f(3, 2, 1) is -4
+
+-- Relation 3D #229
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c + a - 2 * a - a - 2 - a
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -5
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is -4
+f(2, 1, 3) is -5
+f(3, 2, 1) is -10
+
+-- Relation 3D #230
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  0 * 1 + c * 0 - a + 0 - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -2
+f(2, 1, 3) is -3
+f(3, 2, 1) is -5
+
+-- Relation 3D #231
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a - 2 + 1 + b * b - 1 + 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 2
+f(3, 2, 1) is 6
+
+-- Relation 3D #232
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  1 - 1 * b - c + 2
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 3
+f(0, 1, 0) is 2
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is -1
+f(3, 2, 1) is 0
+
+-- Relation 3D #233
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c - a + 2 + c
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 4
+f(1, 1, 1) is 3
+f(2, 1, 3) is 6
+f(3, 2, 1) is 1
+
+-- Relation 3D #234
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - b - b - b - b + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -3
+f(0, 0, 1) is 0
+f(1, 1, 1) is -2
+f(2, 1, 3) is -1
+f(3, 2, 1) is -3
+
+-- Relation 3D #235
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  2 - c - 2 * 1 * b * 1 - c
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 0
+f(1, 1, 1) is -2
+f(2, 1, 3) is -6
+f(3, 2, 1) is -4
+
+-- Relation 3D #236
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b - a + b + 1 * 1 + 1
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 1
+f(0, 1, 0) is 4
+f(0, 0, 1) is 2
+f(1, 1, 1) is 3
+f(2, 1, 3) is 2
+f(3, 2, 1) is 3
+
+-- Relation 3D #237
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b - c - 2 + b * 2 * 1 * 1
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -2
+f(0, 1, 0) is 1
+f(0, 0, 1) is -3
+f(1, 1, 1) is 0
+f(2, 1, 3) is -2
+f(3, 2, 1) is 3
+
+-- Relation 3D #238
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c * 1 - 0 - 1 - b + c * 2
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -1
+f(0, 1, 0) is -2
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is 7
+f(3, 2, 1) is 0
+
+-- Relation 3D #239
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c - c + c - 1 - 0 - b
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -1
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is 1
+f(3, 2, 1) is -2
+
+-- Relation 3D #240
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - b - 0 - 2 * b * 1 + 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is -2
+f(0, 0, 1) is 1
+f(1, 1, 1) is -1
+f(2, 1, 3) is 0
+f(3, 2, 1) is -2
+
+-- Relation 3D #241
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  0 * b * a - 2 + a - 1 * c - c
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -1
+f(0, 1, 0) is -2
+f(0, 0, 1) is -4
+f(1, 1, 1) is -3
+f(2, 1, 3) is -6
+f(3, 2, 1) is -1
+
+-- Relation 3D #242
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  2 + 1 - 2 * b - 0 * 2 + c
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 3
+f(0, 1, 0) is 1
+f(0, 0, 1) is 4
+f(1, 1, 1) is 2
+f(2, 1, 3) is 4
+f(3, 2, 1) is 0
+
+-- Relation 3D #243
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  1 + 1 + 1 - b - a
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 2
+f(0, 1, 0) is 2
+f(0, 0, 1) is 3
+f(1, 1, 1) is 1
+f(2, 1, 3) is 0
+f(3, 2, 1) is -2
+
+-- Relation 3D #244
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  1 - b - b + a * 2 + b + 0
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 3
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 4
+f(3, 2, 1) is 5
+
+-- Relation 3D #245
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  2 * 0 - 0 + 2 * c * 2 - b + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 5
+f(1, 1, 1) is 4
+f(2, 1, 3) is 14
+f(3, 2, 1) is 3
+
+-- Relation 3D #246
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a * b - b * 0 - c + 1 + a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 2
+f(3, 2, 1) is 9
+
+-- Relation 3D #247
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  2 + a + c - 0 + b - 2 * b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 3
+f(2, 1, 3) is 6
+f(3, 2, 1) is 4
+
+-- Relation 3D #248
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a * 2 - 0 * c - 1 - c - 0
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is -2
+f(1, 1, 1) is 0
+f(2, 1, 3) is 0
+f(3, 2, 1) is 4
+
+-- Relation 3D #249
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  1 - 2 * b - c * 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is -1
+f(1, 1, 1) is -3
+f(2, 1, 3) is -7
+f(3, 2, 1) is -5
+
+-- Relation 3D #250
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + b * b * b - 0 + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 3
+f(2, 1, 3) is 4
+f(3, 2, 1) is 13
+
+-- Relation 3D #251
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c * 1 + 1 + 1 + 0 + b * b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 3
+f(1, 1, 1) is 4
+f(2, 1, 3) is 6
+f(3, 2, 1) is 7
+
+-- Relation 3D #252
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 * b * 1 - 1 - 1 - a + b
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is 1
+f(0, 0, 1) is -2
+f(1, 1, 1) is 0
+f(2, 1, 3) is -1
+f(3, 2, 1) is 1
+
+-- Relation 3D #253
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  1 * 1 + 1 - a + c * 2 + 1
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 5
+f(1, 1, 1) is 4
+f(2, 1, 3) is 7
+f(3, 2, 1) is 2
+
+-- Relation 3D #254
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a * 2 - c - b * 0 + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 2
+f(3, 2, 1) is 7
+
+-- Relation 3D #255
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 + a + b * b + a + 2
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 6
+f(0, 1, 0) is 5
+f(0, 0, 1) is 4
+f(1, 1, 1) is 7
+f(2, 1, 3) is 9
+f(3, 2, 1) is 14
+
+-- Relation 3D #256
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  0 + c * 2 + 2 - b * 1
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 4
+f(1, 1, 1) is 3
+f(2, 1, 3) is 7
+f(3, 2, 1) is 2
+
+-- Relation 3D #257
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  b * 0 + b - a + c + b - b * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 1
+f(3, 2, 1) is -4
+
+-- Relation 3D #258
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 + 1 - a + 0 + b
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 2
+f(0, 1, 0) is 4
+f(0, 0, 1) is 3
+f(1, 1, 1) is 3
+f(2, 1, 3) is 2
+f(3, 2, 1) is 2
+
+-- Relation 3D #259
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  0 * 0 - c - 1 - c - 0 + a
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is -3
+f(1, 1, 1) is -2
+f(2, 1, 3) is -5
+f(3, 2, 1) is 0
+
+-- Relation 3D #260
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a * 2 * c + 2 * b - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is -1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 11
+f(3, 2, 1) is 9
+
+-- Relation 3D #261
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  2 * a + a - b - 1 + a
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 3
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 6
+f(3, 2, 1) is 9
+
+-- Relation 3D #262
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 * 1 * c + 2 - c + b + b * b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 4
+f(0, 0, 1) is 3
+f(1, 1, 1) is 5
+f(2, 1, 3) is 7
+f(3, 2, 1) is 9
+
+-- Relation 3D #263
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a + 1 + b * b + b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 1
+f(1, 1, 1) is 4
+f(2, 1, 3) is 5
+f(3, 2, 1) is 10
+
+-- Relation 3D #264
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  1 - a + c + 2 - a
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 1
+f(0, 1, 0) is 3
+f(0, 0, 1) is 4
+f(1, 1, 1) is 2
+f(2, 1, 3) is 2
+f(3, 2, 1) is -2
+
+-- Relation 3D #265
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 * b + a * a + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 3
+f(0, 0, 1) is 0
+f(1, 1, 1) is 4
+f(2, 1, 3) is 7
+f(3, 2, 1) is 15
+
+-- Relation 3D #266
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b + 2 - 0 + c + c - a - a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 0
+f(0, 1, 0) is 3
+f(0, 0, 1) is 4
+f(1, 1, 1) is 3
+f(2, 1, 3) is 5
+f(3, 2, 1) is 0
+
+-- Relation 3D #267
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b + a - c + b + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 3
+f(0, 0, 1) is -1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 2
+f(3, 2, 1) is 8
+
+-- Relation 3D #268
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  c + 2 + a - c * 2 + a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 4
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 3
+f(3, 2, 1) is 7
+
+-- Relation 3D #269
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c - 0 + 0 + c + 1 - b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 3
+f(1, 1, 1) is 2
+f(2, 1, 3) is 6
+f(3, 2, 1) is 1
+
+-- Relation 3D #270
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a + 0 + b + a * c - c * 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 6
+f(3, 2, 1) is 7
+
+-- Relation 3D #271
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c * b + a * a * 2 + 2 * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 5
+f(2, 1, 3) is 13
+f(3, 2, 1) is 24
+
+-- Relation 3D #272
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c - b - 0 + 1 + c + 2
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 3
+f(0, 1, 0) is 2
+f(0, 0, 1) is 5
+f(1, 1, 1) is 4
+f(2, 1, 3) is 8
+f(3, 2, 1) is 3
+
+-- Relation 3D #273
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + b + b * b + 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 4
+f(2, 1, 3) is 6
+f(3, 2, 1) is 8
+
+-- Relation 3D #274
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 + b - 2 * a + b + c + 1
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 1
+f(0, 1, 0) is 5
+f(0, 0, 1) is 4
+f(1, 1, 1) is 4
+f(2, 1, 3) is 4
+f(3, 2, 1) is 2
+
+-- Relation 3D #275
+-- Propriétés: [linear-a, linear-b, mono-a, mono-b, mono-c]
+f a,b,c ->
+  2 * c * c + 2 * a + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 3
+f(1, 1, 1) is 5
+f(2, 1, 3) is 25
+f(3, 2, 1) is 9
+
+-- Relation 3D #276
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 * c * 2 * 2 + 1 - a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 9
+f(1, 1, 1) is 8
+f(2, 1, 3) is 23
+f(3, 2, 1) is 6
+
+-- Relation 3D #277
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b + c * a - a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 5
+f(3, 2, 1) is 2
+
+-- Relation 3D #278
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, nil-diagonal]
+f a,b,c ->
+  0 * a - c - a + 2 * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 2
+f(0, 0, 1) is -1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -3
+f(3, 2, 1) is 0
+
+-- Relation 3D #279
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  2 * b * c - 1 - a + b
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -2
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 4
+f(3, 2, 1) is 2
+
+-- Relation 3D #280
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c - a * 2 * 2 + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -4
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is -2
+f(2, 1, 3) is -2
+f(3, 2, 1) is -10
+
+-- Relation 3D #281
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a - c + 0 + 2 * 2 + a
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 6
+f(0, 1, 0) is 4
+f(0, 0, 1) is 3
+f(1, 1, 1) is 5
+f(2, 1, 3) is 5
+f(3, 2, 1) is 9
+
+-- Relation 3D #282
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c + a + c - 0 + c - a * 2
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 3
+f(1, 1, 1) is 2
+f(2, 1, 3) is 7
+f(3, 2, 1) is 0
+
+-- Relation 3D #283
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  2 * 2 * a - c * 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 4
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 5
+f(3, 2, 1) is 11
+
+-- Relation 3D #284
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  2 * 0 - b + a + b * a + 0
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 3
+f(3, 2, 1) is 7
+
+-- Relation 3D #285
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a + a + 1 - c + a + b - c * 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 4
+f(0, 1, 0) is 2
+f(0, 0, 1) is -2
+f(1, 1, 1) is 2
+f(2, 1, 3) is -1
+f(3, 2, 1) is 9
+
+-- Relation 3D #286
+-- Propriétés: [neutral-00c, linear-a, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b * b - 0 - b + c - a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 1
+f(3, 2, 1) is 0
+
+-- Relation 3D #287
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  c + b * b + a + b - b + 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 3
+f(0, 0, 1) is 3
+f(1, 1, 1) is 5
+f(2, 1, 3) is 8
+f(3, 2, 1) is 10
+
+-- Relation 3D #288
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  0 - 1 + 1 * 0 - a + c * 2 + 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 2
+f(2, 1, 3) is 5
+f(3, 2, 1) is 0
+
+-- Relation 3D #289
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c - a - a + 1 + c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 1
+f(2, 1, 3) is 3
+f(3, 2, 1) is -3
+
+-- Relation 3D #290
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  2 + 0 + 0 + 2 + 2 - c - b
+
+f(0, 0, 0) is 6
+f(1, 0, 0) is 6
+f(0, 1, 0) is 5
+f(0, 0, 1) is 5
+f(1, 1, 1) is 4
+f(2, 1, 3) is 2
+f(3, 2, 1) is 3
+
+-- Relation 3D #291
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c - a - a * b * 2 - a + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -4
+f(3, 2, 1) is -15
+
+-- Relation 3D #292
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  1 + 2 * 1 + 2 - 1 - a + c * 2
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 3
+f(0, 1, 0) is 4
+f(0, 0, 1) is 6
+f(1, 1, 1) is 5
+f(2, 1, 3) is 8
+f(3, 2, 1) is 3
+
+-- Relation 3D #293
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a * a * 2 + 2 * b - 2 * 2
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -2
+f(0, 1, 0) is -2
+f(0, 0, 1) is -4
+f(1, 1, 1) is 0
+f(2, 1, 3) is 6
+f(3, 2, 1) is 18
+
+-- Relation 3D #294
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  1 + c * 1 - b * 1 * 1 + b * c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 2
+f(2, 1, 3) is 6
+f(3, 2, 1) is 2
+
+-- Relation 3D #295
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a - b + a * b - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is 2
+f(3, 2, 1) is 5
+
+-- Relation 3D #296
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c * 2 + 0 - 1 * b + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 2
+f(2, 1, 3) is 8
+f(3, 2, 1) is 1
+
+-- Relation 3D #297
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  1 + 2 - c - c + a
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 4
+f(0, 1, 0) is 3
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is -1
+f(3, 2, 1) is 4
+
+-- Relation 3D #298
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  1 + a + c + a * a - 2
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 2
+f(2, 1, 3) is 8
+f(3, 2, 1) is 12
+
+-- Relation 3D #299
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  1 - 2 + 2 + c - b + c + a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 3
+f(1, 1, 1) is 3
+f(2, 1, 3) is 8
+f(3, 2, 1) is 4
+
+-- Relation 3D #300
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a * b - 1 - c + a + 0
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is -2
+f(1, 1, 1) is 0
+f(2, 1, 3) is 0
+f(3, 2, 1) is 7
+
+-- Relation 3D #301
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  0 + 1 - 0 - a - c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is -4
+f(3, 2, 1) is -3
+
+-- Relation 3D #302
+-- Propriétés: [linear-a, linear-b, mono-a, mono-c]
+f a,b,c ->
+  c * c + 1 - b - c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 6
+f(3, 2, 1) is -1
+
+-- Relation 3D #303
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  a + b - a + 0 - a - 1 * c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -4
+f(3, 2, 1) is -2
+
+-- Relation 3D #304
+-- Propriétés: [linear-a, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b * b + 0 * 2 - a + 0 + c - 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is 1
+f(3, 2, 1) is 1
+
+-- Relation 3D #305
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a * 2 * a - 0 - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 5
+f(3, 2, 1) is 17
+
+-- Relation 3D #306
+-- Propriétés: [linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c + b - 1 - a * a * 2 - c
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -3
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -8
+f(3, 2, 1) is -17
+
+-- Relation 3D #307
+-- Propriétés: [sym-ab, linear-a, linear-b, linear-c]
+f a,b,c ->
+  b * a + 1 - a - c + 2 - b
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 2
+f(0, 1, 0) is 2
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is -1
+f(3, 2, 1) is 3
+
+-- Relation 3D #308
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  2 - a - 0 - 1 * 2 * a - c
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is -1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -7
+f(3, 2, 1) is -8
+
+-- Relation 3D #309
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  1 - c - c + 2 * a * a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 3
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 3
+f(3, 2, 1) is 17
+
+-- Relation 3D #310
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  2 + 0 - c - 2 * 1 * 1 * b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -3
+f(3, 2, 1) is -3
+
+-- Relation 3D #311
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c * a - 2 - a - 0 - b
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -3
+f(0, 0, 1) is -2
+f(1, 1, 1) is -3
+f(2, 1, 3) is 1
+f(3, 2, 1) is -4
+
+-- Relation 3D #312
+-- Propriétés: [linear-a, linear-c, mono-a, mono-c]
+f a,b,c ->
+  0 - b * b + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is 1
+f(3, 2, 1) is -1
+
+-- Relation 3D #313
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  b * c - b - 2 * c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is -2
+f(1, 1, 1) is -2
+f(2, 1, 3) is -4
+f(3, 2, 1) is -2
+
+-- Relation 3D #314
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  2 - 0 - 2 * 2 * a + b + 2 - c
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 0
+f(0, 1, 0) is 5
+f(0, 0, 1) is 3
+f(1, 1, 1) is 0
+f(2, 1, 3) is -6
+f(3, 2, 1) is -7
+
+-- Relation 3D #315
+-- Propriétés: [linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c * 1 - a * a + 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 3
+f(1, 1, 1) is 2
+f(2, 1, 3) is 1
+f(3, 2, 1) is -6
+
+-- Relation 3D #316
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  a + b - 1 * a * c * 1 + 0 - 0
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is -3
+f(3, 2, 1) is 2
+
+-- Relation 3D #317
+-- Propriétés: [linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  a - a * a - 0 * 2 + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is -1
+f(3, 2, 1) is -4
+
+-- Relation 3D #318
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b - a + 0 - c + a + a * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 2
+f(3, 2, 1) is 10
+
+-- Relation 3D #319
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  2 - a + 1 * 2 - c
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 3
+f(0, 1, 0) is 4
+f(0, 0, 1) is 3
+f(1, 1, 1) is 2
+f(2, 1, 3) is -1
+f(3, 2, 1) is 0
+
+-- Relation 3D #320
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c * b - 1 - b - a
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -2
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -1
+f(3, 2, 1) is -4
+
+-- Relation 3D #321
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  a - 1 - b - 2 * c
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -2
+f(0, 0, 1) is -3
+f(1, 1, 1) is -3
+f(2, 1, 3) is -6
+f(3, 2, 1) is -2
+
+-- Relation 3D #322
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  b - c * a - b + b * 2 - a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is -6
+f(3, 2, 1) is -2
+
+-- Relation 3D #323
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  b + b - 0 + a - b * a - 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 1
+f(3, 2, 1) is 0
+
+-- Relation 3D #324
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b - c + b * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is -1
+f(3, 2, 1) is 5
+
+-- Relation 3D #325
+-- Propriétés: [linear-c, mono-a, mono-b, mono-c]
+f a,b,c ->
+  a * a + b * 2 * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 3
+f(2, 1, 3) is 6
+f(3, 2, 1) is 17
+
+-- Relation 3D #326
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  a - 2 * 2 * a - 1 * b - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -3
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is -5
+f(2, 1, 3) is -8
+f(3, 2, 1) is -13
+
+-- Relation 3D #327
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  2 * c - b * 1 - 1 * a * b + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 1
+f(2, 1, 3) is 6
+f(3, 2, 1) is -5
+
+-- Relation 3D #328
+-- Propriétés: [linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  a - a * a + 2 + b - a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 1
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 2
+f(2, 1, 3) is -1
+f(3, 2, 1) is -5
+
+-- Relation 3D #329
+-- Propriétés: [neutral-00c, linear-a, linear-b, linear-c]
+f a,b,c ->
+  2 - b - c - c * a - 2 + c + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -4
+f(3, 2, 1) is -4
+
+-- Relation 3D #330
+-- Propriétés: [linear-a, linear-b, mono-b, mono-c]
+f a,b,c ->
+  b - a + c * c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 8
+f(3, 2, 1) is 0
+
+-- Relation 3D #331
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b]
+f a,b,c ->
+  2 + b * b + a + 2 + 2 + b - c
+
+f(0, 0, 0) is 6
+f(1, 0, 0) is 7
+f(0, 1, 0) is 8
+f(0, 0, 1) is 5
+f(1, 1, 1) is 8
+f(2, 1, 3) is 7
+f(3, 2, 1) is 14
+
+-- Relation 3D #332
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  b - c - c - a * 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is -2
+f(1, 1, 1) is -2
+f(2, 1, 3) is -7
+f(3, 2, 1) is -3
+
+-- Relation 3D #333
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  1 - a - 0 + 0 - c * 1 - 0 + b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is -3
+f(3, 2, 1) is -1
+
+-- Relation 3D #334
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  b * c - a - b + 2 - b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 0
+f(2, 1, 3) is 1
+f(3, 2, 1) is -3
+
+-- Relation 3D #335
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  a - 1 - c + 2 - 2 - 1 * a * 2
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -2
+f(0, 1, 0) is -1
+f(0, 0, 1) is -2
+f(1, 1, 1) is -3
+f(2, 1, 3) is -6
+f(3, 2, 1) is -5
+
+-- Relation 3D #336
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  a - c + b + c - c * b + 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 1
+f(3, 2, 1) is 4
+
+-- Relation 3D #337
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  0 - c - a + 0 - a * c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is -3
+f(2, 1, 3) is -11
+f(3, 2, 1) is -7
+
+-- Relation 3D #338
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  0 - a - 2 - b - b - 0 * b
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -4
+f(0, 0, 1) is -2
+f(1, 1, 1) is -5
+f(2, 1, 3) is -6
+f(3, 2, 1) is -9
+
+-- Relation 3D #339
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  0 - b - 0 + 0 - a + a - c - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is -3
+f(2, 1, 3) is -5
+f(3, 2, 1) is -5
+
+-- Relation 3D #340
+-- Propriétés: [linear-a, linear-b, mono-a, mono-b]
+f a,b,c ->
+  b - c * c - 2 + 2 - 1 * 1 - c
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -3
+f(1, 1, 1) is -2
+f(2, 1, 3) is -12
+f(3, 2, 1) is -1
+
+-- Relation 3D #341
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  c - c - b - 2 * b * c + a - 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is -3
+f(2, 1, 3) is -6
+f(3, 2, 1) is -4
+
+-- Relation 3D #342
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  b - c - c * b - 1 + 1 - 1
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -2
+f(1, 1, 1) is -2
+f(2, 1, 3) is -6
+f(3, 2, 1) is -2
+
+-- Relation 3D #343
+-- Propriétés: [linear-a, linear-c, mono-a, mono-c]
+f a,b,c ->
+  1 + c - b * b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is 3
+f(3, 2, 1) is -2
+
+-- Relation 3D #344
+-- Propriétés: [linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  a * a - a - b * 2
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is -2
+f(2, 1, 3) is 0
+f(3, 2, 1) is 2
+
+-- Relation 3D #345
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  0 + c - 1 * a - c + b * c - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -2
+f(3, 2, 1) is -2
+
+-- Relation 3D #346
+-- Propriétés: [linear-a, linear-b, mono-a, mono-b]
+f a,b,c ->
+  b * c * c - c + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 7
+f(3, 2, 1) is 3
+
+-- Relation 3D #347
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  0 - b - b - b - a - 1 - 0 - 1
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -5
+f(0, 0, 1) is -2
+f(1, 1, 1) is -6
+f(2, 1, 3) is -7
+f(3, 2, 1) is -11
+
+-- Relation 3D #348
+-- Propriétés: [linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c + 1 - a + a * b * a + c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 3
+f(2, 1, 3) is 9
+f(3, 2, 1) is 18
+
+-- Relation 3D #349
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c - b - 1 * b - 1 - a * b
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -1
+f(0, 1, 0) is -3
+f(0, 0, 1) is 0
+f(1, 1, 1) is -3
+f(2, 1, 3) is -2
+f(3, 2, 1) is -10
+
+-- Relation 3D #350
+-- Propriétés: [linear-a, linear-b, mono-b, mono-c]
+f a,b,c ->
+  c * c - 2 * 1 - a
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is -2
+f(2, 1, 3) is 5
+f(3, 2, 1) is -4
+
+-- Relation 3D #351
+-- Propriétés: [linear-a, linear-b, mono-a, mono-c]
+f a,b,c ->
+  0 + c * c - 2 - 1 - b
+
+f(0, 0, 0) is -3
+f(1, 0, 0) is -3
+f(0, 1, 0) is -4
+f(0, 0, 1) is -2
+f(1, 1, 1) is -3
+f(2, 1, 3) is 5
+f(3, 2, 1) is -4
+
+-- Relation 3D #352
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  a * 1 + 2 + a * a - c + b + 2
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 6
+f(0, 1, 0) is 5
+f(0, 0, 1) is 3
+f(1, 1, 1) is 6
+f(2, 1, 3) is 8
+f(3, 2, 1) is 17
+
+-- Relation 3D #353
+-- Propriétés: [linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  1 + a * a - b + c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 2
+f(2, 1, 3) is 7
+f(3, 2, 1) is 9
+
+-- Relation 3D #354
+-- Propriétés: [linear-b, linear-c, mono-a, idemp-diagonal]
+f a,b,c ->
+  a * a - c * b + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 2
+f(3, 2, 1) is 9
+
+-- Relation 3D #355
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  2 - a - 1 - 2 * c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -7
+f(3, 2, 1) is -4
+
+-- Relation 3D #356
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  2 - 2 * a - c - 1 * 0
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -5
+f(3, 2, 1) is -5
+
+-- Relation 3D #357
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  a - c * b + b * 1
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 0
+f(3, 2, 1) is 3
+
+-- Relation 3D #358
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  2 + 1 - 2 * b - c
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 3
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 0
+f(2, 1, 3) is -2
+f(3, 2, 1) is -2
+
+-- Relation 3D #359
+-- Propriétés: [linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c + b - 2 - a + a * c * 2 * a
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 24
+f(3, 2, 1) is 16
+
+-- Relation 3D #360
+-- Propriétés: [linear-a, linear-b, mono-a, mono-b]
+f a,b,c ->
+  1 * a - c * c - 2 - c
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -1
+f(0, 1, 0) is -2
+f(0, 0, 1) is -4
+f(1, 1, 1) is -3
+f(2, 1, 3) is -12
+f(3, 2, 1) is -1
+
+-- Relation 3D #361
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  1 + c - b * a * 2 + 1 - a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is 3
+f(1, 1, 1) is 0
+f(2, 1, 3) is -1
+f(3, 2, 1) is -12
+
+-- Relation 3D #362
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  2 - a - b - a - 1 - a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is -2
+f(0, 1, 0) is 0
+f(0, 0, 1) is 1
+f(1, 1, 1) is -3
+f(2, 1, 3) is -6
+f(3, 2, 1) is -10
+
+-- Relation 3D #363
+-- Propriétés: [linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  1 * a * a - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is 3
+f(3, 2, 1) is 7
+
+-- Relation 3D #364
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b]
+f a,b,c ->
+  b * b - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -2
+f(3, 2, 1) is 3
+
+-- Relation 3D #365
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  b - c - a - b - 1 - a - 1
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -4
+f(0, 1, 0) is -2
+f(0, 0, 1) is -3
+f(1, 1, 1) is -5
+f(2, 1, 3) is -9
+f(3, 2, 1) is -9
+
+-- Relation 3D #366
+-- Propriétés: [linear-a, linear-b, mono-a, rotate-bc-at-0]
+f a,b,c ->
+  1 - c * b * c - 0 - c - b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is 0
+f(1, 1, 1) is -2
+f(2, 1, 3) is -12
+f(3, 2, 1) is -4
+
+-- Relation 3D #367
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  b - 1 * a - a * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is -3
+f(3, 2, 1) is -7
+
+-- Relation 3D #368
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  0 - b - b * 2 - a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is -3
+f(0, 0, 1) is 0
+f(1, 1, 1) is -4
+f(2, 1, 3) is -5
+f(3, 2, 1) is -9
+
+-- Relation 3D #369
+-- Propriétés: [linear-b, linear-c, mono-a, mono-b]
+f a,b,c ->
+  c - c - c + a + 2 + a * a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 4
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 3
+f(2, 1, 3) is 5
+f(3, 2, 1) is 13
+
+-- Relation 3D #370
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  1 - b - c - c + 0 + 1
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is -5
+f(3, 2, 1) is -2
+
+-- Relation 3D #371
+-- Propriétés: [linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b - a * a * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is -7
+f(3, 2, 1) is -25
+
+-- Relation 3D #372
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  a * b - a - c - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -2
+f(1, 1, 1) is -2
+f(2, 1, 3) is -6
+f(3, 2, 1) is 1
+
+-- Relation 3D #373
+-- Propriétés: [linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  1 - a * a + b * 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 3
+f(0, 0, 1) is 1
+f(1, 1, 1) is 2
+f(2, 1, 3) is -1
+f(3, 2, 1) is -4
+
+-- Relation 3D #374
+-- Propriétés: [linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  c - 2 * b + a * a + c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -2
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is 8
+f(3, 2, 1) is 7
+
+-- Relation 3D #375
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  1 - 1 - a - c - 1 - a
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -3
+f(0, 1, 0) is -1
+f(0, 0, 1) is -2
+f(1, 1, 1) is -4
+f(2, 1, 3) is -8
+f(3, 2, 1) is -8
+
+-- Relation 3D #376
+-- Propriétés: [sym-ab, linear-a, linear-b, mono-c]
+f a,b,c ->
+  0 + 1 + c * c - a * 2 - b + a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 0
+f(2, 1, 3) is 7
+f(3, 2, 1) is -3
+
+-- Relation 3D #377
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  0 - a - 2 * 1 * b * 2 * 2
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is -8
+f(0, 0, 1) is 0
+f(1, 1, 1) is -9
+f(2, 1, 3) is -10
+f(3, 2, 1) is -19
+
+-- Relation 3D #378
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b]
+f a,b,c ->
+  0 - c + b * b + 0 - 1 * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -3
+f(3, 2, 1) is 1
+
+-- Relation 3D #379
+-- Propriétés: [linear-b, linear-c, mono-b, mono-c]
+f a,b,c ->
+  b - 1 * a - a * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is -5
+f(3, 2, 1) is -10
+
+-- Relation 3D #380
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c - 2 - b * 1 * 1 - a - b - b
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -5
+f(0, 0, 1) is -1
+f(1, 1, 1) is -5
+f(2, 1, 3) is -4
+f(3, 2, 1) is -10
+
+-- Relation 3D #381
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  c - 2 - c + 2 - b * 2 + a - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -2
+f(0, 0, 1) is -1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -3
+f(3, 2, 1) is -2
+
+-- Relation 3D #382
+-- Propriétés: [linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  b - b - b + 1 * 2 + a * a - b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 0
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is 4
+f(3, 2, 1) is 7
+
+-- Relation 3D #383
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  2 * 1 - c + 1 - a
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is -2
+f(3, 2, 1) is -1
+
+-- Relation 3D #384
+-- Propriétés: [linear-b, linear-c, mono-a, mono-c]
+f a,b,c ->
+  0 * b * 0 + a * a - b + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 2
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 5
+f(3, 2, 1) is 10
+
+-- Relation 3D #385
+-- Propriétés: [totally-symmetric, linear-a, linear-b, linear-c]
+f a,b,c ->
+  0 - b - a - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is -1
+f(0, 0, 1) is -1
+f(1, 1, 1) is -3
+f(2, 1, 3) is -6
+f(3, 2, 1) is -6
+
+-- Relation 3D #386
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  2 + 0 + a + 2 - 1 - a * b - b
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 4
+f(0, 1, 0) is 2
+f(0, 0, 1) is 3
+f(1, 1, 1) is 2
+f(2, 1, 3) is 2
+f(3, 2, 1) is -2
+
+-- Relation 3D #387
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  2 - c - 2 * 1 * a * c + b
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -12
+f(3, 2, 1) is -3
+
+-- Relation 3D #388
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  0 - 1 * a - c + 0
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -5
+f(3, 2, 1) is -4
+
+-- Relation 3D #389
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  0 - a * 1 + 1 + c - 1 * b - b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 2
+f(1, 1, 1) is -1
+f(2, 1, 3) is 0
+f(3, 2, 1) is -5
+
+-- Relation 3D #390
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  b - 2 * c - a - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -2
+f(1, 1, 1) is -3
+f(2, 1, 3) is -8
+f(3, 2, 1) is -5
+
+-- Relation 3D #391
+-- Propriétés: [linear-a, linear-b, linear-c, mono-b]
+f a,b,c ->
+  b + b - 2 - a - b * 2 - c
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -3
+f(0, 1, 0) is -2
+f(0, 0, 1) is -3
+f(1, 1, 1) is -4
+f(2, 1, 3) is -7
+f(3, 2, 1) is -6
+
+-- Relation 3D #392
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  a - 1 * c - b - 2 - c * 1
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -1
+f(0, 1, 0) is -3
+f(0, 0, 1) is -4
+f(1, 1, 1) is -4
+f(2, 1, 3) is -7
+f(3, 2, 1) is -3
+
+-- Relation 3D #393
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c * a - b - 0 - a - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is -2
+f(2, 1, 3) is 2
+f(3, 2, 1) is -4
+
+-- Relation 3D #394
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  c * 2 - 2 * a - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -2
+f(0, 1, 0) is -1
+f(0, 0, 1) is 2
+f(1, 1, 1) is -1
+f(2, 1, 3) is 1
+f(3, 2, 1) is -6
+
+-- Relation 3D #395
+-- Propriétés: [linear-a, linear-c, mono-b, mono-c]
+f a,b,c ->
+  c + 1 - 0 - a + b * 2 + b * b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 4
+f(0, 0, 1) is 2
+f(1, 1, 1) is 4
+f(2, 1, 3) is 5
+f(3, 2, 1) is 7
+
+-- Relation 3D #396
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  a - a - a * 2 * 2 - b - 2
+
+f(0, 0, 0) is -2
+f(1, 0, 0) is -6
+f(0, 1, 0) is -3
+f(0, 0, 1) is -2
+f(1, 1, 1) is -7
+f(2, 1, 3) is -11
+f(3, 2, 1) is -16
+
+-- Relation 3D #397
+-- Propriétés: [linear-a, linear-b, mono-a, mono-c]
+f a,b,c ->
+  1 + c * c + c - 1 - b - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is -1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is 8
+f(3, 2, 1) is -1
+
+-- Relation 3D #398
+-- Propriétés: [linear-a, linear-b, linear-c, mono-a]
+f a,b,c ->
+  2 - 0 * b - b + 1 - c - c
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 3
+f(0, 1, 0) is 2
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -4
+f(3, 2, 1) is -1
+
+-- Relation 3D #399
+-- Propriétés: [linear-a, linear-c, mono-a, mono-c]
+f a,b,c ->
+  b + 2 * 2 * a - b * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 4
+f(0, 1, 0) is 0
+f(0, 0, 1) is 0
+f(1, 1, 1) is 4
+f(2, 1, 3) is 8
+f(3, 2, 1) is 10
+
+-- Relation 3D #400
+-- Propriétés: [linear-a, linear-b, linear-c, mono-c]
+f a,b,c ->
+  b - a - b - 2 * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is -3
+f(2, 1, 3) is -4
+f(3, 2, 1) is -7
+
+-- Relation 3D #401
+-- Propriétés: [linear-a, linear-c, mono-a, mono-b]
+f a,b,c ->
+  0 + b * 1 * 2 * b - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 2
+f(0, 0, 1) is -1
+f(1, 1, 1) is 1
+f(2, 1, 3) is -1
+f(3, 2, 1) is 7
+
+-- Relation 3D #402
+-- Propriétés: [linear-a, linear-b, mono-a]
+f a,b,c ->
+  a - b * 2 + 1 - c * c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is -8
+f(3, 2, 1) is -1
+
+-- Relation 3D #403
+-- Propriétés: [linear-a, linear-b, mono-a]
+f a,b,c ->
+  a - c * c - 2 - b + 1 * a - 2
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -2
+f(0, 1, 0) is -5
+f(0, 0, 1) is -5
+f(1, 1, 1) is -4
+f(2, 1, 3) is -10
+f(3, 2, 1) is -1
+
+-- Relation 3D #404
+-- Propriétés: [linear-a, linear-b, linear-c]
+f a,b,c ->
+  1 + 1 - b - 2 * c - 2 * a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -3
+f(2, 1, 3) is -9
+f(3, 2, 1) is -8
+
+-- Relation 3D #405
+-- Propriétés: [linear-a, linear-b, linear-c]
+f a,b,c ->
+  1 * 0 * b + a - b - 2 * c * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -2
+f(2, 1, 3) is -11
+f(3, 2, 1) is -5
+
+-- Relation 3D #406
+-- Propriétés: [linear-a, linear-b, mono-b]
+f a,b,c ->
+  a - a * c - 0 - c * c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -13
+f(3, 2, 1) is -1
+
+-- Relation 3D #407
+-- Propriétés: [linear-b, linear-c, mono-c]
+f a,b,c ->
+  a * a + c - 2 + 1 - a * b + 2
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is 2
+f(2, 1, 3) is 6
+f(3, 2, 1) is 5
+
+-- Relation 3D #408
+-- Propriétés: [linear-b, linear-c, mono-b]
+f a,b,c ->
+  a - c - a * a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -5
+f(3, 2, 1) is -7
+
+-- Relation 3D #409
+-- Propriétés: [linear-a, linear-c, mono-c]
+f a,b,c ->
+  c - b * b + a - a * 2 + 2 - a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 0
+f(2, 1, 3) is 0
+f(3, 2, 1) is -7
+
+-- Relation 3D #410
+-- Propriétés: [linear-a, linear-b, linear-c]
+f a,b,c ->
+  c - a * c - b * 1 + 2
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 3
+f(1, 1, 1) is 1
+f(2, 1, 3) is -2
+f(3, 2, 1) is -2
+
+-- Relation 3D #411
+-- Propriétés: [linear-a, linear-c, mono-c]
+f a,b,c ->
+  1 - b * b + b - 2 * 1 * a - a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is -2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is -2
+f(2, 1, 3) is -5
+f(3, 2, 1) is -10
+
+-- Relation 3D #412
+-- Propriétés: [linear-b, linear-c, mono-b]
+f a,b,c ->
+  1 + 0 - c - 1 * a * a
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is -6
+f(3, 2, 1) is -9
+
+-- Relation 3D #413
+-- Propriétés: [linear-a, linear-c, mono-c]
+f a,b,c ->
+  b * c * a - 0 - a - b * b * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is -1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -1
+f(2, 1, 3) is 3
+f(3, 2, 1) is -5
+
+-- Relation 3D #414
+-- Propriétés: [linear-a, linear-b, linear-c]
+f a,b,c ->
+  c - 2 * b + b - a * c + 1 - b
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is -1
+f(0, 0, 1) is 2
+f(1, 1, 1) is -1
+f(2, 1, 3) is -4
+f(3, 2, 1) is -5
+
+-- Relation 3D #415
+-- Propriétés: [linear-b, linear-c, mono-c]
+f a,b,c ->
+  2 - a * a + 2 - b
+
+f(0, 0, 0) is 4
+f(1, 0, 0) is 3
+f(0, 1, 0) is 3
+f(0, 0, 1) is 4
+f(1, 1, 1) is 2
+f(2, 1, 3) is -1
+f(3, 2, 1) is -7
+
+-- Relation 3D #416
+-- Propriétés: [linear-a, mono-a, mono-b]
+f a,b,c ->
+  a + b * b - c * 2 + c * c + b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 2
+f(0, 0, 1) is -1
+f(1, 1, 1) is 2
+f(2, 1, 3) is 7
+f(3, 2, 1) is 8
+
+-- Relation 3D #417
+-- Propriétés: [linear-a, linear-c, mono-a]
+f a,b,c ->
+  b + a - c * b * b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 1
+f(2, 1, 3) is 0
+f(3, 2, 1) is 1
+
+-- Relation 3D #418
+-- Propriétés: [linear-a, linear-c, mono-a]
+f a,b,c ->
+  0 - 2 - c - 2 - b * 1 * b
+
+f(0, 0, 0) is -4
+f(1, 0, 0) is -4
+f(0, 1, 0) is -5
+f(0, 0, 1) is -5
+f(1, 1, 1) is -6
+f(2, 1, 3) is -8
+f(3, 2, 1) is -9
+
+-- Relation 3D #419
+-- Propriétés: [linear-a, linear-b, mono-b]
+f a,b,c ->
+  1 + 1 * 2 - c * c - a
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 2
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 1
+f(2, 1, 3) is -8
+f(3, 2, 1) is -1
+
+-- Relation 3D #420
+-- Propriétés: [linear-a, linear-c, mono-a]
+f a,b,c ->
+  1 + 1 + a - 0 - c - b * b - 0
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 3
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 1
+f(2, 1, 3) is 0
+f(3, 2, 1) is 0
+
+-- Relation 3D #421
+-- Propriétés: [linear-a, linear-b, linear-c]
+f a,b,c ->
+  b - a * b - c
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 0
+f(0, 1, 0) is 1
+f(0, 0, 1) is -1
+f(1, 1, 1) is -1
+f(2, 1, 3) is -4
+f(3, 2, 1) is -5
+
+-- Relation 3D #422
+-- Propriétés: [linear-a, linear-c, mono-c]
+f a,b,c ->
+  c + 1 - 2 - 0 - b * b - a * 2
+
+f(0, 0, 0) is -1
+f(1, 0, 0) is -3
+f(0, 1, 0) is -2
+f(0, 0, 1) is 0
+f(1, 1, 1) is -3
+f(2, 1, 3) is -3
+f(3, 2, 1) is -10
+
+-- Relation 3D #423
+-- Propriétés: [linear-a, linear-b, linear-c]
+f a,b,c ->
+  2 - 0 - b - a - c - c - 2 * a
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is -1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is -4
+f(2, 1, 3) is -11
+f(3, 2, 1) is -11
+
+-- Relation 3D #424
+-- Propriétés: [linear-b, linear-c, mono-b]
+f a,b,c ->
+  a + 1 - a * a - c
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 1
+f(0, 0, 1) is 0
+f(1, 1, 1) is 0
+f(2, 1, 3) is -4
+f(3, 2, 1) is -6
+
+-- Relation 3D #425
+-- Propriétés: [linear-a, linear-b, mono-a]
+f a,b,c ->
+  2 * 0 * 1 * 0 - b + 2 - c * c
+
+f(0, 0, 0) is 2
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -8
+f(3, 2, 1) is -1
+
+-- Relation 3D #426
+-- Propriétés: [linear-a, linear-b, mono-b]
+f a,b,c ->
+  c + b * 2 - a * c * c + 1
+
+f(0, 0, 0) is 1
+f(1, 0, 0) is 1
+f(0, 1, 0) is 3
+f(0, 0, 1) is 2
+f(1, 1, 1) is 3
+f(2, 1, 3) is -12
+f(3, 2, 1) is 3
+
+-- Relation 3D #427
+-- Propriétés: [linear-a, linear-c, mono-a]
+f a,b,c ->
+  b - c - b * b + 1 - 1 + a
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is 0
+f(0, 0, 1) is -1
+f(1, 1, 1) is 0
+f(2, 1, 3) is -1
+f(3, 2, 1) is 0
+
+-- Relation 3D #428
+-- Propriétés: [linear-b, linear-c]
+f a,b,c ->
+  2 - b - a * a - b - c + 1
+
+f(0, 0, 0) is 3
+f(1, 0, 0) is 2
+f(0, 1, 0) is 1
+f(0, 0, 1) is 2
+f(1, 1, 1) is -1
+f(2, 1, 3) is -6
+f(3, 2, 1) is -11
+
+-- Relation 3D #429
+-- Propriétés: [linear-c, mono-a]
+f a,b,c ->
+  a * a - c - b * b - c - b
+
+f(0, 0, 0) is 0
+f(1, 0, 0) is 1
+f(0, 1, 0) is -2
+f(0, 0, 1) is -2
+f(1, 1, 1) is -3
+f(2, 1, 3) is -4
+f(3, 2, 1) is 1
+

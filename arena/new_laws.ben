@@ -1,0 +1,1048 @@
+-- Lois inventées par Benoît
+-- Aucun phénomène connu. Pure imagination.
+-- Phase 4: pensée native, memo hyperspeed.
+
+-- Loi inconnue #1
+-- Séquence: [0, 1, 10, 10, 10, 10, 10, 10]
+memo f n ->
+  n <= 0? -> 0
+  n == 1? -> 1
+  else? -> 10
+
+f(0) is 0
+f(1) is 1
+f(2) is 10
+f(3) is 10
+f(4) is 10
+f(5) is 10
+f(6) is 10
+f(7) is 10
+
+-- Loi inconnue #2
+-- Séquence: [0, 0, 4, 6, 8, 10, 12, 14]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 4
+f(3) is 6
+f(4) is 8
+f(5) is 10
+f(6) is 12
+f(7) is 14
+
+-- Loi inconnue #3
+-- Séquence: [1, 1, 3, 4, 5, 6, 7, 8]
+memo f n ->
+  n == 1? -> 1
+  else? -> n + 1
+
+f(0) is 1
+f(1) is 1
+f(2) is 3
+f(3) is 4
+f(4) is 5
+f(5) is 6
+f(6) is 7
+f(7) is 8
+
+-- Loi inconnue #4
+-- Séquence: [1, 1, 5, 5, 5, 5, 5, 5]
+memo f n ->
+  n < 2? -> 1
+  else? -> 3 + 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 5
+f(3) is 5
+f(4) is 5
+f(5) is 5
+f(6) is 5
+f(7) is 5
+
+-- Loi inconnue #5
+-- Séquence: [1, 1, 0, 0, 0, 0, 0, 0]
+memo f n ->
+  n <= 1? -> 1
+  else? -> 0
+
+f(0) is 1
+f(1) is 1
+f(2) is 0
+f(3) is 0
+f(4) is 0
+f(5) is 0
+f(6) is 0
+f(7) is 0
+
+-- Loi inconnue #6
+-- Séquence: [0, 3, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n == 0? -> 0
+  else? -> 3
+
+f(0) is 0
+f(1) is 3
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+
+-- Loi inconnue #7
+-- Séquence: [1, 0, 1, 1, 1, 1, 1, 1]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1
+
+f(0) is 1
+f(1) is 0
+f(2) is 1
+f(3) is 1
+f(4) is 1
+f(5) is 1
+f(6) is 1
+f(7) is 1
+
+-- Loi inconnue #8
+-- Séquence: [1, 10, 1, 10, 1, 10, 1, 10]
+memo f n ->
+  n % 2 == 0? -> 1
+  else? -> 10
+
+f(0) is 1
+f(1) is 10
+f(2) is 1
+f(3) is 10
+f(4) is 1
+f(5) is 10
+f(6) is 1
+f(7) is 10
+
+-- Loi inconnue #9
+-- Séquence: [1, 4, 1, 4, 1, 4, 1, 4]
+memo f n ->
+  n % 2 == 0? -> 1
+  n <= 0? -> 0
+  else? -> 4
+
+f(0) is 1
+f(1) is 4
+f(2) is 1
+f(3) is 4
+f(4) is 1
+f(5) is 4
+f(6) is 1
+f(7) is 4
+
+-- Loi inconnue #10
+-- Séquence: [4, 2, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n == 1? -> 2
+  else? -> 4
+
+f(0) is 4
+f(1) is 2
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+
+-- Loi inconnue #11
+-- Séquence: [1, 0, 2, 2, 2, 2, 2, 2]
+memo f n ->
+  n == 0? -> 1
+  n == 1? -> 0
+  else? -> 0 + 2
+
+f(0) is 1
+f(1) is 0
+f(2) is 2
+f(3) is 2
+f(4) is 2
+f(5) is 2
+f(6) is 2
+f(7) is 2
+
+-- Loi inconnue #12
+-- Séquence: [2, 9, 9, 9, 9, 9, 9, 9]
+memo f n ->
+  n <= 0? -> 2
+  else? -> 4 + 4 + 1
+
+f(0) is 2
+f(1) is 9
+f(2) is 9
+f(3) is 9
+f(4) is 9
+f(5) is 9
+f(6) is 9
+f(7) is 9
+
+-- Loi inconnue #13
+-- Séquence: [0, 0, 6, 9, 12, 15, 18, 21]
+memo f n ->
+  n == 1? -> 0
+  else? -> 3 * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 6
+f(3) is 9
+f(4) is 12
+f(5) is 15
+f(6) is 18
+f(7) is 21
+
+-- Loi inconnue #14
+-- Séquence: [2, 2, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n <= 1? -> 2
+  else? -> 4
+
+f(0) is 2
+f(1) is 2
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+
+-- Loi inconnue #15
+-- Séquence: [2, 1, 2, 3, 4, 5, 6, 7]
+memo f n ->
+  n == 1? -> 1
+  n < 2? -> 2
+  else? -> n
+
+f(0) is 2
+f(1) is 1
+f(2) is 2
+f(3) is 3
+f(4) is 4
+f(5) is 5
+f(6) is 6
+f(7) is 7
+
+-- Loi inconnue #16
+-- Séquence: [5, 5, 1, 5, 5, 5, 5, 5]
+memo f n ->
+  n == 2? -> 1
+  else? -> 5
+
+f(0) is 5
+f(1) is 5
+f(2) is 1
+f(3) is 5
+f(4) is 5
+f(5) is 5
+f(6) is 5
+f(7) is 5
+
+-- Loi inconnue #17
+-- Séquence: [0, 7, 6, 5, 4, 3, 2, 1]
+memo f n ->
+  n <= 0? -> 0
+  else? -> 3 + 5 - n
+
+f(0) is 0
+f(1) is 7
+f(2) is 6
+f(3) is 5
+f(4) is 4
+f(5) is 3
+f(6) is 2
+f(7) is 1
+
+-- Loi inconnue #18
+-- Séquence: [1, -1, -1, -1, -1, -1, -1, -1]
+memo f n ->
+  n == 0? -> 1
+  else? -> 2 - 4 + 1
+
+f(0) is 1
+f(1) is -1
+f(2) is -1
+f(3) is -1
+f(4) is -1
+f(5) is -1
+f(6) is -1
+f(7) is -1
+
+-- Loi inconnue #19
+-- Séquence: [0, 0, 15, 15, 15, 15, 15, 15]
+memo f n ->
+  n < 2? -> 0
+  else? -> 3 * 5
+
+f(0) is 0
+f(1) is 0
+f(2) is 15
+f(3) is 15
+f(4) is 15
+f(5) is 15
+f(6) is 15
+f(7) is 15
+
+-- Loi inconnue #20
+-- Séquence: [0, 10, 0, 10, 0, 10, 0, 10]
+memo f n ->
+  n % 2 == 0? -> 0
+  else? -> 1 * 0 + 10
+
+f(0) is 0
+f(1) is 10
+f(2) is 0
+f(3) is 10
+f(4) is 0
+f(5) is 10
+f(6) is 0
+f(7) is 10
+
+-- Loi inconnue #21
+-- Séquence: [2, 1, 5, 12, 22, 35, 51, 70]
+memo f n ->
+  n == 0? -> 2
+  else? -> n * (3 * n - 1) / 2
+
+f(0) is 2
+f(1) is 1
+f(2) is 5
+f(3) is 12
+f(4) is 22
+f(5) is 35
+f(6) is 51
+f(7) is 70
+
+-- Loi inconnue #22
+-- Séquence: [2, 3, 6, 11, 18, 27, 38, 51]
+memo f n ->
+  n <= 0? -> 2
+  else? -> f(n - 1) + 2 * n - 1
+
+f(0) is 2
+f(1) is 3
+f(2) is 6
+f(3) is 11
+f(4) is 18
+f(5) is 27
+f(6) is 38
+f(7) is 51
+
+-- Loi inconnue #23
+-- Séquence: [0, 5, 0, 5, 0, 5, 0, 5]
+memo f n ->
+  n % 2 == 0? -> 0
+  else? -> 5
+
+f(0) is 0
+f(1) is 5
+f(2) is 0
+f(3) is 5
+f(4) is 0
+f(5) is 5
+f(6) is 0
+f(7) is 5
+
+-- Loi inconnue #24
+-- Séquence: [2, 4, 2, 4, 2, 4, 2, 4]
+memo f n ->
+  n % 2 == 0? -> 2
+  else? -> 4
+
+f(0) is 2
+f(1) is 4
+f(2) is 2
+f(3) is 4
+f(4) is 2
+f(5) is 4
+f(6) is 2
+f(7) is 4
+
+-- Loi inconnue #25
+-- Séquence: [0, 4, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n <= 0? -> 0
+  else? -> 4
+
+f(0) is 0
+f(1) is 4
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+
+-- Loi inconnue #26
+-- Séquence: [3, 2, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n == 1? -> 2
+  else? -> 3
+
+f(0) is 3
+f(1) is 2
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+
+-- Loi inconnue #27
+-- Séquence: [35, 35, 0, 35, 35, 35, 35, 35]
+memo f n ->
+  n == 2? -> 0
+  else? -> 10 + 5 * 5
+
+f(0) is 35
+f(1) is 35
+f(2) is 0
+f(3) is 35
+f(4) is 35
+f(5) is 35
+f(6) is 35
+f(7) is 35
+
+-- Loi inconnue #28
+-- Séquence: [0, 1, 0, 0, 0, 0, 0, 0]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0
+
+f(0) is 0
+f(1) is 1
+f(2) is 0
+f(3) is 0
+f(4) is 0
+f(5) is 0
+f(6) is 0
+f(7) is 0
+
+-- Loi inconnue #29
+-- Séquence: [7, 7, 2, 7, 7, 7, 7, 7]
+memo f n ->
+  n == 2? -> 2
+  else? -> 0 + f(2) + 5
+
+f(0) is 7
+f(1) is 7
+f(2) is 2
+f(3) is 7
+f(4) is 7
+f(5) is 7
+f(6) is 7
+f(7) is 7
+
+-- Loi inconnue #30
+-- Séquence: [2, 0, 0, 0, 0, 0, 0, 0]
+memo f n ->
+  n <= 0? -> 2
+  else? -> 0
+
+f(0) is 2
+f(1) is 0
+f(2) is 0
+f(3) is 0
+f(4) is 0
+f(5) is 0
+f(6) is 0
+f(7) is 0
+
+-- Loi inconnue #31
+-- Séquence: [2, 2, 13, 13, 13, 13, 13, 13]
+memo f n ->
+  n <= 1? -> 2
+  else? -> 3 + 10
+
+f(0) is 2
+f(1) is 2
+f(2) is 13
+f(3) is 13
+f(4) is 13
+f(5) is 13
+f(6) is 13
+f(7) is 13
+
+-- Loi inconnue #32
+-- Séquence: [0, 0, 10, 10, 10, 10, 10, 10]
+memo f n ->
+  n < 2? -> 0
+  else? -> 4 + 5 + 1
+
+f(0) is 0
+f(1) is 0
+f(2) is 10
+f(3) is 10
+f(4) is 10
+f(5) is 10
+f(6) is 10
+f(7) is 10
+
+-- Loi inconnue #33
+-- Séquence: [2, 2, 4, 9, 16, 25, 36, 49]
+memo f n ->
+  n < 2? -> 2
+  else? -> n * n
+
+f(0) is 2
+f(1) is 2
+f(2) is 4
+f(3) is 9
+f(4) is 16
+f(5) is 25
+f(6) is 36
+f(7) is 49
+
+-- Loi inconnue #34
+-- Séquence: [0, 1, 5, 12, 22, 35, 51, 70]
+memo f n ->
+  n <= 0? -> 0
+  else? -> n * (3 * n - 1) / 2
+
+f(0) is 0
+f(1) is 1
+f(2) is 5
+f(3) is 12
+f(4) is 22
+f(5) is 35
+f(6) is 51
+f(7) is 70
+
+-- Loi inconnue #35
+-- Séquence: [10, 0, 10, 10, 10, 10, 10, 10]
+memo f n ->
+  n == 1? -> 0
+  else? -> 10
+
+f(0) is 10
+f(1) is 0
+f(2) is 10
+f(3) is 10
+f(4) is 10
+f(5) is 10
+f(6) is 10
+f(7) is 10
+
+-- Loi inconnue #36
+-- Séquence: [0, 1, 2, 2, 2, 2, 2, 2]
+memo f n ->
+  n == 1? -> 1
+  n == 0? -> 0
+  else? -> 2
+
+f(0) is 0
+f(1) is 1
+f(2) is 2
+f(3) is 2
+f(4) is 2
+f(5) is 2
+f(6) is 2
+f(7) is 2
+
+-- Loi inconnue #37
+-- Séquence: [1, 5, 1, 5, 1, 5, 1, 5]
+memo f n ->
+  n == 0? -> 1
+  n % 2 == 0? -> 1
+  else? -> 5
+
+f(0) is 1
+f(1) is 5
+f(2) is 1
+f(3) is 5
+f(4) is 1
+f(5) is 5
+f(6) is 1
+f(7) is 5
+
+-- Loi inconnue #38
+-- Séquence: [1, 4, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n <= 0? -> 1
+  else? -> 4
+
+f(0) is 1
+f(1) is 4
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+
+-- Loi inconnue #39
+-- Séquence: [1, 3, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n == 0? -> 1
+  else? -> 3
+
+f(0) is 1
+f(1) is 3
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+
+-- Loi inconnue #40
+-- Séquence: [0, 0, 2, 3, 4, 5, 6, 7]
+memo f n ->
+  n < 2? -> 0
+  else? -> n * f(f(f(0))) + n
+
+f(0) is 0
+f(1) is 0
+f(2) is 2
+f(3) is 3
+f(4) is 4
+f(5) is 5
+f(6) is 6
+f(7) is 7
+
+-- Loi inconnue #41
+-- Séquence: [1, 1, 4, 6, 8, 10, 12, 14]
+memo f n ->
+  n <= 1? -> 1
+  else? -> 2 * n
+
+f(0) is 1
+f(1) is 1
+f(2) is 4
+f(3) is 6
+f(4) is 8
+f(5) is 10
+f(6) is 12
+f(7) is 14
+
+-- Loi inconnue #42
+-- Séquence: [0, 1, 0, 1, 0, 1, 0, 1]
+memo f n ->
+  n % 2 == 0? -> 0
+  else? -> 1
+
+f(0) is 0
+f(1) is 1
+f(2) is 0
+f(3) is 1
+f(4) is 0
+f(5) is 1
+f(6) is 0
+f(7) is 1
+
+-- Loi inconnue #43
+-- Séquence: [0, 0, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n <= 1? -> 0
+  else? -> 3
+
+f(0) is 0
+f(1) is 0
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+
+-- Loi inconnue #44
+-- Séquence: [1, 1, 3, 9, 27, 81, 243, 729]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(n - 1) * 3
+
+f(0) is 1
+f(1) is 1
+f(2) is 3
+f(3) is 9
+f(4) is 27
+f(5) is 81
+f(6) is 243
+f(7) is 729
+
+-- Loi inconnue #45
+-- Séquence: [3, 0, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n == 1? -> 0
+  else? -> 3
+
+f(0) is 3
+f(1) is 0
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+
+-- Loi inconnue #46
+-- Séquence: [0, 0, -4, -4, -4, -4, -4, -4]
+memo f n ->
+  n <= 1? -> 0
+  n < 2? -> 2
+  else? -> 3 * 0 - 2 - 2
+
+f(0) is 0
+f(1) is 0
+f(2) is -4
+f(3) is -4
+f(4) is -4
+f(5) is -4
+f(6) is -4
+f(7) is -4
+
+-- Loi inconnue #47
+-- Séquence: [1, 8, 8, 8, 8, 8, 8, 8]
+memo f n ->
+  n <= 0? -> 1
+  else? -> 4 * 2
+
+f(0) is 1
+f(1) is 8
+f(2) is 8
+f(3) is 8
+f(4) is 8
+f(5) is 8
+f(6) is 8
+f(7) is 8
+
+-- Loi inconnue #48
+-- Séquence: [2, 2, 2, 3, 4, 5, 6, 7]
+memo f n ->
+  n <= 1? -> 2
+  else? -> n
+
+f(0) is 2
+f(1) is 2
+f(2) is 2
+f(3) is 3
+f(4) is 4
+f(5) is 5
+f(6) is 6
+f(7) is 7
+
+-- Loi inconnue #49
+-- Séquence: [1, 0, 1, 0, 1, 0, 1, 0]
+memo f n ->
+  n % 2 == 0? -> 1
+  else? -> 0
+
+f(0) is 1
+f(1) is 0
+f(2) is 1
+f(3) is 0
+f(4) is 1
+f(5) is 0
+f(6) is 1
+f(7) is 0
+
+-- Loi inconnue #50
+-- Séquence: [1, 3, 9, 27, 81, 243, 729, 2187]
+memo f n ->
+  n == 0? -> 1
+  else? -> f(n - 1) * 3
+
+f(0) is 1
+f(1) is 3
+f(2) is 9
+f(3) is 27
+f(4) is 81
+f(5) is 243
+f(6) is 729
+f(7) is 2187
+
+-- Loi inconnue #51
+-- Séquence: [1, 5, 5, 5, 5, 5, 5, 5]
+memo f n ->
+  n == 0? -> 1
+  else? -> 2 + 0 + 3
+
+f(0) is 1
+f(1) is 5
+f(2) is 5
+f(3) is 5
+f(4) is 5
+f(5) is 5
+f(6) is 5
+f(7) is 5
+
+-- Loi inconnue #52
+-- Séquence: [16, 16, 2, 16, 16, 16, 16, 16]
+memo f n ->
+  n == 2? -> 2
+  else? -> 4 * 4
+
+f(0) is 16
+f(1) is 16
+f(2) is 2
+f(3) is 16
+f(4) is 16
+f(5) is 16
+f(6) is 16
+f(7) is 16
+
+-- Loi inconnue #53
+-- Séquence: [0, 0, 1, 2, 3, 4, 5, 6]
+memo f n ->
+  n < 2? -> 0
+  else? -> n - 1
+
+f(0) is 0
+f(1) is 0
+f(2) is 1
+f(3) is 2
+f(4) is 3
+f(5) is 4
+f(6) is 5
+f(7) is 6
+
+-- Loi inconnue #54
+-- Séquence: [1, 40, 1, 40, 1, 40, 1, 40]
+memo f n ->
+  n % 2 == 0? -> 1
+  else? -> 4 * 10 * 1
+
+f(0) is 1
+f(1) is 40
+f(2) is 1
+f(3) is 40
+f(4) is 1
+f(5) is 40
+f(6) is 1
+f(7) is 40
+
+-- Loi inconnue #55
+-- Séquence: [1, 2, 3, 4, 5, 6, 7, 8]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + 1
+
+f(0) is 1
+f(1) is 2
+f(2) is 3
+f(3) is 4
+f(4) is 5
+f(5) is 6
+f(6) is 7
+f(7) is 8
+
+-- Loi inconnue #56
+-- Séquence: [2, 0, 2, 0, 2, 0, 2, 0]
+memo f n ->
+  n % 2 == 0? -> 2
+  else? -> 0
+
+f(0) is 2
+f(1) is 0
+f(2) is 2
+f(3) is 0
+f(4) is 2
+f(5) is 0
+f(6) is 2
+f(7) is 0
+
+-- Loi inconnue #57
+-- Séquence: [1, 1, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n <= 1? -> 1
+  n == 0? -> 0
+  else? -> 3 + 4 - 4
+
+f(0) is 1
+f(1) is 1
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+
+-- Loi inconnue #58
+-- Séquence: [1, 2, 12, 12, 12, 12, 12, 12]
+memo f n ->
+  n == 1? -> 2
+  n <= 1? -> 1
+  else? -> f(0) * f(1) + 5 + 5
+
+f(0) is 1
+f(1) is 2
+f(2) is 12
+f(3) is 12
+f(4) is 12
+f(5) is 12
+f(6) is 12
+f(7) is 12
+
+-- Loi inconnue #59
+-- Séquence: [3, 3, 1, 3, 3, 3, 3, 3]
+memo f n ->
+  n == 2? -> 1
+  else? -> 3
+
+f(0) is 3
+f(1) is 3
+f(2) is 1
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+
+-- Loi inconnue #60
+-- Séquence: [1, 1, 10, 10, 10, 10, 10, 10]
+memo f n ->
+  n < 2? -> 1
+  else? -> 10
+
+f(0) is 1
+f(1) is 1
+f(2) is 10
+f(3) is 10
+f(4) is 10
+f(5) is 10
+f(6) is 10
+f(7) is 10
+
+-- Loi inconnue #61
+-- Séquence: [0, 1, 1, 1, 1, 1, 1, 1]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1
+
+f(0) is 0
+f(1) is 1
+f(2) is 1
+f(3) is 1
+f(4) is 1
+f(5) is 1
+f(6) is 1
+f(7) is 1
+
+-- Loi inconnue #62
+-- Séquence: [0, 0, 6, 8, 10, 12, 14, 16]
+memo f n ->
+  n <= 1? -> 0
+  else? -> n * 2 + 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 6
+f(3) is 8
+f(4) is 10
+f(5) is 12
+f(6) is 14
+f(7) is 16
+
+-- Loi inconnue #63
+-- Séquence: [0, 0, 2, 2, 2, 2, 2, 2]
+memo f n ->
+  n <= 1? -> 0
+  else? -> 10 + 2 - 5 - 5
+
+f(0) is 0
+f(1) is 0
+f(2) is 2
+f(3) is 2
+f(4) is 2
+f(5) is 2
+f(6) is 2
+f(7) is 2
+
+-- Loi inconnue #64
+-- Séquence: [1, 2, 6, 12, 20, 30, 42, 56]
+memo f n ->
+  n <= 0? -> 1
+  else? -> n * (n + 1)
+
+f(0) is 1
+f(1) is 2
+f(2) is 6
+f(3) is 12
+f(4) is 20
+f(5) is 30
+f(6) is 42
+f(7) is 56
+
+-- Loi inconnue #65
+-- Séquence: [10, 0, 8, 7, 6, 5, 4, 3]
+memo f n ->
+  n == 1? -> 0
+  else? -> 10 - n * 1
+
+f(0) is 10
+f(1) is 0
+f(2) is 8
+f(3) is 7
+f(4) is 6
+f(5) is 5
+f(6) is 4
+f(7) is 3
+
+-- Loi inconnue #66
+-- Séquence: [2, 10, 10, 10, 10, 10, 10, 10]
+memo f n ->
+  n <= 0? -> 2
+  else? -> 3 * 10 - 10 * 2
+
+f(0) is 2
+f(1) is 10
+f(2) is 10
+f(3) is 10
+f(4) is 10
+f(5) is 10
+f(6) is 10
+f(7) is 10
+
+-- Loi inconnue #67
+-- Séquence: [12, 0, 12, 12, 12, 12, 12, 12]
+memo f n ->
+  n == 1? -> 0
+  else? -> 10 + 4 - 2
+
+f(0) is 12
+f(1) is 0
+f(2) is 12
+f(3) is 12
+f(4) is 12
+f(5) is 12
+f(6) is 12
+f(7) is 12
+
+-- Loi inconnue #68
+-- Séquence: [-1, 2, 1, 2, 3, 4, 5, 6]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - 1
+
+f(0) is -1
+f(1) is 2
+f(2) is 1
+f(3) is 2
+f(4) is 3
+f(5) is 4
+f(6) is 5
+f(7) is 6
+
+-- Loi inconnue #69
+-- Séquence: [1, 1, 250, 250, 250, 250, 250, 250]
+memo f n ->
+  n <= 1? -> 1
+  else? -> 10 * 5 * 5
+
+f(0) is 1
+f(1) is 1
+f(2) is 250
+f(3) is 250
+f(4) is 250
+f(5) is 250
+f(6) is 250
+f(7) is 250
+

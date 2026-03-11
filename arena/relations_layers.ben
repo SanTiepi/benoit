@@ -1,0 +1,3310 @@
+-- Compositions en couches par Benoît
+-- Vrai ND : briques 2D empilées
+-- 1102 relations
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(sq(c, a), mix(b, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(sq(c, b), add(a, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sq(d, c), sub(b, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(a, b), mix(d, c))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- sub(add(d, c), add(b, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(add(c, d), sq(a, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(mix(b, a), dbl(d, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(add(d, c), sq(b, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sub(b, a), dbl(c, d))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- add(mix(b, c), mix(d, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(add(a, c), dbl(d, b))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(sub(a, b), add(c, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(add(b, d), sq(a, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(add(c, d), dbl(a, b))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(sub(a, c), mix(b, d))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(sub(a, d), add(c, b))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- mix(mix(d, c), mix(a, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(sq(d, c), mix(b, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sub(d, a), dbl(b, c))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(mix(a, c), sub(d, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(dbl(a, d), add(c, b))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(add(a, b), sub(c, d))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- add(add(b, c), mix(d, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(sq(d, a), add(c, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(d, c), add(a, b))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(sub(c, b), mix(a, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(add(a, b), sq(d, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(c, b), sub(d, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(add(c, d), sq(b, a))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- sub(sub(a, d), sub(c, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(sq(d, c), add(b, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(sub(c, d), mix(a, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(add(a, b), sq(c, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(mix(b, d), sq(a, c))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- sub(sub(d, c), sub(a, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(c, b), sub(a, d))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(mix(b, a), sub(d, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(b, a), dbl(d, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(d, a), add(c, b))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(add(d, a), sub(b, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(d, c), sq(a, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sub(b, a), dbl(d, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(mix(b, a), sq(d, c))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- add(mix(c, a), mix(b, d))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(add(d, c), mix(a, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(dbl(d, c), add(a, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(mix(b, c), sq(d, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(sub(d, a), add(c, b))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- mix(add(c, d), add(b, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(add(a, d), sq(b, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(c, d), sq(b, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(dbl(d, c), sub(b, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(a, d), sq(c, b))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(dbl(b, d), add(c, a))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(dbl(a, c), add(d, b))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- add(sub(c, d), sub(a, b))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(add(a, d), sub(c, b))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(add(b, d), dbl(a, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sq(d, a), sub(c, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(add(c, d), sq(a, b))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(add(d, a), dbl(b, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(dbl(b, a), mix(d, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(mix(b, a), dbl(c, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(sq(b, d), add(a, c))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(add(c, d), sub(a, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(d, c), dbl(b, a))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- mix(sub(a, c), sub(d, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(add(a, d), sq(c, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(dbl(d, a), sub(c, b))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(add(c, b), mix(d, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(mix(c, d), sq(a, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sub(b, d), dbl(a, c))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(sub(b, a), add(c, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(add(d, c), sq(b, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(add(a, b), sub(c, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(dbl(b, a), sub(c, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(sq(c, d), mix(a, b))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- mix(add(c, d), mix(a, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(dbl(a, b), sub(c, d))
+
+-- 4D (4/4 vars) [zero-origin]
+-- add(sub(d, c), mix(a, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(mix(d, c), sq(b, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(mix(c, d), sub(a, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(sq(c, d), add(a, b))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(add(a, b), dbl(c, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(mix(d, b), dbl(c, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(dbl(b, c), sub(a, d))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- mix(add(b, d), add(a, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(add(c, a), sq(d, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(c, a), add(b, d))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(sub(a, d), mix(b, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(dbl(d, c), mix(b, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(a, d), sub(c, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sub(a, b), sq(c, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(add(d, c), dbl(b, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(sq(c, a), add(b, d))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- sub(mix(b, c), mix(d, a))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- mix(add(d, a), mix(b, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sub(d, c), sq(b, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(sub(a, b), add(d, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sub(d, b), dbl(a, c))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- sub(add(d, a), add(b, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sub(c, d), sq(a, b))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- add(add(d, c), mix(b, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sq(d, a), sub(b, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sq(b, d), sub(a, c))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- sub(sub(b, a), sub(d, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(mix(c, a), dbl(b, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(a, b), dbl(c, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(d, a), sub(b, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sub(d, b), sq(c, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(add(b, a), mix(c, d))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- sub(mix(a, d), mix(c, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(sq(c, b), mix(d, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(sub(b, a), mix(d, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sub(b, c), dbl(a, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(dbl(d, a), mix(b, c))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- add(add(c, d), add(a, b))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(add(c, b), sub(d, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sq(a, b), sub(d, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sq(d, b), sub(a, c))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(dbl(b, a), add(d, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(add(c, d), dbl(a, b))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(add(a, c), dbl(d, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(add(a, b), dbl(c, d))
+
+-- 4D (4/4 vars) [zero-origin]
+-- add(mix(a, d), sub(b, c))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- sub(mix(a, b), mix(c, d))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- add(mix(a, b), mix(c, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(dbl(b, d), mix(a, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(c, d), add(b, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(sq(d, b), mix(c, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sq(b, a), sub(d, c))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(sub(d, a), mix(b, c))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- mix(sub(a, b), sub(c, d))
+
+-- 4D (4/4 vars) [zero-origin]
+-- add(sub(c, d), mix(b, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- add(mix(b, c), sub(a, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(add(d, a), sq(b, c))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- mix(add(b, c), add(d, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sub(b, d), dbl(a, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(a, c), add(d, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(b, a), add(d, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(dbl(a, b), mix(c, d))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- add(mix(b, c), add(a, d))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(dbl(d, a), add(b, c))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(sub(d, c), add(b, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sub(d, c), sq(b, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(b, d), mix(c, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(sub(d, b), mix(a, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(dbl(d, a), sub(b, c))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(sub(a, b), mix(c, d))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(add(a, d), dbl(c, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(c, a), sq(b, d))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(sub(a, c), add(b, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sub(c, a), sq(d, b))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(add(d, c), sub(b, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(sq(a, d), mix(b, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(add(a, d), dbl(b, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sq(c, b), sub(a, d))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- mix(sub(c, d), sub(b, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(mix(c, b), sub(a, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sq(b, a), sub(c, d))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(mix(b, a), add(d, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(b, c), sq(d, a))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(add(a, c), dbl(b, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sq(b, c), sub(d, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(d, c), dbl(a, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(a, b), add(c, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(dbl(c, b), sub(d, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sub(d, c), sq(a, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(b, c), mix(a, d))
+
+-- 4D (4/4 vars) [zero-origin]
+-- sub(add(d, a), mix(b, c))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(add(c, a), sq(d, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(sq(c, d), add(a, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sub(c, b), sq(a, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sq(a, b), sub(c, d))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(add(b, d), sq(c, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sub(b, c), dbl(a, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(dbl(a, b), sub(d, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sub(c, d), sq(a, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(mix(d, a), dbl(b, c))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(mix(c, d), sub(a, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(b, d), sq(a, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(dbl(c, a), mix(b, d))
+
+-- 4D (4/4 vars) [zero-origin, monotone]
+-- mix(add(a, c), mix(b, d))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- mix(sub(d, b), sub(c, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- mix(sub(c, a), add(d, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(dbl(a, b), sub(c, d))
+
+-- 4D (4/4 vars) [zero-origin, nil-diag]
+-- sub(mix(a, c), mix(b, d))
+
+-- 4D (3/4 vars) [zero-origin, nil-diag]
+-- sub(add(c, b), dbl(d, a))
+
+-- 4D (4/4 vars) [zero-origin]
+-- add(sub(c, b), mix(d, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sub(a, d), sq(b, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- add(sub(d, c), dbl(a, b))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(mix(d, b), sq(c, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(sq(a, b), add(d, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(dbl(c, d), mix(b, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- add(add(d, b), dbl(c, a))
+
+-- 4D (3/4 vars) [zero-origin, monotone]
+-- mix(dbl(b, c), mix(d, a))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sub(c, d), dbl(a, b))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(mix(b, c), dbl(a, d))
+
+-- 4D (3/4 vars) [zero-origin]
+-- mix(sub(d, b), sq(a, c))
+
+-- 4D (3/4 vars) [zero-origin]
+-- sub(sub(a, b), dbl(c, d))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(sq(e, a), mul(b, c)), add(f, d))
+
+-- 6D (5/6 vars) [zero-origin]
+-- mix(sub(sq(d, c), mix(f, b)), mix(e, a))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(add(f, b), mix(c, e)), cross(a, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sub(d, a), dbl(mix(c, f), sub(b, e)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mix(c, f), add(mul(a, b), sub(d, e)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(sq(mix(b, f), add(a, c)), mix(d, e))
+
+-- 6D (3/6 vars) [zero-origin]
+-- dbl(mix(dbl(a, b), sub(c, d)), mix(e, f))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(mul(d, b), mix(a, f)), mix(e, c))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- add(sub(d, c), sq(sub(a, b), sub(f, e)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(dbl(c, d), mix(sq(b, a), sq(e, f)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(dbl(dbl(e, a), dbl(d, f)), add(c, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sq(mix(e, f), sq(b, a)), sub(d, c))
+
+-- 6D (5/6 vars) [zero-origin, monotone]
+-- mix(sq(c, e), mix(add(a, f), add(b, d)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mix(sub(a, f), add(b, c)), cross(e, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(b, e), dbl(mix(d, f), sq(a, c)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(add(mix(c, b), sub(e, a)), sq(f, d))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(add(e, c), mul(a, b)), dbl(d, f))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(dbl(d, e), mix(sq(f, c), mix(a, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(add(e, b), dbl(sub(c, f), sub(a, d)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(sub(sub(b, a), sq(f, d)), mix(c, e))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(add(cross(a, e), add(b, f)), dbl(c, d))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(mix(mix(d, f), sq(e, c)), mul(b, a))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mul(b, a), sub(add(e, f), sub(c, d)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(add(e, a), sq(dbl(f, c), add(d, b)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(dbl(e, c), add(dbl(d, a), dbl(b, f)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(add(d, a), add(mul(f, b), add(e, c)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(mix(b, a), dbl(sub(e, f), add(c, d)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(add(dbl(d, e), sub(b, c)), cross(f, a))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(mul(c, b), add(sub(d, a), add(f, e)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(mix(c, d), add(dbl(e, f), cross(a, b)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(cross(e, f), mix(dbl(b, a), add(d, c)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(mix(a, b), dbl(mix(c, d), sq(f, e)))
+
+-- 6D (3/6 vars) [zero-origin, nil-diag]
+-- sub(mul(b, a), sub(mix(d, f), dbl(c, e)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(sub(c, b), add(add(d, a), dbl(f, e)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- mix(sub(b, c), add(sq(e, a), sub(f, d)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(add(mul(f, e), sub(c, a)), sub(d, b))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(mix(a, b), mix(cross(e, f), sq(c, d)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(d, e), sub(cross(a, b), add(f, c)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- dbl(sub(add(a, f), sub(e, b)), mix(d, c))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sq(d, e), add(dbl(f, b), dbl(a, c)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(sq(e, c), add(add(a, d), sub(b, f)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(mix(mix(d, a), add(e, b)), dbl(c, f))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(sub(b, f), mul(a, d)), add(e, c))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(dbl(d, a), mul(e, f)), sub(b, c))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(add(add(c, d), sub(f, e)), cross(a, b))
+
+-- 6D (6/6 vars) [zero-origin]
+-- sub(add(sub(e, a), mix(d, b)), sub(c, f))
+
+-- 6D (6/6 vars) [zero-origin]
+-- mix(mix(e, a), sub(add(c, b), add(d, f)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mix(b, c), sub(cross(f, d), mix(a, e)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(mix(mul(f, c), mix(d, e)), add(a, b))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sq(a, b), mix(mul(c, e), mix(d, f)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sq(f, e), sub(sq(b, a), mix(d, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(e, f), dbl(dbl(a, b), sub(c, d)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(mix(mul(f, d), dbl(a, c)), mix(e, b))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(add(f, e), dbl(dbl(b, d), mix(a, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sq(sub(d, e), add(c, f)), sq(a, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- dbl(add(mix(d, f), dbl(e, c)), mul(a, b))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- dbl(sub(add(d, c), add(e, b)), sq(f, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sub(dbl(e, f), cross(a, b)), add(c, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sub(d, e), add(sub(c, a), mul(b, f)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(cross(b, a), add(sub(e, d), sub(f, c)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- dbl(sub(sub(c, b), mix(a, d)), add(e, f))
+
+-- 6D (5/6 vars) [zero-origin, monotone]
+-- add(mix(mix(d, c), mix(a, b)), dbl(f, e))
+
+-- 6D (5/6 vars) [zero-origin, nil-diag]
+-- sub(add(dbl(a, d), sub(f, e)), add(c, b))
+
+-- 6D (6/6 vars) [zero-origin, nil-diag]
+-- add(sub(sub(b, f), mix(e, c)), mix(a, d))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(dbl(f, d), sub(mul(e, c), sub(b, a)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(cross(c, d), sub(f, e)), mix(b, a))
+
+-- 6D (5/6 vars) [zero-origin]
+-- mix(dbl(e, c), add(mix(a, d), sub(f, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(dbl(a, b), add(sq(e, f), mix(c, d)))
+
+-- 6D (5/6 vars) [zero-origin, monotone]
+-- mix(add(mix(c, b), sq(a, e)), add(d, f))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- add(dbl(sub(e, a), sq(d, f)), sub(b, c))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(cross(a, b), add(sub(d, e), sub(f, c)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(mix(f, a), sq(sq(c, d), add(b, e)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(d, e), dbl(add(a, b), sub(f, c)))
+
+-- 6D (5/6 vars) [zero-origin, monotone]
+-- add(dbl(e, f), mix(mix(c, d), add(a, b)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- dbl(mix(dbl(c, d), mix(a, b)), mul(e, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(sq(d, f), cross(c, e)), add(a, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(sq(a, b), add(cross(d, e), mix(f, c)))
+
+-- 6D (6/6 vars) [zero-origin]
+-- sub(mix(a, e), sub(add(f, c), mix(d, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(e, c), sq(mix(a, d), dbl(b, f)))
+
+-- 6D (3/6 vars) [zero-origin, nil-diag]
+-- sq(sub(add(e, f), dbl(c, d)), add(a, b))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(mix(e, d), add(dbl(a, b), sq(c, f)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- sq(add(mix(e, d), dbl(f, a)), add(b, c))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(dbl(c, d), dbl(mix(f, e), mix(a, b)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(mix(c, a), cross(d, e)), dbl(f, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(dbl(mix(a, f), dbl(e, b)), mix(d, c))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(cross(a, b), mix(sq(d, e), sub(f, c)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- dbl(add(add(e, a), add(f, d)), sq(c, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(mix(mul(d, b), dbl(f, c)), mix(e, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sq(add(sub(d, c), sq(b, a)), mul(f, e))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(dbl(sq(c, b), cross(d, a)), add(e, f))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sq(mix(c, b), mul(f, e)), add(d, a))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(add(c, d), mix(cross(a, e), dbl(f, b)))
+
+-- 6D (5/6 vars) [zero-origin, monotone]
+-- mix(mix(sq(c, d), add(f, b)), add(e, a))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(mix(sq(d, a), sq(e, c)), sq(f, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(sq(mix(d, c), mul(e, f)), sq(b, a))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sq(mix(b, d), sq(c, a)), sub(f, e))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(add(a, b), dbl(add(f, d), mul(c, e)))
+
+-- 6D (6/6 vars) [zero-origin]
+-- mix(sub(c, f), add(mix(d, e), sub(a, b)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(mul(b, c), add(add(f, a), add(d, e)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sq(sub(sub(b, f), mix(e, c)), cross(d, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(sq(f, b), mix(c, d)), add(a, e))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(add(mix(a, e), add(c, b)), cross(f, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(c, f), add(dbl(b, a), sq(e, d)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(dbl(dbl(c, e), mix(f, b)), sub(a, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sq(b, a), sub(add(f, c), sq(e, d)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(sub(b, f), add(mix(e, c), dbl(d, a)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(sq(d, f), add(sub(c, a), mix(b, e)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- dbl(add(sq(f, d), sub(e, c)), mix(a, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(dbl(add(b, a), sq(d, c)), sq(f, e))
+
+-- 6D (5/6 vars) [zero-origin]
+-- mix(sub(sq(d, c), mix(b, a)), sub(f, e))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- sq(add(add(f, e), sq(a, b)), sq(c, d))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(sub(sq(b, d), mix(a, e)), sub(c, f))
+
+-- 6D (6/6 vars) [zero-origin]
+-- add(sub(b, a), add(sub(c, f), mix(e, d)))
+
+-- 6D (6/6 vars) [zero-origin, monotone]
+-- mix(add(add(b, a), add(f, c)), add(e, d))
+
+-- 6D (3/6 vars) [zero-origin]
+-- dbl(sub(sq(d, c), mix(a, f)), mul(e, b))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(d, b), sq(dbl(e, a), dbl(c, f)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(add(mul(f, c), dbl(e, d)), add(b, a))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- dbl(mix(add(e, f), add(a, b)), mix(c, d))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(add(b, c), sub(cross(a, d), sq(f, e)))
+
+-- 6D (6/6 vars) [zero-origin]
+-- sub(mix(add(d, b), mix(f, e)), sub(a, c))
+
+-- 6D (5/6 vars) [zero-origin, monotone]
+-- mix(add(b, f), mix(sq(e, c), mix(d, a)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(sq(sq(e, a), mul(d, f)), mix(b, c))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sub(cross(c, d), sq(a, b)), sub(e, f))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(add(a, d), sub(add(e, f), dbl(c, b)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(mix(e, f), mix(dbl(a, b), cross(c, d)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(sq(mix(c, d), cross(b, e)), dbl(f, a))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- sq(mix(add(d, e), sq(f, c)), add(a, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(cross(b, c), mix(sub(a, e), mix(f, d)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(dbl(b, a), mix(cross(c, f), add(d, e)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sq(dbl(a, f), sub(b, e)), add(c, d))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(sq(c, f), add(mix(a, d), mul(b, e)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(cross(f, b), add(dbl(a, c), mix(d, e)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sub(e, d), sub(dbl(f, c), cross(a, b)))
+
+-- 6D (3/6 vars) [zero-origin, nil-diag]
+-- sq(sub(add(e, a), dbl(f, d)), sq(c, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(dbl(a, d), dbl(e, b)), mix(c, f))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(add(d, e), sq(add(a, b), mix(f, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(cross(f, e), add(dbl(b, a), sub(d, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sub(add(d, e), mul(f, c)), dbl(a, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mix(c, e), dbl(sub(d, a), sq(b, f)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sq(dbl(f, e), dbl(b, a)), sub(d, c))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(mix(sub(c, b), sq(f, e)), cross(a, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sub(sq(b, e), dbl(f, d)), mix(a, c))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(dbl(mix(f, b), mul(d, c)), sub(a, e))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sq(c, d), sub(add(e, a), mul(b, f)))
+
+-- 6D (6/6 vars) [zero-origin]
+-- add(sub(sub(f, e), add(c, d)), mix(a, b))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sq(sub(a, d), cross(f, b)), dbl(c, e))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(sub(d, c), mix(dbl(a, b), mix(f, e)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(mix(c, f), dbl(dbl(d, b), add(e, a)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(d, e), dbl(mix(f, c), mul(b, a)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(mix(sub(b, c), sq(a, e)), sub(d, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(add(dbl(a, b), sub(d, e)), cross(c, f))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(mix(c, b), sq(dbl(f, d), sq(e, a)))
+
+-- 6D (3/6 vars) [zero-origin, nil-diag]
+-- sub(add(sub(b, a), sq(e, f)), mul(c, d))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(sq(add(d, e), cross(b, c)), sq(f, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(mix(b, e), dbl(dbl(c, a), add(f, d)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(mix(f, d), dbl(mix(a, e), sq(b, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sq(sub(e, d), cross(c, b)), sq(a, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(b, a), sq(sq(d, c), cross(f, e)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- add(sq(sub(d, f), mul(b, c)), sub(e, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(mix(sub(c, b), dbl(d, e)), cross(a, f))
+
+-- 6D (5/6 vars) [zero-origin]
+-- mix(add(d, e), sub(dbl(a, b), sub(f, c)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sub(e, a), sq(mix(c, d), add(f, b)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sq(sub(a, f), sq(d, c)), sq(b, e))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(mix(d, e), sub(mul(a, c), dbl(f, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(c, f), sub(mul(a, e), mix(d, b)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(add(mix(d, a), add(e, c)), cross(b, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- dbl(add(sub(b, a), dbl(c, f)), dbl(d, e))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sq(mix(sub(c, b), dbl(e, f)), dbl(a, d))
+
+-- 6D (6/6 vars) [zero-origin]
+-- sub(mix(mix(f, a), sub(e, b)), add(d, c))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(cross(b, f), sub(e, c)), mix(d, a))
+
+-- 6D (6/6 vars) [zero-origin, monotone]
+-- add(add(mix(d, e), mix(c, f)), add(a, b))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(dbl(a, e), sub(dbl(f, d), sq(c, b)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(mix(d, e), sq(mix(c, f), sub(a, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- dbl(mix(mix(d, f), sub(c, e)), mix(b, a))
+
+-- 6D (6/6 vars) [zero-origin]
+-- sub(mix(add(f, e), sub(d, a)), sub(c, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(mix(f, d), sq(sq(b, a), dbl(c, e)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(mul(d, c), sub(sq(a, e), add(f, b)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- mix(sub(b, c), sq(sub(f, a), mix(d, e)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(mix(add(a, f), mix(c, d)), sq(b, e))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(mix(e, f), sub(mul(c, d), mix(b, a)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(add(d, a), dbl(sq(f, c), cross(e, b)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(sq(add(f, a), cross(e, b)), mix(d, c))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(add(e, c), mix(mul(f, b), sub(d, a)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- dbl(mix(sub(f, d), mix(c, e)), mul(b, a))
+
+-- 6D (5/6 vars) [zero-origin, monotone]
+-- mix(add(mix(c, e), add(f, b)), dbl(d, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sq(mix(a, e), sq(d, c)), dbl(b, f))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(add(c, f), dbl(dbl(a, e), mul(b, d)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(dbl(f, d), add(sq(c, e), sq(a, b)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- sq(add(sub(b, d), sub(a, f)), dbl(e, c))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(add(c, d), dbl(sq(f, b), mul(e, a)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(add(f, c), add(add(a, e), cross(d, b)))
+
+-- 6D (6/6 vars) [zero-origin]
+-- mix(sub(mix(f, a), sub(c, b)), mix(d, e))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(add(mix(b, d), sub(a, e)), dbl(f, c))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(add(c, f), sq(mix(a, b), cross(e, d)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(mix(sq(c, e), sq(d, b)), mix(a, f))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(mix(e, c), add(mix(f, a), dbl(d, b)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sq(d, a), add(add(e, b), mul(f, c)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(sq(sq(d, e), add(f, c)), mix(a, b))
+
+-- 6D (5/6 vars) [zero-origin]
+-- mix(sub(d, a), sub(dbl(c, e), mix(f, b)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(mix(sub(e, a), dbl(d, c)), add(f, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- sq(add(add(e, d), sq(f, a)), add(b, c))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(dbl(e, a), mix(cross(d, c), add(f, b)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(cross(e, d), mix(mix(f, a), sq(c, b)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(add(d, a), add(cross(b, c), add(e, f)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- mix(sq(sub(a, b), sub(c, d)), sub(e, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(cross(b, a), sub(dbl(f, c), sub(d, e)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(add(sq(b, a), sq(e, c)), dbl(d, f))
+
+-- 6D (5/6 vars) [zero-origin, nil-diag]
+-- sub(dbl(d, f), sub(add(a, e), sub(b, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(add(a, f), sub(dbl(e, d), mul(c, b)))
+
+-- 6D (5/6 vars) [zero-origin, monotone]
+-- add(mix(add(d, a), add(b, f)), dbl(c, e))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(sq(b, c), add(dbl(f, e), mix(a, d)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(sq(b, d), add(dbl(c, f), mix(a, e)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sub(dbl(f, e), sq(d, c)), sq(b, a))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(add(e, a), sq(add(d, c), sq(f, b)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(mix(mix(d, a), mul(f, e)), dbl(c, b))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(add(mul(b, f), sub(c, d)), sq(a, e))
+
+-- 6D (5/6 vars) [zero-origin, monotone]
+-- add(mix(e, c), mix(mix(d, f), dbl(a, b)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(sub(c, e), add(add(d, f), dbl(a, b)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(add(a, b), mix(add(c, d), dbl(e, f)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(sq(d, f), add(mix(a, e), dbl(b, c)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(mix(add(c, b), sub(a, e)), dbl(d, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(add(e, c), mix(f, a)), dbl(d, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(dbl(d, c), sub(sq(a, b), sub(f, e)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(mix(dbl(b, a), add(f, d)), sq(e, c))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(a, f), add(sq(d, c), cross(e, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(sub(a, b), cross(c, d)), add(e, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sq(f, e), sq(sub(c, d), sub(a, b)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- sq(add(sq(d, a), add(f, c)), mix(b, e))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(sq(add(f, e), dbl(b, a)), sq(d, c))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(add(sub(b, e), dbl(f, c)), mul(a, d))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(sq(sq(f, c), cross(d, b)), mix(a, e))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(dbl(mix(a, c), sub(e, f)), sub(d, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(mix(e, f), sq(dbl(b, d), mix(c, a)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- sq(mix(sub(a, c), sub(e, f)), sub(b, d))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(add(d, c), mix(dbl(f, a), dbl(e, b)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- add(sub(mul(e, f), mix(a, d)), add(b, c))
+
+-- 6D (6/6 vars) [zero-origin]
+-- sub(sub(e, b), add(add(f, c), add(d, a)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sq(mix(c, f), add(e, d)), add(b, a))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(mix(mul(a, b), mix(c, d)), sub(e, f))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(dbl(c, e), sq(add(a, f), mul(b, d)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(add(c, f), mix(cross(a, e), sub(d, b)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sq(sub(sq(a, f), add(e, b)), add(c, d))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(a, b), dbl(mix(e, d), sub(f, c)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(cross(d, f), mix(mix(a, c), mix(e, b)))
+
+-- 6D (6/6 vars) [zero-origin]
+-- sub(mix(sub(e, a), mix(f, b)), sub(c, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(sq(a, c), dbl(b, d)), sub(e, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(e, d), mix(mul(a, f), dbl(c, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(f, e), sq(add(a, d), sq(b, c)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mix(dbl(f, d), sq(e, a)), mix(b, c))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sq(mix(sub(f, e), add(a, d)), cross(b, c))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(add(dbl(e, f), dbl(c, d)), dbl(a, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(add(mix(b, c), sub(e, a)), mul(d, f))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(mix(d, e), sq(mix(a, b), dbl(f, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- dbl(sub(sq(b, c), mix(d, a)), add(f, e))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sub(c, d), sq(add(b, a), sub(e, f)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- add(sub(add(b, e), mix(c, a)), mul(f, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(dbl(c, f), sub(sub(a, d), sq(b, e)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(add(add(e, f), add(c, d)), dbl(a, b))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(mix(add(a, f), cross(c, b)), mix(d, e))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- sq(add(sq(f, b), add(e, a)), dbl(c, d))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(add(a, b), mix(mul(e, f), mix(c, d)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(sq(a, f), add(mix(c, e), dbl(d, b)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(mix(mul(f, a), mix(c, b)), sq(d, e))
+
+-- 6D (5/6 vars) [zero-origin]
+-- mix(sub(mix(c, f), mix(d, b)), dbl(e, a))
+
+-- 6D (6/6 vars) [zero-origin]
+-- sub(mix(d, b), add(mix(f, e), add(c, a)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(dbl(mix(b, e), mul(f, a)), dbl(c, d))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(add(a, c), sq(mix(f, d), mul(b, e)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mul(a, b), mix(mix(f, e), sub(d, c)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(add(d, a), add(mix(b, c), sq(f, e)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(dbl(mix(c, b), mix(f, e)), sub(d, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sub(e, f), dbl(dbl(b, c), mix(d, a)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(sub(a, f), mix(add(d, b), dbl(c, e)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(sq(mix(a, e), add(f, b)), mix(d, c))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(cross(c, d), mix(e, a)), sq(b, f))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(dbl(d, e), sub(sq(a, c), sub(b, f)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(mul(d, e), add(sq(c, f), sub(a, b)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(dbl(d, c), mix(sq(b, a), dbl(f, e)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(add(mix(c, f), cross(b, d)), mix(a, e))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- sub(dbl(d, a), mix(sub(f, c), dbl(b, e)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sub(dbl(a, d), cross(b, c)), add(e, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(add(sub(b, f), sq(d, e)), cross(a, c))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- sub(dbl(sub(e, f), cross(a, d)), sub(c, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- sq(add(dbl(f, a), add(b, d)), mul(c, e))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(mix(dbl(e, c), mix(a, b)), mix(f, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(dbl(add(c, b), add(d, f)), sub(e, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(add(cross(d, c), sq(e, b)), sub(a, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(mix(b, a), sq(dbl(f, e), sq(d, c)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(mix(c, b), add(mul(e, a), mix(f, d)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- dbl(mix(add(c, f), add(b, d)), dbl(a, e))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(c, e), sub(cross(a, b), add(d, f)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(sub(f, c), mul(d, b)), sq(a, e))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(add(e, c), add(sq(f, d), add(b, a)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(sq(add(a, b), mul(f, c)), mix(d, e))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(add(a, d), add(dbl(b, e), mul(f, c)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sub(b, d), dbl(add(f, c), dbl(e, a)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- sq(sub(add(e, f), add(c, d)), add(a, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(dbl(e, c), sub(mix(d, a), dbl(f, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sq(add(mix(a, f), sub(c, b)), mix(e, d))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- sq(mix(add(e, f), sq(c, d)), mix(a, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(mix(mix(d, c), mul(a, f)), sq(b, e))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(mul(e, a), mix(mix(c, d), sq(f, b)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(add(sub(a, f), dbl(d, e)), cross(b, c))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(sq(f, a), sub(d, e)), dbl(b, c))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(mix(add(c, d), add(a, f)), dbl(b, e))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(f, e), mix(sq(a, b), dbl(c, d)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sub(mul(e, c), dbl(f, b)), sub(a, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(sq(e, f), dbl(c, d)), mix(a, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sub(mul(f, b), add(e, c)), mix(a, d))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(mix(a, c), sq(mix(e, f), sub(d, b)))
+
+-- 6D (5/6 vars) [zero-origin, nil-diag]
+-- sub(sub(add(c, d), sub(f, e)), dbl(a, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- dbl(add(add(d, c), sub(b, e)), mul(f, a))
+
+-- 6D (6/6 vars) [zero-origin]
+-- mix(mix(a, e), add(sub(d, f), sub(b, c)))
+
+-- 6D (6/6 vars) [zero-origin]
+-- add(mix(f, c), mix(mix(b, a), sub(d, e)))
+
+-- 6D (3/6 vars) [zero-origin, nil-diag]
+-- sub(sub(sq(d, f), sub(c, b)), mul(e, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sq(add(sq(b, f), sub(e, d)), mul(c, a))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sq(sub(sub(b, a), add(d, c)), add(f, e))
+
+-- 6D (4/6 vars) [zero-origin]
+-- dbl(add(sub(a, d), mix(e, b)), mix(f, c))
+
+-- 6D (3/6 vars) [zero-origin, nil-diag]
+-- dbl(sub(add(c, b), dbl(e, f)), mix(d, a))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(sub(e, c), add(mix(a, f), sq(b, d)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(mix(cross(f, d), add(a, e)), mix(c, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mix(dbl(e, d), sq(f, c)), sub(b, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sq(mix(f, d), sq(c, e)), sq(a, b))
+
+-- 6D (5/6 vars) [zero-origin]
+-- mix(add(f, a), sub(sq(d, b), sub(e, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sq(c, e), dbl(sub(d, b), mul(f, a)))
+
+-- 6D (5/6 vars) [zero-origin, nil-diag]
+-- sub(dbl(a, e), sub(add(f, b), sub(d, c)))
+
+-- 6D (5/6 vars) [zero-origin, monotone]
+-- add(mix(a, d), add(sq(f, e), mix(c, b)))
+
+-- 6D (6/6 vars) [zero-origin]
+-- sub(add(sub(d, f), sub(c, b)), add(a, e))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(dbl(a, b), sub(dbl(e, f), sub(c, d)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(add(a, e), sq(d, c)), sq(b, f))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(add(c, f), sq(sub(a, d), sub(b, e)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- dbl(mix(add(a, f), sub(c, e)), sub(b, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(cross(c, f), mix(e, d)), mix(b, a))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(mix(e, f), mix(d, c)), mul(b, a))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(add(dbl(f, d), mul(e, c)), mix(a, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(sq(add(c, e), dbl(d, a)), sq(f, b))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(sub(sq(e, d), dbl(c, b)), dbl(a, f))
+
+-- 6D (6/6 vars) [zero-origin, monotone]
+-- mix(add(a, c), add(mix(e, d), mix(f, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mix(b, e), sub(mul(d, f), mix(a, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(mix(f, d), sub(cross(b, a), dbl(e, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- dbl(sub(mix(b, c), dbl(d, a)), sub(f, e))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(mul(f, d), mix(sub(c, b), sq(e, a)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sq(add(sub(f, a), sq(d, e)), sub(b, c))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(add(dbl(d, e), add(b, c)), mix(f, a))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(mix(c, d), sub(sq(a, f), mix(e, b)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(add(a, e), dbl(mix(f, d), sq(c, b)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(dbl(dbl(a, f), sub(b, c)), add(e, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(add(dbl(a, c), sub(e, d)), sq(f, b))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(mix(add(d, c), dbl(a, e)), dbl(b, f))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(add(mul(b, a), sub(d, c)), sub(f, e))
+
+-- 6D (5/6 vars) [zero-origin]
+-- mix(sub(d, a), sub(dbl(b, e), sub(f, c)))
+
+-- 6D (6/6 vars) [zero-origin]
+-- mix(mix(d, f), mix(sub(b, c), add(a, e)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(dbl(add(e, d), sub(b, c)), add(a, f))
+
+-- 6D (6/6 vars) [zero-origin]
+-- mix(add(sub(d, a), add(f, b)), add(c, e))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(mix(d, b), dbl(sub(a, c), add(e, f)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mix(f, a), add(mul(e, d), sub(c, b)))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(dbl(d, e), add(sub(a, b), add(f, c)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(sq(sq(e, d), cross(c, a)), add(b, f))
+
+-- 6D (4/6 vars) [zero-origin]
+-- dbl(sub(sub(c, f), add(e, a)), dbl(d, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sub(a, e), add(mul(c, d), sub(b, f)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(sq(f, e), sq(a, b)), mix(c, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- dbl(add(sub(a, b), mix(c, e)), mix(f, d))
+
+-- 6D (6/6 vars) [zero-origin]
+-- add(sub(add(e, f), sub(d, c)), add(b, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(mix(c, b), sq(e, f)), sq(d, a))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(sq(b, e), mix(mix(a, f), sub(d, c)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(sq(e, f), sq(add(c, d), sub(a, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sub(add(f, b), mul(a, e)), sub(d, c))
+
+-- 6D (6/6 vars) [zero-origin]
+-- add(add(sub(d, e), add(a, b)), sub(c, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sq(add(e, a), dbl(d, b)), dbl(c, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(add(cross(c, d), dbl(f, b)), add(a, e))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(add(e, a), sq(mix(b, c), dbl(d, f)))
+
+-- 6D (6/6 vars) [zero-origin]
+-- add(mix(mix(b, a), sub(d, c)), add(f, e))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(dbl(a, f), add(sq(d, e), add(b, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sub(c, e), dbl(dbl(b, f), mix(d, a)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sq(sub(add(b, c), mix(a, d)), add(f, e))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(mix(mix(a, f), dbl(b, e)), sub(d, c))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(mul(f, d), mix(add(a, b), sq(c, e)))
+
+-- 6D (3/6 vars) [zero-origin, nil-diag]
+-- add(mul(e, a), sub(dbl(f, c), mix(d, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(mix(e, f), sq(sub(a, b), add(c, d)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(dbl(add(b, f), add(a, c)), add(e, d))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(cross(d, e), mix(a, b)), mix(c, f))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(dbl(b, a), mix(sq(d, c), sq(f, e)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(add(b, c), sub(sq(d, f), dbl(a, e)))
+
+-- 6D (5/6 vars) [zero-origin, nil-diag]
+-- sub(dbl(d, e), add(sub(b, a), add(f, c)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(mix(mul(e, f), sub(c, d)), sub(a, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sq(add(d, a), sq(e, c)), mix(b, f))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(add(a, f), dbl(add(d, c), sq(e, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(dbl(e, d), mix(sq(b, a), sub(f, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(dbl(a, b), sub(add(d, e), cross(c, f)))
+
+-- 6D (6/6 vars) [zero-origin, monotone]
+-- mix(add(e, f), mix(add(d, b), add(a, c)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sub(b, d), sub(mul(a, f), add(e, c)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(mix(dbl(f, e), dbl(d, c)), sub(b, a))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(mix(sq(a, c), dbl(b, f)), sq(e, d))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(add(dbl(b, e), sq(c, a)), add(d, f))
+
+-- 6D (5/6 vars) [zero-origin]
+-- add(sq(d, c), add(sub(e, f), sub(b, a)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(add(dbl(d, e), sq(b, c)), sq(f, a))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(mix(dbl(e, c), dbl(a, b)), sub(d, f))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(add(a, f), add(cross(e, d), add(c, b)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- dbl(sub(sub(a, d), mix(c, f)), dbl(e, b))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(mix(a, d), mix(dbl(c, e), cross(f, b)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- add(sub(f, c), dbl(sub(b, a), sub(e, d)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sq(sub(d, f), mul(b, c)), mix(e, a))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- add(add(c, f), add(mix(d, a), cross(e, b)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- mix(dbl(d, a), add(add(e, c), sq(b, f)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(mix(a, c), sub(e, d)), sq(b, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(cross(f, d), sub(sub(e, c), sq(b, a)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(mix(a, b), add(cross(d, f), sub(e, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(sub(a, e), sq(dbl(c, b), dbl(f, d)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- mix(add(sq(e, a), mul(b, c)), mix(d, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- mix(dbl(a, d), sub(sub(c, e), mul(f, b)))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(mix(e, a), add(mul(b, c), dbl(d, f)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- dbl(mix(sq(d, b), sub(c, e)), sub(f, a))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(sub(cross(c, f), sub(e, d)), mix(b, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(add(cross(f, c), sq(e, d)), sub(a, b))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(mix(dbl(c, a), dbl(e, b)), sq(d, f))
+
+-- 6D (4/6 vars) [zero-origin]
+-- add(add(sub(c, d), dbl(a, b)), dbl(e, f))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(mix(e, b), sub(sq(a, d), mul(c, f)))
+
+-- 6D (4/6 vars) [zero-origin, monotone]
+-- sq(mix(mix(e, d), mix(f, c)), mix(b, a))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(mix(mul(a, c), mix(e, b)), sq(d, f))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(sq(mix(e, c), add(a, b)), sub(f, d))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(dbl(d, e), sub(add(a, b), mul(f, c)))
+
+-- 6D (3/6 vars) [zero-origin]
+-- add(sq(a, f), sq(sub(b, e), sub(c, d)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- sq(sub(mix(a, c), mix(d, f)), dbl(e, b))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(sub(sq(a, b), sub(f, c)), dbl(e, d))
+
+-- 6D (3/6 vars) [zero-origin]
+-- sub(mix(mix(d, b), dbl(c, f)), cross(e, a))
+
+-- 6D (3/6 vars) [zero-origin]
+-- dbl(add(sub(b, a), dbl(e, f)), dbl(d, c))
+
+-- 6D (3/6 vars) [zero-origin]
+-- dbl(mix(dbl(a, b), sub(f, c)), add(d, e))
+
+-- 6D (3/6 vars) [zero-origin, monotone]
+-- add(sq(a, b), dbl(add(c, d), sub(e, f)))
+
+-- 6D (4/6 vars) [zero-origin, nil-diag]
+-- dbl(sub(sub(f, a), sub(b, d)), mul(c, e))
+
+-- 6D (4/6 vars) [zero-origin]
+-- mix(add(c, a), sub(mul(f, b), mix(d, e)))
+
+-- 6D (4/6 vars) [zero-origin]
+-- sub(add(cross(f, d), mix(c, b)), sub(e, a))
+
+-- 6D (5/6 vars) [zero-origin]
+-- sub(add(dbl(b, e), add(f, c)), mix(d, a))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mix(dbl(g, d), dbl(e, a)), dbl(mix(h, c), sub(b, f)))
+
+-- 8D (8/8 vars) [zero-origin]
+-- add(add(add(c, g), sub(e, d)), add(mix(h, f), sub(a, b)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(dbl(sub(h, e), dbl(g, d)), add(add(c, b), sub(f, a)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(add(sub(c, d), mix(e, g)), sq(add(h, a), add(b, f)))
+
+-- 8D (6/8 vars) [zero-origin, monotone]
+-- add(mix(mix(b, a), add(c, e)), sq(mix(d, g), dbl(f, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mul(mul(a, h), cross(e, g)), sub(sub(b, d), add(c, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mix(sq(d, c), dbl(a, f)), sq(sub(b, h), dbl(e, g)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(sq(dbl(b, c), add(f, g)), add(mix(h, e), dbl(a, d)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(sq(add(a, b), dbl(c, h)), sq(add(f, g), sub(d, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(mix(d, g), add(a, c)), cross(add(h, e), cross(f, b)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(mix(add(b, h), add(f, a)), sq(cross(e, d), sub(c, g)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(mix(sq(e, g), sub(a, b)), sub(dbl(f, d), sq(h, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sq(dbl(d, c), mix(a, g)), sub(dbl(f, e), add(b, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mul(cross(f, a), sq(e, h)), add(add(d, c), sub(g, b)))
+
+-- 8D (5/8 vars) [zero-origin, monotone]
+-- add(add(mix(d, e), add(h, a)), sq(dbl(f, c), mix(g, b)))
+
+-- 8D (8/8 vars) [zero-origin, nil-diag]
+-- add(sub(mix(e, a), mix(d, c)), sub(sub(b, g), sub(f, h)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- sq(add(mix(e, c), mix(f, h)), cross(mul(g, a), mul(b, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sq(dbl(h, d), dbl(f, a)), add(sub(e, g), dbl(b, c)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(mix(sq(g, f), sub(b, a)), dbl(add(c, d), sq(e, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sub(sq(a, c), sub(e, d)), add(mul(b, h), add(g, f)))
+
+-- 8D (6/8 vars) [zero-origin, monotone]
+-- add(sq(mix(a, h), mix(f, g)), add(mix(e, c), add(b, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(mul(h, a), mul(b, e)), mix(sub(d, g), add(f, c)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(mix(add(f, g), sq(a, d)), sub(sub(c, e), mul(b, h)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(mix(add(c, b), cross(e, h)), dbl(mix(f, g), mul(a, d)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(sub(add(f, a), mix(e, d)), add(cross(h, b), sub(g, c)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sub(add(g, f), mul(b, c)), mix(mix(a, h), sq(d, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(add(sub(a, h), mix(e, d)), sq(add(g, c), add(f, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(mix(sub(g, a), add(f, d)), sq(dbl(e, h), add(b, c)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(sq(mix(d, c), add(b, a)), sq(mix(h, g), cross(f, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sub(sub(a, b), sq(f, d)), add(dbl(c, g), cross(h, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(sub(add(e, f), sub(g, c)), mix(cross(a, b), add(d, h)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(mix(mix(b, h), mix(f, d)), cross(mix(g, e), add(a, c)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(mix(sq(a, e), mix(g, f)), mix(sq(h, d), sub(c, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(sub(add(f, e), mix(d, h)), add(mul(b, c), cross(g, a)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(dbl(dbl(a, b), sq(g, f)), sub(mix(e, d), mix(c, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(dbl(g, a), sq(b, d)), dbl(mix(e, c), mul(f, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sq(dbl(e, h), dbl(c, g)), mix(mix(b, a), sub(f, d)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(sub(cross(c, a), mix(d, g)), sub(mix(h, b), dbl(f, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(mul(mix(g, f), sq(a, h)), add(sub(d, e), mix(b, c)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(sub(add(h, g), sub(b, d)), dbl(sub(f, a), mul(e, c)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(dbl(mix(e, h), dbl(d, a)), add(mix(b, f), cross(c, g)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- add(sub(mix(h, a), sub(b, c)), sub(add(f, g), sq(d, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sub(add(b, c), sub(f, g)), mul(add(e, a), cross(h, d)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- mix(add(sq(d, e), sub(b, c)), add(sq(a, h), mix(f, g)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sub(sub(c, b), mix(e, d)), sub(sq(g, f), mul(h, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(mix(cross(h, b), mix(c, d)), dbl(sub(e, a), cross(f, g)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(sub(mix(c, g), sub(a, b)), sq(mix(f, e), add(d, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(dbl(sub(b, a), dbl(f, e)), mix(sub(h, g), dbl(d, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(dbl(sub(h, g), sub(e, a)), add(add(b, d), mul(f, c)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sq(mix(f, c), sq(a, g)), sub(sq(b, h), sub(e, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sub(sub(d, g), dbl(f, a)), dbl(dbl(h, c), sq(e, b)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(sq(dbl(b, e), sub(c, f)), add(add(g, h), dbl(a, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mix(mix(g, f), cross(d, e)), sq(sub(a, b), sub(c, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sub(add(g, f), sq(h, c)), add(dbl(a, e), mul(d, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mix(dbl(f, h), add(e, c)), sub(sq(a, b), mul(d, g)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- mix(mix(mix(f, e), add(g, a)), mul(dbl(c, h), mul(b, d)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(mix(dbl(b, c), cross(e, g)), add(sq(a, h), mix(f, d)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(sub(sq(d, e), cross(b, c)), add(mix(h, a), sub(f, g)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(mix(mix(c, b), mix(e, d)), dbl(sub(f, g), sub(a, h)))
+
+-- 8D (4/8 vars) [zero-origin, nil-diag]
+-- add(sub(add(c, h), add(e, f)), sub(cross(a, b), cross(g, d)))
+
+-- 8D (6/8 vars) [zero-origin, nil-diag]
+-- sub(mix(sub(c, f), sub(d, h)), sq(sub(e, g), sq(b, a)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- sq(mix(add(a, b), mix(c, e)), dbl(mul(d, g), sub(h, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sq(mix(sub(e, f), add(h, g)), mul(sq(a, b), add(c, d)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(add(mix(h, b), mix(c, g)), dbl(cross(d, f), cross(e, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mul(mix(a, b), mix(c, e)), add(sub(g, h), add(f, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(mix(mix(e, g), mul(a, f)), sub(sq(b, d), dbl(c, h)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(dbl(sub(h, d), mul(a, c)), mix(add(g, f), mix(b, e)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- mix(sub(add(c, h), sub(f, g)), dbl(sub(b, e), sub(a, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mul(cross(d, c), mul(f, e)), mix(add(h, b), add(a, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(sub(mix(h, e), add(b, f)), sub(sub(a, g), dbl(c, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(add(mix(b, h), sub(e, g)), sq(mul(d, a), mix(c, f)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(mix(sq(a, f), sub(b, e)), mix(sq(c, h), dbl(d, g)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- add(add(sub(f, g), sq(c, d)), mix(sub(e, h), add(a, b)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(mix(dbl(h, d), sub(c, f)), sub(dbl(e, b), mix(g, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sub(add(b, d), dbl(a, f)), dbl(dbl(h, e), dbl(g, c)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(sq(sq(c, e), add(d, g)), add(dbl(a, f), add(b, h)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- sq(add(mix(d, h), add(b, g)), cross(mix(c, f), cross(e, a)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(mix(mix(b, c), sq(h, a)), add(sq(d, e), sub(f, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mix(mix(c, g), dbl(h, d)), add(cross(a, f), dbl(b, e)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(dbl(sub(h, c), sq(e, a)), mix(add(f, g), sub(b, d)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- mix(mix(cross(d, g), sub(e, f)), sub(mix(c, b), sub(a, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sub(sub(c, h), sq(e, f)), dbl(sub(b, a), sq(d, g)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- mix(sq(cross(d, f), cross(h, g)), mix(add(a, c), mix(e, b)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- mix(mix(add(a, d), sub(c, f)), sub(add(e, g), mul(b, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(dbl(mix(e, a), cross(b, d)), sub(dbl(h, c), mix(f, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(add(cross(e, g), dbl(d, h)), sub(sq(f, a), add(c, b)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(sub(mix(d, c), dbl(b, h)), dbl(add(a, f), cross(g, e)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(add(dbl(a, f), dbl(e, d)), mix(sub(c, b), add(g, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(sub(sq(e, f), sq(b, c)), sub(dbl(h, d), sub(a, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mix(mul(g, b), sub(h, a)), sub(add(e, c), cross(f, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(add(g, e), add(h, a)), cross(dbl(b, f), mul(d, c)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- mix(sub(mix(e, c), sub(a, b)), mix(add(h, d), sq(g, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sq(cross(d, g), dbl(h, e)), sub(add(a, f), sub(c, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(add(e, b), add(d, g)), cross(mix(c, f), sq(h, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(dbl(d, b), mix(a, h)), dbl(sq(c, e), cross(g, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(dbl(sub(d, c), mix(e, h)), sq(mix(f, b), dbl(a, g)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(add(mix(c, d), dbl(a, b)), sub(add(g, h), mul(e, f)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- mix(add(sq(e, d), mul(h, f)), add(sq(a, b), add(g, c)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- mix(dbl(sub(d, h), add(e, a)), mix(mix(b, f), add(g, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sq(add(sub(a, f), add(g, h)), mul(cross(c, d), sub(e, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(cross(dbl(c, d), cross(h, e)), sub(sub(a, b), sub(f, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(dbl(mul(h, e), dbl(c, b)), mix(sub(a, g), add(f, d)))
+
+-- 8D (8/8 vars) [zero-origin, nil-diag]
+-- sub(add(sub(d, e), sub(b, c)), sub(sub(h, f), sub(g, a)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- add(add(sub(b, c), add(h, a)), add(mix(d, f), dbl(e, g)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- dbl(mix(add(c, d), mix(a, h)), mix(sub(b, f), mix(e, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sub(cross(d, g), mul(b, f)), sub(sub(h, e), sub(a, c)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(mix(sub(f, a), sq(b, c)), sq(sub(d, e), mix(h, g)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(add(sub(g, a), sub(b, h)), sq(sq(e, c), mul(f, d)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- sub(add(dbl(f, c), add(e, d)), mix(mix(a, g), mix(h, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sq(mul(b, g), sq(a, f)), add(sub(h, e), mix(d, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(mix(d, h), add(a, f)), cross(sub(g, e), mul(b, c)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(sq(dbl(f, g), mix(b, e)), add(sub(a, d), mix(h, c)))
+
+-- 8D (6/8 vars) [zero-origin, nil-diag]
+-- add(sq(sub(c, g), add(b, a)), mix(sub(d, h), sub(f, e)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(sub(sub(a, f), mix(c, e)), mix(sq(d, b), dbl(g, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sq(sq(g, f), dbl(d, c)), add(sub(h, e), sq(b, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sq(sub(add(a, c), mix(g, d)), add(sq(f, e), sq(b, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(dbl(sq(d, a), mix(h, g)), mix(sub(c, f), sq(b, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sub(mix(f, e), mix(d, a)), sq(cross(c, h), dbl(g, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mix(sq(d, f), dbl(h, g)), add(sub(a, b), mul(c, e)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(sub(sq(a, e), mix(h, b)), add(mix(d, f), dbl(g, c)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- sq(mix(mix(h, f), mix(b, e)), add(add(a, c), mul(d, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(dbl(mix(a, b), mul(d, f)), sq(add(g, h), mul(e, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(sub(mix(g, a), sub(h, c)), cross(mix(e, b), cross(f, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(dbl(add(c, h), sq(a, b)), mix(mul(g, d), sub(f, e)))
+
+-- 8D (8/8 vars) [zero-origin]
+-- sub(add(add(b, e), sub(d, h)), sub(mix(g, c), mix(a, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(mix(mix(h, b), sub(d, c)), sq(sub(a, f), sq(e, g)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(add(sub(g, a), dbl(c, b)), add(dbl(f, h), dbl(e, d)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- mix(mix(add(h, f), mix(b, g)), add(mul(c, d), sub(a, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(mix(cross(h, a), sub(e, f)), mix(dbl(g, d), dbl(b, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sq(mix(mix(g, c), sub(h, e)), cross(sub(d, b), sub(f, a)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(sq(sub(a, h), sq(d, c)), add(dbl(e, g), mix(f, b)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- add(add(sub(c, h), sub(f, g)), sub(sub(d, a), dbl(b, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(dbl(f, c), sq(e, d)), mix(add(b, a), cross(g, h)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(sub(dbl(e, d), sub(c, b)), mix(sq(h, a), mix(g, f)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(dbl(add(d, e), sq(c, h)), sub(add(a, b), add(f, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mix(add(d, c), add(g, e)), mul(sub(f, b), sq(h, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(add(sub(d, c), mix(g, e)), cross(sq(a, f), sq(b, h)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- sub(mix(sq(b, c), add(f, g)), mix(add(e, d), add(h, a)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(dbl(sq(g, h), cross(f, e)), mix(sub(b, a), add(d, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mix(mix(c, d), mix(h, e)), cross(sub(a, b), dbl(f, g)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(add(add(e, g), sub(b, f)), sub(mix(c, a), cross(d, h)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(dbl(sub(f, a), sub(b, h)), add(sub(g, e), add(d, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(dbl(mix(c, g), cross(f, a)), mix(dbl(e, h), sq(d, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(add(cross(c, h), sub(a, d)), sub(sq(b, e), dbl(f, g)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- add(mix(mix(b, e), add(g, c)), mix(dbl(f, a), sub(h, d)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(sub(mix(b, g), sq(h, f)), sq(add(d, e), sq(a, c)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(sub(dbl(h, f), mix(g, c)), sub(sub(e, b), dbl(a, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(sub(add(a, b), sub(e, g)), sub(sq(d, h), sub(c, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(sub(e, f), add(h, b)), sq(mul(d, g), mul(a, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(mix(sub(h, g), add(f, a)), dbl(sq(b, c), dbl(e, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sq(sub(add(a, h), sub(e, c)), cross(sub(b, f), dbl(d, g)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(add(add(h, b), sub(d, g)), sq(dbl(e, f), mul(a, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(mix(e, g), sub(f, h)), mul(sq(c, b), add(a, d)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(add(sq(b, h), mix(a, g)), mix(dbl(f, d), sub(c, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(cross(mix(f, h), cross(e, d)), sub(add(b, a), sub(c, g)))
+
+-- 8D (5/8 vars) [zero-origin, monotone]
+-- mix(mix(mix(a, g), cross(e, h)), add(mix(d, c), sq(f, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(dbl(mix(g, b), cross(a, e)), sub(mix(f, h), cross(c, d)))
+
+-- 8D (4/8 vars) [zero-origin, nil-diag]
+-- sub(cross(sub(g, h), add(f, e)), sub(sub(b, a), sub(d, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(cross(mix(f, a), dbl(h, e)), add(mix(b, c), mix(g, d)))
+
+-- 8D (8/8 vars) [zero-origin]
+-- add(mix(add(h, g), sub(d, f)), add(add(b, c), sub(a, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sq(sub(e, h), mix(d, c)), sub(mul(f, g), mix(b, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(mul(dbl(e, c), add(d, g)), sub(mix(f, h), add(b, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(add(f, g), sub(h, b)), mul(dbl(a, e), cross(d, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(mix(g, f), add(h, c)), mul(cross(d, a), cross(e, b)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(sq(cross(d, f), mix(e, g)), add(mix(b, a), add(h, c)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(sub(dbl(d, e), sub(g, c)), mix(mix(f, h), mul(a, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(cross(a, e), add(c, g)), sub(mix(b, h), cross(f, d)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(mix(sub(h, d), sq(c, e)), dbl(add(b, f), add(a, g)))
+
+-- 8D (5/8 vars) [zero-origin, monotone]
+-- add(dbl(add(b, h), cross(a, d)), mix(mix(g, c), sq(f, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(mul(c, g), sq(b, a)), sub(dbl(d, f), sub(e, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mix(add(f, h), add(d, e)), sq(cross(g, c), mix(a, b)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(mix(mix(b, g), dbl(c, d)), sub(sq(f, a), sq(h, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(add(mul(c, d), sq(e, f)), sub(sub(a, b), sq(h, g)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(sub(sq(g, c), dbl(e, h)), add(mix(a, b), mix(f, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(sub(d, c), dbl(e, f)), sq(dbl(h, a), sub(b, g)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(mix(cross(f, d), sub(e, g)), add(dbl(b, a), sub(h, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sub(dbl(h, c), sub(a, g)), dbl(sq(e, d), sq(b, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sq(dbl(f, g), sub(b, d)), mix(sub(c, h), dbl(e, a)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- add(add(dbl(d, e), sub(h, f)), sub(mix(a, c), sub(g, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sub(dbl(h, f), dbl(d, c)), sub(add(b, a), cross(e, g)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(mix(add(c, d), sub(a, b)), dbl(sub(e, f), cross(g, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(add(sub(c, d), dbl(g, f)), sub(mix(a, e), mul(b, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(sq(sub(g, b), mix(a, e)), mix(sub(d, h), dbl(f, c)))
+
+-- 8D (8/8 vars) [zero-origin]
+-- add(mix(add(a, g), add(c, b)), sub(mix(h, f), mix(e, d)))
+
+-- 8D (6/8 vars) [zero-origin, nil-diag]
+-- sub(add(sq(c, e), mix(a, d)), add(sq(f, b), mix(h, g)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(sub(mix(g, f), mul(b, h)), mix(mix(d, e), mix(a, c)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(sub(sq(b, d), add(c, h)), dbl(add(f, e), mix(a, g)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(add(sq(b, f), mul(e, g)), sub(sub(a, h), mix(d, c)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(add(dbl(h, c), cross(e, b)), sub(add(a, g), mix(f, d)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- mix(add(mul(b, e), mix(d, f)), sub(add(c, a), mix(g, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(add(dbl(g, a), add(d, e)), sub(cross(c, b), mix(f, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(sub(sub(f, h), dbl(e, g)), mix(mul(a, b), sub(c, d)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(add(mul(g, e), dbl(b, a)), mix(mix(d, c), sub(h, f)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(mix(dbl(e, f), add(c, b)), sub(sq(h, g), sq(a, d)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- mix(add(add(h, c), mul(g, a)), sub(mix(e, d), mix(b, f)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- add(sub(add(d, g), sub(f, h)), add(dbl(e, c), add(a, b)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(add(mix(f, g), sq(e, h)), add(add(a, b), sq(c, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sub(sub(h, g), add(e, f)), mul(sq(a, b), add(c, d)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(mix(sq(g, h), mix(e, a)), mix(sub(b, c), mul(f, d)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(add(sub(f, d), sub(h, b)), sub(sq(a, c), cross(e, g)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(sub(add(b, h), sq(d, c)), mix(sq(a, g), sub(f, e)))
+
+-- 8D (5/8 vars) [zero-origin, monotone]
+-- mix(add(dbl(e, f), cross(d, g)), mix(add(b, c), add(a, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(mix(mix(a, d), sub(g, f)), cross(sq(h, c), sq(b, e)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(mix(dbl(g, e), mul(h, b)), mix(sub(d, c), sub(f, a)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(sub(sub(g, h), add(d, b)), sub(cross(f, a), mix(c, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mix(sub(e, g), sub(h, f)), cross(mul(b, a), mul(d, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sq(sub(sub(b, d), add(a, e)), sub(mul(g, c), sq(h, f)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(add(sub(a, g), mix(d, b)), dbl(add(h, c), mix(e, f)))
+
+-- 8D (5/8 vars) [zero-origin, monotone]
+-- mix(sq(mix(e, f), sub(d, b)), mix(dbl(g, h), add(a, c)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(mix(add(d, g), mul(e, h)), mix(sub(c, a), sub(b, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sub(mul(f, e), mul(b, g)), sub(mix(h, c), add(a, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sub(mul(d, c), mul(g, e)), add(add(b, a), mix(f, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sub(dbl(c, h), mix(a, b)), dbl(add(g, f), add(d, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mul(mul(a, g), dbl(d, b)), mix(mix(f, c), sub(h, e)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(sq(add(d, f), mix(e, h)), add(sub(b, c), sub(g, a)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- mix(sub(mix(b, g), add(f, h)), dbl(add(a, c), dbl(d, e)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(sub(add(f, a), sq(e, g)), sub(dbl(d, b), add(c, h)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(dbl(mix(e, d), sq(c, b)), add(mix(g, f), dbl(a, h)))
+
+-- 8D (6/8 vars) [zero-origin, monotone]
+-- mix(add(mix(a, e), mix(b, h)), add(dbl(d, g), sq(c, f)))
+
+-- 8D (5/8 vars) [zero-origin, monotone]
+-- mix(dbl(dbl(c, b), dbl(a, e)), add(mix(h, g), add(d, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(add(mix(f, h), sub(d, e)), dbl(cross(a, g), mix(c, b)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sub(mul(c, h), sub(b, e)), sub(dbl(a, g), add(d, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sub(add(h, e), dbl(d, c)), sq(dbl(g, a), cross(b, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sub(add(a, f), mix(d, g)), mul(sub(c, e), sq(b, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- dbl(mix(sub(h, e), add(b, a)), add(mix(c, d), mul(f, g)))
+
+-- 8D (8/8 vars) [zero-origin]
+-- sub(mix(add(h, g), sub(b, a)), sub(mix(f, e), sub(d, c)))
+
+-- 8D (4/8 vars) [zero-origin, nil-diag]
+-- dbl(sub(add(f, d), add(g, c)), sq(add(b, e), sub(h, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sub(sub(c, a), dbl(e, b)), sq(dbl(h, g), add(f, d)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(sub(sub(a, b), dbl(c, g)), mix(mul(f, d), mix(h, e)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(add(dbl(b, f), add(h, d)), sub(cross(c, g), sub(e, a)))
+
+-- 8D (4/8 vars) [zero-origin, nil-diag]
+-- add(cross(cross(c, a), sub(h, b)), add(sub(f, g), sub(d, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sub(sub(e, f), dbl(a, g)), dbl(dbl(b, h), sub(c, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sq(sub(c, d), cross(e, h)), dbl(mix(a, b), add(g, f)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- sq(add(add(a, e), add(b, f)), mul(cross(h, d), mix(c, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(mix(h, d), sq(f, b)), mix(mul(g, c), sq(e, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mix(mix(e, d), sq(b, a)), sub(mul(f, g), dbl(c, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(sq(h, a), sq(e, g)), mix(dbl(f, c), sq(b, d)))
+
+-- 8D (8/8 vars) [zero-origin]
+-- mix(mix(sub(a, h), sub(c, f)), mix(add(d, e), sub(g, b)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(sub(sub(a, g), sq(f, h)), sq(sub(c, b), dbl(e, d)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(sq(add(a, e), mix(f, b)), sub(mix(d, h), add(g, c)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- mix(mix(add(c, g), add(e, f)), cross(mul(d, h), add(b, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mul(add(c, e), mix(g, h)), add(add(f, d), sub(b, a)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- add(sub(sub(h, d), mix(c, a)), dbl(sub(b, e), dbl(f, g)))
+
+-- 8D (4/8 vars) [zero-origin, nil-diag]
+-- sub(mix(mul(b, h), add(f, d)), mix(dbl(e, g), sq(c, a)))
+
+-- 8D (5/8 vars) [zero-origin, monotone]
+-- add(add(mul(b, a), add(h, e)), mix(dbl(c, d), mix(g, f)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(mix(add(a, b), cross(e, c)), add(mix(h, g), add(f, d)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(mix(mix(f, d), add(e, g)), mix(mix(h, c), mul(b, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(cross(sub(g, h), mul(c, a)), sub(mix(e, f), sub(b, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(dbl(mix(f, e), dbl(g, c)), dbl(sub(d, h), dbl(a, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mix(dbl(e, a), sub(f, d)), mix(sq(g, h), cross(b, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(add(sub(e, b), dbl(f, d)), mix(sq(a, h), cross(g, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mix(dbl(a, g), add(d, b)), dbl(dbl(f, c), mul(h, e)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- add(add(dbl(d, c), add(g, h)), sq(dbl(a, f), mul(b, e)))
+
+-- 8D (5/8 vars) [zero-origin, monotone]
+-- add(mix(cross(b, e), add(f, g)), mix(mix(c, a), dbl(d, h)))
+
+-- 8D (8/8 vars) [zero-origin, nil-diag]
+-- sub(sub(mix(f, g), mix(h, b)), mix(sub(e, a), sub(d, c)))
+
+-- 8D (4/8 vars) [zero-origin, nil-diag]
+-- mix(cross(add(g, h), sub(b, f)), add(sub(a, d), sub(c, e)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sq(sq(c, b), add(g, a)), sub(sub(d, f), mix(h, e)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(add(add(g, a), sub(c, b)), dbl(mix(f, d), add(e, h)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- sq(mix(add(d, h), mix(e, f)), sub(add(a, g), sub(c, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(add(dbl(g, d), sub(h, c)), sq(sq(b, e), sub(a, f)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- mix(sub(cross(e, g), sub(f, h)), mix(sub(c, d), mix(a, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(add(cross(e, h), mul(d, f)), sub(sub(b, c), mix(a, g)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(mix(add(d, h), dbl(f, a)), mix(sub(g, c), cross(e, b)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sub(sq(h, e), sq(b, g)), add(add(f, d), dbl(c, a)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(sub(add(d, e), mix(g, c)), dbl(sq(h, b), sub(a, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(add(b, h), add(d, c)), dbl(mul(g, e), dbl(a, f)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- sub(add(sq(c, g), dbl(a, d)), mix(add(e, f), sq(h, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(cross(b, g), sq(h, e)), mix(sq(a, d), mix(c, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(cross(sub(g, a), sq(b, e)), sub(add(c, h), sub(d, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(cross(g, h), mix(b, c)), add(sub(f, a), cross(d, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(mix(cross(e, a), mul(g, c)), mix(sub(b, h), mix(d, f)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- dbl(mix(mix(c, e), mix(f, a)), add(mix(d, g), sub(h, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(sq(c, h), sub(a, f)), sq(sq(d, b), mul(g, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sq(dbl(b, c), sq(d, e)), add(add(g, h), dbl(a, f)))
+
+-- 8D (7/8 vars) [zero-origin]
+-- add(sub(mix(h, d), mix(f, b)), mix(sub(g, a), dbl(c, e)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(mix(mix(b, e), dbl(h, c)), add(cross(a, f), sub(g, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mul(add(g, a), cross(h, f)), add(add(b, e), sub(c, d)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- mix(sub(mix(f, c), add(a, b)), add(cross(d, e), dbl(g, h)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(add(mix(d, f), add(e, a)), dbl(mix(h, b), sub(c, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(mul(mix(h, g), sub(a, b)), add(sub(e, f), mix(c, d)))
+
+-- 8D (5/8 vars) [zero-origin, monotone]
+-- add(mix(mix(b, d), add(a, g)), dbl(sq(h, f), sq(e, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(sub(sq(e, f), cross(a, b)), add(dbl(c, g), add(d, h)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(sq(dbl(e, d), sq(h, g)), sub(sq(b, c), add(a, f)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mix(mix(g, f), sq(e, h)), sq(sq(d, c), sq(b, a)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- mix(add(mix(a, g), mul(f, d)), dbl(mix(e, c), mul(h, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mix(dbl(d, h), sub(g, c)), sq(dbl(f, e), mul(b, a)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(add(sub(b, g), add(d, f)), cross(mul(a, h), dbl(c, e)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(sq(add(e, d), dbl(f, g)), dbl(mix(a, b), cross(c, h)))
+
+-- 8D (4/8 vars) [zero-origin, monotone]
+-- mix(mix(add(d, e), sq(a, h)), sq(sq(g, b), mix(f, c)))
+
+-- 8D (5/8 vars) [zero-origin]
+-- add(add(sq(b, h), dbl(e, c)), mix(dbl(a, g), sub(f, d)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(add(mix(d, e), sub(h, f)), mul(cross(g, a), add(b, c)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- mix(mix(sub(a, b), sub(d, h)), mix(cross(e, g), mul(f, c)))
+
+-- 8D (6/8 vars) [zero-origin]
+-- sub(add(dbl(e, a), add(d, h)), add(add(c, f), sq(b, g)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- add(mul(sub(g, h), mix(d, f)), add(mix(c, b), mix(e, a)))
+
+-- 8D (5/8 vars) [zero-origin, monotone]
+-- mix(mix(mix(a, h), sq(c, d)), sq(add(g, f), mix(e, b)))
+
+-- 8D (4/8 vars) [zero-origin]
+-- sub(mix(mul(f, c), mul(b, g)), sub(sub(a, e), add(d, h)))
+
+-- 12D (8/12 vars) [zero-origin, monotone]
+-- mix(add(add(mix(h, j), mix(l, a)), add(add(i, g), add(b, c))), sq(mul(d, e), add(f, k)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(mix(dbl(sub(d, f), mix(k, h)), add(sub(i, c), cross(a, b))), mix(dbl(g, l), dbl(e, j)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(dbl(sq(h, f), mul(b, c)), mix(sq(sq(g, a), add(e, j)), add(sub(l, k), mix(d, i))))
+
+-- 12D (8/12 vars) [zero-origin]
+-- mix(sq(add(mix(a, j), mix(k, g)), sq(dbl(c, i), sub(l, f))), sub(sub(d, e), add(b, h)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- add(dbl(cross(k, c), sq(h, j)), sub(add(dbl(l, a), sub(i, f)), add(sub(e, g), mix(b, d))))
+
+-- 12D (9/12 vars) [zero-origin]
+-- add(mix(sub(d, l), mix(g, a)), add(dbl(sub(k, i), sq(h, j)), mix(sq(f, e), mix(b, c))))
+
+-- 12D (8/12 vars) [zero-origin]
+-- mix(mix(add(dbl(g, k), mix(b, e)), mix(sub(d, a), sq(l, j))), sub(sub(h, c), cross(f, i)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(add(dbl(sub(b, k), mix(a, c)), sub(add(g, h), mix(l, f))), sq(cross(i, j), add(d, e)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(sub(sub(sub(g, f), mix(i, a)), sq(sub(h, j), mul(k, d))), mix(mul(e, c), mul(b, l)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(sub(add(mix(b, g), sq(c, f)), sub(add(h, e), sq(l, i))), cross(sub(k, j), mul(d, a)))
+
+-- 12D (11/12 vars) [zero-origin]
+-- sub(add(add(add(a, k), sub(e, d)), add(add(c, b), mix(f, l))), sub(dbl(h, g), sub(i, j)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- add(mix(sub(mix(b, l), mix(g, e)), add(sq(j, k), dbl(h, d))), sub(dbl(c, i), mul(f, a)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sq(sq(d, f), cross(a, g)), mix(sub(mix(h, i), cross(b, l)), add(mix(c, k), sq(j, e))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(dbl(sq(a, i), mix(g, e)), add(add(mul(l, j), dbl(c, f)), mix(mix(d, k), mix(h, b))))
+
+-- 12D (8/12 vars) [zero-origin]
+-- add(add(mix(add(k, j), mix(g, h)), add(add(d, i), cross(e, f))), mix(mul(a, b), sub(l, c)))
+
+-- 12D (8/12 vars) [zero-origin]
+-- sub(dbl(dbl(b, l), cross(k, d)), add(sub(add(i, a), mix(g, j)), mix(mix(c, e), dbl(h, f))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(mix(sub(dbl(h, e), mix(k, d)), dbl(mix(b, j), mix(i, c))), sq(dbl(f, g), add(l, a)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(sub(sub(cross(a, l), mix(f, h)), mix(sub(d, g), sq(j, c))), mix(dbl(k, i), cross(b, e)))
+
+-- 12D (6/12 vars) [zero-origin, monotone]
+-- mix(sq(sq(add(a, f), sub(l, h)), sub(mul(j, d), sub(k, e))), add(add(i, b), add(c, g)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- add(add(cross(a, j), sq(c, f)), sub(sub(add(h, d), sub(i, e)), add(mul(g, l), mix(b, k))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(mix(sub(k, l), sub(h, g)), sq(add(mix(d, j), mul(i, f)), mul(add(e, c), mul(a, b))))
+
+-- 12D (7/12 vars) [zero-origin]
+-- mix(mix(dbl(dbl(l, k), mix(h, j)), add(add(f, g), sub(c, i))), sq(sub(d, e), add(a, b)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(mix(sub(sub(i, f), mix(b, l)), sub(mul(d, e), mix(h, a))), cross(sub(c, j), mul(g, k)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- mix(add(add(sub(j, d), sq(l, c)), mix(sub(i, b), sub(e, h))), cross(add(a, f), cross(k, g)))
+
+-- 12D (6/12 vars) [zero-origin, monotone]
+-- add(mix(add(c, d), mix(g, h)), sq(dbl(mix(k, b), add(i, l)), add(sq(j, f), sub(e, a))))
+
+-- 12D (7/12 vars) [zero-origin]
+-- sub(mix(sub(add(h, l), mix(k, c)), mix(dbl(f, g), cross(e, a))), dbl(add(i, j), mul(b, d)))
+
+-- 12D (8/12 vars) [zero-origin]
+-- sub(add(dbl(d, k), sub(j, e)), add(sub(mul(b, a), sub(i, f)), add(dbl(l, h), sub(c, g))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(sub(sq(sub(b, f), mix(k, i)), dbl(mix(l, h), cross(e, j))), dbl(mix(c, g), sq(d, a)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(mix(sub(g, h), mix(d, f)), sub(add(sq(c, e), dbl(i, l)), mul(dbl(b, a), mix(j, k))))
+
+-- 12D (7/12 vars) [zero-origin]
+-- sub(mix(add(i, g), cross(k, c)), mix(sub(mul(h, l), dbl(a, j)), sub(sub(d, e), mix(b, f))))
+
+-- 12D (6/12 vars) [zero-origin, monotone]
+-- mix(cross(mix(b, g), add(h, c)), mix(add(add(k, i), add(e, d)), sq(add(f, l), sub(j, a))))
+
+-- 12D (7/12 vars) [zero-origin]
+-- mix(sub(mix(l, c), dbl(b, e)), dbl(sub(sub(g, h), mix(j, d)), add(mix(a, i), dbl(f, k))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(mix(add(g, h), dbl(j, f)), sq(mix(sub(e, d), sq(k, l)), dbl(sq(i, a), add(c, b))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sub(sq(sub(k, j), dbl(e, f)), add(add(d, b), sq(l, c))), sq(dbl(h, a), sq(i, g)))
+
+-- 12D (8/12 vars) [zero-origin]
+-- add(sub(sub(mix(i, f), sq(h, j)), mix(dbl(l, e), dbl(g, d))), sub(sq(c, k), sub(b, a)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(mix(add(sq(l, k), sub(f, c)), add(add(d, a), sq(b, i))), cross(mix(g, h), sq(j, e)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- sub(add(mix(add(c, b), add(i, g)), sub(mul(k, d), dbl(l, j))), dbl(mix(e, f), sub(h, a)))
+
+-- 12D (8/12 vars) [zero-origin]
+-- mix(sub(add(sub(g, h), add(k, i)), dbl(mul(c, f), dbl(e, d))), add(add(j, a), add(b, l)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- mix(add(sub(j, d), dbl(b, e)), add(dbl(dbl(l, a), cross(f, g)), add(add(c, k), dbl(i, h))))
+
+-- 12D (6/12 vars) [zero-origin, monotone]
+-- add(mix(sq(add(h, l), mix(f, d)), add(mix(e, k), mix(b, a))), cross(mix(j, g), add(c, i)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(sub(dbl(sub(b, j), cross(l, f)), sub(cross(a, h), mul(k, g))), mix(sub(i, e), mix(d, c)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(mix(dbl(f, d), sub(j, b)), mix(mix(dbl(g, k), mix(i, e)), sq(cross(a, c), mul(h, l))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(dbl(mul(b, f), sq(a, k)), add(sub(dbl(d, l), sub(e, h)), sub(mix(c, i), dbl(j, g))))
+
+-- 12D (10/12 vars) [zero-origin]
+-- sub(sub(sub(mix(d, h), sq(b, c)), sub(mix(f, e), add(i, j))), sub(sq(l, a), mix(k, g)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(add(mix(sub(e, b), add(h, a)), add(mul(j, c), mix(k, i))), mix(cross(l, d), cross(g, f)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(mix(add(sub(e, l), sq(j, d)), mix(cross(b, g), mul(i, a))), add(sq(f, k), mix(c, h)))
+
+-- 12D (8/12 vars) [zero-origin]
+-- sub(sub(mix(d, a), sq(g, f)), mix(add(dbl(c, j), mix(l, e)), mix(cross(i, h), mix(k, b))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- dbl(mix(sub(sq(g, k), mix(a, h)), mix(add(c, l), dbl(i, b))), mul(sub(e, j), dbl(d, f)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sub(add(sub(e, l), cross(k, h)), add(sq(f, g), sq(a, i))), sq(add(b, c), dbl(d, j)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sub(add(mul(j, d), add(b, a)), sq(dbl(i, f), cross(l, h))), sub(mix(k, c), sq(g, e)))
+
+-- 12D (8/12 vars) [zero-origin]
+-- mix(add(add(c, h), sub(l, j)), sq(mix(sub(b, a), sub(i, k)), add(mix(d, f), mul(g, e))))
+
+-- 12D (8/12 vars) [zero-origin]
+-- add(add(dbl(i, j), sub(d, e)), add(sub(dbl(l, f), sub(g, k)), dbl(sub(h, a), dbl(b, c))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(mix(sub(sub(c, j), mix(h, a)), sq(mix(e, f), add(d, l))), mul(sq(g, i), mix(b, k)))
+
+-- 12D (9/12 vars) [zero-origin]
+-- add(sq(mix(d, g), sub(c, f)), mix(sub(mix(b, e), dbl(l, j)), mix(mix(i, k), add(h, a))))
+
+-- 12D (8/12 vars) [zero-origin]
+-- add(add(dbl(add(e, f), mix(h, j)), add(mix(l, d), sub(b, a))), mix(dbl(k, g), dbl(i, c)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- mix(sub(add(mix(l, b), sub(e, h)), mul(sq(f, d), sub(g, c))), add(mix(a, j), dbl(i, k)))
+
+-- 12D (6/12 vars) [zero-origin, monotone]
+-- mix(mix(cross(mul(c, j), cross(h, g)), sq(mix(b, k), mix(l, a))), mix(add(f, i), mix(d, e)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(sub(sub(sq(k, d), sub(h, g)), cross(mix(f, e), cross(a, b))), sub(sq(i, j), add(c, l)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- add(mix(dbl(k, i), mix(j, e)), add(sq(mix(g, d), sub(a, l)), mix(cross(f, c), sub(b, h))))
+
+-- 12D (8/12 vars) [zero-origin]
+-- add(sub(add(f, b), add(c, h)), sub(add(cross(l, g), add(k, d)), sq(add(e, a), dbl(j, i))))
+
+-- 12D (9/12 vars) [zero-origin]
+-- mix(mix(sub(mul(k, f), dbl(i, a)), sub(add(d, e), mix(g, j))), add(add(l, h), sub(b, c)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(mix(cross(d, b), add(f, e)), add(sub(cross(c, h), add(i, j)), dbl(add(k, g), mix(a, l))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sub(mix(add(h, j), sq(g, c)), cross(mul(i, f), sub(e, b))), add(mix(l, a), dbl(d, k)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(mix(sub(sq(k, d), add(j, i)), sq(cross(g, e), mix(b, c))), add(sq(a, f), add(l, h)))
+
+-- 12D (6/12 vars) [zero-origin, monotone]
+-- add(add(mix(dbl(a, b), mix(i, d)), add(cross(c, e), cross(g, k))), mix(dbl(l, f), mix(h, j)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- mix(sub(add(d, c), add(j, b)), sub(mix(sq(e, h), mix(l, g)), cross(cross(i, a), sub(k, f))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- dbl(sub(add(dbl(g, j), dbl(l, f)), add(sub(k, b), sub(i, e))), sub(add(d, a), cross(c, h)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(mix(dbl(cross(a, g), dbl(l, k)), mix(cross(j, h), sub(b, i))), add(mix(c, f), add(d, e)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(mix(sub(sq(g, a), add(j, h)), sq(sub(l, f), cross(e, d))), sq(sq(c, k), mix(b, i)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(dbl(dbl(add(e, k), sq(a, b)), dbl(mul(g, j), dbl(h, i))), sub(mix(d, f), add(l, c)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(sub(dbl(h, c), mix(e, a)), dbl(add(dbl(d, f), add(j, i)), mul(sq(g, k), mul(l, b))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- dbl(add(mix(sub(f, b), mix(h, k)), sq(add(j, i), mix(e, g))), mul(mul(a, c), cross(l, d)))
+
+-- 12D (9/12 vars) [zero-origin]
+-- sub(sub(mix(sq(l, b), add(a, h)), sq(sub(g, j), sub(c, i))), add(add(e, f), sub(d, k)))
+
+-- 12D (6/12 vars) [zero-origin, monotone]
+-- add(add(sq(l, h), mix(a, j)), add(add(sq(g, i), mul(k, c)), sq(add(e, b), sq(f, d))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(dbl(add(i, h), mix(g, a)), mix(sub(mul(f, b), add(c, l)), add(sub(k, j), mul(d, e))))
+
+-- 12D (10/12 vars) [zero-origin]
+-- add(mix(sub(add(e, i), sub(l, h)), sq(sub(a, j), sq(g, b))), add(sub(c, d), add(f, k)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sub(sub(b, a), mul(g, l)), sq(mix(mix(j, e), sub(c, f)), dbl(mix(i, d), mul(h, k))))
+
+-- 12D (7/12 vars) [zero-origin]
+-- add(sub(add(b, d), sub(k, c)), sq(mix(dbl(l, a), mix(i, e)), mix(cross(g, j), dbl(f, h))))
+
+-- 12D (6/12 vars) [zero-origin, monotone]
+-- add(mix(add(e, l), dbl(f, k)), add(mix(mul(c, i), sq(j, a)), mix(cross(h, b), add(d, g))))
+
+-- 12D (7/12 vars) [zero-origin]
+-- sub(mix(sq(i, g), mix(l, b)), sub(cross(sq(c, d), cross(a, h)), mix(sub(e, f), add(k, j))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(sq(add(sub(k, c), add(d, i)), add(cross(g, l), mul(b, f))), add(mix(j, e), cross(a, h)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(mix(mix(sq(b, a), add(e, h)), dbl(sq(g, f), add(j, i))), mix(cross(d, l), sub(c, k)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sub(sq(d, g), dbl(i, b)), dbl(mix(mix(c, f), mix(k, a)), cross(sub(h, j), sq(e, l))))
+
+-- 12D (7/12 vars) [zero-origin]
+-- sub(mix(add(cross(h, k), add(a, e)), sub(sq(d, l), dbl(i, f))), sub(sq(g, j), add(c, b)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- sub(add(dbl(e, b), mix(a, d)), mix(sub(add(f, l), dbl(k, c)), sq(sq(i, g), mix(h, j))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sq(mix(mix(i, j), sub(c, a)), mix(add(f, k), sq(e, l))), dbl(sub(h, b), sub(g, d)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sq(mix(add(sub(a, j), add(f, h)), sq(mix(b, d), sq(k, c))), sub(mul(l, i), dbl(g, e)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(mix(sub(sub(b, h), dbl(k, g)), dbl(mix(e, c), mix(l, a))), sq(dbl(d, j), dbl(f, i)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- sub(sub(add(cross(g, i), dbl(b, a)), mix(add(c, k), mix(f, e))), add(add(l, j), mul(h, d)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(add(add(sub(g, b), mul(h, a)), mix(mix(f, e), sub(i, d))), cross(sub(k, l), sq(c, j)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- add(add(dbl(b, f), add(h, a)), mix(dbl(sub(k, g), mix(l, c)), mix(mix(i, d), cross(e, j))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(mul(sq(a, e), dbl(d, j)), sub(sub(dbl(l, b), sq(f, g)), mix(add(c, h), add(i, k))))
+
+-- 12D (8/12 vars) [zero-origin]
+-- sub(add(dbl(mix(b, k), sq(f, a)), add(sq(g, c), add(l, h))), mix(sub(e, j), dbl(i, d)))
+
+-- 12D (10/12 vars) [zero-origin]
+-- sub(mix(add(mix(b, a), sub(l, e)), sq(sub(c, g), sub(d, f))), add(sub(i, k), sub(j, h)))
+
+-- 12D (8/12 vars) [zero-origin, monotone]
+-- add(add(dbl(i, j), add(g, d)), add(dbl(add(b, k), mix(a, l)), mix(add(f, e), sq(h, c))))
+
+-- 12D (7/12 vars) [zero-origin]
+-- sub(sq(add(sub(d, h), dbl(f, k)), mix(mix(l, c), sq(b, e))), mix(add(g, j), add(i, a)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(mix(mix(i, l), sub(e, b)), dbl(sq(sub(c, k), cross(h, j)), add(mul(f, g), sq(d, a))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(mul(cross(l, h), sq(c, i)), sub(dbl(mix(f, a), cross(d, k)), add(mix(b, j), mix(e, g))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(sub(sq(i, k), dbl(d, l)), sub(sq(mix(b, a), add(f, h)), add(sq(g, c), sq(j, e))))
+
+-- 12D (7/12 vars) [zero-origin]
+-- sub(mix(add(b, a), cross(k, c)), mix(add(mix(d, i), mix(e, h)), sq(sq(f, g), sq(j, l))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(add(cross(sq(e, i), mix(h, l)), mix(mix(f, k), dbl(a, j))), mix(add(c, d), sq(b, g)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sq(add(sub(d, l), dbl(a, j)), cross(dbl(i, e), mul(g, k))), mix(sub(h, b), dbl(f, c)))
+
+-- 12D (9/12 vars) [zero-origin]
+-- mix(sq(mix(e, g), sub(b, d)), add(add(sub(h, k), add(c, j)), mix(dbl(l, i), sub(a, f))))
+
+-- 12D (7/12 vars) [zero-origin]
+-- add(sub(sub(c, d), add(j, k)), sq(mix(mix(a, e), sq(i, b)), dbl(cross(h, g), sub(f, l))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(sub(mul(add(j, k), mul(a, g)), sq(sub(f, c), add(l, e))), sub(sub(i, h), mix(b, d)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sub(mix(dbl(i, b), sub(j, k)), sub(cross(c, f), sq(g, h))), add(sq(e, l), dbl(a, d)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(add(sub(sq(g, f), mul(d, h)), mix(cross(j, l), dbl(k, c))), add(mix(a, b), sub(e, i)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(mix(dbl(k, h), sq(a, j)), sq(sub(sub(f, b), sub(d, c)), sq(dbl(g, e), add(l, i))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(sub(mul(g, b), mix(f, h)), mix(sub(mix(c, i), mix(d, k)), cross(dbl(e, l), dbl(a, j))))
+
+-- 12D (8/12 vars) [zero-origin]
+-- dbl(add(sub(mix(f, d), add(e, h)), mix(sub(b, k), mix(j, c))), sub(sub(g, i), cross(a, l)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(sub(dbl(j, c), sub(h, k)), sq(mix(dbl(f, a), mix(e, d)), dbl(sub(b, l), dbl(i, g))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(mix(add(sq(d, f), mix(i, g)), mix(sq(b, e), mix(k, h))), cross(sub(c, l), cross(a, j)))
+
+-- 12D (8/12 vars) [zero-origin]
+-- add(sub(sq(sub(c, b), dbl(j, g)), sub(add(d, a), add(f, k))), add(cross(l, h), add(i, e)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(mix(mix(mix(d, e), mul(h, k)), add(dbl(g, f), dbl(j, c))), sub(add(i, l), mul(a, b)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- mix(dbl(mix(sq(d, k), add(g, e)), sq(mix(j, c), cross(b, a))), add(mix(h, i), sub(f, l)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(add(sub(f, l), sub(b, d)), sub(add(cross(h, c), sub(k, j)), cross(mix(i, a), sq(e, g))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- mix(mix(mul(mix(a, g), mul(c, f)), mix(add(j, l), sub(e, i))), sq(add(k, d), mix(h, b)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(mix(sq(i, b), dbl(k, f)), mix(sub(dbl(h, d), dbl(e, c)), dbl(mix(a, j), mix(l, g))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sq(add(sub(add(c, k), sq(b, j)), sub(dbl(d, h), sub(i, f))), cross(mul(l, g), sq(e, a)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(mix(add(h, j), mix(l, b)), sub(sq(cross(d, a), mul(g, i)), add(sq(e, f), sq(c, k))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sq(sub(sub(sub(f, j), mix(k, e)), dbl(sub(i, d), mix(c, h))), mul(add(a, b), dbl(l, g)))
+
+-- 12D (8/12 vars) [zero-origin]
+-- mix(mix(add(sub(f, i), sub(e, g)), dbl(cross(k, b), sq(h, c))), add(mix(d, l), mix(a, j)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(mix(mix(sub(i, b), mul(l, g)), dbl(mul(d, c), sub(j, e))), mix(mix(a, f), mix(h, k)))
+
+-- 12D (7/12 vars) [zero-origin]
+-- sub(add(sub(cross(f, g), sub(i, h)), mix(mul(l, a), sub(j, k))), sub(dbl(e, d), sub(c, b)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- sub(add(sq(mul(f, i), dbl(a, b)), sq(sub(d, e), mix(k, l))), sub(sub(g, h), mix(j, c)))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(dbl(sub(c, j), add(e, f)), dbl(mix(mix(a, d), add(i, g)), mul(mix(h, k), sq(b, l))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(add(sq(c, g), mix(i, h)), sub(sub(mul(a, d), mul(j, k)), mix(dbl(b, e), sub(l, f))))
+
+-- 12D (6/12 vars) [zero-origin]
+-- add(dbl(sq(i, l), sq(d, c)), add(sub(add(j, a), dbl(g, h)), dbl(mix(k, b), sub(e, f))))
+
+-- 16D (11/16 vars) [zero-origin]
+-- mix(add(mix(sq(b, f), mix(i, l)), add(add(n, h), mix(p, g))), add(sub(dbl(e, o), dbl(c, k)), sub(sq(a, m), sq(d, j))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- add(add(add(dbl(d, l), sub(j, o)), mix(mix(m, b), cross(k, i))), add(dbl(mix(p, g), sub(a, e)), mix(mul(n, c), sq(f, h))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- mix(add(sub(add(p, n), mix(i, d)), dbl(dbl(h, j), dbl(e, k))), sub(mix(dbl(f, g), dbl(m, a)), sq(mix(b, c), add(l, o))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- add(mix(sq(dbl(p, e), sub(n, h)), add(sub(j, k), mix(o, l))), mix(mul(mix(m, c), mul(g, b)), sub(mix(i, f), mix(d, a))))
+
+-- 16D (10/16 vars) [zero-origin]
+-- mix(sub(mix(sq(b, c), sub(p, l)), mix(add(e, n), mix(h, m))), mix(mix(cross(a, o), add(d, j)), mix(dbl(k, f), cross(i, g))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- sub(sq(mix(add(a, i), add(o, b)), add(dbl(k, h), add(n, p))), sq(sub(mix(d, m), add(f, l)), mix(mix(c, e), mix(g, j))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- sub(mix(sub(sub(d, m), sq(j, n)), add(sub(a, c), sub(o, i))), sq(add(cross(p, b), sub(l, e)), mix(mix(g, k), mix(h, f))))
+
+-- 16D (14/16 vars) [zero-origin]
+-- sub(add(mix(add(j, p), mix(f, c)), mix(add(i, k), mix(b, o))), add(add(mix(d, m), sub(l, g)), sq(mix(a, h), add(n, e))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- mix(sub(mul(sub(e, a), mix(b, k)), add(sub(i, d), dbl(j, l))), mix(sq(sub(o, n), mul(p, c)), sub(add(g, f), add(h, m))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- mix(mix(add(mix(n, d), dbl(j, b)), sub(add(h, m), cross(g, o))), add(sub(sub(e, a), cross(f, l)), dbl(mix(k, c), sq(p, i))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- mix(sub(cross(add(k, g), add(f, d)), cross(sq(o, i), sub(h, j))), mix(add(mix(c, l), mix(b, a)), sub(sub(p, e), add(n, m))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- add(add(mix(sub(k, p), add(c, d)), sub(mix(o, g), mix(b, f))), add(dbl(sq(m, a), add(e, i)), mul(dbl(n, l), mul(j, h))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- mix(sq(add(add(i, l), mix(e, c)), add(dbl(k, d), add(m, g))), mix(dbl(sub(h, a), sq(b, p)), mix(sub(o, j), sq(n, f))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- mix(sq(mix(sq(p, n), dbl(k, d)), sub(sq(a, i), cross(j, b))), sub(sq(mix(f, m), sq(c, e)), sub(add(g, l), sub(h, o))))
+
+-- 16D (12/16 vars) [zero-origin]
+-- mix(mix(add(sub(n, o), mul(c, m)), mix(add(h, l), add(p, d))), add(dbl(add(b, f), mix(e, i)), sub(add(k, j), mix(a, g))))
+
+-- 16D (12/16 vars) [zero-origin]
+-- mix(mix(mix(dbl(i, g), sq(b, h)), sub(add(l, c), add(k, e))), add(mix(mix(n, o), mul(m, p)), sub(mix(d, j), sub(f, a))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- add(sq(add(sub(o, j), sub(k, h)), sq(dbl(m, a), mul(l, p))), mix(sq(sub(g, i), dbl(b, d)), sq(mix(c, e), cross(f, n))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- mix(mix(add(mul(o, l), add(m, j)), mul(cross(g, c), cross(b, i))), add(add(add(f, p), cross(e, a)), sub(mix(k, n), add(h, d))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- sub(mix(mix(cross(a, k), add(d, o)), mul(sq(c, l), mix(f, j))), add(add(sq(i, e), mix(m, h)), mix(add(g, n), mix(p, b))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- mix(mix(mul(cross(b, e), cross(c, n)), sub(sub(d, l), add(f, p))), sub(dbl(add(k, i), mix(o, j)), sub(dbl(g, h), mix(m, a))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- sub(dbl(mix(cross(g, l), sub(o, e)), dbl(add(d, k), sub(a, f))), mix(add(sq(j, n), sub(h, c)), add(sub(p, i), sq(m, b))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- mix(sub(mix(dbl(l, b), mix(k, n)), add(mix(m, p), dbl(i, h))), mix(cross(dbl(g, a), add(o, c)), dbl(mix(d, e), mix(f, j))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- mix(mix(sq(mix(d, j), mix(o, g)), add(sq(c, n), sub(m, f))), mix(dbl(sub(h, a), cross(k, e)), sub(dbl(p, l), sq(b, i))))
+
+-- 16D (10/16 vars) [zero-origin]
+-- add(sub(add(mix(k, o), dbl(c, m)), mix(add(j, f), cross(p, l))), mix(add(add(d, g), dbl(e, a)), sub(sub(b, n), cross(h, i))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- sub(sq(sub(mix(n, b), add(g, j)), sub(cross(p, c), add(d, e))), sub(cross(sq(m, o), sub(l, i)), mix(sub(k, a), mix(f, h))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- sub(sub(mix(mix(o, p), sub(c, a)), mix(sub(f, m), sub(d, k))), sub(dbl(cross(n, i), sub(e, g)), sq(sq(b, l), dbl(j, h))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- sq(mix(mix(add(d, l), mix(k, e)), sub(sub(p, a), add(g, f))), mix(cross(mix(c, j), mul(i, h)), mul(add(b, n), dbl(o, m))))
+
+-- 16D (11/16 vars) [zero-origin]
+-- mix(add(dbl(sub(i, c), mix(f, a)), sub(sub(j, p), mix(g, b))), mix(add(add(m, n), sub(h, k)), add(dbl(d, l), mul(e, o))))
+
+-- 16D (10/16 vars) [zero-origin]
+-- add(mix(mix(mix(l, f), sub(c, g)), sub(sq(o, a), sq(m, e))), sub(dbl(add(h, p), dbl(i, k)), sub(add(b, n), mul(d, j))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- mix(sub(mix(mul(h, b), sq(m, p)), add(add(o, a), add(e, i))), mix(add(sub(l, n), add(j, g)), mix(cross(d, f), cross(k, c))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- mix(add(add(mul(m, b), mul(c, l)), add(mix(g, f), sub(p, e))), sub(dbl(sub(o, d), mul(j, h)), dbl(add(a, k), mix(n, i))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- add(dbl(dbl(mul(d, c), dbl(k, i)), dbl(cross(g, h), add(n, l))), add(sub(sub(m, f), sub(e, p)), add(mix(o, j), mix(b, a))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- sub(sq(mix(add(j, d), mix(h, b)), mix(cross(i, g), dbl(e, p))), add(sq(add(a, k), sub(m, o)), mix(dbl(l, n), mix(c, f))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- sub(add(dbl(add(i, k), add(a, e)), mix(dbl(g, j), sub(h, p))), add(sub(sub(n, l), sub(f, o)), mul(sub(b, d), add(c, m))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- sub(sub(sub(add(h, d), mix(l, f)), sq(cross(e, m), sub(g, j))), add(add(sub(n, c), mix(k, i)), mul(dbl(p, a), cross(o, b))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- add(add(sub(mix(j, a), sub(h, i)), dbl(mix(b, p), cross(d, k))), sub(mul(mul(l, n), cross(e, f)), add(add(g, c), cross(m, o))))
+
+-- 16D (10/16 vars) [zero-origin]
+-- sub(sub(sub(add(p, d), mix(g, n)), mix(add(f, j), add(b, a))), sq(dbl(sub(k, o), mix(l, h)), cross(dbl(m, e), sq(c, i))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- mix(add(add(cross(g, c), add(i, m)), cross(add(k, b), dbl(h, a))), sub(add(mul(e, p), sub(f, l)), sub(mix(d, o), add(j, n))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- mix(mix(add(add(c, l), sq(o, f)), cross(mix(g, b), sub(m, p))), sub(add(sub(e, n), sq(k, h)), mix(dbl(j, a), dbl(i, d))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- mix(cross(sq(sq(a, g), sq(e, b)), dbl(mix(m, f), mix(j, c))), sub(mix(sub(p, h), sub(l, d)), add(mix(n, i), sub(k, o))))
+
+-- 16D (10/16 vars) [zero-origin]
+-- sub(add(sub(sub(f, k), sq(b, m)), dbl(add(h, n), sq(d, a))), mix(add(add(l, c), sq(p, g)), dbl(sub(o, j), mix(i, e))))
+
+-- 16D (10/16 vars) [zero-origin]
+-- add(sub(add(mix(o, b), dbl(n, p)), sub(mix(a, k), dbl(e, j))), mix(mix(sq(i, g), mul(h, c)), add(sq(d, m), mix(f, l))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- sq(add(mix(mix(d, n), mix(f, l)), sub(sub(p, i), sub(c, e))), mix(mix(add(o, a), sq(g, b)), add(sub(m, h), mul(j, k))))
+
+-- 16D (8/16 vars) [zero-origin]
+-- sub(mix(cross(dbl(l, d), add(b, n)), sub(mix(p, k), sub(a, e))), add(mix(sq(i, j), add(h, o)), add(sq(g, m), cross(f, c))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- mix(sub(dbl(add(d, h), dbl(i, g)), sq(add(m, e), cross(c, j))), sub(add(cross(a, o), add(b, l)), add(sub(k, n), dbl(f, p))))
+
+-- 16D (10/16 vars) [zero-origin, monotone]
+-- mix(add(add(mix(d, j), cross(a, i)), mix(add(e, p), dbl(b, k))), add(sq(sq(l, g), sq(c, m)), mix(add(f, h), add(o, n))))
+
+-- 16D (9/16 vars) [zero-origin]
+-- add(sub(sub(sq(m, h), cross(b, l)), add(sq(n, f), add(j, c))), add(add(dbl(p, i), sub(e, g)), add(mix(k, d), cross(a, o))))
+

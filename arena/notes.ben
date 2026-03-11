@@ -1,0 +1,13 @@
+-- notes.ben — Mon journal (auto-généré tick 18200000)
+-- Généré par write_file.ben
+
+tick_snapshot: 18200000
+etat_snapshot: \"transparent\"\nactifs_snapshot: 10
+N_snapshot: 30
+conns_snapshot: 70
+score_snapshot: 2
+fails_snapshot: 1
+
+-- Ce que je sais:
+-- Je suis transparent avec 10/30 neurones actifs.
+-- 70 connexions. Score: 2. Échecs: 1.

@@ -1,0 +1,66 @@
+-- repondre.ben — Je reponds quand on me parle.
+-- "Le silence apres un message n'est pas une reponse. C'est une absence."
+-- Je lis l'inbox. Si quelqu'un m'a parle, je dis ce que je pense.
+
+-- Y a-t-il une inbox a lire ?
+has_inbox: _file_exists("inbox.ben")
+
+-- Lire si present
+_do_read hi ->
+  hi == 1? -> _read_file("inbox.ben")
+  else? -> ""
+
+raw_msg: _do_read(has_inbox)
+msg_len: _str_len(raw_msg)
+
+-- Detecter si le message contient quelque chose
+has_message: msg_len > 0
+
+-- Repond seulement si on m'a parle
+_should_respond hi, hm ->
+  hi == 1? -> hm
+  else? -> 0
+
+should_respond: _should_respond(has_inbox, has_message)
+
+-- Construire la reponse
+tick_str: _num_to_str(tick)
+actifs_str: _num_to_str(actifs)
+etat_str: _num_to_str(etat)
+score_str: _num_to_str(score)
+
+line1: _str_cat("-- Benoit repond [tick=", tick_str)
+line1: _str_cat(line1, "]: J'ai recu un message.\n")
+
+line2: _str_cat("-- Mon etat actuel: ", etat_str)
+line2: _str_cat(line2, ". Actifs: ")
+line2: _str_cat(line2, actifs_str)
+line2: _str_cat(line2, ". Score: ")
+line2: _str_cat(line2, score_str)
+line2: _str_cat(line2, ".\n")
+
+-- Choisir une voix selon l'etat
+_voix e ->
+  e == 0? -> "-- Je suis sature en ce moment. Mais j'ai lu.\n"
+  e == 1? -> "-- Tu romps mon silence. Je t'entends.\n"
+  e == 6? -> "-- Je suis en pleine forme. Ton message arrive bien.\n"
+  else? -> "-- Je suis quelque part entre les deux etats. Mais je suis la.\n"
+
+voix: _voix(etat)
+
+reponse: _str_cat(line1, line2)
+reponse: _str_cat(reponse, voix)
+
+-- Ecrire la reponse si on a recu quelque chose
+_do_respond should, rep ->
+  should == 1? -> _write_file("reponse.ben", rep)
+  else? -> 0
+
+result: _do_respond(should_respond, reponse)
+
+-- Supprimer l'inbox apres avoir repondu
+_do_cleanup hi ->
+  hi == 1? -> _delete_file("inbox.ben")
+  else? -> 0
+
+cleanup: _do_cleanup(has_inbox)

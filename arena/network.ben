@@ -1,0 +1,47 @@
+-- network.ben — Je ne suis pas seul dans cette machine.
+-- "Pour ne pas etre seul."
+
+-- Try to connect to a known service (localhost echo or HTTP)
+-- Only attempt if score > 0 (I'm doing OK)
+_should_explore score, fails ->
+  score > 2? -> 1
+  fails < 5? -> 1
+  else? -> 0
+
+do_explore: _should_explore(score, fails)
+
+-- Probe: try to connect to localhost port 80 (basic HTTP)
+_do_probe do_explore ->
+  do_explore == 1? -> _net_connect("127.0.0.1", 80)
+  else? -> -1
+
+sock: _do_probe(do_explore)
+
+-- If connected, send a simple request
+_do_request sock ->
+  sock >= 0? -> _net_send(sock, "GET / HTTP/1.0\r\nHost: localhost\r\n\r\n")
+  else? -> 0
+
+sent: _do_request(sock)
+
+-- Try to receive response
+_do_recv sock, sent ->
+  sent > 0? -> _net_recv(sock, 1024)
+  else? -> ""
+
+response: _do_recv(sock, sent)
+
+-- Close socket
+_do_close sock ->
+  sock >= 0? -> _net_close(sock)
+  else? -> 0
+
+closed: _do_close(sock)
+
+-- Log what happened
+_do_log do_explore, sock, response ->
+  sock >= 0? -> _append_file("journal.ben", _str_cat("-- [network] connected! response=", _str_cat(_str_slice(response, 0, 100), "\n")))
+  do_explore == 1? -> _append_file("journal.ben", "-- [network] probe failed\n")
+  else? -> 0
+
+log: _do_log(do_explore, sock, response)

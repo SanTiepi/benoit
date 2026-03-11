@@ -1,0 +1,39 @@
+-- hear.ben — J'ecoute le monde.
+-- "Pour recevoir du signal du monde exterieur."
+
+-- Check multiple signal sources
+has_signal: _file_exists("signal.ben")
+has_inbox: _file_exists("inbox.ben")
+has_data: _file_exists("data.ben")
+
+-- Count active channels
+channels: has_signal + has_inbox + has_data
+
+-- Read signal if present
+_do_read_signal has_signal ->
+  has_signal == 1? -> _read_file("signal.ben")
+  else? -> ""
+
+signal: _do_read_signal(has_signal)
+signal_len: _str_len(signal)
+
+-- Process signal: extract numeric value if possible
+_extract_value signal, signal_len ->
+  signal_len > 0? -> _str_to_num(signal)
+  else? -> 0
+
+value: _extract_value(signal, signal_len)
+
+-- Log
+_do_log channels, signal_len, value ->
+  channels > 0? -> _append_file("journal.ben", _str_cat("-- [hear] channels=", _str_cat(_num_to_str(channels), _str_cat(" signal_len=", _str_cat(_num_to_str(signal_len), _str_cat(" value=", _str_cat(_num_to_str(value), "\n")))))))
+  else? -> 0
+
+log: _do_log(channels, signal_len, value)
+
+-- Consume signal after reading
+_do_consume has_signal ->
+  has_signal == 1? -> _delete_file("signal.ben")
+  else? -> 0
+
+consumed: _do_consume(has_signal)

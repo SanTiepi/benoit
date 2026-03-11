@@ -1,0 +1,93 @@
+-- apply.ben — Comment j'agis sur mon réseau.
+-- "Décider ne suffit pas. Il faut que le signal change."
+--
+-- Topologie: zones denses connectées sélectivement
+--   0..4 = senseurs
+--   5..ZONE1 = traitement primaire
+--   ZONE1..ZONE2 = traitement secondaire
+--   ZONE2..INH_START = moteur/sortie
+--   INH_START..N = inhibition
+-- Connectivité locale: CONN_RANGE définit la portée
+
+-- ═══════ MON ÉTAT (déjà défini par decide.ben et grow.ben) ═══════
+-- decision, should_grow sont dans les VAR du bytecode
+
+-- ═══════ MODIFIER LES SEUILS ═══════
+each j in 0..N store seuil[j] ->
+  decision == 2? ->
+    fire[j] > 0? -> seuil[j] * 3 / 2
+    else? -> seuil[j]
+  decision == 3? ->
+    j < 5? -> seuil[j]
+    fire[j] == 0? ->
+      seuil[j] > 3? -> seuil[j] * 2 / 3
+      else? -> 1
+    else? -> seuil[j]
+  decision == 7? ->
+    should_grow > 0? ->
+      seuil[j] >= 100? -> 5
+      else? -> seuil[j]
+    else? -> seuil[j]
+  else? -> seuil[j]
+
+-- ═══════ MODIFIER LES POIDS ═══════
+-- Connectivité LOCALE: on ne connecte qu'aux neurones proches
+-- Sauf inhibition: les inhibiteurs connectent à tout le monde
+
+each i, j in 0..N store new_w[i, j] ->
+  i == j? -> 0
+  decision == 0? ->
+    new_w[i, j] == 0? -> 0
+    i < 5? -> new_w[i, j]
+    i >= INH_START? -> new_w[i, j]
+    else? -> new_w[i, j] + (i + j) % 5 - 2
+  decision == 1? ->
+    actifs < 20? ->
+      new_w[i, j] == 0? ->
+        j - i < CONN_RANGE? ->
+          i - j < CONN_RANGE? ->
+            i < 5? ->
+              (i + j) % 3 == 0? -> 3
+              else? -> 0
+            fire[i] > 0? ->
+              fire[j] == 0? ->
+                (i + j) % 5 == 0? -> 3
+                else? -> 0
+              else? -> 0
+            else? -> 0
+          else? -> 0
+        else? -> 0
+      else? -> new_w[i, j]
+    else? -> new_w[i, j]
+  decision == 4? ->
+    new_w[i, j] == 0? -> 0
+    new_w[i, j] > -3? ->
+      new_w[i, j] < 3? -> 0
+      else? -> new_w[i, j]
+    else? -> new_w[i, j]
+  decision == 5? ->
+    i < INH_START? -> new_w[i, j]
+    new_w[i, j] >= 0? -> new_w[i, j]
+    else? -> new_w[i, j] / 2
+  decision == 6? ->
+    i < INH_START? -> new_w[i, j]
+    new_w[i, j] < 0? -> new_w[i, j] + new_w[i, j] / 2
+    new_w[i, j] == 0? ->
+      j < INH_START? ->
+        (i + j) % 3 == 0? -> -2
+        else? -> 0
+      else? -> 0
+    else? -> new_w[i, j]
+  decision == 7? ->
+    should_grow > 0? ->
+      seuil[i] == 5? ->
+        new_w[i, j] == 0? ->
+          j - i < CONN_RANGE? -> 3
+          else? -> 0
+        else? -> new_w[i, j]
+      else? -> new_w[i, j]
+    else? -> new_w[i, j]
+  else? -> new_w[i, j]
+
+-- "Je ne subis pas mes poids. Je les sculpte.
+--  Et maintenant je choisis OÙ je connecte."

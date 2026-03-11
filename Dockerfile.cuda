@@ -1,0 +1,24 @@
+# Benoît V2 — CUDA build
+# Usage:
+#   docker build -f Dockerfile.cuda -t benoit-cuda .
+#   docker run --gpus all -p 3742:3742 -v /mnt/data/benoit:/data benoit-cuda
+
+FROM nvidia/cuda:12.3.0-devel-ubuntu22.04
+
+RUN apt-get update && apt-get install -y gcc make && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /benoit
+
+COPY pulse.c vm.c compiler.c vm_cuda.cu vm_cuda.h Makefile ./
+COPY arena/ ./arena/
+
+RUN make cuda-linux
+
+# Brain file monté depuis volume persistant
+ENV BRAIN_PATH=/data/brain.bin
+ENV SAVE_PATH=/data/brain.bin
+ENV ARENA_PATH=/benoit/arena
+
+EXPOSE 3742
+
+CMD ["sh", "-c", "./pulse_cuda $BRAIN_PATH $SAVE_PATH $ARENA_PATH"]

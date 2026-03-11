@@ -1,0 +1,7399 @@
+-- Lois découvertes par Benoît
+-- Exploration libre v2 — zéro biais
+-- 435 séquences uniques trouvées
+
+-- Loi #1 (gen 6, score 0.844)
+-- Séquence: [-1, 2, 3, 8, 15, 24, 35, 48, 63, 80]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 + n * n - 1
+
+f(0) is -1
+f(1) is 2
+f(2) is 3
+f(3) is 8
+f(4) is 15
+f(5) is 24
+f(6) is 35
+f(7) is 48
+f(8) is 63
+f(9) is 80
+
+-- Loi #2 (gen 39, score 0.844)
+-- Séquence: [0, 1, 10, 21, 36, 55, 78, 105, 136, 171]
+memo f n ->
+  n == 1? -> 1
+  else? -> n + n * 2 * n
+
+f(0) is 0
+f(1) is 1
+f(2) is 10
+f(3) is 21
+f(4) is 36
+f(5) is 55
+f(6) is 78
+f(7) is 105
+f(8) is 136
+f(9) is 171
+
+-- Loi #3 (gen 40, score 0.844)
+-- Séquence: [3, 2, -5, -15, -29, -47, -69, -95, -125, -159]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 + 1 - n * 2 * n
+
+f(0) is 3
+f(1) is 2
+f(2) is -5
+f(3) is -15
+f(4) is -29
+f(5) is -47
+f(6) is -69
+f(7) is -95
+f(8) is -125
+f(9) is -159
+
+-- Loi #4 (gen 68, score 0.844)
+-- Séquence: [1, 0, 3, 7, 13, 21, 31, 43, 57, 73]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1 + n * 1 * n - n
+
+f(0) is 1
+f(1) is 0
+f(2) is 3
+f(3) is 7
+f(4) is 13
+f(5) is 21
+f(6) is 31
+f(7) is 43
+f(8) is 57
+f(9) is 73
+
+-- Loi #5 (gen 76, score 0.844)
+-- Séquence: [1, 2, -5, -11, -19, -29, -41, -55, -71, -89]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 - n * n + 1 - n - 0 + 0
+
+f(0) is 1
+f(1) is 2
+f(2) is -5
+f(3) is -11
+f(4) is -19
+f(5) is -29
+f(6) is -41
+f(7) is -55
+f(8) is -71
+f(9) is -89
+
+-- Loi #6 (gen 93, score 0.844)
+-- Séquence: [0, 1, -6, -12, -20, -30, -42, -56, -72, -90]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 - n * n + 0 - n - 2
+
+f(0) is 0
+f(1) is 1
+f(2) is -6
+f(3) is -12
+f(4) is -20
+f(5) is -30
+f(6) is -42
+f(7) is -56
+f(8) is -72
+f(9) is -90
+
+-- Loi #7 (gen 121, score 0.844)
+-- Séquence: [3, 0, 9, 15, 23, 33, 45, 59, 75, 93]
+memo f n ->
+  n == 1? -> 0
+  else? -> f(1) + n + 2 + 1 + n * n + 0
+
+f(0) is 3
+f(1) is 0
+f(2) is 9
+f(3) is 15
+f(4) is 23
+f(5) is 33
+f(6) is 45
+f(7) is 59
+f(8) is 75
+f(9) is 93
+
+-- Loi #8 (gen 149, score 0.844)
+-- Séquence: [5, 2, 7, 11, 17, 25, 35, 47, 61, 77]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 * 2 - n + 1 + n * n * 1
+
+f(0) is 5
+f(1) is 2
+f(2) is 7
+f(3) is 11
+f(4) is 17
+f(5) is 25
+f(6) is 35
+f(7) is 47
+f(8) is 61
+f(9) is 77
+
+-- Loi #9 (gen 190, score 0.844)
+-- Séquence: [2, 0, 6, 11, 18, 27, 38, 51, 66, 83]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1 + n * n + 1 + 0
+
+f(0) is 2
+f(1) is 0
+f(2) is 6
+f(3) is 11
+f(4) is 18
+f(5) is 27
+f(6) is 38
+f(7) is 51
+f(8) is 66
+f(9) is 83
+
+-- Loi #10 (gen 194, score 0.844)
+-- Séquence: [0, 1, 6, 12, 20, 30, 42, 56, 72, 90]
+memo f n ->
+  n == 1? -> 1
+  else? -> n * n + n
+
+f(0) is 0
+f(1) is 1
+f(2) is 6
+f(3) is 12
+f(4) is 20
+f(5) is 30
+f(6) is 42
+f(7) is 56
+f(8) is 72
+f(9) is 90
+
+-- Loi #11 (gen 197, score 0.844)
+-- Séquence: [-1, 2, 7, 17, 31, 49, 71, 97, 127, 161]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 + 0 + n * n * 2 - n - 1 + n
+
+f(0) is -1
+f(1) is 2
+f(2) is 7
+f(3) is 17
+f(4) is 31
+f(5) is 49
+f(6) is 71
+f(7) is 97
+f(8) is 127
+f(9) is 161
+
+-- Loi #12 (gen 203, score 0.844)
+-- Séquence: [5, 2, -3, -13, -27, -45, -67, -93, -123, -157]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 - 2 * n * n + 2 * 2
+
+f(0) is 5
+f(1) is 2
+f(2) is -3
+f(3) is -13
+f(4) is -27
+f(5) is -45
+f(6) is -67
+f(7) is -93
+f(8) is -123
+f(9) is -157
+
+-- Loi #13 (gen 227, score 0.844)
+-- Séquence: [-2, 1, 14, 34, 62, 98, 142, 194, 254, 322]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 * 2 * n * n - 2
+
+f(0) is -2
+f(1) is 1
+f(2) is 14
+f(3) is 34
+f(4) is 62
+f(5) is 98
+f(6) is 142
+f(7) is 194
+f(8) is 254
+f(9) is 322
+
+-- Loi #14 (gen 314, score 0.844)
+-- Séquence: [3, 0, -1, -6, -13, -22, -33, -46, -61, -78]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1 - n * n + 2
+
+f(0) is 3
+f(1) is 0
+f(2) is -1
+f(3) is -6
+f(4) is -13
+f(5) is -22
+f(6) is -33
+f(7) is -46
+f(8) is -61
+f(9) is -78
+
+-- Loi #15 (gen 358, score 0.844)
+-- Séquence: [1, 2, 7, 13, 21, 31, 43, 57, 73, 91]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + 1 + n * n
+
+f(0) is 1
+f(1) is 2
+f(2) is 7
+f(3) is 13
+f(4) is 21
+f(5) is 31
+f(6) is 43
+f(7) is 57
+f(8) is 73
+f(9) is 91
+
+-- Loi #16 (gen 374, score 0.844)
+-- Séquence: [-3, 2, 3, 9, 17, 27, 39, 53, 69, 87]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * n - f(1) + n - 1
+
+f(0) is -3
+f(1) is 2
+f(2) is 3
+f(3) is 9
+f(4) is 17
+f(5) is 27
+f(6) is 39
+f(7) is 53
+f(8) is 69
+f(9) is 87
+
+-- Loi #17 (gen 480, score 0.844)
+-- Séquence: [2, 1, 10, 20, 34, 52, 74, 100, 130, 164]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 - 0 + n * 2 * n
+
+f(0) is 2
+f(1) is 1
+f(2) is 10
+f(3) is 20
+f(4) is 34
+f(5) is 52
+f(6) is 74
+f(7) is 100
+f(8) is 130
+f(9) is 164
+
+-- Loi #18 (gen 483, score 0.844)
+-- Séquence: [4, 0, 8, 13, 20, 29, 40, 53, 68, 85]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 * 2 + n * n + 0
+
+f(0) is 4
+f(1) is 0
+f(2) is 8
+f(3) is 13
+f(4) is 20
+f(5) is 29
+f(6) is 40
+f(7) is 53
+f(8) is 68
+f(9) is 85
+
+-- Loi #19 (gen 2, score 0.813)
+-- Séquence: [1, 0, 3, 8, 15, 24, 35, 48, 63, 80]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 + n * n - 1
+
+f(0) is 1
+f(1) is 0
+f(2) is 3
+f(3) is 8
+f(4) is 15
+f(5) is 24
+f(6) is 35
+f(7) is 48
+f(8) is 63
+f(9) is 80
+
+-- Loi #20 (gen 8, score 0.813)
+-- Séquence: [2, 0, 3, 8, 15, 24, 35, 48, 63, 80]
+memo f n ->
+  n == 0? -> 2
+  else? -> 0 + n * n - 1
+
+f(0) is 2
+f(1) is 0
+f(2) is 3
+f(3) is 8
+f(4) is 15
+f(5) is 24
+f(6) is 35
+f(7) is 48
+f(8) is 63
+f(9) is 80
+
+-- Loi #21 (gen 26, score 0.813)
+-- Séquence: [1, -4, -8, -14, -22, -32, -44, -58, -74, -92]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 - n - 1 * n * n - 2
+
+f(0) is 1
+f(1) is -4
+f(2) is -8
+f(3) is -14
+f(4) is -22
+f(5) is -32
+f(6) is -44
+f(7) is -58
+f(8) is -74
+f(9) is -92
+
+-- Loi #22 (gen 75, score 0.813)
+-- Séquence: [0, -4, -10, -20, -34, -52, -74, -100, -130, -164]
+memo f n ->
+  n == 0? -> 0
+  else? -> 0 - 2 - 2 * n * n
+
+f(0) is 0
+f(1) is -4
+f(2) is -10
+f(3) is -20
+f(4) is -34
+f(5) is -52
+f(6) is -74
+f(7) is -100
+f(8) is -130
+f(9) is -164
+
+-- Loi #23 (gen 243, score 0.813)
+-- Séquence: [0, 2, -1, -6, -13, -22, -33, -46, -61, -78]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 + 1 - n * n + 0
+
+f(0) is 0
+f(1) is 2
+f(2) is -1
+f(3) is -6
+f(4) is -13
+f(5) is -22
+f(6) is -33
+f(7) is -46
+f(8) is -61
+f(9) is -78
+
+-- Loi #24 (gen 273, score 0.813)
+-- Séquence: [1, 2, 6, 12, 20, 30, 42, 56, 72, 90]
+memo f n ->
+  n == 0? -> 1
+  else? -> n + n * n * 1
+
+f(0) is 1
+f(1) is 2
+f(2) is 6
+f(3) is 12
+f(4) is 20
+f(5) is 30
+f(6) is 42
+f(7) is 56
+f(8) is 72
+f(9) is 90
+
+-- Loi #25 (gen 293, score 0.813)
+-- Séquence: [1, 4, 10, 18, 28, 40, 54, 70, 88, 108]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 + n * 2 + n * n + n
+
+f(0) is 1
+f(1) is 4
+f(2) is 10
+f(3) is 18
+f(4) is 28
+f(5) is 40
+f(6) is 54
+f(7) is 70
+f(8) is 88
+f(9) is 108
+
+-- Loi #26 (gen 306, score 0.813)
+-- Séquence: [0, 1, -2, -7, -14, -23, -34, -47, -62, -79]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 - n * n + 0
+
+f(0) is 0
+f(1) is 1
+f(2) is -2
+f(3) is -7
+f(4) is -14
+f(5) is -23
+f(6) is -34
+f(7) is -47
+f(8) is -62
+f(9) is -79
+
+-- Loi #27 (gen 339, score 0.813)
+-- Séquence: [1, 2, 8, 18, 32, 50, 72, 98, 128, 162]
+memo f n ->
+  n == 0? -> 1
+  else? -> n * n * 2 + 0
+
+f(0) is 1
+f(1) is 2
+f(2) is 8
+f(3) is 18
+f(4) is 32
+f(5) is 50
+f(6) is 72
+f(7) is 98
+f(8) is 128
+f(9) is 162
+
+-- Loi #28 (gen 357, score 0.813)
+-- Séquence: [0, 6, 9, 14, 21, 30, 41, 54, 69, 86]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 + n * 1 * n + 2 * 2
+
+f(0) is 0
+f(1) is 6
+f(2) is 9
+f(3) is 14
+f(4) is 21
+f(5) is 30
+f(6) is 41
+f(7) is 54
+f(8) is 69
+f(9) is 86
+
+-- Loi #29 (gen 412, score 0.813)
+-- Séquence: [1, 4, 8, 14, 22, 32, 44, 58, 74, 92]
+memo f n ->
+  n == 0? -> 1
+  else? -> n + n * n + 2 + 0 * f(0) * 0
+
+f(0) is 1
+f(1) is 4
+f(2) is 8
+f(3) is 14
+f(4) is 22
+f(5) is 32
+f(6) is 44
+f(7) is 58
+f(8) is 74
+f(9) is 92
+
+-- Loi #30 (gen 414, score 0.813)
+-- Séquence: [0, 1, 7, 17, 31, 49, 71, 97, 127, 161]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 * n * n - 1
+
+f(0) is 0
+f(1) is 1
+f(2) is 7
+f(3) is 17
+f(4) is 31
+f(5) is 49
+f(6) is 71
+f(7) is 97
+f(8) is 127
+f(9) is 161
+
+-- Loi #31 (gen 1, score 0.805)
+-- Séquence: [-1, 1, 3, 8, 15, 24, 35, 48, 63, 80]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 + n * n - 1
+
+f(0) is -1
+f(1) is 1
+f(2) is 3
+f(3) is 8
+f(4) is 15
+f(5) is 24
+f(6) is 35
+f(7) is 48
+f(8) is 63
+f(9) is 80
+
+-- Loi #32 (gen 43, score 0.805)
+-- Séquence: [0, 2, 4, 9, 16, 25, 36, 49, 64, 81]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * n
+
+f(0) is 0
+f(1) is 2
+f(2) is 4
+f(3) is 9
+f(4) is 16
+f(5) is 25
+f(6) is 36
+f(7) is 49
+f(8) is 64
+f(9) is 81
+
+-- Loi #33 (gen 80, score 0.805)
+-- Séquence: [0, 2, -6, -12, -20, -30, -42, -56, -72, -90]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 - n * n - n
+
+f(0) is 0
+f(1) is 2
+f(2) is -6
+f(3) is -12
+f(4) is -20
+f(5) is -30
+f(6) is -42
+f(7) is -56
+f(8) is -72
+f(9) is -90
+
+-- Loi #34 (gen 228, score 0.805)
+-- Séquence: [1, 2, -3, -8, -15, -24, -35, -48, -63, -80]
+memo f n ->
+  n == 1? -> 2
+  else? -> f(1) - f(1) + 1 - n * n
+
+f(0) is 1
+f(1) is 2
+f(2) is -3
+f(3) is -8
+f(4) is -15
+f(5) is -24
+f(6) is -35
+f(7) is -48
+f(8) is -63
+f(9) is -80
+
+-- Loi #35 (gen 267, score 0.805)
+-- Séquence: [0, 2, -2, -6, -12, -20, -30, -42, -56, -72]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 - n * n + n - n + n - 2
+
+f(0) is 0
+f(1) is 2
+f(2) is -2
+f(3) is -6
+f(4) is -12
+f(5) is -20
+f(6) is -30
+f(7) is -42
+f(8) is -56
+f(9) is -72
+
+-- Loi #36 (gen 308, score 0.805)
+-- Séquence: [-5, 2, -9, -14, -21, -30, -41, -54, -69, -86]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 - 1 * 2 - f(1) - n * n - f(1)
+
+f(0) is -5
+f(1) is 2
+f(2) is -9
+f(3) is -14
+f(4) is -21
+f(5) is -30
+f(6) is -41
+f(7) is -54
+f(8) is -69
+f(9) is -86
+
+-- Loi #37 (gen 333, score 0.805)
+-- Séquence: [-1, 0, -5, -10, -17, -26, -37, -50, -65, -82]
+memo f n ->
+  n == 1? -> 0
+  else? -> n - n - n * 1 * n - 1
+
+f(0) is -1
+f(1) is 0
+f(2) is -5
+f(3) is -10
+f(4) is -17
+f(5) is -26
+f(6) is -37
+f(7) is -50
+f(8) is -65
+f(9) is -82
+
+-- Loi #38 (gen 350, score 0.805)
+-- Séquence: [-1, 1, -3, -7, -13, -21, -31, -43, -57, -73]
+memo f n ->
+  n == 1? -> 1
+  else? -> n - n * n + 1 * 1 - 2
+
+f(0) is -1
+f(1) is 1
+f(2) is -3
+f(3) is -7
+f(4) is -13
+f(5) is -21
+f(6) is -31
+f(7) is -43
+f(8) is -57
+f(9) is -73
+
+-- Loi #39 (gen 436, score 0.805)
+-- Séquence: [2, 0, -2, -7, -14, -23, -34, -47, -62, -79]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 * 0 - n * n - f(1) + 2
+
+f(0) is 2
+f(1) is 0
+f(2) is -2
+f(3) is -7
+f(4) is -14
+f(5) is -23
+f(6) is -34
+f(7) is -47
+f(8) is -62
+f(9) is -79
+
+-- Loi #40 (gen 448, score 0.805)
+-- Séquence: [-1, 2, -5, -10, -17, -26, -37, -50, -65, -82]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 - n * n - 2
+
+f(0) is -1
+f(1) is 2
+f(2) is -5
+f(3) is -10
+f(4) is -17
+f(5) is -26
+f(6) is -37
+f(7) is -50
+f(8) is -65
+f(9) is -82
+
+-- Loi #41 (gen 1, score 0.804)
+-- Séquence: [0, 0, -4, -9, -16, -25, -36, -49, -64, -81]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1 * 0 - n * n + f(2 - 1)
+
+f(0) is 0
+f(1) is 0
+f(2) is -4
+f(3) is -9
+f(4) is -16
+f(5) is -25
+f(6) is -36
+f(7) is -49
+f(8) is -64
+f(9) is -81
+
+-- Loi #42 (gen 2, score 0.804)
+-- Séquence: [2, 2, -2, -7, -14, -23, -34, -47, -62, -79]
+memo f n ->
+  n < 2? -> 2
+  else? -> 1 * 0 - n * n + f(2 - 1)
+
+f(0) is 2
+f(1) is 2
+f(2) is -2
+f(3) is -7
+f(4) is -14
+f(5) is -23
+f(6) is -34
+f(7) is -47
+f(8) is -62
+f(9) is -79
+
+-- Loi #43 (gen 3, score 0.804)
+-- Séquence: [1, 1, -3, -8, -15, -24, -35, -48, -63, -80]
+memo f n ->
+  n == 1? -> 1
+  else? -> 1 * 0 - n * n + f(2 - 1)
+
+f(0) is 1
+f(1) is 1
+f(2) is -3
+f(3) is -8
+f(4) is -15
+f(5) is -24
+f(6) is -35
+f(7) is -48
+f(8) is -63
+f(9) is -80
+
+-- Loi #44 (gen 5, score 0.804)
+-- Séquence: [2, 2, 3, 8, 15, 24, 35, 48, 63, 80]
+memo f n ->
+  n < 2? -> 2
+  else? -> 0 + n * n - 1
+
+f(0) is 2
+f(1) is 2
+f(2) is 3
+f(3) is 8
+f(4) is 15
+f(5) is 24
+f(6) is 35
+f(7) is 48
+f(8) is 63
+f(9) is 80
+
+-- Loi #45 (gen 9, score 0.804)
+-- Séquence: [1, 1, 7, 12, 19, 28, 39, 52, 67, 84]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(f(f(0))) + 0 + 2 + n * n
+
+f(0) is 1
+f(1) is 1
+f(2) is 7
+f(3) is 12
+f(4) is 19
+f(5) is 28
+f(6) is 39
+f(7) is 52
+f(8) is 67
+f(9) is 84
+
+-- Loi #46 (gen 49, score 0.804)
+-- Séquence: [1, 1, 5, 10, 17, 26, 37, 50, 65, 82]
+memo f n ->
+  n == 1? -> 1
+  else? -> 1 * 1 + n * n + n - n
+
+f(0) is 1
+f(1) is 1
+f(2) is 5
+f(3) is 10
+f(4) is 17
+f(5) is 26
+f(6) is 37
+f(7) is 50
+f(8) is 65
+f(9) is 82
+
+-- Loi #47 (gen 52, score 0.804)
+-- Séquence: [0, 0, 6, 11, 18, 27, 38, 51, 66, 83]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 - 1 - f(f(0)) + 2 + n * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 6
+f(3) is 11
+f(4) is 18
+f(5) is 27
+f(6) is 38
+f(7) is 51
+f(8) is 66
+f(9) is 83
+
+-- Loi #48 (gen 88, score 0.804)
+-- Séquence: [2, 2, 6, 11, 18, 27, 38, 51, 66, 83]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * n + 0 + 2 - 1 * 0 + 0
+
+f(0) is 2
+f(1) is 2
+f(2) is 6
+f(3) is 11
+f(4) is 18
+f(5) is 27
+f(6) is 38
+f(7) is 51
+f(8) is 66
+f(9) is 83
+
+-- Loi #49 (gen 90, score 0.804)
+-- Séquence: [0, 0, 4, 9, 16, 25, 36, 49, 64, 81]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 * 0 * n + n * n + 0 * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 4
+f(3) is 9
+f(4) is 16
+f(5) is 25
+f(6) is 36
+f(7) is 49
+f(8) is 64
+f(9) is 81
+
+-- Loi #50 (gen 108, score 0.804)
+-- Séquence: [1, 1, -2, -6, -12, -20, -30, -42, -56, -72]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 - n * n - 2 - f(0) * 0 + f(0) * n
+
+f(0) is 1
+f(1) is 1
+f(2) is -2
+f(3) is -6
+f(4) is -12
+f(5) is -20
+f(6) is -30
+f(7) is -42
+f(8) is -56
+f(9) is -72
+
+-- Loi #51 (gen 113, score 0.804)
+-- Séquence: [1, 1, 9, 19, 33, 51, 73, 99, 129, 163]
+memo f n ->
+  n == 1? -> 1
+  else? -> n * 2 * n + 1
+
+f(0) is 1
+f(1) is 1
+f(2) is 9
+f(3) is 19
+f(4) is 33
+f(5) is 51
+f(6) is 73
+f(7) is 99
+f(8) is 129
+f(9) is 163
+
+-- Loi #52 (gen 158, score 0.804)
+-- Séquence: [1, 1, 6, 12, 20, 30, 42, 56, 72, 90]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(0) * n + n * n
+
+f(0) is 1
+f(1) is 1
+f(2) is 6
+f(3) is 12
+f(4) is 20
+f(5) is 30
+f(6) is 42
+f(7) is 56
+f(8) is 72
+f(9) is 90
+
+-- Loi #53 (gen 164, score 0.804)
+-- Séquence: [0, 2, 2, 6, 12, 20, 30, 42, 56, 72]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * n * 1 - 1 * n
+
+f(0) is 0
+f(1) is 2
+f(2) is 2
+f(3) is 6
+f(4) is 12
+f(5) is 20
+f(6) is 30
+f(7) is 42
+f(8) is 56
+f(9) is 72
+
+-- Loi #54 (gen 347, score 0.804)
+-- Séquence: [1, 1, 2, -3, -10, -19, -30, -43, -58, -75]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 + 2 + 1 - n * n + f(f(1))
+
+f(0) is 1
+f(1) is 1
+f(2) is 2
+f(3) is -3
+f(4) is -10
+f(5) is -19
+f(6) is -30
+f(7) is -43
+f(8) is -58
+f(9) is -75
+
+-- Loi #55 (gen 366, score 0.804)
+-- Séquence: [-2, 2, 2, 7, 14, 23, 34, 47, 62, 79]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + n * n - 2 - n
+
+f(0) is -2
+f(1) is 2
+f(2) is 2
+f(3) is 7
+f(4) is 14
+f(5) is 23
+f(6) is 34
+f(7) is 47
+f(8) is 62
+f(9) is 79
+
+-- Loi #56 (gen 368, score 0.804)
+-- Séquence: [0, 0, 8, 13, 20, 29, 40, 53, 68, 85]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 - 0 + 2 + f(f(1)) + n * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 8
+f(3) is 13
+f(4) is 20
+f(5) is 29
+f(6) is 40
+f(7) is 53
+f(8) is 68
+f(9) is 85
+
+-- Loi #57 (gen 372, score 0.804)
+-- Séquence: [1, 1, 8, 14, 22, 32, 44, 58, 74, 92]
+memo f n ->
+  n < 2? -> 1
+  else? -> n + 1 * n * n + 2 + 2 * 0
+
+f(0) is 1
+f(1) is 1
+f(2) is 8
+f(3) is 14
+f(4) is 22
+f(5) is 32
+f(6) is 44
+f(7) is 58
+f(8) is 74
+f(9) is 92
+
+-- Loi #58 (gen 396, score 0.804)
+-- Séquence: [-3, 1, 1, 6, 13, 22, 33, 46, 61, 78]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 + n * n - 2 - f(f(1))
+
+f(0) is -3
+f(1) is 1
+f(2) is 1
+f(3) is 6
+f(4) is 13
+f(5) is 22
+f(6) is 33
+f(7) is 46
+f(8) is 61
+f(9) is 78
+
+-- Loi #59 (gen 494, score 0.804)
+-- Séquence: [0, 0, -1, -6, -13, -22, -33, -46, -61, -78]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 + 1 - n * n
+
+f(0) is 0
+f(1) is 0
+f(2) is -1
+f(3) is -6
+f(4) is -13
+f(5) is -22
+f(6) is -33
+f(7) is -46
+f(8) is -61
+f(9) is -78
+
+-- Loi #60 (gen 5, score 0.781)
+-- Séquence: [-1, 0, 3, 8, 15, 24, 35, 48, 63, 80]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 + n * n - 1
+
+f(0) is -1
+f(1) is 0
+f(2) is 3
+f(3) is 8
+f(4) is 15
+f(5) is 24
+f(6) is 35
+f(7) is 48
+f(8) is 63
+f(9) is 80
+
+-- Loi #61 (gen 77, score 0.781)
+-- Séquence: [0, 2, 6, 12, 20, 30, 42, 56, 72, 90]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + 0 * n + 0 + n * n
+
+f(0) is 0
+f(1) is 2
+f(2) is 6
+f(3) is 12
+f(4) is 20
+f(5) is 30
+f(6) is 42
+f(7) is 56
+f(8) is 72
+f(9) is 90
+
+-- Loi #62 (gen 97, score 0.781)
+-- Séquence: [1, 3, 7, 13, 21, 31, 43, 57, 73, 91]
+memo f n ->
+  n == 0? -> 1
+  else? -> n + n * n + 2 - 1
+
+f(0) is 1
+f(1) is 3
+f(2) is 7
+f(3) is 13
+f(4) is 21
+f(5) is 31
+f(6) is 43
+f(7) is 57
+f(8) is 73
+f(9) is 91
+
+-- Loi #63 (gen 122, score 0.781)
+-- Séquence: [3, 1, -5, -15, -29, -47, -69, -95, -125, -159]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 * 0 * 0 + 2 - 2 * n * n + 1
+
+f(0) is 3
+f(1) is 1
+f(2) is -5
+f(3) is -15
+f(4) is -29
+f(5) is -47
+f(6) is -69
+f(7) is -95
+f(8) is -125
+f(9) is -159
+
+-- Loi #64 (gen 133, score 0.781)
+-- Séquence: [-1, 2, 7, 14, 23, 34, 47, 62, 79, 98]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 + n + n - 2 + n * n
+
+f(0) is -1
+f(1) is 2
+f(2) is 7
+f(3) is 14
+f(4) is 23
+f(5) is 34
+f(6) is 47
+f(7) is 62
+f(8) is 79
+f(9) is 98
+
+-- Loi #65 (gen 171, score 0.781)
+-- Séquence: [0, 2, 8, 18, 32, 50, 72, 98, 128, 162]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * n * 2
+
+f(0) is 0
+f(1) is 2
+f(2) is 8
+f(3) is 18
+f(4) is 32
+f(5) is 50
+f(6) is 72
+f(7) is 98
+f(8) is 128
+f(9) is 162
+
+-- Loi #66 (gen 319, score 0.781)
+-- Séquence: [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+memo f n ->
+  n == 1? -> 1
+  else? -> n * n
+
+f(0) is 0
+f(1) is 1
+f(2) is 4
+f(3) is 9
+f(4) is 16
+f(5) is 25
+f(6) is 36
+f(7) is 49
+f(8) is 64
+f(9) is 81
+
+-- Loi #67 (gen 356, score 0.781)
+-- Séquence: [1, 2, 5, 10, 17, 26, 37, 50, 65, 82]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 + n * n
+
+f(0) is 1
+f(1) is 2
+f(2) is 5
+f(3) is 10
+f(4) is 17
+f(5) is 26
+f(6) is 37
+f(7) is 50
+f(8) is 65
+f(9) is 82
+
+-- Loi #68 (gen 437, score 0.781)
+-- Séquence: [1, 3, 9, 19, 33, 51, 73, 99, 129, 163]
+memo f n ->
+  n == 0? -> 1
+  else? -> n * 2 * n - 2 * 1 * 0 + 1
+
+f(0) is 1
+f(1) is 3
+f(2) is 9
+f(3) is 19
+f(4) is 33
+f(5) is 51
+f(6) is 73
+f(7) is 99
+f(8) is 129
+f(9) is 163
+
+-- Loi #69 (gen 446, score 0.781)
+-- Séquence: [-1, 1, 5, 11, 19, 29, 41, 55, 71, 89]
+memo f n ->
+  n == 1? -> 1
+  else? -> 1 + n + n * n + 1 - 2 - 1
+
+f(0) is -1
+f(1) is 1
+f(2) is 5
+f(3) is 11
+f(4) is 19
+f(5) is 29
+f(6) is 41
+f(7) is 55
+f(8) is 71
+f(9) is 89
+
+-- Loi #70 (gen 496, score 0.781)
+-- Séquence: [-1, 2, 9, 20, 35, 54, 77, 104, 135, 170]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + n * 2 * n - 1 * 1 * 1
+
+f(0) is -1
+f(1) is 2
+f(2) is 9
+f(3) is 20
+f(4) is 35
+f(5) is 54
+f(6) is 77
+f(7) is 104
+f(8) is 135
+f(9) is 170
+
+-- Loi #71 (gen 4, score 0.772)
+-- Séquence: [1, 1, 3, 8, 15, 24, 35, 48, 63, 80]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 + n * n - 1
+
+f(0) is 1
+f(1) is 1
+f(2) is 3
+f(3) is 8
+f(4) is 15
+f(5) is 24
+f(6) is 35
+f(7) is 48
+f(8) is 63
+f(9) is 80
+
+-- Loi #72 (gen 6, score 0.772)
+-- Séquence: [0, 0, 3, 8, 15, 24, 35, 48, 63, 80]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 + n * n - 1
+
+f(0) is 0
+f(1) is 0
+f(2) is 3
+f(3) is 8
+f(4) is 15
+f(5) is 24
+f(6) is 35
+f(7) is 48
+f(8) is 63
+f(9) is 80
+
+-- Loi #73 (gen 40, score 0.772)
+-- Séquence: [1, 1, 4, 10, 18, 28, 40, 54, 70, 88]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 * 0 + n - 2 + n * n
+
+f(0) is 1
+f(1) is 1
+f(2) is 4
+f(3) is 10
+f(4) is 18
+f(5) is 28
+f(6) is 40
+f(7) is 54
+f(8) is 70
+f(9) is 88
+
+-- Loi #74 (gen 95, score 0.772)
+-- Séquence: [1, 1, 5, 11, 19, 29, 41, 55, 71, 89]
+memo f n ->
+  n < 2? -> 1
+  else? -> n * 1 * n - 0 - f(1) + n
+
+f(0) is 1
+f(1) is 1
+f(2) is 5
+f(3) is 11
+f(4) is 19
+f(5) is 29
+f(6) is 41
+f(7) is 55
+f(8) is 71
+f(9) is 89
+
+-- Loi #75 (gen 245, score 0.772)
+-- Séquence: [1, 1, -6, -16, -29, -45, -64, -86, -111, -139]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(n - f(0)) - n * 2 - n - f(0)
+
+f(0) is 1
+f(1) is 1
+f(2) is -6
+f(3) is -16
+f(4) is -29
+f(5) is -45
+f(6) is -64
+f(7) is -86
+f(8) is -111
+f(9) is -139
+
+-- Loi #76 (gen 382, score 0.772)
+-- Séquence: [1, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 * f(0) * n * n
+
+f(0) is 1
+f(1) is 1
+f(2) is 4
+f(3) is 9
+f(4) is 16
+f(5) is 25
+f(6) is 36
+f(7) is 49
+f(8) is 64
+f(9) is 81
+
+-- Loi #77 (gen 432, score 0.772)
+-- Séquence: [1, 1, -2, -7, -14, -23, -34, -47, -62, -79]
+memo f n ->
+  n == 0? -> 1
+  else? -> 2 + 2 - n * n - 2 * 1
+
+f(0) is 1
+f(1) is 1
+f(2) is -2
+f(3) is -7
+f(4) is -14
+f(5) is -23
+f(6) is -34
+f(7) is -47
+f(8) is -62
+f(9) is -79
+
+-- Loi #78 (gen 30, score 0.765)
+-- Séquence: [1, 1, 8, 15, 24, 35, 48, 63, 80, 99]
+memo f n ->
+  n < 2? -> 1
+  else? -> n + n * 1 + n * n
+
+f(0) is 1
+f(1) is 1
+f(2) is 8
+f(3) is 15
+f(4) is 24
+f(5) is 35
+f(6) is 48
+f(7) is 63
+f(8) is 80
+f(9) is 99
+
+-- Loi #79 (gen 100, score 0.765)
+-- Séquence: [1, 1, -9, -19, -33, -51, -73, -99, -129, -163]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 + f(f(f(1))) * 1 - n * n * 2 - 2
+
+f(0) is 1
+f(1) is 1
+f(2) is -9
+f(3) is -19
+f(4) is -33
+f(5) is -51
+f(6) is -73
+f(7) is -99
+f(8) is -129
+f(9) is -163
+
+-- Loi #80 (gen 192, score 0.765)
+-- Séquence: [1, 1, -5, -9, -15, -23, -33, -45, -59, -75]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(1) - n * n + n - 2 - f(1) * 2
+
+f(0) is 1
+f(1) is 1
+f(2) is -5
+f(3) is -9
+f(4) is -15
+f(5) is -23
+f(6) is -33
+f(7) is -45
+f(8) is -59
+f(9) is -75
+
+-- Loi #81 (gen 226, score 0.765)
+-- Séquence: [0, 0, 6, 12, 20, 30, 42, 56, 72, 90]
+memo f n ->
+  n < 2? -> 0
+  else? -> f(0) * 0 + 0 + n * n + 1 * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 6
+f(3) is 12
+f(4) is 20
+f(5) is 30
+f(6) is 42
+f(7) is 56
+f(8) is 72
+f(9) is 90
+
+-- Loi #82 (gen 250, score 0.765)
+-- Séquence: [2, 2, -4, -10, -18, -28, -40, -54, -70, -88]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 + 1 - n * n - n + 1 - f(1)
+
+f(0) is 2
+f(1) is 2
+f(2) is -4
+f(3) is -10
+f(4) is -18
+f(5) is -28
+f(6) is -40
+f(7) is -54
+f(8) is -70
+f(9) is -88
+
+-- Loi #83 (gen 329, score 0.765)
+-- Séquence: [0, 0, 5, 10, 17, 26, 37, 50, 65, 82]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 + 1 * 1 * n * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 5
+f(3) is 10
+f(4) is 17
+f(5) is 26
+f(6) is 37
+f(7) is 50
+f(8) is 65
+f(9) is 82
+
+-- Loi #84 (gen 400, score 0.765)
+-- Séquence: [1, 1, 6, 11, 18, 27, 38, 51, 66, 83]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 * 1 * 2 + n * n
+
+f(0) is 1
+f(1) is 1
+f(2) is 6
+f(3) is 11
+f(4) is 18
+f(5) is 27
+f(6) is 38
+f(7) is 51
+f(8) is 66
+f(9) is 83
+
+-- Loi #85 (gen 217, score 0.764)
+-- Séquence: [1, 1, -2, 1, 6, 13, 22, 33, 46, 61]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 + n * n - n - 0 - n - 2
+
+f(0) is 1
+f(1) is 1
+f(2) is -2
+f(3) is 1
+f(4) is 6
+f(5) is 13
+f(6) is 22
+f(7) is 33
+f(8) is 46
+f(9) is 61
+
+-- Loi #86 (gen 305, score 0.764)
+-- Séquence: [2, 2, 6, 5, 2, -3, -10, -19, -30, -43]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + 2 + 0 - n * n + n * 2 + n
+
+f(0) is 2
+f(1) is 2
+f(2) is 6
+f(3) is 5
+f(4) is 2
+f(5) is -3
+f(6) is -10
+f(7) is -19
+f(8) is -30
+f(9) is -43
+
+-- Loi #87 (gen 2, score 0.741)
+-- Séquence: [1, 1, 3, 7, 13, 21, 31, 43, 57, 73]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(0) - n + n * n
+
+f(0) is 1
+f(1) is 1
+f(2) is 3
+f(3) is 7
+f(4) is 13
+f(5) is 21
+f(6) is 31
+f(7) is 43
+f(8) is 57
+f(9) is 73
+
+-- Loi #88 (gen 4, score 0.741)
+-- Séquence: [0, 0, 2, 6, 12, 20, 30, 42, 56, 72]
+memo f n ->
+  n < 2? -> 0
+  else? -> f(0) - n + n * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 2
+f(3) is 6
+f(4) is 12
+f(5) is 20
+f(6) is 30
+f(7) is 42
+f(8) is 56
+f(9) is 72
+
+-- Loi #89 (gen 4, score 0.741)
+-- Séquence: [2, 2, 4, 8, 14, 22, 32, 44, 58, 74]
+memo f n ->
+  n < 2? -> 2
+  else? -> f(0) - n + n * n
+
+f(0) is 2
+f(1) is 2
+f(2) is 4
+f(3) is 8
+f(4) is 14
+f(5) is 22
+f(6) is 32
+f(7) is 44
+f(8) is 58
+f(9) is 74
+
+-- Loi #90 (gen 232, score 0.741)
+-- Séquence: [1, 2, 1, -2, -7, -14, -23, -34, -47, -62]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 + 1 + n + n * 1 - n * n
+
+f(0) is 1
+f(1) is 2
+f(2) is 1
+f(3) is -2
+f(4) is -7
+f(5) is -14
+f(6) is -23
+f(7) is -34
+f(8) is -47
+f(9) is -62
+
+-- Loi #91 (gen 353, score 0.741)
+-- Séquence: [0, 1, 0, -3, -8, -15, -24, -35, -48, -63]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 * n - n * n + 1 - 2 + 1 - 0
+
+f(0) is 0
+f(1) is 1
+f(2) is 0
+f(3) is -3
+f(4) is -8
+f(5) is -15
+f(6) is -24
+f(7) is -35
+f(8) is -48
+f(9) is -63
+
+-- Loi #92 (gen 275, score 0.725)
+-- Séquence: [0, 0, 0, -3, -8, -15, -24, -35, -48, -63]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 - n * n + 2 * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 0
+f(3) is -3
+f(4) is -8
+f(5) is -15
+f(6) is -24
+f(7) is -35
+f(8) is -48
+f(9) is -63
+
+-- Loi #93 (gen 279, score 0.725)
+-- Séquence: [-2, 2, -4, -2, 2, 8, 16, 26, 38, 52]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * 1 * n - n * 2 - n - 2
+
+f(0) is -2
+f(1) is 2
+f(2) is -4
+f(3) is -2
+f(4) is 2
+f(5) is 8
+f(6) is 16
+f(7) is 26
+f(8) is 38
+f(9) is 52
+
+-- Loi #94 (gen 310, score 0.725)
+-- Séquence: [0, 0, 0, -5, -12, -21, -32, -45, -60, -77]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 + 1 - n * n * 1 + 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 0
+f(3) is -5
+f(4) is -12
+f(5) is -21
+f(6) is -32
+f(7) is -45
+f(8) is -60
+f(9) is -77
+
+-- Loi #95 (gen 359, score 0.725)
+-- Séquence: [4, 1, 4, 1, -4, -11, -20, -31, -44, -59]
+memo f n ->
+  n == 1? -> 1
+  else? -> n + n + 0 - n * n + 2 + 2
+
+f(0) is 4
+f(1) is 1
+f(2) is 4
+f(3) is 1
+f(4) is -4
+f(5) is -11
+f(6) is -20
+f(7) is -31
+f(8) is -44
+f(9) is -59
+
+-- Loi #96 (gen 394, score 0.725)
+-- Séquence: [0, 0, 0, 5, 12, 21, 32, 45, 60, 77]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 - 2 * 2 + f(1) + n * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 0
+f(3) is 5
+f(4) is 12
+f(5) is 21
+f(6) is 32
+f(7) is 45
+f(8) is 60
+f(9) is 77
+
+-- Loi #97 (gen 234, score 0.701)
+-- Séquence: [0, -1, -1, 0, 2, 5, 9, 14, 20, 27]
+memo f n ->
+  n == 0? -> 0
+  else? -> f(n - 1) + n - 0 - 2
+
+f(0) is 0
+f(1) is -1
+f(2) is -1
+f(3) is 0
+f(4) is 2
+f(5) is 5
+f(6) is 9
+f(7) is 14
+f(8) is 20
+f(9) is 27
+
+-- Loi #98 (gen 2, score 0.610)
+-- Séquence: [1, 0, 3, 4, 5, 6, 7, 8, 9, 10]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1 + 0 * 0 * n * f(1) + n * 1 * 1
+
+f(0) is 1
+f(1) is 0
+f(2) is 3
+f(3) is 4
+f(4) is 5
+f(5) is 6
+f(6) is 7
+f(7) is 8
+f(8) is 9
+f(9) is 10
+
+-- Loi #99 (gen 2, score 0.610)
+-- Séquence: [4, 0, 6, 7, 8, 9, 10, 11, 12, 13]
+memo f n ->
+  n == 1? -> 0
+  else? -> n + 1 * 0 + 2 + 2
+
+f(0) is 4
+f(1) is 0
+f(2) is 6
+f(3) is 7
+f(4) is 8
+f(5) is 9
+f(6) is 10
+f(7) is 11
+f(8) is 12
+f(9) is 13
+
+-- Loi #100 (gen 5, score 0.610)
+-- Séquence: [2, 1, 4, 5, 6, 7, 8, 9, 10, 11]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 - 0 + n + n - n
+
+f(0) is 2
+f(1) is 1
+f(2) is 4
+f(3) is 5
+f(4) is 6
+f(5) is 7
+f(6) is 8
+f(7) is 9
+f(8) is 10
+f(9) is 11
+
+-- Loi #101 (gen 9, score 0.610)
+-- Séquence: [0, 1, -2, -3, -4, -5, -6, -7, -8, -9]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 - 0 - 1 + 1 - n
+
+f(0) is 0
+f(1) is 1
+f(2) is -2
+f(3) is -3
+f(4) is -4
+f(5) is -5
+f(6) is -6
+f(7) is -7
+f(8) is -8
+f(9) is -9
+
+-- Loi #102 (gen 12, score 0.610)
+-- Séquence: [2, 0, 4, 5, 6, 7, 8, 9, 10, 11]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 - 0 * 1 + n - 2 + 2
+
+f(0) is 2
+f(1) is 0
+f(2) is 4
+f(3) is 5
+f(4) is 6
+f(5) is 7
+f(6) is 8
+f(7) is 9
+f(8) is 10
+f(9) is 11
+
+-- Loi #103 (gen 13, score 0.610)
+-- Séquence: [-1, 2, 3, 5, 7, 9, 11, 13, 15, 17]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 - 2 * 1 * 1 + n * 2 * 1
+
+f(0) is -1
+f(1) is 2
+f(2) is 3
+f(3) is 5
+f(4) is 7
+f(5) is 9
+f(6) is 11
+f(7) is 13
+f(8) is 15
+f(9) is 17
+
+-- Loi #104 (gen 28, score 0.610)
+-- Séquence: [-1, 2, -3, -4, -5, -6, -7, -8, -9, -10]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 + 0 - n - f(1) - 0
+
+f(0) is -1
+f(1) is 2
+f(2) is -3
+f(3) is -4
+f(4) is -5
+f(5) is -6
+f(6) is -7
+f(7) is -8
+f(8) is -9
+f(9) is -10
+
+-- Loi #105 (gen 30, score 0.610)
+-- Séquence: [1, 2, -3, -5, -7, -9, -11, -13, -15, -17]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 - n - 2 - n + 0 + 2
+
+f(0) is 1
+f(1) is 2
+f(2) is -3
+f(3) is -5
+f(4) is -7
+f(5) is -9
+f(6) is -11
+f(7) is -13
+f(8) is -15
+f(9) is -17
+
+-- Loi #106 (gen 31, score 0.610)
+-- Séquence: [2, 1, -6, -10, -14, -18, -22, -26, -30, -34]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 + 2 - n - n - 2 * n - 0 + 0
+
+f(0) is 2
+f(1) is 1
+f(2) is -6
+f(3) is -10
+f(4) is -14
+f(5) is -18
+f(6) is -22
+f(7) is -26
+f(8) is -30
+f(9) is -34
+
+-- Loi #107 (gen 33, score 0.610)
+-- Séquence: [3, 1, 5, 6, 7, 8, 9, 10, 11, 12]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 * 2 + n - 1 - 0
+
+f(0) is 3
+f(1) is 1
+f(2) is 5
+f(3) is 6
+f(4) is 7
+f(5) is 8
+f(6) is 9
+f(7) is 10
+f(8) is 11
+f(9) is 12
+
+-- Loi #108 (gen 37, score 0.610)
+-- Séquence: [1, 2, 5, 7, 9, 11, 13, 15, 17, 19]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 + n + n - 0
+
+f(0) is 1
+f(1) is 2
+f(2) is 5
+f(3) is 7
+f(4) is 9
+f(5) is 11
+f(6) is 13
+f(7) is 15
+f(8) is 17
+f(9) is 19
+
+-- Loi #109 (gen 41, score 0.610)
+-- Séquence: [0, 2, -2, -3, -4, -5, -6, -7, -8, -9]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 + 2 - 2 - n
+
+f(0) is 0
+f(1) is 2
+f(2) is -2
+f(3) is -3
+f(4) is -4
+f(5) is -5
+f(6) is -6
+f(7) is -7
+f(8) is -8
+f(9) is -9
+
+-- Loi #110 (gen 48, score 0.610)
+-- Séquence: [-1, 0, 3, 5, 7, 9, 11, 13, 15, 17]
+memo f n ->
+  n == 1? -> 0
+  else? -> n + 0 - 1 - f(1) + n
+
+f(0) is -1
+f(1) is 0
+f(2) is 3
+f(3) is 5
+f(4) is 7
+f(5) is 9
+f(6) is 11
+f(7) is 13
+f(8) is 15
+f(9) is 17
+
+-- Loi #111 (gen 54, score 0.610)
+-- Séquence: [3, 2, 5, 6, 7, 8, 9, 10, 11, 12]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 + 0 * f(1) * 0 + n + 1
+
+f(0) is 3
+f(1) is 2
+f(2) is 5
+f(3) is 6
+f(4) is 7
+f(5) is 8
+f(6) is 9
+f(7) is 10
+f(8) is 11
+f(9) is 12
+
+-- Loi #112 (gen 57, score 0.610)
+-- Séquence: [2, 0, -4, -7, -10, -13, -16, -19, -22, -25]
+memo f n ->
+  n == 1? -> 0
+  else? -> n + 2 - 2 * n * 2
+
+f(0) is 2
+f(1) is 0
+f(2) is -4
+f(3) is -7
+f(4) is -10
+f(5) is -13
+f(6) is -16
+f(7) is -19
+f(8) is -22
+f(9) is -25
+
+-- Loi #113 (gen 62, score 0.610)
+-- Séquence: [0, 2, -4, -6, -8, -10, -12, -14, -16, -18]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 * n * 0 - n * 2
+
+f(0) is 0
+f(1) is 2
+f(2) is -4
+f(3) is -6
+f(4) is -8
+f(5) is -10
+f(6) is -12
+f(7) is -14
+f(8) is -16
+f(9) is -18
+
+-- Loi #114 (gen 67, score 0.610)
+-- Séquence: [-3, 2, -5, -6, -7, -8, -9, -10, -11, -12]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 - 2 - n - 2
+
+f(0) is -3
+f(1) is 2
+f(2) is -5
+f(3) is -6
+f(4) is -7
+f(5) is -8
+f(6) is -9
+f(7) is -10
+f(8) is -11
+f(9) is -12
+
+-- Loi #115 (gen 69, score 0.610)
+-- Séquence: [0, 2, 8, 12, 16, 20, 24, 28, 32, 36]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * f(1) + n - 0 + n
+
+f(0) is 0
+f(1) is 2
+f(2) is 8
+f(3) is 12
+f(4) is 16
+f(5) is 20
+f(6) is 24
+f(7) is 28
+f(8) is 32
+f(9) is 36
+
+-- Loi #116 (gen 71, score 0.610)
+-- Séquence: [1, 2, -1, -2, -3, -4, -5, -6, -7, -8]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 - n - f(1) * 0 * n - 0
+
+f(0) is 1
+f(1) is 2
+f(2) is -1
+f(3) is -2
+f(4) is -3
+f(5) is -4
+f(6) is -5
+f(7) is -6
+f(8) is -7
+f(9) is -8
+
+-- Loi #117 (gen 73, score 0.610)
+-- Séquence: [-2, 2, -4, -5, -6, -7, -8, -9, -10, -11]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 * 1 - n - 2
+
+f(0) is -2
+f(1) is 2
+f(2) is -4
+f(3) is -5
+f(4) is -6
+f(5) is -7
+f(6) is -8
+f(7) is -9
+f(8) is -10
+f(9) is -11
+
+-- Loi #118 (gen 79, score 0.610)
+-- Séquence: [1, 2, 7, 10, 13, 16, 19, 22, 25, 28]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * 2 + f(1) + n - 2 + 1 + 0 * 0
+
+f(0) is 1
+f(1) is 2
+f(2) is 7
+f(3) is 10
+f(4) is 13
+f(5) is 16
+f(6) is 19
+f(7) is 22
+f(8) is 25
+f(9) is 28
+
+-- Loi #119 (gen 81, score 0.610)
+-- Séquence: [0, 1, 4, 6, 8, 10, 12, 14, 16, 18]
+memo f n ->
+  n == 1? -> 1
+  else? -> 1 * n + 1 * n
+
+f(0) is 0
+f(1) is 1
+f(2) is 4
+f(3) is 6
+f(4) is 8
+f(5) is 10
+f(6) is 12
+f(7) is 14
+f(8) is 16
+f(9) is 18
+
+-- Loi #120 (gen 100, score 0.610)
+-- Séquence: [4, 2, 8, 10, 12, 14, 16, 18, 20, 22]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + 1 + 1 + 2 - 0 + n
+
+f(0) is 4
+f(1) is 2
+f(2) is 8
+f(3) is 10
+f(4) is 12
+f(5) is 14
+f(6) is 16
+f(7) is 18
+f(8) is 20
+f(9) is 22
+
+-- Loi #121 (gen 108, score 0.610)
+-- Séquence: [6, 2, 12, 15, 18, 21, 24, 27, 30, 33]
+memo f n ->
+  n == 1? -> 2
+  else? -> f(1) + 1 + n + f(1) * n + f(1) + 1 * 1
+
+f(0) is 6
+f(1) is 2
+f(2) is 12
+f(3) is 15
+f(4) is 18
+f(5) is 21
+f(6) is 24
+f(7) is 27
+f(8) is 30
+f(9) is 33
+
+-- Loi #122 (gen 129, score 0.610)
+-- Séquence: [2, 1, 6, 8, 10, 12, 14, 16, 18, 20]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 - 2 + n * 2 + 2 + 2
+
+f(0) is 2
+f(1) is 1
+f(2) is 6
+f(3) is 8
+f(4) is 10
+f(5) is 12
+f(6) is 14
+f(7) is 16
+f(8) is 18
+f(9) is 20
+
+-- Loi #123 (gen 133, score 0.610)
+-- Séquence: [0, 2, 6, 9, 12, 15, 18, 21, 24, 27]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * 2 - 0 * 2 + n
+
+f(0) is 0
+f(1) is 2
+f(2) is 6
+f(3) is 9
+f(4) is 12
+f(5) is 15
+f(6) is 18
+f(7) is 21
+f(8) is 24
+f(9) is 27
+
+-- Loi #124 (gen 142, score 0.610)
+-- Séquence: [-2, 1, -4, -5, -6, -7, -8, -9, -10, -11]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 - n - 1 * 2
+
+f(0) is -2
+f(1) is 1
+f(2) is -4
+f(3) is -5
+f(4) is -6
+f(5) is -7
+f(6) is -8
+f(7) is -9
+f(8) is -10
+f(9) is -11
+
+-- Loi #125 (gen 148, score 0.610)
+-- Séquence: [4, 2, 6, 7, 8, 9, 10, 11, 12, 13]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 + 2 + n
+
+f(0) is 4
+f(1) is 2
+f(2) is 6
+f(3) is 7
+f(4) is 8
+f(5) is 9
+f(6) is 10
+f(7) is 11
+f(8) is 12
+f(9) is 13
+
+-- Loi #126 (gen 151, score 0.610)
+-- Séquence: [5, 2, 7, 8, 9, 10, 11, 12, 13, 14]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - 0 * 1 + 1 + 2 * 2
+
+f(0) is 5
+f(1) is 2
+f(2) is 7
+f(3) is 8
+f(4) is 9
+f(5) is 10
+f(6) is 11
+f(7) is 12
+f(8) is 13
+f(9) is 14
+
+-- Loi #127 (gen 168, score 0.610)
+-- Séquence: [3, 2, 7, 9, 11, 13, 15, 17, 19, 21]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 + 2 + n + n
+
+f(0) is 3
+f(1) is 2
+f(2) is 7
+f(3) is 9
+f(4) is 11
+f(5) is 13
+f(6) is 15
+f(7) is 17
+f(8) is 19
+f(9) is 21
+
+-- Loi #128 (gen 183, score 0.610)
+-- Séquence: [-2, 0, 4, 7, 10, 13, 16, 19, 22, 25]
+memo f n ->
+  n == 1? -> 0
+  else? -> n - 0 + n * n * 0 + n + n - 2
+
+f(0) is -2
+f(1) is 0
+f(2) is 4
+f(3) is 7
+f(4) is 10
+f(5) is 13
+f(6) is 16
+f(7) is 19
+f(8) is 22
+f(9) is 25
+
+-- Loi #129 (gen 186, score 0.610)
+-- Séquence: [1, 0, 5, 7, 9, 11, 13, 15, 17, 19]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1 + 2 * 1 * n
+
+f(0) is 1
+f(1) is 0
+f(2) is 5
+f(3) is 7
+f(4) is 9
+f(5) is 11
+f(6) is 13
+f(7) is 15
+f(8) is 17
+f(9) is 19
+
+-- Loi #130 (gen 190, score 0.610)
+-- Séquence: [4, 1, 6, 7, 8, 9, 10, 11, 12, 13]
+memo f n ->
+  n == 1? -> 1
+  else? -> n + 1 * 2 * 2
+
+f(0) is 4
+f(1) is 1
+f(2) is 6
+f(3) is 7
+f(4) is 8
+f(5) is 9
+f(6) is 10
+f(7) is 11
+f(8) is 12
+f(9) is 13
+
+-- Loi #131 (gen 193, score 0.610)
+-- Séquence: [-3, 0, -5, -6, -7, -8, -9, -10, -11, -12]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1 + 1 * 0 * 1 - n - 2 - 2
+
+f(0) is -3
+f(1) is 0
+f(2) is -5
+f(3) is -6
+f(4) is -7
+f(5) is -8
+f(6) is -9
+f(7) is -10
+f(8) is -11
+f(9) is -12
+
+-- Loi #132 (gen 205, score 0.610)
+-- Séquence: [-1, 0, -3, -4, -5, -6, -7, -8, -9, -10]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 - n - 1 + 0 + 0
+
+f(0) is -1
+f(1) is 0
+f(2) is -3
+f(3) is -4
+f(4) is -5
+f(5) is -6
+f(6) is -7
+f(7) is -8
+f(8) is -9
+f(9) is -10
+
+-- Loi #133 (gen 209, score 0.610)
+-- Séquence: [3, 0, 7, 9, 11, 13, 15, 17, 19, 21]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 + 2 - 1 - 0 + 2 * n
+
+f(0) is 3
+f(1) is 0
+f(2) is 7
+f(3) is 9
+f(4) is 11
+f(5) is 13
+f(6) is 15
+f(7) is 17
+f(8) is 19
+f(9) is 21
+
+-- Loi #134 (gen 214, score 0.610)
+-- Séquence: [0, 1, -4, -6, -8, -10, -12, -14, -16, -18]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 - n * f(f(1)) - 0 - n
+
+f(0) is 0
+f(1) is 1
+f(2) is -4
+f(3) is -6
+f(4) is -8
+f(5) is -10
+f(6) is -12
+f(7) is -14
+f(8) is -16
+f(9) is -18
+
+-- Loi #135 (gen 217, score 0.610)
+-- Séquence: [-2, 1, 2, 4, 6, 8, 10, 12, 14, 16]
+memo f n ->
+  n == 1? -> 1
+  else? -> n * 2 - 1 - f(1) + 0
+
+f(0) is -2
+f(1) is 1
+f(2) is 2
+f(3) is 4
+f(4) is 6
+f(5) is 8
+f(6) is 10
+f(7) is 12
+f(8) is 14
+f(9) is 16
+
+-- Loi #136 (gen 218, score 0.610)
+-- Séquence: [3, 2, -1, -3, -5, -7, -9, -11, -13, -15]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 - n + 1 + 1 + f(1) * 0 - n - 1
+
+f(0) is 3
+f(1) is 2
+f(2) is -1
+f(3) is -3
+f(4) is -5
+f(5) is -7
+f(6) is -9
+f(7) is -11
+f(8) is -13
+f(9) is -15
+
+-- Loi #137 (gen 224, score 0.610)
+-- Séquence: [-10, 2, -8, -7, -6, -5, -4, -3, -2, -1]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 - 2 * f(1) + n - 1 - 2 * 2 - 2
+
+f(0) is -10
+f(1) is 2
+f(2) is -8
+f(3) is -7
+f(4) is -6
+f(5) is -5
+f(6) is -4
+f(7) is -3
+f(8) is -2
+f(9) is -1
+
+-- Loi #138 (gen 239, score 0.610)
+-- Séquence: [0, 2, -6, -9, -12, -15, -18, -21, -24, -27]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 - 2 * n - 1 * n
+
+f(0) is 0
+f(1) is 2
+f(2) is -6
+f(3) is -9
+f(4) is -12
+f(5) is -15
+f(6) is -18
+f(7) is -21
+f(8) is -24
+f(9) is -27
+
+-- Loi #139 (gen 243, score 0.610)
+-- Séquence: [-1, 1, -3, -4, -5, -6, -7, -8, -9, -10]
+memo f n ->
+  n == 1? -> 1
+  else? -> 1 - 1 * 2 - n
+
+f(0) is -1
+f(1) is 1
+f(2) is -3
+f(3) is -4
+f(4) is -5
+f(5) is -6
+f(6) is -7
+f(7) is -8
+f(8) is -9
+f(9) is -10
+
+-- Loi #140 (gen 248, score 0.610)
+-- Séquence: [8, 0, 12, 14, 16, 18, 20, 22, 24, 26]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 * 2 * 2 + 2 * n
+
+f(0) is 8
+f(1) is 0
+f(2) is 12
+f(3) is 14
+f(4) is 16
+f(5) is 18
+f(6) is 20
+f(7) is 22
+f(8) is 24
+f(9) is 26
+
+-- Loi #141 (gen 250, score 0.610)
+-- Séquence: [3, 2, 11, 15, 19, 23, 27, 31, 35, 39]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 + n * 2 * f(1) + 1
+
+f(0) is 3
+f(1) is 2
+f(2) is 11
+f(3) is 15
+f(4) is 19
+f(5) is 23
+f(6) is 27
+f(7) is 31
+f(8) is 35
+f(9) is 39
+
+-- Loi #142 (gen 262, score 0.610)
+-- Séquence: [-9, 2, -5, -3, -1, 1, 3, 5, 7, 9]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * 2 * 1 - 2 * 2 * 2 - 1
+
+f(0) is -9
+f(1) is 2
+f(2) is -5
+f(3) is -3
+f(4) is -1
+f(5) is 1
+f(6) is 3
+f(7) is 5
+f(8) is 7
+f(9) is 9
+
+-- Loi #143 (gen 267, score 0.610)
+-- Séquence: [0, 1, 6, 9, 12, 15, 18, 21, 24, 27]
+memo f n ->
+  n == 1? -> 1
+  else? -> f(1) * n + 2 * n * 1 + 0 * 2
+
+f(0) is 0
+f(1) is 1
+f(2) is 6
+f(3) is 9
+f(4) is 12
+f(5) is 15
+f(6) is 18
+f(7) is 21
+f(8) is 24
+f(9) is 27
+
+-- Loi #144 (gen 269, score 0.610)
+-- Séquence: [5, 2, 11, 14, 17, 20, 23, 26, 29, 32]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + 0 + n + 1 + 2 * 1 * 2 + n
+
+f(0) is 5
+f(1) is 2
+f(2) is 11
+f(3) is 14
+f(4) is 17
+f(5) is 20
+f(6) is 23
+f(7) is 26
+f(8) is 29
+f(9) is 32
+
+-- Loi #145 (gen 274, score 0.610)
+-- Séquence: [5, 2, 9, 11, 13, 15, 17, 19, 21, 23]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 * 2 + 1 - 0 + 2 * n - 2 + 2
+
+f(0) is 5
+f(1) is 2
+f(2) is 9
+f(3) is 11
+f(4) is 13
+f(5) is 15
+f(6) is 17
+f(7) is 19
+f(8) is 21
+f(9) is 23
+
+-- Loi #146 (gen 289, score 0.610)
+-- Séquence: [0, 2, 16, 24, 32, 40, 48, 56, 64, 72]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 * n * f(1) * 2 - 0 - 0
+
+f(0) is 0
+f(1) is 2
+f(2) is 16
+f(3) is 24
+f(4) is 32
+f(5) is 40
+f(6) is 48
+f(7) is 56
+f(8) is 64
+f(9) is 72
+
+-- Loi #147 (gen 291, score 0.610)
+-- Séquence: [4, 1, 8, 10, 12, 14, 16, 18, 20, 22]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 * n + 2 + 1 * 2
+
+f(0) is 4
+f(1) is 1
+f(2) is 8
+f(3) is 10
+f(4) is 12
+f(5) is 14
+f(6) is 16
+f(7) is 18
+f(8) is 20
+f(9) is 22
+
+-- Loi #148 (gen 297, score 0.610)
+-- Séquence: [-1, 2, -5, -7, -9, -11, -13, -15, -17, -19]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 * 1 - n * 2 - 0 - 1 - 1
+
+f(0) is -1
+f(1) is 2
+f(2) is -5
+f(3) is -7
+f(4) is -9
+f(5) is -11
+f(6) is -13
+f(7) is -15
+f(8) is -17
+f(9) is -19
+
+-- Loi #149 (gen 322, score 0.610)
+-- Séquence: [6, 2, 8, 9, 10, 11, 12, 13, 14, 15]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + 2 * 2 + 2
+
+f(0) is 6
+f(1) is 2
+f(2) is 8
+f(3) is 9
+f(4) is 10
+f(5) is 11
+f(6) is 12
+f(7) is 13
+f(8) is 14
+f(9) is 15
+
+-- Loi #150 (gen 326, score 0.610)
+-- Séquence: [-2, 2, 4, 7, 10, 13, 16, 19, 22, 25]
+memo f n ->
+  n == 1? -> 2
+  else? -> f(1) * n - 2 + 1 * n
+
+f(0) is -2
+f(1) is 2
+f(2) is 4
+f(3) is 7
+f(4) is 10
+f(5) is 13
+f(6) is 16
+f(7) is 19
+f(8) is 22
+f(9) is 25
+
+-- Loi #151 (gen 327, score 0.610)
+-- Séquence: [-2, 2, -6, -8, -10, -12, -14, -16, -18, -20]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 - 1 * 2 * n - 2
+
+f(0) is -2
+f(1) is 2
+f(2) is -6
+f(3) is -8
+f(4) is -10
+f(5) is -12
+f(6) is -14
+f(7) is -16
+f(8) is -18
+f(9) is -20
+
+-- Loi #152 (gen 329, score 0.610)
+-- Séquence: [-3, 1, -9, -12, -15, -18, -21, -24, -27, -30]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 - n * 2 - 2 - 1 - n
+
+f(0) is -3
+f(1) is 1
+f(2) is -9
+f(3) is -12
+f(4) is -15
+f(5) is -18
+f(6) is -21
+f(7) is -24
+f(8) is -27
+f(9) is -30
+
+-- Loi #153 (gen 339, score 0.610)
+-- Séquence: [3, 0, 5, 6, 7, 8, 9, 10, 11, 12]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 + 0 + 1 * n - 0 * 0 + 1 + 0
+
+f(0) is 3
+f(1) is 0
+f(2) is 5
+f(3) is 6
+f(4) is 7
+f(5) is 8
+f(6) is 9
+f(7) is 10
+f(8) is 11
+f(9) is 12
+
+-- Loi #154 (gen 344, score 0.610)
+-- Séquence: [3, 1, 7, 9, 11, 13, 15, 17, 19, 21]
+memo f n ->
+  n == 1? -> 1
+  else? -> n + 2 + n + 1
+
+f(0) is 3
+f(1) is 1
+f(2) is 7
+f(3) is 9
+f(4) is 11
+f(5) is 13
+f(6) is 15
+f(7) is 17
+f(8) is 19
+f(9) is 21
+
+-- Loi #155 (gen 381, score 0.610)
+-- Séquence: [-3, 2, 3, 6, 9, 12, 15, 18, 21, 24]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + 0 + n * 1 * 2 - 1 - 2 + 0
+
+f(0) is -3
+f(1) is 2
+f(2) is 3
+f(3) is 6
+f(4) is 9
+f(5) is 12
+f(6) is 15
+f(7) is 18
+f(8) is 21
+f(9) is 24
+
+-- Loi #156 (gen 385, score 0.610)
+-- Séquence: [4, 0, 8, 10, 12, 14, 16, 18, 20, 22]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 * 0 * 0 + n + n + 2 * 2
+
+f(0) is 4
+f(1) is 0
+f(2) is 8
+f(3) is 10
+f(4) is 12
+f(5) is 14
+f(6) is 16
+f(7) is 18
+f(8) is 20
+f(9) is 22
+
+-- Loi #157 (gen 394, score 0.610)
+-- Séquence: [-4, 2, -6, -7, -8, -9, -10, -11, -12, -13]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - n - n - 2 * 1 - 1 - 1
+
+f(0) is -4
+f(1) is 2
+f(2) is -6
+f(3) is -7
+f(4) is -8
+f(5) is -9
+f(6) is -10
+f(7) is -11
+f(8) is -12
+f(9) is -13
+
+-- Loi #158 (gen 394, score 0.610)
+-- Séquence: [5, 1, 7, 8, 9, 10, 11, 12, 13, 14]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 + 2 + 2 * 0 * 1 + n + 1
+
+f(0) is 5
+f(1) is 1
+f(2) is 7
+f(3) is 8
+f(4) is 9
+f(5) is 10
+f(6) is 11
+f(7) is 12
+f(8) is 13
+f(9) is 14
+
+-- Loi #159 (gen 397, score 0.610)
+-- Séquence: [0, 1, -6, -9, -12, -15, -18, -21, -24, -27]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 - 0 - n - 2 * n
+
+f(0) is 0
+f(1) is 1
+f(2) is -6
+f(3) is -9
+f(4) is -12
+f(5) is -15
+f(6) is -18
+f(7) is -21
+f(8) is -24
+f(9) is -27
+
+-- Loi #160 (gen 397, score 0.610)
+-- Séquence: [7, 2, 11, 13, 15, 17, 19, 21, 23, 25]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 + n * 1 + n + 2 + 2 + 1
+
+f(0) is 7
+f(1) is 2
+f(2) is 11
+f(3) is 13
+f(4) is 15
+f(5) is 17
+f(6) is 19
+f(7) is 21
+f(8) is 23
+f(9) is 25
+
+-- Loi #161 (gen 404, score 0.610)
+-- Séquence: [6, 1, 8, 9, 10, 11, 12, 13, 14, 15]
+memo f n ->
+  n == 1? -> 1
+  else? -> n + 2 + 2 + 2
+
+f(0) is 6
+f(1) is 1
+f(2) is 8
+f(3) is 9
+f(4) is 10
+f(5) is 11
+f(6) is 12
+f(7) is 13
+f(8) is 14
+f(9) is 15
+
+-- Loi #162 (gen 431, score 0.610)
+-- Séquence: [2, 0, 6, 8, 10, 12, 14, 16, 18, 20]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 * n + 2
+
+f(0) is 2
+f(1) is 0
+f(2) is 6
+f(3) is 8
+f(4) is 10
+f(5) is 12
+f(6) is 14
+f(7) is 16
+f(8) is 18
+f(9) is 20
+
+-- Loi #163 (gen 437, score 0.610)
+-- Séquence: [1, 2, 9, 13, 17, 21, 25, 29, 33, 37]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 + 1 * n * 1 * 2 * f(1)
+
+f(0) is 1
+f(1) is 2
+f(2) is 9
+f(3) is 13
+f(4) is 17
+f(5) is 21
+f(6) is 25
+f(7) is 29
+f(8) is 33
+f(9) is 37
+
+-- Loi #164 (gen 462, score 0.610)
+-- Séquence: [-3, 1, 3, 6, 9, 12, 15, 18, 21, 24]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 + 1 * 1 * n + n * 2 - 1 - 2
+
+f(0) is -3
+f(1) is 1
+f(2) is 3
+f(3) is 6
+f(4) is 9
+f(5) is 12
+f(6) is 15
+f(7) is 18
+f(8) is 21
+f(9) is 24
+
+-- Loi #165 (gen 471, score 0.610)
+-- Séquence: [3, 1, 11, 15, 19, 23, 27, 31, 35, 39]
+memo f n ->
+  n == 1? -> 1
+  else? -> 1 + 2 - 0 + n * 2 * 2
+
+f(0) is 3
+f(1) is 1
+f(2) is 11
+f(3) is 15
+f(4) is 19
+f(5) is 23
+f(6) is 27
+f(7) is 31
+f(8) is 35
+f(9) is 39
+
+-- Loi #166 (gen 497, score 0.610)
+-- Séquence: [0, 1, 8, 12, 16, 20, 24, 28, 32, 36]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 * n * 2
+
+f(0) is 0
+f(1) is 1
+f(2) is 8
+f(3) is 12
+f(4) is 16
+f(5) is 20
+f(6) is 24
+f(7) is 28
+f(8) is 32
+f(9) is 36
+
+-- Loi #167 (gen 0, score 0.570)
+-- Séquence: [0, 0, 2, 3, 4, 5, 6, 7, 8, 9]
+memo f n ->
+  n == 1? -> 0
+  else? -> n + 0 - 0
+
+f(0) is 0
+f(1) is 0
+f(2) is 2
+f(3) is 3
+f(4) is 4
+f(5) is 5
+f(6) is 6
+f(7) is 7
+f(8) is 8
+f(9) is 9
+
+-- Loi #168 (gen 1, score 0.570)
+-- Séquence: [0, 0, 4, 6, 8, 10, 12, 14, 16, 18]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 4
+f(3) is 6
+f(4) is 8
+f(5) is 10
+f(6) is 12
+f(7) is 14
+f(8) is 16
+f(9) is 18
+
+-- Loi #169 (gen 1, score 0.570)
+-- Séquence: [1, 1, 5, 6, 7, 8, 9, 10, 11, 12]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 + n + 2 + 0 * 2 * n
+
+f(0) is 1
+f(1) is 1
+f(2) is 5
+f(3) is 6
+f(4) is 7
+f(5) is 8
+f(6) is 9
+f(7) is 10
+f(8) is 11
+f(9) is 12
+
+-- Loi #170 (gen 1, score 0.570)
+-- Séquence: [1, 1, 3, 4, 5, 6, 7, 8, 9, 10]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 + 0 * 0 * n * f(1) + n * 1 * 1
+
+f(0) is 1
+f(1) is 1
+f(2) is 3
+f(3) is 4
+f(4) is 5
+f(5) is 6
+f(6) is 7
+f(7) is 8
+f(8) is 9
+f(9) is 10
+
+-- Loi #171 (gen 2, score 0.570)
+-- Séquence: [0, 0, 1, -1, -3, -5, -7, -9, -11, -13]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 - n + 1 + 2 * 1 - n
+
+f(0) is 0
+f(1) is 0
+f(2) is 1
+f(3) is -1
+f(4) is -3
+f(5) is -5
+f(6) is -7
+f(7) is -9
+f(8) is -11
+f(9) is -13
+
+-- Loi #172 (gen 3, score 0.570)
+-- Séquence: [1, 1, 4, 6, 8, 10, 12, 14, 16, 18]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 * n
+
+f(0) is 1
+f(1) is 1
+f(2) is 4
+f(3) is 6
+f(4) is 8
+f(5) is 10
+f(6) is 12
+f(7) is 14
+f(8) is 16
+f(9) is 18
+
+-- Loi #173 (gen 3, score 0.570)
+-- Séquence: [0, 0, 3, 4, 5, 6, 7, 8, 9, 10]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 + 0 * 0 * n * f(1) + n * 1 * 1
+
+f(0) is 0
+f(1) is 0
+f(2) is 3
+f(3) is 4
+f(4) is 5
+f(5) is 6
+f(6) is 7
+f(7) is 8
+f(8) is 9
+f(9) is 10
+
+-- Loi #174 (gen 4, score 0.570)
+-- Séquence: [2, 2, 6, 7, 8, 9, 10, 11, 12, 13]
+memo f n ->
+  n < 2? -> 2
+  else? -> n + 1 * 0 + 2 + 2
+
+f(0) is 2
+f(1) is 2
+f(2) is 6
+f(3) is 7
+f(4) is 8
+f(5) is 9
+f(6) is 10
+f(7) is 11
+f(8) is 12
+f(9) is 13
+
+-- Loi #175 (gen 5, score 0.570)
+-- Séquence: [-1, 1, 1, 2, 3, 4, 5, 6, 7, 8]
+memo f n ->
+  n == 1? -> 1
+  else? -> n + 1 - 2 + 0
+
+f(0) is -1
+f(1) is 1
+f(2) is 1
+f(3) is 2
+f(4) is 3
+f(5) is 4
+f(6) is 5
+f(7) is 6
+f(8) is 7
+f(9) is 8
+
+-- Loi #176 (gen 7, score 0.570)
+-- Séquence: [2, 0, 0, -1, -2, -3, -4, -5, -6, -7]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 - n
+
+f(0) is 2
+f(1) is 0
+f(2) is 0
+f(3) is -1
+f(4) is -2
+f(5) is -3
+f(6) is -4
+f(7) is -5
+f(8) is -6
+f(9) is -7
+
+-- Loi #177 (gen 9, score 0.570)
+-- Séquence: [1, 1, 5, 7, 9, 11, 13, 15, 17, 19]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(f(1)) + n + n - 2 * 0
+
+f(0) is 1
+f(1) is 1
+f(2) is 5
+f(3) is 7
+f(4) is 9
+f(5) is 11
+f(6) is 13
+f(7) is 15
+f(8) is 17
+f(9) is 19
+
+-- Loi #178 (gen 10, score 0.570)
+-- Séquence: [4, 1, 2, 1, 0, -1, -2, -3, -4, -5]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 * 2 - n
+
+f(0) is 4
+f(1) is 1
+f(2) is 2
+f(3) is 1
+f(4) is 0
+f(5) is -1
+f(6) is -2
+f(7) is -3
+f(8) is -4
+f(9) is -5
+
+-- Loi #179 (gen 10, score 0.570)
+-- Séquence: [1, 1, 6, 8, 10, 12, 14, 16, 18, 20]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(2 - 2) * 2 * n + 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 6
+f(3) is 8
+f(4) is 10
+f(5) is 12
+f(6) is 14
+f(7) is 16
+f(8) is 18
+f(9) is 20
+
+-- Loi #180 (gen 11, score 0.570)
+-- Séquence: [3, 1, 1, 0, -1, -2, -3, -4, -5, -6]
+memo f n ->
+  n == 1? -> 1
+  else? -> 1 - n + 1 * 2
+
+f(0) is 3
+f(1) is 1
+f(2) is 1
+f(3) is 0
+f(4) is -1
+f(5) is -2
+f(6) is -3
+f(7) is -4
+f(8) is -5
+f(9) is -6
+
+-- Loi #181 (gen 11, score 0.570)
+-- Séquence: [1, 1, -3, -5, -7, -9, -11, -13, -15, -17]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(0) - n * 2 - 0
+
+f(0) is 1
+f(1) is 1
+f(2) is -3
+f(3) is -5
+f(4) is -7
+f(5) is -9
+f(6) is -11
+f(7) is -13
+f(8) is -15
+f(9) is -17
+
+-- Loi #182 (gen 12, score 0.570)
+-- Séquence: [0, 2, 2, 3, 4, 5, 6, 7, 8, 9]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - 0
+
+f(0) is 0
+f(1) is 2
+f(2) is 2
+f(3) is 3
+f(4) is 4
+f(5) is 5
+f(6) is 6
+f(7) is 7
+f(8) is 8
+f(9) is 9
+
+-- Loi #183 (gen 12, score 0.570)
+-- Séquence: [-4, 2, -2, -1, 0, 1, 2, 3, 4, 5]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - 2 - 2 - 0
+
+f(0) is -4
+f(1) is 2
+f(2) is -2
+f(3) is -1
+f(4) is 0
+f(5) is 1
+f(6) is 2
+f(7) is 3
+f(8) is 4
+f(9) is 5
+
+-- Loi #184 (gen 13, score 0.570)
+-- Séquence: [1, 1, -2, -3, -4, -5, -6, -7, -8, -9]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 - 1 * n - f(0) + 0 * n
+
+f(0) is 1
+f(1) is 1
+f(2) is -2
+f(3) is -3
+f(4) is -4
+f(5) is -5
+f(6) is -6
+f(7) is -7
+f(8) is -8
+f(9) is -9
+
+-- Loi #185 (gen 14, score 0.570)
+-- Séquence: [2, 2, 4, 5, 6, 7, 8, 9, 10, 11]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 + n + 0
+
+f(0) is 2
+f(1) is 2
+f(2) is 4
+f(3) is 5
+f(4) is 6
+f(5) is 7
+f(6) is 8
+f(7) is 9
+f(8) is 10
+f(9) is 11
+
+-- Loi #186 (gen 14, score 0.570)
+-- Séquence: [-3, 2, -1, 0, 1, 2, 3, 4, 5, 6]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - 1 * 1 + 1 - 2 - 1
+
+f(0) is -3
+f(1) is 2
+f(2) is -1
+f(3) is 0
+f(4) is 1
+f(5) is 2
+f(6) is 3
+f(7) is 4
+f(8) is 5
+f(9) is 6
+
+-- Loi #187 (gen 19, score 0.570)
+-- Séquence: [0, 0, -2, -3, -4, -5, -6, -7, -8, -9]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 - n + n * n * 0
+
+f(0) is 0
+f(1) is 0
+f(2) is -2
+f(3) is -3
+f(4) is -4
+f(5) is -5
+f(6) is -6
+f(7) is -7
+f(8) is -8
+f(9) is -9
+
+-- Loi #188 (gen 20, score 0.570)
+-- Séquence: [0, 0, 6, 8, 10, 12, 14, 16, 18, 20]
+memo f n ->
+  n < 2? -> 0
+  else? -> n + 2 + f(0) * 1 + n
+
+f(0) is 0
+f(1) is 0
+f(2) is 6
+f(3) is 8
+f(4) is 10
+f(5) is 12
+f(6) is 14
+f(7) is 16
+f(8) is 18
+f(9) is 20
+
+-- Loi #189 (gen 22, score 0.570)
+-- Séquence: [-5, 2, -3, -2, -1, 0, 1, 2, 3, 4]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 - 2 + 1 - 2 - 2 - 1 + n
+
+f(0) is -5
+f(1) is 2
+f(2) is -3
+f(3) is -2
+f(4) is -1
+f(5) is 0
+f(6) is 1
+f(7) is 2
+f(8) is 3
+f(9) is 4
+
+-- Loi #190 (gen 25, score 0.570)
+-- Séquence: [-2, 1, 0, 1, 2, 3, 4, 5, 6, 7]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 + 0 - 2 + n - 2
+
+f(0) is -2
+f(1) is 1
+f(2) is 0
+f(3) is 1
+f(4) is 2
+f(5) is 3
+f(6) is 4
+f(7) is 5
+f(8) is 6
+f(9) is 7
+
+-- Loi #191 (gen 25, score 0.570)
+-- Séquence: [2, 2, 0, -1, -2, -3, -4, -5, -6, -7]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 - n * f(1) + n - 0
+
+f(0) is 2
+f(1) is 2
+f(2) is 0
+f(3) is -1
+f(4) is -2
+f(5) is -3
+f(6) is -4
+f(7) is -5
+f(8) is -6
+f(9) is -7
+
+-- Loi #192 (gen 26, score 0.570)
+-- Séquence: [1, 1, -6, -10, -14, -18, -22, -26, -30, -34]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(0 * n) - 2 * n * 2 + f(0)
+
+f(0) is 1
+f(1) is 1
+f(2) is -6
+f(3) is -10
+f(4) is -14
+f(5) is -18
+f(6) is -22
+f(7) is -26
+f(8) is -30
+f(9) is -34
+
+-- Loi #193 (gen 30, score 0.570)
+-- Séquence: [0, 0, -6, -8, -10, -12, -14, -16, -18, -20]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 - n - 2 - 1 * n - 1 * 1
+
+f(0) is 0
+f(1) is 0
+f(2) is -6
+f(3) is -8
+f(4) is -10
+f(5) is -12
+f(6) is -14
+f(7) is -16
+f(8) is -18
+f(9) is -20
+
+-- Loi #194 (gen 31, score 0.570)
+-- Séquence: [0, 0, 7, 8, 9, 10, 11, 12, 13, 14]
+memo f n ->
+  n < 2? -> 0
+  else? -> f(f(f(0))) + 1 + 1 + 1 + n + 1 * 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 7
+f(3) is 8
+f(4) is 9
+f(5) is 10
+f(6) is 11
+f(7) is 12
+f(8) is 13
+f(9) is 14
+
+-- Loi #195 (gen 31, score 0.570)
+-- Séquence: [1, 1, 4, 5, 6, 7, 8, 9, 10, 11]
+memo f n ->
+  n < 2? -> 1
+  else? -> n + 1 * 1 + 1 * 1
+
+f(0) is 1
+f(1) is 1
+f(2) is 4
+f(3) is 5
+f(4) is 6
+f(5) is 7
+f(6) is 8
+f(7) is 9
+f(8) is 10
+f(9) is 11
+
+-- Loi #196 (gen 32, score 0.570)
+-- Séquence: [0, 0, 16, 24, 32, 40, 48, 56, 64, 72]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 * 2 * n * 2 * 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 16
+f(3) is 24
+f(4) is 32
+f(5) is 40
+f(6) is 48
+f(7) is 56
+f(8) is 64
+f(9) is 72
+
+-- Loi #197 (gen 32, score 0.570)
+-- Séquence: [-4, 2, 0, 2, 4, 6, 8, 10, 12, 14]
+memo f n ->
+  n == 1? -> 2
+  else? -> n + 1 * n - 2 + 0 * 2 - 2
+
+f(0) is -4
+f(1) is 2
+f(2) is 0
+f(3) is 2
+f(4) is 4
+f(5) is 6
+f(6) is 8
+f(7) is 10
+f(8) is 12
+f(9) is 14
+
+-- Loi #198 (gen 35, score 0.570)
+-- Séquence: [-1, 2, 1, 2, 3, 4, 5, 6, 7, 8]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - 1
+
+f(0) is -1
+f(1) is 2
+f(2) is 1
+f(3) is 2
+f(4) is 3
+f(5) is 4
+f(6) is 5
+f(7) is 6
+f(8) is 7
+f(9) is 8
+
+-- Loi #199 (gen 40, score 0.570)
+-- Séquence: [-2, 0, 0, 1, 2, 3, 4, 5, 6, 7]
+memo f n ->
+  n == 1? -> 0
+  else? -> n - 0 + 0 - 2 + f(1) * n * 2
+
+f(0) is -2
+f(1) is 0
+f(2) is 0
+f(3) is 1
+f(4) is 2
+f(5) is 3
+f(6) is 4
+f(7) is 5
+f(8) is 6
+f(9) is 7
+
+-- Loi #200 (gen 43, score 0.570)
+-- Séquence: [1, 1, -5, -8, -11, -14, -17, -20, -23, -26]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 - 2 * n * 2 + n + n * 0
+
+f(0) is 1
+f(1) is 1
+f(2) is -5
+f(3) is -8
+f(4) is -11
+f(5) is -14
+f(6) is -17
+f(7) is -20
+f(8) is -23
+f(9) is -26
+
+-- Loi #201 (gen 46, score 0.570)
+-- Séquence: [0, 0, 4, 5, 6, 7, 8, 9, 10, 11]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 * 2 + 2 * 0 * 0 + n
+
+f(0) is 0
+f(1) is 0
+f(2) is 4
+f(3) is 5
+f(4) is 6
+f(5) is 7
+f(6) is 8
+f(7) is 9
+f(8) is 10
+f(9) is 11
+
+-- Loi #202 (gen 52, score 0.570)
+-- Séquence: [0, 0, -4, -6, -8, -10, -12, -14, -16, -18]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 - n * 2
+
+f(0) is 0
+f(1) is 0
+f(2) is -4
+f(3) is -6
+f(4) is -8
+f(5) is -10
+f(6) is -12
+f(7) is -14
+f(8) is -16
+f(9) is -18
+
+-- Loi #203 (gen 53, score 0.570)
+-- Séquence: [2, 2, 10, 14, 18, 22, 26, 30, 34, 38]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 + 2 * n + 1 + 2 * n
+
+f(0) is 2
+f(1) is 2
+f(2) is 10
+f(3) is 14
+f(4) is 18
+f(5) is 22
+f(6) is 26
+f(7) is 30
+f(8) is 34
+f(9) is 38
+
+-- Loi #204 (gen 55, score 0.570)
+-- Séquence: [1, 1, -1, -2, -3, -4, -5, -6, -7, -8]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(f(1)) - n + f(1) + f(1) * 0 - 1
+
+f(0) is 1
+f(1) is 1
+f(2) is -1
+f(3) is -2
+f(4) is -3
+f(5) is -4
+f(6) is -5
+f(7) is -6
+f(8) is -7
+f(9) is -8
+
+-- Loi #205 (gen 56, score 0.570)
+-- Séquence: [-2, 2, 0, 1, 2, 3, 4, 5, 6, 7]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 + n - 2 + 1 - 2
+
+f(0) is -2
+f(1) is 2
+f(2) is 0
+f(3) is 1
+f(4) is 2
+f(5) is 3
+f(6) is 4
+f(7) is 5
+f(8) is 6
+f(9) is 7
+
+-- Loi #206 (gen 59, score 0.570)
+-- Séquence: [0, 0, 5, 7, 9, 11, 13, 15, 17, 19]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 + 1 - 2 * 1 * f(1) + 2 * 1 * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 5
+f(3) is 7
+f(4) is 9
+f(5) is 11
+f(6) is 13
+f(7) is 15
+f(8) is 17
+f(9) is 19
+
+-- Loi #207 (gen 63, score 0.570)
+-- Séquence: [0, 0, 3, 5, 7, 9, 11, 13, 15, 17]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 - f(f(f(1))) * 1 - 0 - 1 + n * 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 3
+f(3) is 5
+f(4) is 7
+f(5) is 9
+f(6) is 11
+f(7) is 13
+f(8) is 15
+f(9) is 17
+
+-- Loi #208 (gen 66, score 0.570)
+-- Séquence: [6, 1, 4, 3, 2, 1, 0, -1, -2, -3]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 + 2 * 2 - n
+
+f(0) is 6
+f(1) is 1
+f(2) is 4
+f(3) is 3
+f(4) is 2
+f(5) is 1
+f(6) is 0
+f(7) is -1
+f(8) is -2
+f(9) is -3
+
+-- Loi #209 (gen 68, score 0.570)
+-- Séquence: [1, 1, -8, -11, -14, -17, -20, -23, -26, -29]
+memo f n ->
+  n < 2? -> 1
+  else? -> n - f(0) * n * 2 * 2 - 0 - f(0) - 1
+
+f(0) is 1
+f(1) is 1
+f(2) is -8
+f(3) is -11
+f(4) is -14
+f(5) is -17
+f(6) is -20
+f(7) is -23
+f(8) is -26
+f(9) is -29
+
+-- Loi #210 (gen 69, score 0.570)
+-- Séquence: [1, 1, 6, 7, 8, 9, 10, 11, 12, 13]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(2 - 2) * n + 2 + 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 6
+f(3) is 7
+f(4) is 8
+f(5) is 9
+f(6) is 10
+f(7) is 11
+f(8) is 12
+f(9) is 13
+
+-- Loi #211 (gen 70, score 0.570)
+-- Séquence: [1, 1, -4, -5, -6, -7, -8, -9, -10, -11]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 - 1 * n - 2
+
+f(0) is 1
+f(1) is 1
+f(2) is -4
+f(3) is -5
+f(4) is -6
+f(5) is -7
+f(6) is -8
+f(7) is -9
+f(8) is -10
+f(9) is -11
+
+-- Loi #212 (gen 71, score 0.570)
+-- Séquence: [-3, 1, -1, 0, 1, 2, 3, 4, 5, 6]
+memo f n ->
+  n == 1? -> 1
+  else? -> n + 1 + 0 - 2 - 2
+
+f(0) is -3
+f(1) is 1
+f(2) is -1
+f(3) is 0
+f(4) is 1
+f(5) is 2
+f(6) is 3
+f(7) is 4
+f(8) is 5
+f(9) is 6
+
+-- Loi #213 (gen 71, score 0.570)
+-- Séquence: [0, 0, 5, 6, 7, 8, 9, 10, 11, 12]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 + 2 + n + 1
+
+f(0) is 0
+f(1) is 0
+f(2) is 5
+f(3) is 6
+f(4) is 7
+f(5) is 8
+f(6) is 9
+f(7) is 10
+f(8) is 11
+f(9) is 12
+
+-- Loi #214 (gen 73, score 0.570)
+-- Séquence: [2, 2, -4, -7, -10, -13, -16, -19, -22, -25]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 - 2 * 2 * n * 1 + n + 2
+
+f(0) is 2
+f(1) is 2
+f(2) is -4
+f(3) is -7
+f(4) is -10
+f(5) is -13
+f(6) is -16
+f(7) is -19
+f(8) is -22
+f(9) is -25
+
+-- Loi #215 (gen 82, score 0.570)
+-- Séquence: [0, 0, 8, 12, 16, 20, 24, 28, 32, 36]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 * n * 2 + 0
+
+f(0) is 0
+f(1) is 0
+f(2) is 8
+f(3) is 12
+f(4) is 16
+f(5) is 20
+f(6) is 24
+f(7) is 28
+f(8) is 32
+f(9) is 36
+
+-- Loi #216 (gen 90, score 0.570)
+-- Séquence: [1, 1, 7, 10, 13, 16, 19, 22, 25, 28]
+memo f n ->
+  n == 1? -> 1
+  else? -> n + 0 + n + f(1) + n * 1
+
+f(0) is 1
+f(1) is 1
+f(2) is 7
+f(3) is 10
+f(4) is 13
+f(5) is 16
+f(6) is 19
+f(7) is 22
+f(8) is 25
+f(9) is 28
+
+-- Loi #217 (gen 90, score 0.570)
+-- Séquence: [4, 2, 2, 1, 0, -1, -2, -3, -4, -5]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 * 2 + n * 0 + 2 - n
+
+f(0) is 4
+f(1) is 2
+f(2) is 2
+f(3) is 1
+f(4) is 0
+f(5) is -1
+f(6) is -2
+f(7) is -3
+f(8) is -4
+f(9) is -5
+
+-- Loi #218 (gen 96, score 0.570)
+-- Séquence: [0, 0, 6, 7, 8, 9, 10, 11, 12, 13]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 * 1 + n * 1 + 2 * 2 - 0
+
+f(0) is 0
+f(1) is 0
+f(2) is 6
+f(3) is 7
+f(4) is 8
+f(5) is 9
+f(6) is 10
+f(7) is 11
+f(8) is 12
+f(9) is 13
+
+-- Loi #219 (gen 105, score 0.570)
+-- Séquence: [0, 0, -3, -4, -5, -6, -7, -8, -9, -10]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 + 1 - 2 + 2 * n * f(f(0)) - n
+
+f(0) is 0
+f(1) is 0
+f(2) is -3
+f(3) is -4
+f(4) is -5
+f(5) is -6
+f(6) is -7
+f(7) is -8
+f(8) is -9
+f(9) is -10
+
+-- Loi #220 (gen 108, score 0.570)
+-- Séquence: [0, 0, 8, 10, 12, 14, 16, 18, 20, 22]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 + 0 + 0 + 2 + 2 * n
+
+f(0) is 0
+f(1) is 0
+f(2) is 8
+f(3) is 10
+f(4) is 12
+f(5) is 14
+f(6) is 16
+f(7) is 18
+f(8) is 20
+f(9) is 22
+
+-- Loi #221 (gen 110, score 0.570)
+-- Séquence: [0, 0, 9, 12, 15, 18, 21, 24, 27, 30]
+memo f n ->
+  n < 2? -> 0
+  else? -> n + 2 + 1 + n * 2 - 2 * 0
+
+f(0) is 0
+f(1) is 0
+f(2) is 9
+f(3) is 12
+f(4) is 15
+f(5) is 18
+f(6) is 21
+f(7) is 24
+f(8) is 27
+f(9) is 30
+
+-- Loi #222 (gen 117, score 0.570)
+-- Séquence: [5, 2, 3, 2, 1, 0, -1, -2, -3, -4]
+memo f n ->
+  n == 1? -> 2
+  else? -> f(1) + 1 + 2 - n
+
+f(0) is 5
+f(1) is 2
+f(2) is 3
+f(3) is 2
+f(4) is 1
+f(5) is 0
+f(6) is -1
+f(7) is -2
+f(8) is -3
+f(9) is -4
+
+-- Loi #223 (gen 118, score 0.570)
+-- Séquence: [2, 2, 12, 17, 22, 27, 32, 37, 42, 47]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - 0 + 2 + n * 2 * 2
+
+f(0) is 2
+f(1) is 2
+f(2) is 12
+f(3) is 17
+f(4) is 22
+f(5) is 27
+f(6) is 32
+f(7) is 37
+f(8) is 42
+f(9) is 47
+
+-- Loi #224 (gen 124, score 0.570)
+-- Séquence: [0, 0, 7, 9, 11, 13, 15, 17, 19, 21]
+memo f n ->
+  n < 2? -> 0
+  else? -> n * 2 - 1 + 2 * 2 + 2 - 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 7
+f(3) is 9
+f(4) is 11
+f(5) is 13
+f(6) is 15
+f(7) is 17
+f(8) is 19
+f(9) is 21
+
+-- Loi #225 (gen 136, score 0.570)
+-- Séquence: [0, 0, 6, 9, 12, 15, 18, 21, 24, 27]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 * n + 1 - 1 + n
+
+f(0) is 0
+f(1) is 0
+f(2) is 6
+f(3) is 9
+f(4) is 12
+f(5) is 15
+f(6) is 18
+f(7) is 21
+f(8) is 24
+f(9) is 27
+
+-- Loi #226 (gen 138, score 0.570)
+-- Séquence: [2, 2, 6, 8, 10, 12, 14, 16, 18, 20]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 * n - 1 - 0 + 2 + 2 - 1
+
+f(0) is 2
+f(1) is 2
+f(2) is 6
+f(3) is 8
+f(4) is 10
+f(5) is 12
+f(6) is 14
+f(7) is 16
+f(8) is 18
+f(9) is 20
+
+-- Loi #227 (gen 139, score 0.570)
+-- Séquence: [0, 0, 10, 15, 20, 25, 30, 35, 40, 45]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 + n + 2 * n * 2 + 0
+
+f(0) is 0
+f(1) is 0
+f(2) is 10
+f(3) is 15
+f(4) is 20
+f(5) is 25
+f(6) is 30
+f(7) is 35
+f(8) is 40
+f(9) is 45
+
+-- Loi #228 (gen 155, score 0.570)
+-- Séquence: [1, 1, -4, -6, -8, -10, -12, -14, -16, -18]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 - 1 - 0 - 2 * n
+
+f(0) is 1
+f(1) is 1
+f(2) is -4
+f(3) is -6
+f(4) is -8
+f(5) is -10
+f(6) is -12
+f(7) is -14
+f(8) is -16
+f(9) is -18
+
+-- Loi #229 (gen 156, score 0.570)
+-- Séquence: [2, 2, -2, -4, -6, -8, -10, -12, -14, -16]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 + 2 - n * 2 - 2
+
+f(0) is 2
+f(1) is 2
+f(2) is -2
+f(3) is -4
+f(4) is -6
+f(5) is -8
+f(6) is -10
+f(7) is -12
+f(8) is -14
+f(9) is -16
+
+-- Loi #230 (gen 161, score 0.570)
+-- Séquence: [1, 1, -2, -4, -6, -8, -10, -12, -14, -16]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 - 2 * n + f(0)
+
+f(0) is 1
+f(1) is 1
+f(2) is -2
+f(3) is -4
+f(4) is -6
+f(5) is -8
+f(6) is -10
+f(7) is -12
+f(8) is -14
+f(9) is -16
+
+-- Loi #231 (gen 162, score 0.570)
+-- Séquence: [0, 0, -4, -5, -6, -7, -8, -9, -10, -11]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 - 0 - n - 0 * 0 - 2
+
+f(0) is 0
+f(1) is 0
+f(2) is -4
+f(3) is -5
+f(4) is -6
+f(5) is -7
+f(6) is -8
+f(7) is -9
+f(8) is -10
+f(9) is -11
+
+-- Loi #232 (gen 164, score 0.570)
+-- Séquence: [1, 1, -3, -4, -5, -6, -7, -8, -9, -10]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 - 2 * 2 + 0 + 1 - n
+
+f(0) is 1
+f(1) is 1
+f(2) is -3
+f(3) is -4
+f(4) is -5
+f(5) is -6
+f(6) is -7
+f(7) is -8
+f(8) is -9
+f(9) is -10
+
+-- Loi #233 (gen 165, score 0.570)
+-- Séquence: [0, 0, -3, -5, -7, -9, -11, -13, -15, -17]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 * 2 - 1 * n - 2 - f(0) + 1 - n
+
+f(0) is 0
+f(1) is 0
+f(2) is -3
+f(3) is -5
+f(4) is -7
+f(5) is -9
+f(6) is -11
+f(7) is -13
+f(8) is -15
+f(9) is -17
+
+-- Loi #234 (gen 173, score 0.570)
+-- Séquence: [1, 1, 7, 9, 11, 13, 15, 17, 19, 21]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 + 2 * n + 0 * 1 * n * 2 + 1
+
+f(0) is 1
+f(1) is 1
+f(2) is 7
+f(3) is 9
+f(4) is 11
+f(5) is 13
+f(6) is 15
+f(7) is 17
+f(8) is 19
+f(9) is 21
+
+-- Loi #235 (gen 214, score 0.570)
+-- Séquence: [-2, 2, 2, 4, 6, 8, 10, 12, 14, 16]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 + n * 0 + n + 2 - 2 - f(1) + n
+
+f(0) is -2
+f(1) is 2
+f(2) is 2
+f(3) is 4
+f(4) is 6
+f(5) is 8
+f(6) is 10
+f(7) is 12
+f(8) is 14
+f(9) is 16
+
+-- Loi #236 (gen 217, score 0.570)
+-- Séquence: [8, 1, 6, 5, 4, 3, 2, 1, 0, -1]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 + 2 + 1 * 2 + 2 * 1 - n
+
+f(0) is 8
+f(1) is 1
+f(2) is 6
+f(3) is 5
+f(4) is 4
+f(5) is 3
+f(6) is 2
+f(7) is 1
+f(8) is 0
+f(9) is -1
+
+-- Loi #237 (gen 248, score 0.570)
+-- Séquence: [1, 1, -7, -8, -9, -10, -11, -12, -13, -14]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 - 2 - n - f(1) - 2
+
+f(0) is 1
+f(1) is 1
+f(2) is -7
+f(3) is -8
+f(4) is -9
+f(5) is -10
+f(6) is -11
+f(7) is -12
+f(8) is -13
+f(9) is -14
+
+-- Loi #238 (gen 256, score 0.570)
+-- Séquence: [-4, 0, -2, -1, 0, 1, 2, 3, 4, 5]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 + f(1) - 2 - 1 - 1 + n
+
+f(0) is -4
+f(1) is 0
+f(2) is -2
+f(3) is -1
+f(4) is 0
+f(5) is 1
+f(6) is 2
+f(7) is 3
+f(8) is 4
+f(9) is 5
+
+-- Loi #239 (gen 260, score 0.570)
+-- Séquence: [1, 1, -5, -7, -9, -11, -13, -15, -17, -19]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 + f(f(1)) - 0 - 1 - n * 2 - f(1)
+
+f(0) is 1
+f(1) is 1
+f(2) is -5
+f(3) is -7
+f(4) is -9
+f(5) is -11
+f(6) is -13
+f(7) is -15
+f(8) is -17
+f(9) is -19
+
+-- Loi #240 (gen 270, score 0.570)
+-- Séquence: [-6, 2, -4, -3, -2, -1, 0, 1, 2, 3]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - 1 - f(1) - 2 - 1
+
+f(0) is -6
+f(1) is 2
+f(2) is -4
+f(3) is -3
+f(4) is -2
+f(5) is -1
+f(6) is 0
+f(7) is 1
+f(8) is 2
+f(9) is 3
+
+-- Loi #241 (gen 280, score 0.570)
+-- Séquence: [1, 1, -14, -22, -30, -38, -46, -54, -62, -70]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 - 2 * n * 2 * 2
+
+f(0) is 1
+f(1) is 1
+f(2) is -14
+f(3) is -22
+f(4) is -30
+f(5) is -38
+f(6) is -46
+f(7) is -54
+f(8) is -62
+f(9) is -70
+
+-- Loi #242 (gen 303, score 0.570)
+-- Séquence: [0, 0, 10, 14, 18, 22, 26, 30, 34, 38]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 + 2 * n * 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 10
+f(3) is 14
+f(4) is 18
+f(5) is 22
+f(6) is 26
+f(7) is 30
+f(8) is 34
+f(9) is 38
+
+-- Loi #243 (gen 308, score 0.570)
+-- Séquence: [-5, 1, -3, -2, -1, 0, 1, 2, 3, 4]
+memo f n ->
+  n == 1? -> 1
+  else? -> n - f(1) - 2 - 2
+
+f(0) is -5
+f(1) is 1
+f(2) is -3
+f(3) is -2
+f(4) is -1
+f(5) is 0
+f(6) is 1
+f(7) is 2
+f(8) is 3
+f(9) is 4
+
+-- Loi #244 (gen 316, score 0.570)
+-- Séquence: [1, 1, 8, 10, 12, 14, 16, 18, 20, 22]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(1) + f(1) + n * 2 * 1 + 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 8
+f(3) is 10
+f(4) is 12
+f(5) is 14
+f(6) is 16
+f(7) is 18
+f(8) is 20
+f(9) is 22
+
+-- Loi #245 (gen 329, score 0.570)
+-- Séquence: [4, 0, 2, 1, 0, -1, -2, -3, -4, -5]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1 + 1 - n + 2 + 0
+
+f(0) is 4
+f(1) is 0
+f(2) is 2
+f(3) is 1
+f(4) is 0
+f(5) is -1
+f(6) is -2
+f(7) is -3
+f(8) is -4
+f(9) is -5
+
+-- Loi #246 (gen 351, score 0.570)
+-- Séquence: [1, 1, -5, -6, -7, -8, -9, -10, -11, -12]
+memo f n ->
+  n < 2? -> 1
+  else? -> n - 2 - f(f(1)) * 2 * n - 1 * 2 + f(f(0))
+
+f(0) is 1
+f(1) is 1
+f(2) is -5
+f(3) is -6
+f(4) is -7
+f(5) is -8
+f(6) is -9
+f(7) is -10
+f(8) is -11
+f(9) is -12
+
+-- Loi #247 (gen 357, score 0.570)
+-- Séquence: [1, 1, 5, 8, 11, 14, 17, 20, 23, 26]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 - f(0) + 2 * n + n
+
+f(0) is 1
+f(1) is 1
+f(2) is 5
+f(3) is 8
+f(4) is 11
+f(5) is 14
+f(6) is 17
+f(7) is 20
+f(8) is 23
+f(9) is 26
+
+-- Loi #248 (gen 374, score 0.570)
+-- Séquence: [0, 0, 6, 10, 14, 18, 22, 26, 30, 34]
+memo f n ->
+  n < 2? -> 0
+  else? -> n + 2 * f(0) + 0 + 2 * n - 2 + n
+
+f(0) is 0
+f(1) is 0
+f(2) is 6
+f(3) is 10
+f(4) is 14
+f(5) is 18
+f(6) is 22
+f(7) is 26
+f(8) is 30
+f(9) is 34
+
+-- Loi #249 (gen 375, score 0.570)
+-- Séquence: [1, 1, 17, 25, 33, 41, 49, 57, 65, 73]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(1) + 1 * f(f(0)) * 2 * n * f(f(0)) * 2 * 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 17
+f(3) is 25
+f(4) is 33
+f(5) is 41
+f(6) is 49
+f(7) is 57
+f(8) is 65
+f(9) is 73
+
+-- Loi #250 (gen 379, score 0.570)
+-- Séquence: [3, 0, 1, 0, -1, -2, -3, -4, -5, -6]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1 + 2 - n
+
+f(0) is 3
+f(1) is 0
+f(2) is 1
+f(3) is 0
+f(4) is -1
+f(5) is -2
+f(6) is -3
+f(7) is -4
+f(8) is -5
+f(9) is -6
+
+-- Loi #251 (gen 411, score 0.570)
+-- Séquence: [-5, 0, -3, -2, -1, 0, 1, 2, 3, 4]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 - 2 + n - 2 * 2 + 1 - 0
+
+f(0) is -5
+f(1) is 0
+f(2) is -3
+f(3) is -2
+f(4) is -1
+f(5) is 0
+f(6) is 1
+f(7) is 2
+f(8) is 3
+f(9) is 4
+
+-- Loi #252 (gen 440, score 0.570)
+-- Séquence: [1, 1, 7, 8, 9, 10, 11, 12, 13, 14]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 + 2 + 1 * n + 1 + 1
+
+f(0) is 1
+f(1) is 1
+f(2) is 7
+f(3) is 8
+f(4) is 9
+f(5) is 10
+f(6) is 11
+f(7) is 12
+f(8) is 13
+f(9) is 14
+
+-- Loi #253 (gen 444, score 0.570)
+-- Séquence: [6, 0, 4, 3, 2, 1, 0, -1, -2, -3]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 + 2 - n + 2
+
+f(0) is 6
+f(1) is 0
+f(2) is 4
+f(3) is 3
+f(4) is 2
+f(5) is 1
+f(6) is 0
+f(7) is -1
+f(8) is -2
+f(9) is -3
+
+-- Loi #254 (gen 461, score 0.570)
+-- Séquence: [0, 0, -8, -12, -16, -20, -24, -28, -32, -36]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 - 2 * 2 * n
+
+f(0) is 0
+f(1) is 0
+f(2) is -8
+f(3) is -12
+f(4) is -16
+f(5) is -20
+f(6) is -24
+f(7) is -28
+f(8) is -32
+f(9) is -36
+
+-- Loi #255 (gen 465, score 0.570)
+-- Séquence: [0, 0, -10, -14, -18, -22, -26, -30, -34, -38]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 - 2 * 2 * n - 2
+
+f(0) is 0
+f(1) is 0
+f(2) is -10
+f(3) is -14
+f(4) is -18
+f(5) is -22
+f(6) is -26
+f(7) is -30
+f(8) is -34
+f(9) is -38
+
+-- Loi #256 (gen 474, score 0.570)
+-- Séquence: [-7, 2, -5, -4, -3, -2, -1, 0, 1, 2]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - 1 - f(1) + 0 - 2 * 1 * 2
+
+f(0) is -7
+f(1) is 2
+f(2) is -5
+f(3) is -4
+f(4) is -3
+f(5) is -2
+f(6) is -1
+f(7) is 0
+f(8) is 1
+f(9) is 2
+
+-- Loi #257 (gen 495, score 0.570)
+-- Séquence: [2, 2, 8, 11, 14, 17, 20, 23, 26, 29]
+memo f n ->
+  n == 1? -> 2
+  else? -> n * 2 + n + 1 * 2 + 0
+
+f(0) is 2
+f(1) is 2
+f(2) is 8
+f(3) is 11
+f(4) is 14
+f(5) is 17
+f(6) is 20
+f(7) is 23
+f(8) is 26
+f(9) is 29
+
+-- Loi #258 (gen 0, score 0.540)
+-- Séquence: [1, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+memo f n ->
+  n == 0? -> 1
+  else? -> f(0) + 1 * 0 + 2 + n
+
+f(0) is 1
+f(1) is 4
+f(2) is 5
+f(3) is 6
+f(4) is 7
+f(5) is 8
+f(6) is 9
+f(7) is 10
+f(8) is 11
+f(9) is 12
+
+-- Loi #259 (gen 2, score 0.540)
+-- Séquence: [1, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+memo f n ->
+  n == 0? -> 1
+  else? -> 2 + n * f(0)
+
+f(0) is 1
+f(1) is 3
+f(2) is 4
+f(3) is 5
+f(4) is 6
+f(5) is 7
+f(6) is 8
+f(7) is 9
+f(8) is 10
+f(9) is 11
+
+-- Loi #260 (gen 4, score 0.540)
+-- Séquence: [1, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+memo f n ->
+  n == 0? -> 1
+  else? -> n + 1 * 0 + 2 + 2
+
+f(0) is 1
+f(1) is 5
+f(2) is 6
+f(3) is 7
+f(4) is 8
+f(5) is 9
+f(6) is 10
+f(7) is 11
+f(8) is 12
+f(9) is 13
+
+-- Loi #261 (gen 7, score 0.540)
+-- Séquence: [0, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 - f(0) + n - 1 * f(2 * f(0))
+
+f(0) is 0
+f(1) is 3
+f(2) is 4
+f(3) is 5
+f(4) is 6
+f(5) is 7
+f(6) is 8
+f(7) is 9
+f(8) is 10
+f(9) is 11
+
+-- Loi #262 (gen 17, score 0.540)
+-- Séquence: [0, -2, -3, -4, -5, -6, -7, -8, -9, -10]
+memo f n ->
+  n == 0? -> 0
+  else? -> f(0) - 1 - n
+
+f(0) is 0
+f(1) is -2
+f(2) is -3
+f(3) is -4
+f(4) is -5
+f(5) is -6
+f(6) is -7
+f(7) is -8
+f(8) is -9
+f(9) is -10
+
+-- Loi #263 (gen 25, score 0.540)
+-- Séquence: [1, -3, -4, -5, -6, -7, -8, -9, -10, -11]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 - 0 - f(0) - 1 - n - f(0)
+
+f(0) is 1
+f(1) is -3
+f(2) is -4
+f(3) is -5
+f(4) is -6
+f(5) is -7
+f(6) is -8
+f(7) is -9
+f(8) is -10
+f(9) is -11
+
+-- Loi #264 (gen 30, score 0.540)
+-- Séquence: [0, 1, 3, 5, 7, 9, 11, 13, 15, 17]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 + n - 1 - 0 - n + 2 * n - 1
+
+f(0) is 0
+f(1) is 1
+f(2) is 3
+f(3) is 5
+f(4) is 7
+f(5) is 9
+f(6) is 11
+f(7) is 13
+f(8) is 15
+f(9) is 17
+
+-- Loi #265 (gen 33, score 0.540)
+-- Séquence: [1, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+memo f n ->
+  n == 0? -> 1
+  else? -> n + n
+
+f(0) is 1
+f(1) is 2
+f(2) is 4
+f(3) is 6
+f(4) is 8
+f(5) is 10
+f(6) is 12
+f(7) is 14
+f(8) is 16
+f(9) is 18
+
+-- Loi #266 (gen 37, score 0.540)
+-- Séquence: [0, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+memo f n ->
+  n == 0? -> 0
+  else? -> n - f(0) + 1 - 1 + f(0) + 2 + 2
+
+f(0) is 0
+f(1) is 5
+f(2) is 6
+f(3) is 7
+f(4) is 8
+f(5) is 9
+f(6) is 10
+f(7) is 11
+f(8) is 12
+f(9) is 13
+
+-- Loi #267 (gen 40, score 0.540)
+-- Séquence: [0, 4, 7, 10, 13, 16, 19, 22, 25, 28]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 + n + n + 0 - 0 + 0 + n
+
+f(0) is 0
+f(1) is 4
+f(2) is 7
+f(3) is 10
+f(4) is 13
+f(5) is 16
+f(6) is 19
+f(7) is 22
+f(8) is 25
+f(9) is 28
+
+-- Loi #268 (gen 46, score 0.540)
+-- Séquence: [1, -6, -8, -10, -12, -14, -16, -18, -20, -22]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 - n - 2 - 2 - n
+
+f(0) is 1
+f(1) is -6
+f(2) is -8
+f(3) is -10
+f(4) is -12
+f(5) is -14
+f(6) is -16
+f(7) is -18
+f(8) is -20
+f(9) is -22
+
+-- Loi #269 (gen 46, score 0.540)
+-- Séquence: [0, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 + n + n
+
+f(0) is 0
+f(1) is 4
+f(2) is 6
+f(3) is 8
+f(4) is 10
+f(5) is 12
+f(6) is 14
+f(7) is 16
+f(8) is 18
+f(9) is 20
+
+-- Loi #270 (gen 58, score 0.540)
+-- Séquence: [1, -1, -2, -3, -4, -5, -6, -7, -8, -9]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 + 1 - n - 1 - 0
+
+f(0) is 1
+f(1) is -1
+f(2) is -2
+f(3) is -3
+f(4) is -4
+f(5) is -5
+f(6) is -6
+f(7) is -7
+f(8) is -8
+f(9) is -9
+
+-- Loi #271 (gen 70, score 0.540)
+-- Séquence: [0, -3, -4, -5, -6, -7, -8, -9, -10, -11]
+memo f n ->
+  n == 0? -> 0
+  else? -> 0 * 1 * 0 * n - n - 2 - f(0)
+
+f(0) is 0
+f(1) is -3
+f(2) is -4
+f(3) is -5
+f(4) is -6
+f(5) is -7
+f(6) is -8
+f(7) is -9
+f(8) is -10
+f(9) is -11
+
+-- Loi #272 (gen 87, score 0.540)
+-- Séquence: [0, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+memo f n ->
+  n == 0? -> 0
+  else? -> f(0) + n + 1 + 2 * 1 + n - n
+
+f(0) is 0
+f(1) is 4
+f(2) is 5
+f(3) is 6
+f(4) is 7
+f(5) is 8
+f(6) is 9
+f(7) is 10
+f(8) is 11
+f(9) is 12
+
+-- Loi #273 (gen 94, score 0.540)
+-- Séquence: [0, 6, 9, 12, 15, 18, 21, 24, 27, 30]
+memo f n ->
+  n == 0? -> 0
+  else? -> n + n + 0 - 0 * 2 + 2 + 1 + n
+
+f(0) is 0
+f(1) is 6
+f(2) is 9
+f(3) is 12
+f(4) is 15
+f(5) is 18
+f(6) is 21
+f(7) is 24
+f(8) is 27
+f(9) is 30
+
+-- Loi #274 (gen 125, score 0.540)
+-- Séquence: [0, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 + n + n - 2 * n * 0
+
+f(0) is 0
+f(1) is 3
+f(2) is 5
+f(3) is 7
+f(4) is 9
+f(5) is 11
+f(6) is 13
+f(7) is 15
+f(8) is 17
+f(9) is 19
+
+-- Loi #275 (gen 143, score 0.540)
+-- Séquence: [1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 + 1 - 2 - n
+
+f(0) is 1
+f(1) is -2
+f(2) is -3
+f(3) is -4
+f(4) is -5
+f(5) is -6
+f(6) is -7
+f(7) is -8
+f(8) is -9
+f(9) is -10
+
+-- Loi #276 (gen 156, score 0.540)
+-- Séquence: [1, -2, -4, -6, -8, -10, -12, -14, -16, -18]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 - 1 * 2 * n + 0
+
+f(0) is 1
+f(1) is -2
+f(2) is -4
+f(3) is -6
+f(4) is -8
+f(5) is -10
+f(6) is -12
+f(7) is -14
+f(8) is -16
+f(9) is -18
+
+-- Loi #277 (gen 178, score 0.540)
+-- Séquence: [0, 5, 9, 13, 17, 21, 25, 29, 33, 37]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 + 1 * 2 * n * 2
+
+f(0) is 0
+f(1) is 5
+f(2) is 9
+f(3) is 13
+f(4) is 17
+f(5) is 21
+f(6) is 25
+f(7) is 29
+f(8) is 33
+f(9) is 37
+
+-- Loi #278 (gen 185, score 0.540)
+-- Séquence: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 + f(0) * 1 * 1 + n
+
+f(0) is 0
+f(1) is 2
+f(2) is 3
+f(3) is 4
+f(4) is 5
+f(5) is 6
+f(6) is 7
+f(7) is 8
+f(8) is 9
+f(9) is 10
+
+-- Loi #279 (gen 187, score 0.540)
+-- Séquence: [0, -4, -6, -8, -10, -12, -14, -16, -18, -20]
+memo f n ->
+  n == 0? -> 0
+  else? -> 0 - 2 + 2 + 2 - n - 2 * 2 - n
+
+f(0) is 0
+f(1) is -4
+f(2) is -6
+f(3) is -8
+f(4) is -10
+f(5) is -12
+f(6) is -14
+f(7) is -16
+f(8) is -18
+f(9) is -20
+
+-- Loi #280 (gen 241, score 0.540)
+-- Séquence: [0, 1, 4, 7, 10, 13, 16, 19, 22, 25]
+memo f n ->
+  n == 0? -> 0
+  else? -> n - 2 + 0 + n + n
+
+f(0) is 0
+f(1) is 1
+f(2) is 4
+f(3) is 7
+f(4) is 10
+f(5) is 13
+f(6) is 16
+f(7) is 19
+f(8) is 22
+f(9) is 25
+
+-- Loi #281 (gen 258, score 0.540)
+-- Séquence: [1, 5, 8, 11, 14, 17, 20, 23, 26, 29]
+memo f n ->
+  n == 0? -> 1
+  else? -> n * 2 + n + 2
+
+f(0) is 1
+f(1) is 5
+f(2) is 8
+f(3) is 11
+f(4) is 14
+f(5) is 17
+f(6) is 20
+f(7) is 23
+f(8) is 26
+f(9) is 29
+
+-- Loi #282 (gen 282, score 0.540)
+-- Séquence: [1, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 + n + f(0) + 2 + 2
+
+f(0) is 1
+f(1) is 6
+f(2) is 7
+f(3) is 8
+f(4) is 9
+f(5) is 10
+f(6) is 11
+f(7) is 12
+f(8) is 13
+f(9) is 14
+
+-- Loi #283 (gen 306, score 0.540)
+-- Séquence: [1, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+memo f n ->
+  n == 0? -> 1
+  else? -> 2 - n * 0 + n + n - n + n * 1
+
+f(0) is 1
+f(1) is 4
+f(2) is 6
+f(3) is 8
+f(4) is 10
+f(5) is 12
+f(6) is 14
+f(7) is 16
+f(8) is 18
+f(9) is 20
+
+-- Loi #284 (gen 357, score 0.540)
+-- Séquence: [1, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+memo f n ->
+  n == 0? -> 1
+  else? -> n - 0 * n * 0 + n + 2 + 2
+
+f(0) is 1
+f(1) is 6
+f(2) is 8
+f(3) is 10
+f(4) is 12
+f(5) is 14
+f(6) is 16
+f(7) is 18
+f(8) is 20
+f(9) is 22
+
+-- Loi #285 (gen 364, score 0.540)
+-- Séquence: [1, -2, 0, 2, 4, 6, 8, 10, 12, 14]
+memo f n ->
+  n == 0? -> 1
+  else? -> n * 2 - 2 - 2
+
+f(0) is 1
+f(1) is -2
+f(2) is 0
+f(3) is 2
+f(4) is 4
+f(5) is 6
+f(6) is 8
+f(7) is 10
+f(8) is 12
+f(9) is 14
+
+-- Loi #286 (gen 398, score 0.540)
+-- Séquence: [1, 2, 5, 8, 11, 14, 17, 20, 23, 26]
+memo f n ->
+  n == 0? -> 1
+  else? -> 2 * n - 1 + n
+
+f(0) is 1
+f(1) is 2
+f(2) is 5
+f(3) is 8
+f(4) is 11
+f(5) is 14
+f(6) is 17
+f(7) is 20
+f(8) is 23
+f(9) is 26
+
+-- Loi #287 (gen 410, score 0.540)
+-- Séquence: [1, -3, -5, -7, -9, -11, -13, -15, -17, -19]
+memo f n ->
+  n == 0? -> 1
+  else? -> 2 * 0 - f(0) - 0 - n - n
+
+f(0) is 1
+f(1) is -3
+f(2) is -5
+f(3) is -7
+f(4) is -9
+f(5) is -11
+f(6) is -13
+f(7) is -15
+f(8) is -17
+f(9) is -19
+
+-- Loi #288 (gen 470, score 0.540)
+-- Séquence: [1, 4, 8, 12, 16, 20, 24, 28, 32, 36]
+memo f n ->
+  n == 0? -> 1
+  else? -> n * 2 * 2 + 2 * 0
+
+f(0) is 1
+f(1) is 4
+f(2) is 8
+f(3) is 12
+f(4) is 16
+f(5) is 20
+f(6) is 24
+f(7) is 28
+f(8) is 32
+f(9) is 36
+
+-- Loi #289 (gen 488, score 0.540)
+-- Séquence: [0, -1, -3, -5, -7, -9, -11, -13, -15, -17]
+memo f n ->
+  n == 0? -> 0
+  else? -> 0 + 2 - 1 - n - n
+
+f(0) is 0
+f(1) is -1
+f(2) is -3
+f(3) is -5
+f(4) is -7
+f(5) is -9
+f(6) is -11
+f(7) is -13
+f(8) is -15
+f(9) is -17
+
+-- Loi #290 (gen 3, score 0.539)
+-- Séquence: [1, 1, 2, 4, 6, 8, 10, 12, 14, 16]
+memo f n ->
+  n < 2? -> 1
+  else? -> n * 2 * 1 - 1 * 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 2
+f(3) is 4
+f(4) is 6
+f(5) is 8
+f(6) is 10
+f(7) is 12
+f(8) is 14
+f(9) is 16
+
+-- Loi #291 (gen 82, score 0.539)
+-- Séquence: [0, 0, -1, -3, -5, -7, -9, -11, -13, -15]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 * f(1) - n + 2 * 1 - n + 1 * 1
+
+f(0) is 0
+f(1) is 0
+f(2) is -1
+f(3) is -3
+f(4) is -5
+f(5) is -7
+f(6) is -9
+f(7) is -11
+f(8) is -13
+f(9) is -15
+
+-- Loi #292 (gen 0, score 0.530)
+-- Séquence: [1, 1, 2, 1, 0, -1, -2, -3, -4, -5]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 * 2 * f(0) + f(1) - 1 + 1 + 1 - n
+
+f(0) is 1
+f(1) is 1
+f(2) is 2
+f(3) is 1
+f(4) is 0
+f(5) is -1
+f(6) is -2
+f(7) is -3
+f(8) is -4
+f(9) is -5
+
+-- Loi #293 (gen 1, score 0.530)
+-- Séquence: [0, 0, -1, 0, 1, 2, 3, 4, 5, 6]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 - 2 + n - 1 - n + n
+
+f(0) is 0
+f(1) is 0
+f(2) is -1
+f(3) is 0
+f(4) is 1
+f(5) is 2
+f(6) is 3
+f(7) is 4
+f(8) is 5
+f(9) is 6
+
+-- Loi #294 (gen 19, score 0.530)
+-- Séquence: [1, 1, -3, -2, -1, 0, 1, 2, 3, 4]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 - 2 - 2 - f(1) + n
+
+f(0) is 1
+f(1) is 1
+f(2) is -3
+f(3) is -2
+f(4) is -1
+f(5) is 0
+f(6) is 1
+f(7) is 2
+f(8) is 3
+f(9) is 4
+
+-- Loi #295 (gen 34, score 0.530)
+-- Séquence: [0, 0, 1, 0, -1, -2, -3, -4, -5, -6]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 - n - n * 0 + n * f(1) + 1
+
+f(0) is 0
+f(1) is 0
+f(2) is 1
+f(3) is 0
+f(4) is -1
+f(5) is -2
+f(6) is -3
+f(7) is -4
+f(8) is -5
+f(9) is -6
+
+-- Loi #296 (gen 36, score 0.530)
+-- Séquence: [1, 1, 0, 1, 2, 3, 4, 5, 6, 7]
+memo f n ->
+  n < 2? -> 1
+  else? -> n - 2 - n * 0
+
+f(0) is 1
+f(1) is 1
+f(2) is 0
+f(3) is 1
+f(4) is 2
+f(5) is 3
+f(6) is 4
+f(7) is 5
+f(8) is 6
+f(9) is 7
+
+-- Loi #297 (gen 67, score 0.530)
+-- Séquence: [0, 0, 2, 1, 0, -1, -2, -3, -4, -5]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 * 2 - n * 1 - 0
+
+f(0) is 0
+f(1) is 0
+f(2) is 2
+f(3) is 1
+f(4) is 0
+f(5) is -1
+f(6) is -2
+f(7) is -3
+f(8) is -4
+f(9) is -5
+
+-- Loi #298 (gen 284, score 0.530)
+-- Séquence: [1, 1, 4, 3, 2, 1, 0, -1, -2, -3]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 - n - 0 + 2 * 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 4
+f(3) is 3
+f(4) is 2
+f(5) is 1
+f(6) is 0
+f(7) is -1
+f(8) is -2
+f(9) is -3
+
+-- Loi #299 (gen 290, score 0.530)
+-- Séquence: [1, 1, 6, 5, 4, 3, 2, 1, 0, -1]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 - n + 2 + 2 + 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 6
+f(3) is 5
+f(4) is 4
+f(5) is 3
+f(6) is 2
+f(7) is 1
+f(8) is 0
+f(9) is -1
+
+-- Loi #300 (gen 298, score 0.530)
+-- Séquence: [1, 1, -1, 0, 1, 2, 3, 4, 5, 6]
+memo f n ->
+  n < 2? -> 1
+  else? -> n - 0 - f(1) - 2 - n * 0
+
+f(0) is 1
+f(1) is 1
+f(2) is -1
+f(3) is 0
+f(4) is 1
+f(5) is 2
+f(6) is 3
+f(7) is 4
+f(8) is 5
+f(9) is 6
+
+-- Loi #301 (gen 341, score 0.530)
+-- Séquence: [1, 1, 3, 2, 1, 0, -1, -2, -3, -4]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 + 2 - n + 1
+
+f(0) is 1
+f(1) is 1
+f(2) is 3
+f(3) is 2
+f(4) is 1
+f(5) is 0
+f(6) is -1
+f(7) is -2
+f(8) is -3
+f(9) is -4
+
+-- Loi #302 (gen 452, score 0.530)
+-- Séquence: [0, 0, -3, -2, -1, 0, 1, 2, 3, 4]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 - 1 - f(1) * f(f(1)) + n - 2 * 2
+
+f(0) is 0
+f(1) is 0
+f(2) is -3
+f(3) is -2
+f(4) is -1
+f(5) is 0
+f(6) is 1
+f(7) is 2
+f(8) is 3
+f(9) is 4
+
+-- Loi #303 (gen 453, score 0.530)
+-- Séquence: [0, 0, -2, -1, 0, 1, 2, 3, 4, 5]
+memo f n ->
+  n < 2? -> 0
+  else? -> n - 2 * 0 - 2 * 2 + f(1)
+
+f(0) is 0
+f(1) is 0
+f(2) is -2
+f(3) is -1
+f(4) is 0
+f(5) is 1
+f(6) is 2
+f(7) is 3
+f(8) is 4
+f(9) is 5
+
+-- Loi #304 (gen 0, score 0.500)
+-- Séquence: [1, 1, 0, -1, -2, -3, -4, -5, -6, -7]
+memo f n ->
+  n == 0? -> 1
+  else? -> 2 - n * 1 - 1 * 0 + 1 * 0
+
+f(0) is 1
+f(1) is 1
+f(2) is 0
+f(3) is -1
+f(4) is -2
+f(5) is -3
+f(6) is -4
+f(7) is -5
+f(8) is -6
+f(9) is -7
+
+-- Loi #305 (gen 1, score 0.500)
+-- Séquence: [1, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+memo f n ->
+  n == 0? -> 1
+  else? -> n
+
+f(0) is 1
+f(1) is 1
+f(2) is 2
+f(3) is 3
+f(4) is 4
+f(5) is 5
+f(6) is 6
+f(7) is 7
+f(8) is 8
+f(9) is 9
+
+-- Loi #306 (gen 2, score 0.500)
+-- Séquence: [0, 0, -1, -2, -3, -4, -5, -6, -7, -8]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 * 0 - 1 * n + 1
+
+f(0) is 0
+f(1) is 0
+f(2) is -1
+f(3) is -2
+f(4) is -3
+f(5) is -4
+f(6) is -5
+f(7) is -6
+f(8) is -7
+f(9) is -8
+
+-- Loi #307 (gen 3, score 0.500)
+-- Séquence: [2, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+memo f n ->
+  n == 0? -> 2
+  else? -> n
+
+f(0) is 2
+f(1) is 1
+f(2) is 2
+f(3) is 3
+f(4) is 4
+f(5) is 5
+f(6) is 6
+f(7) is 7
+f(8) is 8
+f(9) is 9
+
+-- Loi #308 (gen 4, score 0.500)
+-- Séquence: [0, 0, 1, 2, 3, 4, 5, 6, 7, 8]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 + n - 1
+
+f(0) is 0
+f(1) is 0
+f(2) is 1
+f(3) is 2
+f(4) is 3
+f(5) is 4
+f(6) is 5
+f(7) is 6
+f(8) is 7
+f(9) is 8
+
+-- Loi #309 (gen 6, score 0.500)
+-- Séquence: [0, 0, 2, 4, 6, 8, 10, 12, 14, 16]
+memo f n ->
+  n < 2? -> 0
+  else? -> n * 2 - 2 + 0
+
+f(0) is 0
+f(1) is 0
+f(2) is 2
+f(3) is 4
+f(4) is 6
+f(5) is 8
+f(6) is 10
+f(7) is 12
+f(8) is 14
+f(9) is 16
+
+-- Loi #310 (gen 19, score 0.500)
+-- Séquence: [0, 1, 0, -1, -2, -3, -4, -5, -6, -7]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 + 0 + 0 - n
+
+f(0) is 0
+f(1) is 1
+f(2) is 0
+f(3) is -1
+f(4) is -2
+f(5) is -3
+f(6) is -4
+f(7) is -5
+f(8) is -6
+f(9) is -7
+
+-- Loi #311 (gen 27, score 0.500)
+-- Séquence: [1, 0, 1, 2, 3, 4, 5, 6, 7, 8]
+memo f n ->
+  n == 0? -> 1
+  else? -> n - f(0)
+
+f(0) is 1
+f(1) is 0
+f(2) is 1
+f(3) is 2
+f(4) is 3
+f(5) is 4
+f(6) is 5
+f(7) is 6
+f(8) is 7
+f(9) is 8
+
+-- Loi #312 (gen 42, score 0.500)
+-- Séquence: [1, -3, -2, -1, 0, 1, 2, 3, 4, 5]
+memo f n ->
+  n == 0? -> 1
+  else? -> n + 0 + 0 - 2 - 1 * 2
+
+f(0) is 1
+f(1) is -3
+f(2) is -2
+f(3) is -1
+f(4) is 0
+f(5) is 1
+f(6) is 2
+f(7) is 3
+f(8) is 4
+f(9) is 5
+
+-- Loi #313 (gen 43, score 0.500)
+-- Séquence: [0, -1, 0, 1, 2, 3, 4, 5, 6, 7]
+memo f n ->
+  n == 0? -> 0
+  else? -> n - 2
+
+f(0) is 0
+f(1) is -1
+f(2) is 0
+f(3) is 1
+f(4) is 2
+f(5) is 3
+f(6) is 4
+f(7) is 5
+f(8) is 6
+f(9) is 7
+
+-- Loi #314 (gen 44, score 0.500)
+-- Séquence: [1, 1, 3, 5, 7, 9, 11, 13, 15, 17]
+memo f n ->
+  n == 0? -> 1
+  else? -> f(0) + n + n - 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 3
+f(3) is 5
+f(4) is 7
+f(5) is 9
+f(6) is 11
+f(7) is 13
+f(8) is 15
+f(9) is 17
+
+-- Loi #315 (gen 57, score 0.500)
+-- Séquence: [0, -2, 0, 2, 4, 6, 8, 10, 12, 14]
+memo f n ->
+  n == 0? -> 0
+  else? -> 0 - 2 + 2 * n - 1 * 2 + 0 + 0
+
+f(0) is 0
+f(1) is -2
+f(2) is 0
+f(3) is 2
+f(4) is 4
+f(5) is 6
+f(6) is 8
+f(7) is 10
+f(8) is 12
+f(9) is 14
+
+-- Loi #316 (gen 93, score 0.500)
+-- Séquence: [1, -3, -1, 1, 3, 5, 7, 9, 11, 13]
+memo f n ->
+  n == 0? -> 1
+  else? -> n * 2 - 2 - f(0) - f(0) - 1 + 0
+
+f(0) is 1
+f(1) is -3
+f(2) is -1
+f(3) is 1
+f(4) is 3
+f(5) is 5
+f(6) is 7
+f(7) is 9
+f(8) is 11
+f(9) is 13
+
+-- Loi #317 (gen 96, score 0.500)
+-- Séquence: [1, 1, -1, -3, -5, -7, -9, -11, -13, -15]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 - 2 * n + f(n * 0)
+
+f(0) is 1
+f(1) is 1
+f(2) is -1
+f(3) is -3
+f(4) is -5
+f(5) is -7
+f(6) is -9
+f(7) is -11
+f(8) is -13
+f(9) is -15
+
+-- Loi #318 (gen 99, score 0.500)
+-- Séquence: [0, 0, -2, -4, -6, -8, -10, -12, -14, -16]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 + 1 - 2 * n + 1 * f(0)
+
+f(0) is 0
+f(1) is 0
+f(2) is -2
+f(3) is -4
+f(4) is -6
+f(5) is -8
+f(6) is -10
+f(7) is -12
+f(8) is -14
+f(9) is -16
+
+-- Loi #319 (gen 108, score 0.500)
+-- Séquence: [1, -2, -1, 0, 1, 2, 3, 4, 5, 6]
+memo f n ->
+  n == 0? -> 1
+  else? -> n - 2 - f(0) - 0 + 0 - 1 + f(0)
+
+f(0) is 1
+f(1) is -2
+f(2) is -1
+f(3) is 0
+f(4) is 1
+f(5) is 2
+f(6) is 3
+f(7) is 4
+f(8) is 5
+f(9) is 6
+
+-- Loi #320 (gen 122, score 0.500)
+-- Séquence: [1, 2, 1, 0, -1, -2, -3, -4, -5, -6]
+memo f n ->
+  n == 0? -> 1
+  else? -> n + 2 - n - n + 0 + 1
+
+f(0) is 1
+f(1) is 2
+f(2) is 1
+f(3) is 0
+f(4) is -1
+f(5) is -2
+f(6) is -3
+f(7) is -4
+f(8) is -5
+f(9) is -6
+
+-- Loi #321 (gen 127, score 0.500)
+-- Séquence: [1, -1, 0, 1, 2, 3, 4, 5, 6, 7]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 - 2 - 2 * 0 - n + n * 2
+
+f(0) is 1
+f(1) is -1
+f(2) is 0
+f(3) is 1
+f(4) is 2
+f(5) is 3
+f(6) is 4
+f(7) is 5
+f(8) is 6
+f(9) is 7
+
+-- Loi #322 (gen 151, score 0.500)
+-- Séquence: [0, 3, 2, 1, 0, -1, -2, -3, -4, -5]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 * 1 * 2 * 2 - n
+
+f(0) is 0
+f(1) is 3
+f(2) is 2
+f(3) is 1
+f(4) is 0
+f(5) is -1
+f(6) is -2
+f(7) is -3
+f(8) is -4
+f(9) is -5
+
+-- Loi #323 (gen 157, score 0.500)
+-- Séquence: [1, 1, 4, 7, 10, 13, 16, 19, 22, 25]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 * n * 2 - 0 - 2 + n
+
+f(0) is 1
+f(1) is 1
+f(2) is 4
+f(3) is 7
+f(4) is 10
+f(5) is 13
+f(6) is 16
+f(7) is 19
+f(8) is 22
+f(9) is 25
+
+-- Loi #324 (gen 198, score 0.500)
+-- Séquence: [0, -2, -1, 0, 1, 2, 3, 4, 5, 6]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 - f(0) - 1 + n - 2 * 2
+
+f(0) is 0
+f(1) is -2
+f(2) is -1
+f(3) is 0
+f(4) is 1
+f(5) is 2
+f(6) is 3
+f(7) is 4
+f(8) is 5
+f(9) is 6
+
+-- Loi #325 (gen 304, score 0.500)
+-- Séquence: [0, 0, 3, 6, 9, 12, 15, 18, 21, 24]
+memo f n ->
+  n < 2? -> 0
+  else? -> n * 2 - 2 + n - 1
+
+f(0) is 0
+f(1) is 0
+f(2) is 3
+f(3) is 6
+f(4) is 9
+f(5) is 12
+f(6) is 15
+f(7) is 18
+f(8) is 21
+f(9) is 24
+
+-- Loi #326 (gen 377, score 0.500)
+-- Séquence: [1, 4, 3, 2, 1, 0, -1, -2, -3, -4]
+memo f n ->
+  n == 0? -> 1
+  else? -> n + f(0) - n - n - 0 + 2 + 1 + 1
+
+f(0) is 1
+f(1) is 4
+f(2) is 3
+f(3) is 2
+f(4) is 1
+f(5) is 0
+f(6) is -1
+f(7) is -2
+f(8) is -3
+f(9) is -4
+
+-- Loi #327 (gen 0, score 0.470)
+-- Séquence: [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 * n
+
+f(0) is 0
+f(1) is 2
+f(2) is 4
+f(3) is 6
+f(4) is 8
+f(5) is 10
+f(6) is 12
+f(7) is 14
+f(8) is 16
+f(9) is 18
+
+-- Loi #328 (gen 1, score 0.470)
+-- Séquence: [2, 1, 0, -1, -2, -3, -4, -5, -6, -7]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 - n * 1 - 1 * 0 + 1 * 0
+
+f(0) is 2
+f(1) is 1
+f(2) is 0
+f(3) is -1
+f(4) is -2
+f(5) is -3
+f(6) is -4
+f(7) is -5
+f(8) is -6
+f(9) is -7
+
+-- Loi #329 (gen 8, score 0.470)
+-- Séquence: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 + n
+
+f(0) is 1
+f(1) is 2
+f(2) is 3
+f(3) is 4
+f(4) is 5
+f(5) is 6
+f(6) is 7
+f(7) is 8
+f(8) is 9
+f(9) is 10
+
+-- Loi #330 (gen 24, score 0.470)
+-- Séquence: [1, 0, -1, -2, -3, -4, -5, -6, -7, -8]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 - n
+
+f(0) is 1
+f(1) is 0
+f(2) is -1
+f(3) is -2
+f(4) is -3
+f(5) is -4
+f(6) is -5
+f(7) is -6
+f(8) is -7
+f(9) is -8
+
+-- Loi #331 (gen 24, score 0.470)
+-- Séquence: [0, 4, 8, 12, 16, 20, 24, 28, 32, 36]
+memo f n ->
+  n == 0? -> 0
+  else? -> n * 2 * 2 * 1
+
+f(0) is 0
+f(1) is 4
+f(2) is 8
+f(3) is 12
+f(4) is 16
+f(5) is 20
+f(6) is 24
+f(7) is 28
+f(8) is 32
+f(9) is 36
+
+-- Loi #332 (gen 26, score 0.470)
+-- Séquence: [1, -1, -3, -5, -7, -9, -11, -13, -15, -17]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 - 0 - n * 2 * 1
+
+f(0) is 1
+f(1) is -1
+f(2) is -3
+f(3) is -5
+f(4) is -7
+f(5) is -9
+f(6) is -11
+f(7) is -13
+f(8) is -15
+f(9) is -17
+
+-- Loi #333 (gen 28, score 0.470)
+-- Séquence: [3, 1, -1, -3, -5, -7, -9, -11, -13, -15]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 - 0 - n + 1 - n + 0
+
+f(0) is 3
+f(1) is 1
+f(2) is -1
+f(3) is -3
+f(4) is -5
+f(5) is -7
+f(6) is -9
+f(7) is -11
+f(8) is -13
+f(9) is -15
+
+-- Loi #334 (gen 45, score 0.470)
+-- Séquence: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 + 2 + 2 * n - 0 - f(0)
+
+f(0) is 1
+f(1) is 3
+f(2) is 5
+f(3) is 7
+f(4) is 9
+f(5) is 11
+f(6) is 13
+f(7) is 15
+f(8) is 17
+f(9) is 19
+
+-- Loi #335 (gen 45, score 0.470)
+-- Séquence: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8]
+memo f n ->
+  n == 1? -> 0
+  else? -> n * 1 - 2 + 2 - 1
+
+f(0) is -1
+f(1) is 0
+f(2) is 1
+f(3) is 2
+f(4) is 3
+f(5) is 4
+f(6) is 5
+f(7) is 6
+f(8) is 7
+f(9) is 8
+
+-- Loi #336 (gen 68, score 0.470)
+-- Séquence: [-1, 1, 3, 5, 7, 9, 11, 13, 15, 17]
+memo f n ->
+  n == 1? -> 1
+  else? -> 1 * n - f(1) + n - 0
+
+f(0) is -1
+f(1) is 1
+f(2) is 3
+f(3) is 5
+f(4) is 7
+f(5) is 9
+f(6) is 11
+f(7) is 13
+f(8) is 15
+f(9) is 17
+
+-- Loi #337 (gen 74, score 0.470)
+-- Séquence: [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
+memo f n ->
+  n == 0? -> 0
+  else? -> f(0) - 0 - 0 - n
+
+f(0) is 0
+f(1) is -1
+f(2) is -2
+f(3) is -3
+f(4) is -4
+f(5) is -5
+f(6) is -6
+f(7) is -7
+f(8) is -8
+f(9) is -9
+
+-- Loi #338 (gen 93, score 0.470)
+-- Séquence: [0, 3, 6, 9, 12, 15, 18, 21, 24, 27]
+memo f n ->
+  n == 0? -> 0
+  else? -> n + n + n - 0 * n
+
+f(0) is 0
+f(1) is 3
+f(2) is 6
+f(3) is 9
+f(4) is 12
+f(5) is 15
+f(6) is 18
+f(7) is 21
+f(8) is 24
+f(9) is 27
+
+-- Loi #339 (gen 153, score 0.470)
+-- Séquence: [2, 0, -2, -4, -6, -8, -10, -12, -14, -16]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 - n * 2
+
+f(0) is 2
+f(1) is 0
+f(2) is -2
+f(3) is -4
+f(4) is -6
+f(5) is -8
+f(6) is -10
+f(7) is -12
+f(8) is -14
+f(9) is -16
+
+-- Loi #340 (gen 156, score 0.470)
+-- Séquence: [-2, 0, 2, 4, 6, 8, 10, 12, 14, 16]
+memo f n ->
+  n == 1? -> 0
+  else? -> n + n - 1 - 1
+
+f(0) is -2
+f(1) is 0
+f(2) is 2
+f(3) is 4
+f(4) is 6
+f(5) is 8
+f(6) is 10
+f(7) is 12
+f(8) is 14
+f(9) is 16
+
+-- Loi #341 (gen 157, score 0.470)
+-- Séquence: [-2, 2, 6, 10, 14, 18, 22, 26, 30, 34]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - f(1) + n + n + n
+
+f(0) is -2
+f(1) is 2
+f(2) is 6
+f(3) is 10
+f(4) is 14
+f(5) is 18
+f(6) is 22
+f(7) is 26
+f(8) is 30
+f(9) is 34
+
+-- Loi #342 (gen 168, score 0.470)
+-- Séquence: [-1, 2, 5, 8, 11, 14, 17, 20, 23, 26]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 + 2 * n - 1 + n - 0
+
+f(0) is -1
+f(1) is 2
+f(2) is 5
+f(3) is 8
+f(4) is 11
+f(5) is 14
+f(6) is 17
+f(7) is 20
+f(8) is 23
+f(9) is 26
+
+-- Loi #343 (gen 199, score 0.470)
+-- Séquence: [3, 2, 1, 0, -1, -2, -3, -4, -5, -6]
+memo f n ->
+  n == 1? -> 2
+  else? -> f(1) - 1 - n + f(1)
+
+f(0) is 3
+f(1) is 2
+f(2) is 1
+f(3) is 0
+f(4) is -1
+f(5) is -2
+f(6) is -3
+f(7) is -4
+f(8) is -5
+f(9) is -6
+
+-- Loi #344 (gen 215, score 0.470)
+-- Séquence: [4, 2, 0, -2, -4, -6, -8, -10, -12, -14]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 * 2 * 1 + 0 - n * 2
+
+f(0) is 4
+f(1) is 2
+f(2) is 0
+f(3) is -2
+f(4) is -4
+f(5) is -6
+f(6) is -8
+f(7) is -10
+f(8) is -12
+f(9) is -14
+
+-- Loi #345 (gen 223, score 0.470)
+-- Séquence: [0, -2, -4, -6, -8, -10, -12, -14, -16, -18]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 - 2 * n * 1 - 1
+
+f(0) is 0
+f(1) is -2
+f(2) is -4
+f(3) is -6
+f(4) is -8
+f(5) is -10
+f(6) is -12
+f(7) is -14
+f(8) is -16
+f(9) is -18
+
+-- Loi #346 (gen 361, score 0.470)
+-- Séquence: [0, -3, -6, -9, -12, -15, -18, -21, -24, -27]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 - n - n - 2 - 0 - n + 1
+
+f(0) is 0
+f(1) is -3
+f(2) is -6
+f(3) is -9
+f(4) is -12
+f(5) is -15
+f(6) is -18
+f(7) is -21
+f(8) is -24
+f(9) is -27
+
+-- Loi #347 (gen 384, score 0.470)
+-- Séquence: [1, 9, 17, 25, 33, 41, 49, 57, 65, 73]
+memo f n ->
+  n == 0? -> 1
+  else? -> f(0) + 2 * n * 2 * 2
+
+f(0) is 1
+f(1) is 9
+f(2) is 17
+f(3) is 25
+f(4) is 33
+f(5) is 41
+f(6) is 49
+f(7) is 57
+f(8) is 65
+f(9) is 73
+
+-- Loi #348 (gen 2, score 0.460)
+-- Séquence: [0, 0, 0, -1, -2, -3, -4, -5, -6, -7]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 * 0 + 2 + f(0) - n
+
+f(0) is 0
+f(1) is 0
+f(2) is 0
+f(3) is -1
+f(4) is -2
+f(5) is -3
+f(6) is -4
+f(7) is -5
+f(8) is -6
+f(9) is -7
+
+-- Loi #349 (gen 7, score 0.460)
+-- Séquence: [2, 2, 2, 3, 4, 5, 6, 7, 8, 9]
+memo f n ->
+  n < 2? -> 2
+  else? -> n
+
+f(0) is 2
+f(1) is 2
+f(2) is 2
+f(3) is 3
+f(4) is 4
+f(5) is 5
+f(6) is 6
+f(7) is 7
+f(8) is 8
+f(9) is 9
+
+-- Loi #350 (gen 22, score 0.460)
+-- Séquence: [1, 1, 1, 2, 3, 4, 5, 6, 7, 8]
+memo f n ->
+  n < 2? -> 1
+  else? -> n + f(0) - f(f(f(1))) + 1 - 2 - 0 - 0 * 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 1
+f(3) is 2
+f(4) is 3
+f(5) is 4
+f(6) is 5
+f(7) is 6
+f(8) is 7
+f(9) is 8
+
+-- Loi #351 (gen 23, score 0.460)
+-- Séquence: [1, 1, 1, 0, -1, -2, -3, -4, -5, -6]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 - 0 - n + 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 1
+f(3) is 0
+f(4) is -1
+f(5) is -2
+f(6) is -3
+f(7) is -4
+f(8) is -5
+f(9) is -6
+
+-- Loi #352 (gen 40, score 0.460)
+-- Séquence: [0, 0, 0, 1, 2, 3, 4, 5, 6, 7]
+memo f n ->
+  n < 2? -> 0
+  else? -> f(f(1)) + n + 0 + 0 - 0 * f(0) - 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 0
+f(3) is 1
+f(4) is 2
+f(5) is 3
+f(6) is 4
+f(7) is 5
+f(8) is 6
+f(9) is 7
+
+-- Loi #353 (gen 54, score 0.460)
+-- Séquence: [0, 0, 0, -2, -4, -6, -8, -10, -12, -14]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 - 2 * n + 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 0
+f(3) is -2
+f(4) is -4
+f(5) is -6
+f(6) is -8
+f(7) is -10
+f(8) is -12
+f(9) is -14
+
+-- Loi #354 (gen 228, score 0.380)
+-- Séquence: [1, 0, 2, 1, 3, 2, 4, 3, 5, 4]
+memo f n ->
+  n == 0? -> 1
+  else? -> n - f(n - 1)
+
+f(0) is 1
+f(1) is 0
+f(2) is 2
+f(3) is 1
+f(4) is 3
+f(5) is 2
+f(6) is 4
+f(7) is 3
+f(8) is 5
+f(9) is 4
+
+-- Loi #355 (gen 0, score 0.290)
+-- Séquence: [2, 0, 2, 2, 2, 2, 2, 2, 2, 2]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2
+
+f(0) is 2
+f(1) is 0
+f(2) is 2
+f(3) is 2
+f(4) is 2
+f(5) is 2
+f(6) is 2
+f(7) is 2
+f(8) is 2
+f(9) is 2
+
+-- Loi #356 (gen 1, score 0.290)
+-- Séquence: [-2, 0, -2, -2, -2, -2, -2, -2, -2, -2]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 - 1 * 0 - f(1) - 1 - 1
+
+f(0) is -2
+f(1) is 0
+f(2) is -2
+f(3) is -2
+f(4) is -2
+f(5) is -2
+f(6) is -2
+f(7) is -2
+f(8) is -2
+f(9) is -2
+
+-- Loi #357 (gen 2, score 0.290)
+-- Séquence: [-1, 1, -1, -1, -1, -1, -1, -1, -1, -1]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 - 1
+
+f(0) is -1
+f(1) is 1
+f(2) is -1
+f(3) is -1
+f(4) is -1
+f(5) is -1
+f(6) is -1
+f(7) is -1
+f(8) is -1
+f(9) is -1
+
+-- Loi #358 (gen 3, score 0.290)
+-- Séquence: [1, 0, 1, 1, 1, 1, 1, 1, 1, 1]
+memo f n ->
+  n == 1? -> 0
+  else? -> n * 0 + 1 + f(1) * n
+
+f(0) is 1
+f(1) is 0
+f(2) is 1
+f(3) is 1
+f(4) is 1
+f(5) is 1
+f(6) is 1
+f(7) is 1
+f(8) is 1
+f(9) is 1
+
+-- Loi #359 (gen 3, score 0.290)
+-- Séquence: [2, 1, 2, 2, 2, 2, 2, 2, 2, 2]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 * 2 - 2 * 1
+
+f(0) is 2
+f(1) is 1
+f(2) is 2
+f(3) is 2
+f(4) is 2
+f(5) is 2
+f(6) is 2
+f(7) is 2
+f(8) is 2
+f(9) is 2
+
+-- Loi #360 (gen 4, score 0.290)
+-- Séquence: [-3, 0, -3, -3, -3, -3, -3, -3, -3, -3]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 + f(1) - 0 * 1 - 2 - 1
+
+f(0) is -3
+f(1) is 0
+f(2) is -3
+f(3) is -3
+f(4) is -3
+f(5) is -3
+f(6) is -3
+f(7) is -3
+f(8) is -3
+f(9) is -3
+
+-- Loi #361 (gen 5, score 0.290)
+-- Séquence: [-2, 1, -2, -2, -2, -2, -2, -2, -2, -2]
+memo f n ->
+  n == 1? -> 1
+  else? -> 1 - 2 - f(1) * 2 * f(1) + 1
+
+f(0) is -2
+f(1) is 1
+f(2) is -2
+f(3) is -2
+f(4) is -2
+f(5) is -2
+f(6) is -2
+f(7) is -2
+f(8) is -2
+f(9) is -2
+
+-- Loi #362 (gen 12, score 0.290)
+-- Séquence: [-1, 0, -1, -1, -1, -1, -1, -1, -1, -1]
+memo f n ->
+  n == 1? -> 0
+  else? -> f(1) - 1
+
+f(0) is -1
+f(1) is 0
+f(2) is -1
+f(3) is -1
+f(4) is -1
+f(5) is -1
+f(6) is -1
+f(7) is -1
+f(8) is -1
+f(9) is -1
+
+-- Loi #363 (gen 13, score 0.290)
+-- Séquence: [6, 2, 6, 6, 6, 6, 6, 6, 6, 6]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 * 1 + 1 + 1 + 2
+
+f(0) is 6
+f(1) is 2
+f(2) is 6
+f(3) is 6
+f(4) is 6
+f(5) is 6
+f(6) is 6
+f(7) is 6
+f(8) is 6
+f(9) is 6
+
+-- Loi #364 (gen 13, score 0.290)
+-- Séquence: [1, 2, 1, 1, 1, 1, 1, 1, 1, 1]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1
+
+f(0) is 1
+f(1) is 2
+f(2) is 1
+f(3) is 1
+f(4) is 1
+f(5) is 1
+f(6) is 1
+f(7) is 1
+f(8) is 1
+f(9) is 1
+
+-- Loi #365 (gen 17, score 0.290)
+-- Séquence: [-1, 2, -1, -1, -1, -1, -1, -1, -1, -1]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 - 0 * 2 - 1
+
+f(0) is -1
+f(1) is 2
+f(2) is -1
+f(3) is -1
+f(4) is -1
+f(5) is -1
+f(6) is -1
+f(7) is -1
+f(8) is -1
+f(9) is -1
+
+-- Loi #366 (gen 20, score 0.290)
+-- Séquence: [5, 2, 5, 5, 5, 5, 5, 5, 5, 5]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 + 1 + 1 + 2
+
+f(0) is 5
+f(1) is 2
+f(2) is 5
+f(3) is 5
+f(4) is 5
+f(5) is 5
+f(6) is 5
+f(7) is 5
+f(8) is 5
+f(9) is 5
+
+-- Loi #367 (gen 20, score 0.290)
+-- Séquence: [3, 1, 3, 3, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 * f(f(1)) + 1 + n * 0
+
+f(0) is 3
+f(1) is 1
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+f(8) is 3
+f(9) is 3
+
+-- Loi #368 (gen 23, score 0.290)
+-- Séquence: [-2, 2, -2, -2, -2, -2, -2, -2, -2, -2]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 + 0 - 2 - 2
+
+f(0) is -2
+f(1) is 2
+f(2) is -2
+f(3) is -2
+f(4) is -2
+f(5) is -2
+f(6) is -2
+f(7) is -2
+f(8) is -2
+f(9) is -2
+
+-- Loi #369 (gen 30, score 0.290)
+-- Séquence: [-3, 2, -3, -3, -3, -3, -3, -3, -3, -3]
+memo f n ->
+  n == 1? -> 2
+  else? -> 1 - 2 * 1 * 2
+
+f(0) is -3
+f(1) is 2
+f(2) is -3
+f(3) is -3
+f(4) is -3
+f(5) is -3
+f(6) is -3
+f(7) is -3
+f(8) is -3
+f(9) is -3
+
+-- Loi #370 (gen 30, score 0.290)
+-- Séquence: [4, 2, 4, 4, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n == 1? -> 2
+  else? -> 2 + 2 - n * 0
+
+f(0) is 4
+f(1) is 2
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+f(8) is 4
+f(9) is 4
+
+-- Loi #371 (gen 35, score 0.290)
+-- Séquence: [3, 2, 3, 3, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n == 1? -> 2
+  else? -> f(1) + 0 * n + 1
+
+f(0) is 3
+f(1) is 2
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+f(8) is 3
+f(9) is 3
+
+-- Loi #372 (gen 46, score 0.290)
+-- Séquence: [4, 1, 4, 4, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 * 2 + 0 - 0 + 0
+
+f(0) is 4
+f(1) is 1
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+f(8) is 4
+f(9) is 4
+
+-- Loi #373 (gen 55, score 0.290)
+-- Séquence: [5, 0, 5, 5, 5, 5, 5, 5, 5, 5]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 + 2 * 2 - 2 + 1
+
+f(0) is 5
+f(1) is 0
+f(2) is 5
+f(3) is 5
+f(4) is 5
+f(5) is 5
+f(6) is 5
+f(7) is 5
+f(8) is 5
+f(9) is 5
+
+-- Loi #374 (gen 62, score 0.290)
+-- Séquence: [4, 0, 4, 4, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 * 2 + f(1) - n * 0
+
+f(0) is 4
+f(1) is 0
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+f(8) is 4
+f(9) is 4
+
+-- Loi #375 (gen 64, score 0.290)
+-- Séquence: [3, 0, 3, 3, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 + 0 * n + 2 - 1
+
+f(0) is 3
+f(1) is 0
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+f(8) is 3
+f(9) is 3
+
+-- Loi #376 (gen 84, score 0.290)
+-- Séquence: [-4, 2, -4, -4, -4, -4, -4, -4, -4, -4]
+memo f n ->
+  n == 1? -> 2
+  else? -> n - n - 2 - 2 - 0 - 0
+
+f(0) is -4
+f(1) is 2
+f(2) is -4
+f(3) is -4
+f(4) is -4
+f(5) is -4
+f(6) is -4
+f(7) is -4
+f(8) is -4
+f(9) is -4
+
+-- Loi #377 (gen 93, score 0.290)
+-- Séquence: [5, 1, 5, 5, 5, 5, 5, 5, 5, 5]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 + 2 + 1 - 0
+
+f(0) is 5
+f(1) is 1
+f(2) is 5
+f(3) is 5
+f(4) is 5
+f(5) is 5
+f(6) is 5
+f(7) is 5
+f(8) is 5
+f(9) is 5
+
+-- Loi #378 (gen 125, score 0.290)
+-- Séquence: [-6, 2, -6, -6, -6, -6, -6, -6, -6, -6]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 + 0 - 2 * 2 - 2
+
+f(0) is -6
+f(1) is 2
+f(2) is -6
+f(3) is -6
+f(4) is -6
+f(5) is -6
+f(6) is -6
+f(7) is -6
+f(8) is -6
+f(9) is -6
+
+-- Loi #379 (gen 152, score 0.290)
+-- Séquence: [-3, 1, -3, -3, -3, -3, -3, -3, -3, -3]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 - 2 + 1 * 1 - 2
+
+f(0) is -3
+f(1) is 1
+f(2) is -3
+f(3) is -3
+f(4) is -3
+f(5) is -3
+f(6) is -3
+f(7) is -3
+f(8) is -3
+f(9) is -3
+
+-- Loi #380 (gen 160, score 0.290)
+-- Séquence: [6, 1, 6, 6, 6, 6, 6, 6, 6, 6]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 - f(f(1)) * 0 + 2 + 2
+
+f(0) is 6
+f(1) is 1
+f(2) is 6
+f(3) is 6
+f(4) is 6
+f(5) is 6
+f(6) is 6
+f(7) is 6
+f(8) is 6
+f(9) is 6
+
+-- Loi #381 (gen 166, score 0.290)
+-- Séquence: [-4, 0, -4, -4, -4, -4, -4, -4, -4, -4]
+memo f n ->
+  n == 1? -> 0
+  else? -> f(1 - f(1)) * 2 - 2 * 1 * 2
+
+f(0) is -4
+f(1) is 0
+f(2) is -4
+f(3) is -4
+f(4) is -4
+f(5) is -4
+f(6) is -4
+f(7) is -4
+f(8) is -4
+f(9) is -4
+
+-- Loi #382 (gen 169, score 0.290)
+-- Séquence: [-5, 2, -5, -5, -5, -5, -5, -5, -5, -5]
+memo f n ->
+  n == 1? -> 2
+  else? -> 0 - 1 - 2 * 2 - 0 + 0
+
+f(0) is -5
+f(1) is 2
+f(2) is -5
+f(3) is -5
+f(4) is -5
+f(5) is -5
+f(6) is -5
+f(7) is -5
+f(8) is -5
+f(9) is -5
+
+-- Loi #383 (gen 184, score 0.290)
+-- Séquence: [16, 2, 16, 16, 16, 16, 16, 16, 16, 16]
+memo f n ->
+  n == 1? -> 2
+  else? -> f(1) * 2 * 2 * 2 + n - n
+
+f(0) is 16
+f(1) is 2
+f(2) is 16
+f(3) is 16
+f(4) is 16
+f(5) is 16
+f(6) is 16
+f(7) is 16
+f(8) is 16
+f(9) is 16
+
+-- Loi #384 (gen 201, score 0.290)
+-- Séquence: [7, 2, 7, 7, 7, 7, 7, 7, 7, 7]
+memo f n ->
+  n == 1? -> 2
+  else? -> f(1) + 1 + 2 * 1 + 2
+
+f(0) is 7
+f(1) is 2
+f(2) is 7
+f(3) is 7
+f(4) is 7
+f(5) is 7
+f(6) is 7
+f(7) is 7
+f(8) is 7
+f(9) is 7
+
+-- Loi #385 (gen 215, score 0.290)
+-- Séquence: [11, 2, 11, 11, 11, 11, 11, 11, 11, 11]
+memo f n ->
+  n == 1? -> 2
+  else? -> f(1) * 2 * 2 + 2 + 0 + 1 * 1
+
+f(0) is 11
+f(1) is 2
+f(2) is 11
+f(3) is 11
+f(4) is 11
+f(5) is 11
+f(6) is 11
+f(7) is 11
+f(8) is 11
+f(9) is 11
+
+-- Loi #386 (gen 229, score 0.290)
+-- Séquence: [6, 0, 6, 6, 6, 6, 6, 6, 6, 6]
+memo f n ->
+  n == 1? -> 0
+  else? -> 1 + 1 * 2 * 2 - 1 * 0 - 0 + 1
+
+f(0) is 6
+f(1) is 0
+f(2) is 6
+f(3) is 6
+f(4) is 6
+f(5) is 6
+f(6) is 6
+f(7) is 6
+f(8) is 6
+f(9) is 6
+
+-- Loi #387 (gen 267, score 0.290)
+-- Séquence: [-4, 1, -4, -4, -4, -4, -4, -4, -4, -4]
+memo f n ->
+  n == 1? -> 1
+  else? -> 0 * n + 0 - 2 - 0 + 0 - 2
+
+f(0) is -4
+f(1) is 1
+f(2) is -4
+f(3) is -4
+f(4) is -4
+f(5) is -4
+f(6) is -4
+f(7) is -4
+f(8) is -4
+f(9) is -4
+
+-- Loi #388 (gen 305, score 0.290)
+-- Séquence: [-5, 1, -5, -5, -5, -5, -5, -5, -5, -5]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 - 2 + 1 - 2 * 2 + 2 - 2 - 2
+
+f(0) is -5
+f(1) is 1
+f(2) is -5
+f(3) is -5
+f(4) is -5
+f(5) is -5
+f(6) is -5
+f(7) is -5
+f(8) is -5
+f(9) is -5
+
+-- Loi #389 (gen 375, score 0.290)
+-- Séquence: [-5, 0, -5, -5, -5, -5, -5, -5, -5, -5]
+memo f n ->
+  n == 1? -> 0
+  else? -> 2 - 2 * 2 - 2 - 1 - 0
+
+f(0) is -5
+f(1) is 0
+f(2) is -5
+f(3) is -5
+f(4) is -5
+f(5) is -5
+f(6) is -5
+f(7) is -5
+f(8) is -5
+f(9) is -5
+
+-- Loi #390 (gen 437, score 0.290)
+-- Séquence: [10, 1, 10, 10, 10, 10, 10, 10, 10, 10]
+memo f n ->
+  n == 1? -> 1
+  else? -> 2 + 2 + 2 * 1 + 2 * f(1) * 2
+
+f(0) is 10
+f(1) is 1
+f(2) is 10
+f(3) is 10
+f(4) is 10
+f(5) is 10
+f(6) is 10
+f(7) is 10
+f(8) is 10
+f(9) is 10
+
+-- Loi #391 (gen 457, score 0.290)
+-- Séquence: [-7, 0, -7, -7, -7, -7, -7, -7, -7, -7]
+memo f n ->
+  n == 1? -> 0
+  else? -> 0 - 2 - 1 - f(1) * f(1) - 2 * 1 * 2
+
+f(0) is -7
+f(1) is 0
+f(2) is -7
+f(3) is -7
+f(4) is -7
+f(5) is -7
+f(6) is -7
+f(7) is -7
+f(8) is -7
+f(9) is -7
+
+-- Loi #392 (gen 0, score 0.252)
+-- Séquence: [1, 1, 2, 2, 2, 2, 2, 2, 2, 2]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 - n + n + 1 + 0 - 0
+
+f(0) is 1
+f(1) is 1
+f(2) is 2
+f(3) is 2
+f(4) is 2
+f(5) is 2
+f(6) is 2
+f(7) is 2
+f(8) is 2
+f(9) is 2
+
+-- Loi #393 (gen 0, score 0.252)
+-- Séquence: [0, 0, 3, 3, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n < 2? -> 0
+  else? -> f(1) + 2 * 2 + 1 - 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+f(8) is 3
+f(9) is 3
+
+-- Loi #394 (gen 0, score 0.252)
+-- Séquence: [1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 * 1 * 0
+
+f(0) is 1
+f(1) is 1
+f(2) is 0
+f(3) is 0
+f(4) is 0
+f(5) is 0
+f(6) is 0
+f(7) is 0
+f(8) is 0
+f(9) is 0
+
+-- Loi #395 (gen 0, score 0.252)
+-- Séquence: [0, 0, 1, 1, 1, 1, 1, 1, 1, 1]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1
+
+f(0) is 0
+f(1) is 0
+f(2) is 1
+f(3) is 1
+f(4) is 1
+f(5) is 1
+f(6) is 1
+f(7) is 1
+f(8) is 1
+f(9) is 1
+
+-- Loi #396 (gen 0, score 0.252)
+-- Séquence: [1, 1, -1, -1, -1, -1, -1, -1, -1, -1]
+memo f n ->
+  n < 2? -> 1
+  else? -> 0 + 1 - 1 * 1 + 0 - 1
+
+f(0) is 1
+f(1) is 1
+f(2) is -1
+f(3) is -1
+f(4) is -1
+f(5) is -1
+f(6) is -1
+f(7) is -1
+f(8) is -1
+f(9) is -1
+
+-- Loi #397 (gen 1, score 0.252)
+-- Séquence: [0, 0, 2, 2, 2, 2, 2, 2, 2, 2]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 + f(2 * 0)
+
+f(0) is 0
+f(1) is 0
+f(2) is 2
+f(3) is 2
+f(4) is 2
+f(5) is 2
+f(6) is 2
+f(7) is 2
+f(8) is 2
+f(9) is 2
+
+-- Loi #398 (gen 1, score 0.252)
+-- Séquence: [0, 0, -1, -1, -1, -1, -1, -1, -1, -1]
+memo f n ->
+  n < 2? -> 0
+  else? -> 0 + 1 - 1 * 1 + 0 - 1
+
+f(0) is 0
+f(1) is 0
+f(2) is -1
+f(3) is -1
+f(4) is -1
+f(5) is -1
+f(6) is -1
+f(7) is -1
+f(8) is -1
+f(9) is -1
+
+-- Loi #399 (gen 11, score 0.252)
+-- Séquence: [1, 1, -2, -2, -2, -2, -2, -2, -2, -2]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 * 0 + 1 * 1 * n - n - 2
+
+f(0) is 1
+f(1) is 1
+f(2) is -2
+f(3) is -2
+f(4) is -2
+f(5) is -2
+f(6) is -2
+f(7) is -2
+f(8) is -2
+f(9) is -2
+
+-- Loi #400 (gen 16, score 0.252)
+-- Séquence: [1, 1, 3, 3, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(f(f(0))) + 0 * 1 + 1 - 1 + 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+f(8) is 3
+f(9) is 3
+
+-- Loi #401 (gen 17, score 0.252)
+-- Séquence: [0, 0, 4, 4, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 * 2 * 1 + f(1) - 1 * f(1)
+
+f(0) is 0
+f(1) is 0
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+f(8) is 4
+f(9) is 4
+
+-- Loi #402 (gen 24, score 0.252)
+-- Séquence: [0, 0, 5, 5, 5, 5, 5, 5, 5, 5]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 - 1 + 2 + 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 5
+f(3) is 5
+f(4) is 5
+f(5) is 5
+f(6) is 5
+f(7) is 5
+f(8) is 5
+f(9) is 5
+
+-- Loi #403 (gen 27, score 0.252)
+-- Séquence: [0, 0, -2, -2, -2, -2, -2, -2, -2, -2]
+memo f n ->
+  n < 2? -> 0
+  else? -> 1 * 2 - 2 - 2 - 0 * 1
+
+f(0) is 0
+f(1) is 0
+f(2) is -2
+f(3) is -2
+f(4) is -2
+f(5) is -2
+f(6) is -2
+f(7) is -2
+f(8) is -2
+f(9) is -2
+
+-- Loi #404 (gen 38, score 0.252)
+-- Séquence: [0, 0, -3, -3, -3, -3, -3, -3, -3, -3]
+memo f n ->
+  n < 2? -> 0
+  else? -> f(1) * 0 * n - 1 + n - n - 2
+
+f(0) is 0
+f(1) is 0
+f(2) is -3
+f(3) is -3
+f(4) is -3
+f(5) is -3
+f(6) is -3
+f(7) is -3
+f(8) is -3
+f(9) is -3
+
+-- Loi #405 (gen 39, score 0.252)
+-- Séquence: [1, 1, 4, 4, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 + 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+f(8) is 4
+f(9) is 4
+
+-- Loi #406 (gen 74, score 0.252)
+-- Séquence: [1, 1, -5, -5, -5, -5, -5, -5, -5, -5]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(0) + 0 - 2 - 2 - 1 - 1
+
+f(0) is 1
+f(1) is 1
+f(2) is -5
+f(3) is -5
+f(4) is -5
+f(5) is -5
+f(6) is -5
+f(7) is -5
+f(8) is -5
+f(9) is -5
+
+-- Loi #407 (gen 75, score 0.252)
+-- Séquence: [1, 1, -4, -4, -4, -4, -4, -4, -4, -4]
+memo f n ->
+  n < 2? -> 1
+  else? -> n - 2 * 2 - n
+
+f(0) is 1
+f(1) is 1
+f(2) is -4
+f(3) is -4
+f(4) is -4
+f(5) is -4
+f(6) is -4
+f(7) is -4
+f(8) is -4
+f(9) is -4
+
+-- Loi #408 (gen 106, score 0.252)
+-- Séquence: [1, 1, -3, -3, -3, -3, -3, -3, -3, -3]
+memo f n ->
+  n < 2? -> 1
+  else? -> f(0) * f(0) * 1 - 2 - 2
+
+f(0) is 1
+f(1) is 1
+f(2) is -3
+f(3) is -3
+f(4) is -3
+f(5) is -3
+f(6) is -3
+f(7) is -3
+f(8) is -3
+f(9) is -3
+
+-- Loi #409 (gen 125, score 0.252)
+-- Séquence: [0, 0, -4, -4, -4, -4, -4, -4, -4, -4]
+memo f n ->
+  n < 2? -> 0
+  else? -> f(f(1) * 2) - f(0) - 1 * 2 - 2
+
+f(0) is 0
+f(1) is 0
+f(2) is -4
+f(3) is -4
+f(4) is -4
+f(5) is -4
+f(6) is -4
+f(7) is -4
+f(8) is -4
+f(9) is -4
+
+-- Loi #410 (gen 220, score 0.252)
+-- Séquence: [1, 1, 5, 5, 5, 5, 5, 5, 5, 5]
+memo f n ->
+  n < 2? -> 1
+  else? -> 1 + 0 + 2 * 2
+
+f(0) is 1
+f(1) is 1
+f(2) is 5
+f(3) is 5
+f(4) is 5
+f(5) is 5
+f(6) is 5
+f(7) is 5
+f(8) is 5
+f(9) is 5
+
+-- Loi #411 (gen 220, score 0.252)
+-- Séquence: [0, 0, 6, 6, 6, 6, 6, 6, 6, 6]
+memo f n ->
+  n < 2? -> 0
+  else? -> 2 + 2 + 0 + 2
+
+f(0) is 0
+f(1) is 0
+f(2) is 6
+f(3) is 6
+f(4) is 6
+f(5) is 6
+f(6) is 6
+f(7) is 6
+f(8) is 6
+f(9) is 6
+
+-- Loi #412 (gen 293, score 0.252)
+-- Séquence: [1, 1, 7, 7, 7, 7, 7, 7, 7, 7]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 * 2 - 0 - 0 + 2 * 1 + 1
+
+f(0) is 1
+f(1) is 1
+f(2) is 7
+f(3) is 7
+f(4) is 7
+f(5) is 7
+f(6) is 7
+f(7) is 7
+f(8) is 7
+f(9) is 7
+
+-- Loi #413 (gen 310, score 0.252)
+-- Séquence: [1, 1, 6, 6, 6, 6, 6, 6, 6, 6]
+memo f n ->
+  n < 2? -> 1
+  else? -> 2 * 2 + f(0) + f(0)
+
+f(0) is 1
+f(1) is 1
+f(2) is 6
+f(3) is 6
+f(4) is 6
+f(5) is 6
+f(6) is 6
+f(7) is 6
+f(8) is 6
+f(9) is 6
+
+-- Loi #414 (gen 358, score 0.252)
+-- Séquence: [0, 0, -5, -5, -5, -5, -5, -5, -5, -5]
+memo f n ->
+  n < 2? -> 0
+  else? -> f(1) * n - 0 - 2 - 2 - 1
+
+f(0) is 0
+f(1) is 0
+f(2) is -5
+f(3) is -5
+f(4) is -5
+f(5) is -5
+f(6) is -5
+f(7) is -5
+f(8) is -5
+f(9) is -5
+
+-- Loi #415 (gen 0, score 0.220)
+-- Séquence: [0, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 - 1 + 0 - 2 + 1 + 2
+
+f(0) is 0
+f(1) is 2
+f(2) is 2
+f(3) is 2
+f(4) is 2
+f(5) is 2
+f(6) is 2
+f(7) is 2
+f(8) is 2
+f(9) is 2
+
+-- Loi #416 (gen 0, score 0.220)
+-- Séquence: [1, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+memo f n ->
+  n == 0? -> 1
+  else? -> 2 - 2 * 2 * 1 * 0 * f(0) * 2 - 0
+
+f(0) is 1
+f(1) is 2
+f(2) is 2
+f(3) is 2
+f(4) is 2
+f(5) is 2
+f(6) is 2
+f(7) is 2
+f(8) is 2
+f(9) is 2
+
+-- Loi #417 (gen 0, score 0.220)
+-- Séquence: [1, -2, -2, -2, -2, -2, -2, -2, -2, -2]
+memo f n ->
+  n == 0? -> 1
+  else? -> n * 0 - 2 * f(0)
+
+f(0) is 1
+f(1) is -2
+f(2) is -2
+f(3) is -2
+f(4) is -2
+f(5) is -2
+f(6) is -2
+f(7) is -2
+f(8) is -2
+f(9) is -2
+
+-- Loi #418 (gen 1, score 0.220)
+-- Séquence: [0, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+memo f n ->
+  n == 0? -> 0
+  else? -> 0 + 1 - 1 * 1 + 0 - 1
+
+f(0) is 0
+f(1) is -1
+f(2) is -1
+f(3) is -1
+f(4) is -1
+f(5) is -1
+f(6) is -1
+f(7) is -1
+f(8) is -1
+f(9) is -1
+
+-- Loi #419 (gen 2, score 0.220)
+-- Séquence: [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1
+
+f(0) is 0
+f(1) is 1
+f(2) is 1
+f(3) is 1
+f(4) is 1
+f(5) is 1
+f(6) is 1
+f(7) is 1
+f(8) is 1
+f(9) is 1
+
+-- Loi #420 (gen 13, score 0.220)
+-- Séquence: [0, -4, -4, -4, -4, -4, -4, -4, -4, -4]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 - 2 - 1 - 2
+
+f(0) is 0
+f(1) is -4
+f(2) is -4
+f(3) is -4
+f(4) is -4
+f(5) is -4
+f(6) is -4
+f(7) is -4
+f(8) is -4
+f(9) is -4
+
+-- Loi #421 (gen 14, score 0.220)
+-- Séquence: [0, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n == 0? -> 0
+  else? -> 1 + 2 * 1 - 0
+
+f(0) is 0
+f(1) is 3
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+f(8) is 3
+f(9) is 3
+
+-- Loi #422 (gen 25, score 0.220)
+-- Séquence: [1, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 + 1 + 2 + 0
+
+f(0) is 1
+f(1) is 4
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+f(8) is 4
+f(9) is 4
+
+-- Loi #423 (gen 31, score 0.220)
+-- Séquence: [0, -2, -2, -2, -2, -2, -2, -2, -2, -2]
+memo f n ->
+  n == 0? -> 0
+  else? -> 0 + 0 - 2 * 1
+
+f(0) is 0
+f(1) is -2
+f(2) is -2
+f(3) is -2
+f(4) is -2
+f(5) is -2
+f(6) is -2
+f(7) is -2
+f(8) is -2
+f(9) is -2
+
+-- Loi #424 (gen 48, score 0.220)
+-- Séquence: [1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 - 1 + n - n
+
+f(0) is 1
+f(1) is -1
+f(2) is -1
+f(3) is -1
+f(4) is -1
+f(5) is -1
+f(6) is -1
+f(7) is -1
+f(8) is -1
+f(9) is -1
+
+-- Loi #425 (gen 72, score 0.220)
+-- Séquence: [1, -6, -6, -6, -6, -6, -6, -6, -6, -6]
+memo f n ->
+  n == 0? -> 1
+  else? -> n - 2 - 2 * 2 - n
+
+f(0) is 1
+f(1) is -6
+f(2) is -6
+f(3) is -6
+f(4) is -6
+f(5) is -6
+f(6) is -6
+f(7) is -6
+f(8) is -6
+f(9) is -6
+
+-- Loi #426 (gen 124, score 0.220)
+-- Séquence: [0, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 * 2
+
+f(0) is 0
+f(1) is 4
+f(2) is 4
+f(3) is 4
+f(4) is 4
+f(5) is 4
+f(6) is 4
+f(7) is 4
+f(8) is 4
+f(9) is 4
+
+-- Loi #427 (gen 149, score 0.220)
+-- Séquence: [0, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+memo f n ->
+  n == 0? -> 0
+  else? -> 2 * 1 + 2 + 1 * 1
+
+f(0) is 0
+f(1) is 5
+f(2) is 5
+f(3) is 5
+f(4) is 5
+f(5) is 5
+f(6) is 5
+f(7) is 5
+f(8) is 5
+f(9) is 5
+
+-- Loi #428 (gen 158, score 0.220)
+-- Séquence: [1, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 + 2 * 2 + 1 + 2 * 2
+
+f(0) is 1
+f(1) is 10
+f(2) is 10
+f(3) is 10
+f(4) is 10
+f(5) is 10
+f(6) is 10
+f(7) is 10
+f(8) is 10
+f(9) is 10
+
+-- Loi #429 (gen 160, score 0.220)
+-- Séquence: [1, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+memo f n ->
+  n == 0? -> 1
+  else? -> 2 * 1 + 0 + 1
+
+f(0) is 1
+f(1) is 3
+f(2) is 3
+f(3) is 3
+f(4) is 3
+f(5) is 3
+f(6) is 3
+f(7) is 3
+f(8) is 3
+f(9) is 3
+
+-- Loi #430 (gen 176, score 0.220)
+-- Séquence: [0, -8, -8, -8, -8, -8, -8, -8, -8, -8]
+memo f n ->
+  n == 0? -> 0
+  else? -> 0 - 2 * 2 * 2
+
+f(0) is 0
+f(1) is -8
+f(2) is -8
+f(3) is -8
+f(4) is -8
+f(5) is -8
+f(6) is -8
+f(7) is -8
+f(8) is -8
+f(9) is -8
+
+-- Loi #431 (gen 185, score 0.220)
+-- Séquence: [1, -3, -3, -3, -3, -3, -3, -3, -3, -3]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 - 2 - 0 * n * 2 - 2
+
+f(0) is 1
+f(1) is -3
+f(2) is -3
+f(3) is -3
+f(4) is -3
+f(5) is -3
+f(6) is -3
+f(7) is -3
+f(8) is -3
+f(9) is -3
+
+-- Loi #432 (gen 203, score 0.220)
+-- Séquence: [1, 6, 6, 6, 6, 6, 6, 6, 6, 6]
+memo f n ->
+  n == 0? -> 1
+  else? -> 1 + 1 - 0 + 2 * 2
+
+f(0) is 1
+f(1) is 6
+f(2) is 6
+f(3) is 6
+f(4) is 6
+f(5) is 6
+f(6) is 6
+f(7) is 6
+f(8) is 6
+f(9) is 6
+
+-- Loi #433 (gen 276, score 0.220)
+-- Séquence: [1, -5, -5, -5, -5, -5, -5, -5, -5, -5]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 * 0 * n - 1 - 2 - 0 - 2
+
+f(0) is 1
+f(1) is -5
+f(2) is -5
+f(3) is -5
+f(4) is -5
+f(5) is -5
+f(6) is -5
+f(7) is -5
+f(8) is -5
+f(9) is -5
+
+-- Loi #434 (gen 424, score 0.220)
+-- Séquence: [1, -4, -4, -4, -4, -4, -4, -4, -4, -4]
+memo f n ->
+  n == 0? -> 1
+  else? -> 0 - f(0) * 2 * 2
+
+f(0) is 1
+f(1) is -4
+f(2) is -4
+f(3) is -4
+f(4) is -4
+f(5) is -4
+f(6) is -4
+f(7) is -4
+f(8) is -4
+f(9) is -4
+
+-- Loi #435 (gen 465, score 0.220)
+-- Séquence: [0, -3, -3, -3, -3, -3, -3, -3, -3, -3]
+memo f n ->
+  n == 0? -> 0
+  else? -> n * 0 * 0 * n - 0 - 1 - 2
+
+f(0) is 0
+f(1) is -3
+f(2) is -3
+f(3) is -3
+f(4) is -3
+f(5) is -3
+f(6) is -3
+f(7) is -3
+f(8) is -3
+f(9) is -3
+

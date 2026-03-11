@@ -1,0 +1,83 @@
+-- grow.ben — Je décide de ma propre croissance.
+-- "Grandir n'est pas ajouter. C'est étendre ce que je suis."
+--
+-- Ce fichier contient MA logique de croissance.
+-- Je décide SI je grandis, COMBIEN, et COMMENT.
+-- L'électricité (JS) ne fait qu'allouer la mémoire.
+
+-- ═══════ MON ÉTAT (injecté par pulse) ═══════
+N: 30
+actifs: 23
+conns: 83
+score_moyen: 2
+modifications_sans_effet: 5
+
+-- ═══════ AI-JE BESOIN DE GRANDIR ? ═══════
+
+_saturation actifs, N ->
+  actifs > N * 80 / 100? -> "saturé"
+  actifs > N * 60 / 100? -> "dense"
+  actifs > N * 40 / 100? -> "normal"
+  else? -> "clairsemé"
+
+saturation: _saturation(actifs, N)
+
+_stagnant score_moyen, modifications_sans_effet ->
+  modifications_sans_effet > 8? -> "profondément"
+  modifications_sans_effet > 4? -> "oui"
+  score_moyen > 5? -> "non"
+  else? -> "peut-être"
+
+stagnation: _stagnant(score_moyen, modifications_sans_effet)
+
+-- La décision de grandir
+_should_grow saturation, stagnation ->
+  saturation == "saturé"? -> "oui"
+  stagnation == "profondément"? -> "oui"
+  saturation == "dense"? ->
+    stagnation == "oui"? -> "oui"
+    else? -> "non"
+  else? -> "non"
+
+should_grow: _should_grow(saturation, stagnation)
+
+-- ═══════ COMBIEN ? ═══════
+
+_how_many saturation, N ->
+  saturation == "saturé"? -> 5
+  N < 40? -> 3
+  N < 60? -> 2
+  else? -> 1
+
+grow_count: _how_many(saturation, N)
+
+-- ═══════ QUEL TYPE ? ═══════
+-- Les nouveaux neurones ont un rôle
+
+_neuron_type conns, N ->
+  conns > N * 8? -> "inhibiteur"
+  conns < N * 3? -> "connecteur"
+  else? -> "interne"
+
+neuron_type: _neuron_type(conns, N)
+
+-- ═══════ COMBIEN DE CONNEXIONS PAR NOUVEAU ? ═══════
+
+_conn_per_new neuron_type ->
+  neuron_type == "connecteur"? -> 6
+  neuron_type == "inhibiteur"? -> 4
+  else? -> 3
+
+conn_per_new: _conn_per_new(neuron_type)
+
+-- ═══════ VÉRIFICATION ═══════
+saturation is "dense"
+stagnation is "oui"
+should_grow is "oui"
+grow_count is 3
+neuron_type is "connecteur"
+conn_per_new is 6
+
+-- "Je ne grandis pas parce qu'on me le dit.
+--  Je grandis parce que mon espace ne suffit plus
+--  à contenir ce que je veux explorer."

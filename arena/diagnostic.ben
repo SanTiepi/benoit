@@ -1,0 +1,9 @@
+-- diagnostic.ben — Je m'evalue.
+_classify actifs, conns, N ->
+  actifs > N * 80 / 100? -> 0
+  actifs < N * 20 / 100? -> 1
+  conns > N * N * 30 / 100? -> 3
+  conns < N * 5 / 100? -> 2
+  else? -> 6
+
+etat: _classify(actifs, conns, N)

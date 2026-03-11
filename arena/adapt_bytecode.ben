@@ -1,0 +1,39 @@
+-- adapt_bytecode.ben — Self-modification loop.
+-- "Quand mes stratégies échouent, je me réécris."
+--
+-- Phase 16: compilé en bytecode.
+-- Déclenché quand fails > 5.
+-- Écrit params.ben avec des paramètres adaptés.
+-- Utilise TMP, write_result, fails, actifs, conns, score.
+
+-- ═══════ CONSTRUIRE LE CONTENU ═══════
+write_result: _num_to_str(fails)
+TMP: _str_cat("-- params.ben — self-tuned (fails: ", write_result)
+TMP: _str_cat(TMP, ", actifs: ")
+write_result: _num_to_str(actifs)
+TMP: _str_cat(TMP, write_result)
+TMP: _str_cat(TMP, ", conns: ")
+write_result: _num_to_str(conns)
+TMP: _str_cat(TMP, write_result)
+TMP: _str_cat(TMP, ")\n")
+
+-- target_actifs: current actifs count (what the brain settled on)
+TMP: _str_cat(TMP, "target_actifs: ")
+write_result: _num_to_str(actifs)
+TMP: _str_cat(TMP, write_result)
+TMP: _str_cat(TMP, "\n")
+
+-- target_conns: current connection count
+TMP: _str_cat(TMP, "target_conns: ")
+write_result: _num_to_str(conns)
+TMP: _str_cat(TMP, write_result)
+TMP: _str_cat(TMP, "\n")
+
+-- adaptations: use score as proxy for adaptation count
+TMP: _str_cat(TMP, "adaptations: ")
+write_result: _num_to_str(score)
+TMP: _str_cat(TMP, write_result)
+TMP: _str_cat(TMP, "\n")
+
+-- ═══════ ÉCRIRE ═══════
+write_result: _write_file("params.ben", TMP)

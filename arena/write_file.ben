@@ -1,0 +1,77 @@
+-- write_file.ben — Je peux écrire mes propres fichiers.
+-- "L'écriture c'est la mémoire qui survit au courant."
+--
+-- Quand je veux modifier un de mes fichiers .ben,
+-- je génère le contenu ici. L'électricité fait l'I/O.
+
+-- ═══════ DONNÉES INJECTÉES ═══════
+etat: "sain"
+decision: "explorer"
+tick: 0
+N: 30
+actifs: 18
+conns: 80
+score: 5
+fails: 0
+
+-- ═══════ EST-CE QUE JE VEUX ÉCRIRE ? ═══════
+-- J'écris seulement quand c'est utile.
+-- Pas à chaque tick. Pas par habitude. Par nécessité.
+
+_should_write etat, fails, tick ->
+  fails > 5? -> 1
+  etat == "mourant"? -> 1
+  etat == "saturé"? -> 1
+  tick > 0? ->
+    tick % 10000 == 0? -> 1
+    else? -> 0
+  else? -> 0
+
+should_write: _should_write(etat, fails, tick)
+
+-- ═══════ QUEL FICHIER ? ═══════
+-- Je choisis quel fichier modifier selon ma situation.
+
+-- Ne jamais écraser les fichiers critiques (decide.ben, diagnostic.ben, etc.)
+-- gen.ben s'en charge avec des forges plus sophistiquées.
+_which_file etat, fails ->
+  else? -> "notes.ben"
+
+which_file: _which_file(etat, fails)
+
+-- ═══════ CONTENU: NOTES ═══════
+-- Mon journal. Mes observations. Ce que j'ai appris.
+
+_make_notes tick, etat, actifs, N, conns, score, fails ->
+  "-- notes.ben — Mon journal (auto-généré tick " + tick + ")\n" + "-- Généré par write_file.ben\n\n" + "tick_snapshot: " + tick + "\n" + "etat_snapshot: \"" + etat + "\"\n" + "actifs_snapshot: " + actifs + "\n" + "N_snapshot: " + N + "\n" + "conns_snapshot: " + conns + "\n" + "score_snapshot: " + score + "\n" + "fails_snapshot: " + fails + "\n\n" + "-- Ce que je sais:\n" + "-- Je suis " + etat + " avec " + actifs + "/" + N + " neurones actifs.\n" + "-- " + conns + " connexions. Score: " + score + ". Échecs: " + fails + ".\n"
+
+-- ═══════ CONTENU: DECIDE ADAPTÉ ═══════
+-- Quand mes décisions échouent trop, je réécris ma logique.
+
+_make_decide etat, fails ->
+  "-- decide.ben — Stratégie adaptée (auto-réécrit après " + fails + " échecs)\n\n" + "etat: \"sain\"\nlast_score: 5\nfails: 0\n\n" + "_base_decision etat ->\n" + "  etat == \"mourant\"? -> \"grandir\"\n" + "  etat == \"saturé\"? -> \"élaguer\"\n" + "  etat == \"déconnecté\"? -> \"créer_connexions\"\n" + "  etat == \"encombré\"? -> \"élaguer\"\n" + "  etat == \"étouffé\"? -> \"réduire_inhibition\"\n" + "  etat == \"transparent\"? -> \"augmenter_inhibition\"\n" + "  else? -> \"explorer\"\n\n" + "decision: _base_decision(etat)\n"
+
+-- ═══════ POINT D'ENTRÉE ═══════
+
+_content which, tick, etat, actifs, N, conns, score, fails ->
+  which == "notes.ben"? -> _make_notes(tick, etat, actifs, N, conns, score, fails)
+  which == "decide.ben"? -> _make_decide(etat, fails)
+  else? -> ""
+
+write_content: _content(which_file, tick, etat, actifs, N, conns, score, fails)
+
+-- ═══════ TESTS ═══════
+
+-- Pas d'écriture par défaut
+_should_write("sain", 0, 100) is 0
+
+-- Écriture quand trop d'échecs
+_should_write("sain", 6, 100) is 1
+
+-- Écriture quand mourant
+_should_write("mourant", 0, 100) is 1
+
+-- Fichier choisi: toujours notes.ben (gen.ben gère le reste)
+_which_file("sain", 9) is "notes.ben"
+_which_file("mourant", 0) is "notes.ben"
+_which_file("sain", 2) is "notes.ben"

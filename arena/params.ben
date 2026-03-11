@@ -1,0 +1,4 @@
+-- params.ben — self-tuned (fails: 7390, actifs: 30, conns: 313)
+target_actifs: 30
+target_conns: 313
+adaptations: 2

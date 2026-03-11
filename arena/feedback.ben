@@ -1,0 +1,48 @@
+-- feedback.ben — Je mesure l'effet de mes actions.
+-- "Si rien ne change, c'est que j'ai mal choisi."
+
+-- ═══════ MON ÉTAT (injecté par pulse) ═══════
+actifs: 23
+prev_actifs: 23
+stale_count: 0
+score: 2
+fails: 0
+modifications_sans_effet: 5
+delta_conns: 0
+delta_patterns: 0
+
+-- ═══════ STALE DETECTION ═══════
+-- Si actifs == prev_actifs → le réseau stagne
+
+_stale_update actifs, prev_actifs, stale_count ->
+  actifs == prev_actifs? -> stale_count + 1
+  else? -> 0
+
+new_stale_count: _stale_update(actifs, prev_actifs, stale_count)
+
+-- ═══════ FAILS TRACKING ═══════
+-- Score < 2 = échec
+
+_update_fails score, fails ->
+  score < 3? -> fails + 1
+  else? -> 0
+
+new_fails: _update_fails(score, fails)
+
+-- ═══════ MODS SANS EFFET ═══════
+-- Si delta_conns == 0 ET delta_patterns == 0 → rien n'a changé
+
+_update_mods delta_conns, delta_patterns, modifications_sans_effet ->
+  delta_conns == 0? ->
+    delta_patterns == 0? -> modifications_sans_effet + 1
+    else? -> 0
+  else? -> 0
+
+new_mods: _update_mods(delta_conns, delta_patterns, modifications_sans_effet)
+
+-- ═══════ VÉRIFICATION ═══════
+new_stale_count is 1
+new_fails is 1
+new_mods is 6
+
+-- "Je ne répète pas une erreur sans la compter."

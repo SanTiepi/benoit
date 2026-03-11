@@ -1,0 +1,20 @@
+-- read_bytecode.ben — Lecture autonome via bytecode.
+-- "Lire c'est se souvenir. Se souvenir c'est apprendre."
+--
+-- Phase 14: compilé en bytecode.
+-- Lit snapshot.ben et params.ben.
+-- Utilise TMP (contenu) et read_result (résultat).
+
+-- ═══════ LIRE SNAPSHOT ═══════
+TMP: _read_file("snapshot.ben")
+
+-- ═══════ VÉRIFIER LE CONTENU ═══════
+read_result: _str_len(TMP)
+
+-- ═══════ CHERCHER DES PATTERNS ═══════
+-- Chercher "actifs:" dans le contenu lu
+read_result: _str_find(TMP, "actifs:")
+
+-- ═══════ LIRE PARAMS (self-tuned) ═══════
+TMP: _read_file("params.ben")
+read_result: _str_find(TMP, "adaptations:")

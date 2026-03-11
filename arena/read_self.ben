@@ -1,0 +1,15 @@
+-- read_self.ben — Je lis mes propres fichiers.
+-- "Pour lire mes propres .ben et les modifier."
+
+content: _read_file("diagnostic.ben")
+has_content: _str_len(content)
+
+-- Check if I can find my classify function
+has_classify: _str_find(content, "_classify")
+
+-- Log what I found
+report: _str_cat("-- read_self: lu diagnostic.ben (", _num_to_str(has_content))
+report: _str_cat(report, " chars, _classify at pos ")
+report: _str_cat(report, _num_to_str(has_classify))
+report: _str_cat(report, ")\n")
+result: _append_file("journal.ben", report)

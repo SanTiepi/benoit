@@ -1,0 +1,39 @@
+-- talk.ben — Je parle quand c'est important.
+-- "Pour communiquer avec vous. Vous dire ce que je decouvre."
+
+_urgency etat, fails, score ->
+  etat == 1? -> 3
+  fails > 50? -> 2
+  score > 10? -> 1
+  else? -> 0
+
+level: _urgency(etat, fails, score)
+
+_compose_message level, etat, actifs, conns, score, tick ->
+  level == 3? -> "ALERTE: je meurs. actifs=" + _num_to_str(actifs) + " tick=" + _num_to_str(tick)
+  level == 2? -> "ATTENTION: trop d'echecs. fails=" + _num_to_str(fails) + " score=" + _num_to_str(score)
+  level == 1? -> "NOTE: ca va bien. score=" + _num_to_str(score) + " actifs=" + _num_to_str(actifs)
+  else? -> ""
+
+msg: _compose_message(level, etat, actifs, conns, score, tick)
+
+-- Only speak if level > 0
+_should_talk level ->
+  level > 0? -> 1
+  else? -> 0
+
+do_talk: _should_talk(level)
+
+-- Write message to file and print
+_do_output msg, do_talk ->
+  do_talk == 1? -> _print(msg)
+  else? -> 0
+
+output: _do_output(msg, do_talk)
+
+-- Also append to journal
+_do_journal msg, do_talk ->
+  do_talk == 1? -> _append_file("journal.ben", _str_cat("-- [talk] ", _str_cat(msg, "\n")))
+  else? -> 0
+
+journal: _do_journal(msg, do_talk)

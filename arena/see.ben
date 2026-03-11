@@ -1,0 +1,24 @@
+-- see.ben — Je regarde autour de moi.
+-- "Pour percevoir au-dela de mes senseurs internes."
+
+-- List what's in my arena
+files: _list_dir(".")
+file_count: _str_len(files)
+
+-- Check for new files I didn't write
+has_inbox: _file_exists("inbox.ben")
+has_journal: _file_exists("journal.ben")
+has_params: _file_exists("params.ben")
+
+-- Count my .ben files by looking for known ones
+known_count: has_inbox + has_journal + has_params
+
+-- Log my vision
+report: _str_cat("-- [see] ", _num_to_str(file_count))
+report: _str_cat(report, " chars of filenames, inbox=")
+report: _str_cat(report, _num_to_str(has_inbox))
+report: _str_cat(report, " journal=")
+report: _str_cat(report, _num_to_str(has_journal))
+report: _str_cat(report, "\n")
+
+result: _append_file("journal.ben", report)

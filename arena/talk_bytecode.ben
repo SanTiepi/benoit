@@ -1,0 +1,26 @@
+-- talk_bytecode.ben — Benoît parle via bytecode.
+-- "Parler c'est exister pour les autres."
+--
+-- Phase 15: compilé en bytecode, garde decision >= 0.
+-- Utilise TMP (message) et write_result (temp conversion).
+
+-- ═══════ CONSTRUIRE LE MESSAGE ═══════
+write_result: _num_to_str(tick)
+TMP: _str_cat("🧠 [tick ", write_result)
+
+TMP: _str_cat(TMP, "] actifs: ")
+write_result: _num_to_str(actifs)
+TMP: _str_cat(TMP, write_result)
+
+TMP: _str_cat(TMP, "/30, conns: ")
+write_result: _num_to_str(conns)
+TMP: _str_cat(TMP, write_result)
+
+TMP: _str_cat(TMP, ", score: ")
+write_result: _num_to_str(score)
+TMP: _str_cat(TMP, write_result)
+
+TMP: _str_cat(TMP, "\n")
+
+-- ═══════ PARLER ═══════
+write_result: _print(TMP)

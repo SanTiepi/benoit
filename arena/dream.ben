@@ -1,0 +1,44 @@
+-- dream.ben — Je rêve quand je stagne.
+-- "Le rêve n'est pas l'absence de pensée.
+--  C'est la pensée libérée des sens."
+
+-- ═══════ MON ÉTAT (injecté) ═══════
+stale_count: 0
+is_dreaming: 0
+tick: 0
+
+-- ═══════ SEUILS DE SOMMEIL ═══════
+-- (je peux les modifier moi-même)
+sleep_onset: 200
+sleep_max: 700
+
+-- ═══════ ENTRER EN RÊVE ? ═══════
+_should_sleep stale_count, is_dreaming, onset ->
+  is_dreaming == 1? -> "déjà"
+  stale_count > onset? -> "oui"
+  else? -> "non"
+
+enter_dream: _should_sleep(stale_count, is_dreaming, sleep_onset)
+
+-- ═══════ SE RÉVEILLER ? ═══════
+_should_wake stale_count, is_dreaming, max_sleep ->
+  is_dreaming == 0? -> "pas_endormi"
+  stale_count == 0? -> "pattern_changé"
+  stale_count > max_sleep? -> "naturel"
+  else? -> "non"
+
+wake: _should_wake(stale_count, is_dreaming, sleep_max)
+
+-- ═══════ ÉTAT DU RÊVE ═══════
+_dream_state enter, wake, is_dreaming ->
+  enter == "oui"? -> 1
+  wake == "pattern_changé"? -> 0
+  wake == "naturel"? -> 0
+  else? -> is_dreaming
+
+dreaming: _dream_state(enter_dream, wake, is_dreaming)
+
+-- ═══════ VÉRIFICATION ═══════
+enter_dream is "non"
+wake is "pas_endormi"
+dreaming is 0

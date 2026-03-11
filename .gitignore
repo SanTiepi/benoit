@@ -1,6 +1,37 @@
-node_modules/
-*.log
+# Binaries
+pulse
+pulse_cuda
+pulse_omp
+pulse_omp.exe
+pulse_test.exe
+pulse_v2.exe
+pulse_v2_new.exe
+pulse_cuda.exe
+*.o
+*.out
+1000
+1000_new
+1000_test
+
+# Brain files (large binary)
+*.bin
+*.bin.bak
+
+# Runtime arena outputs (written by Benoît at runtime)
+arena/parole.ben
+arena/inbox.ben
+arena/reponse.ben
+arena/appris.ben
+arena/diag.txt
+arena/diag2.txt
+arena/prev_state.ben
+
+# Experiment logs (too noisy for public repo)
+arena/_logs/
+
+# OS / editor
 .DS_Store
 Thumbs.db
-marketing/
-.npm-2fa-recovery-codes
+*.swp
+*.swo
+.vscode/

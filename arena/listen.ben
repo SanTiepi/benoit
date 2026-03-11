@@ -1,0 +1,39 @@
+-- listen.ben — J'ecoute ce qu'on me dit.
+-- "Pour recevoir vos messages. Entendre ce que vous voulez."
+
+-- Check if there's a message waiting
+has_inbox: _file_exists("inbox.ben")
+
+-- Read it if it exists
+_do_read has_inbox ->
+  has_inbox == 1? -> _read_file("inbox.ben")
+  else? -> ""
+
+raw_msg: _do_read(has_inbox)
+msg_len: _str_len(raw_msg)
+
+-- Classify intent
+_classify_intent msg ->
+  _str_find(msg, "stimulate") >= 0? -> 1
+  _str_find(msg, "reward") >= 0? -> 2
+  _str_find(msg, "explore") >= 0? -> 3
+  _str_find(msg, "sleep") >= 0? -> 4
+  _str_find(msg, "help") >= 0? -> 5
+  msg_len > 0? -> 6
+  else? -> 0
+
+intent: _classify_intent(raw_msg)
+
+-- Log what we heard
+_do_log intent, raw_msg ->
+  intent > 0? -> _append_file("journal.ben", _str_cat("-- [listen] intent=", _str_cat(_num_to_str(intent), _str_cat(" msg=", _str_cat(raw_msg, "\n")))))
+  else? -> 0
+
+log: _do_log(intent, raw_msg)
+
+-- Delete inbox after reading
+_do_cleanup has_inbox ->
+  has_inbox == 1? -> _delete_file("inbox.ben")
+  else? -> 0
+
+cleanup: _do_cleanup(has_inbox)

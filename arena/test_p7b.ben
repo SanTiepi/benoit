@@ -1,0 +1,7 @@
+has_inbox: _file_exists("inbox.ben")
+
+_do_listen has_inbox ->
+  has_inbox == 1? -> _read_file("inbox.ben")
+  else? -> ""
+
+inbox_msg: _do_listen(has_inbox)
