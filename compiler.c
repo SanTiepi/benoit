@@ -25,7 +25,7 @@
 
 /* ═══════ LIMITS ═══════ */
 #define BEN_MAX_LINES    512
-#define BEN_MAX_VARS     64
+#define BEN_MAX_VARS     256
 #define BEN_MAX_FUNCS    32
 #define BEN_MAX_ARGS     8
 #define BEN_MAX_BODY     32
@@ -546,6 +546,22 @@ static BenVal ben_call_func(BenInterp *interp, const char *name, BenVal *args, i
     else if (strcmp(name, "_str_to_num") == 0 && nargs >= 1) {
         result = ben_num(args[0].type == VAL_STR ? atof(args[0].str) : args[0].num);
     }
+    else if (strcmp(name, "_str_trim") == 0 && nargs >= 1) {
+        /* _str_trim(s) — strip leading/trailing whitespace and newlines */
+        if (args[0].type == VAL_STR) {
+            char buf[BEN_MAX_STR];
+            strncpy(buf, args[0].str, BEN_MAX_STR - 1);
+            buf[BEN_MAX_STR - 1] = 0;
+            /* rtrim */
+            int len = (int)strlen(buf);
+            while (len > 0 && (buf[len-1] == '\n' || buf[len-1] == '\r' || buf[len-1] == ' ' || buf[len-1] == '\t'))
+                buf[--len] = 0;
+            /* ltrim */
+            char *start = buf;
+            while (*start == ' ' || *start == '\t' || *start == '\n' || *start == '\r') start++;
+            result = ben_str(start);
+        }
+    }
     else if (strcmp(name, "_str_find") == 0 && nargs >= 2) {
         if (args[0].type == VAL_STR && args[1].type == VAL_STR) {
             char *p = strstr(args[0].str, args[1].str);
@@ -959,8 +975,8 @@ static int ben_exec(VM *vm, const char *src, const char *arena_path, char *log_o
             continue;
         }
 
-        /* Binding: name: expr */
-        if (colon && isalpha((unsigned char)trimmed[0])) {
+        /* Binding: name: expr  (name may start with _ for private vars) */
+        if (colon && (isalpha((unsigned char)trimmed[0]) || trimmed[0] == '_')) {
             char name[64];
             int k = 0;
             const char *s = trimmed;

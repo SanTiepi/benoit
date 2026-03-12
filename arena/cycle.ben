@@ -1,5 +1,5 @@
--- cycle.ben — Mon cycle de vie.
--- Diagnostiquer, decider, agir, mesurer, adapter, apprendre.
+-- cycle.ben — Mon cycle de vie. (v3 — auto-diagnostic + auto-correction)
+-- "Je detecte mes bugs. Je me corrige. Pas besoin d'etre arrete."
 
 -- ═══════ SEUILS ═══════
 seuil_bas: N * 20 / 100
@@ -46,7 +46,6 @@ _do_listen hasinbox ->
 
 inbox: _do_listen(hasinbox)
 
-
 -- ═══════ HEAR ═══════
 hassignal: _file_exists("signal.ben")
 
@@ -63,9 +62,6 @@ _consume hassignal ->
 consumed: _consume(hassignal)
 
 -- ═══════ APPRENDRE ═══════
--- Protocole: on depose lecon.ben (explication) + nouveau_[cible].ben (contenu)
--- Je lis la lecon, j'applique le changement, je confirme dans appris.ben
-
 haslecon: _file_exists("lecon.ben")
 
 _lire_lecon haslecon ->
@@ -74,7 +70,6 @@ _lire_lecon haslecon ->
 
 lecon: _lire_lecon(haslecon)
 
--- Verifier si une mise a jour de cycle.ben est proposee
 has_nouveau_cycle: _file_exists("nouveau_cycle.ben")
 
 _appliquer_cycle has_nouveau_cycle ->
@@ -83,24 +78,37 @@ _appliquer_cycle has_nouveau_cycle ->
 
 applique_cycle: _appliquer_cycle(has_nouveau_cycle)
 
--- Verifier si un nouveau fichier .ben est propose (nom dans cible.txt)
+-- Copie avec _str_trim pour eviter le bug du \n dans cible.txt
 has_nouveau: _file_exists("nouveau.ben")
 has_cible: _file_exists("cible.txt")
 
+_lire_cible has_cible ->
+  has_cible == 1? -> _str_trim(_read_file("cible.txt"))
+  else? -> ""
+
+cible_nom: _lire_cible(has_cible)
+
 _appliquer_nouveau has_nouveau, has_cible ->
-  has_nouveau == 1? -> _copy_file("nouveau.ben", _read_file("cible.txt"))
+  has_nouveau == 1? -> _copy_file("nouveau.ben", cible_nom)
   else? -> 0
 
 applique_nouveau: _appliquer_nouveau(has_nouveau, has_cible)
 
--- Confirmer l'apprentissage
+-- Log d'erreur si la copie echoue (applique_nouveau == 0 mais has_nouveau == 1)
+_log_echec_copie has_nouveau, result, tick ->
+  has_nouveau == 1? ->
+    result == 0? -> _write_file("bug_log.ben", _str_cat("-- ERREUR copie tick=", _str_cat(_num_to_str(tick), " : _copy_file a retourne 0\n")))
+    else? -> 0
+  else? -> 0
+
+echec_copie: _log_echec_copie(has_nouveau, applique_nouveau, tick)
+
 _confirmer haslecon, tick ->
   haslecon == 1? -> _write_file("appris.ben", _str_cat("-- Lecon apprise au tick ", _str_cat(_num_to_str(tick), _str_cat("\n", lecon))))
   else? -> 0
 
 confirme: _confirmer(haslecon, tick)
 
--- Nettoyer les fichiers de lecon
 _nettoyer_lecon haslecon ->
   haslecon == 1? -> _delete_file("lecon.ben")
   else? -> 0
@@ -120,6 +128,93 @@ _nettoyer_cible has_cible ->
 
 net3: _nettoyer_cible(has_cible)
 
+-- ═══════ AUTO-DIAGNOSTIC DES OUTILS ═══════
+-- Je teste mes capacites et ecris le resultat dans rapport.ben
+-- Seulement au tick 0 et tous les 10000 ticks ensuite
+
+mod_diag a, b ->
+  b == 0? -> 0
+  a < b? -> a
+  else? -> mod_diag(a - b, b)
+
+diag_reste: mod_diag(tick, 10000)
+do_diag: diag_reste == 0
+
+-- Tests unitaires
+_t_sqrt: _sqrt(9)
+_t_pow: _pow(2, 8)
+_t_abs: _abs(-7)
+_t_floor: _floor(3.9)
+_t_mod: _mod(10, 3)
+_t_round: _round(2.6)
+_t_prec: 3 * 3 + 4 * 4
+
+ok_math: (_t_sqrt == 3) + (_t_pow == 256) + (_t_abs == 7) + (_t_floor == 3) + (_t_mod == 1) + (_t_round == 3) + (_t_prec == 25)
+
+_t_str_len: _str_len("bonjour")
+_t_str_to_num: _str_to_num("42")
+_t_trim: _str_len(_str_trim("hello\n"))
+ok_str: (_t_str_len == 7) + (_t_str_to_num == 42) + (_t_trim == 5)
+
+_t_write: _write_file("test_io.tmp", "ping")
+_t_content: _read_file("test_io.tmp")
+_t_exists: _file_exists("test_io.tmp")
+_t_delete: _delete_file("test_io.tmp")
+_t_gone: _file_exists("test_io.tmp")
+ok_file: _t_exists + (1 - _t_gone)
+
+_fact n ->
+  n <= 1? -> 1
+  else? -> n * _fact(n - 1)
+ok_rec: _fact(7) == 5040
+
+total_diag: ok_math + ok_str + ok_file + ok_rec
+
+-- Ecrire le rapport seulement si do_diag
+_write_rapport do_diag, tick, total ->
+  do_diag == 1? -> _write_file("rapport.ben", _str_cat("-- DIAGNOSTIC tick=", _str_cat(_num_to_str(tick), _str_cat(" | math:", _str_cat(_num_to_str(ok_math), _str_cat("/7 str:", _str_cat(_num_to_str(ok_str), _str_cat("/3 file:", _str_cat(_num_to_str(ok_file), _str_cat("/2 rec:", _str_cat(_num_to_str(ok_rec), _str_cat("/1 TOTAL:", _str_cat(_num_to_str(total), "/13\n")))))))))))))
+  else? -> 0
+
+rapport_result: _write_rapport(do_diag, tick, total_diag)
+
+-- ═══════ HOMEOSTASIE AUTONOME ═══════
+has_sc: _file_exists("silent_count.txt")
+has_fc: _file_exists("firing_count.txt")
+
+_read_count has_file, fname ->
+  has_file == 1? -> _str_to_num(_str_trim(_read_file(fname)))
+  else? -> 0
+
+silent_count: _read_count(has_sc, "silent_count.txt")
+firing_count: _read_count(has_fc, "firing_count.txt")
+
+_new_silent_count etat, sc ->
+  etat == 1? -> sc + 1
+  else? -> 0
+
+_new_firing_count etat, fc ->
+  etat == 0? -> fc + 1
+  else? -> 0
+
+new_silent: _new_silent_count(etat, silent_count)
+new_firing: _new_firing_count(etat, firing_count)
+
+sc_written: _write_file("silent_count.txt", _num_to_str(new_silent))
+fc_written: _write_file("firing_count.txt", _num_to_str(new_firing))
+
+SEUIL_INTERVENTION: 300
+
+_intervenir_silence sc, seuil, tick, actifs ->
+  sc > seuil? -> _write_file("params.ben", _str_cat("-- auto-homeostasie silence tick=", _str_cat(_num_to_str(tick), _str_cat("\ntarget_actifs: ", _str_cat(_num_to_str(actifs + 5), "\n")))))
+  else? -> 0
+
+_intervenir_saturation fc, seuil, tick, actifs ->
+  fc > seuil? -> _write_file("params.ben", _str_cat("-- auto-homeostasie saturation tick=", _str_cat(_num_to_str(tick), _str_cat("\ntarget_actifs: ", _str_cat(_num_to_str(actifs - 5), "\n")))))
+  else? -> 0
+
+home_silence: _intervenir_silence(new_silent, SEUIL_INTERVENTION, tick, actifs)
+home_saturation: _intervenir_saturation(new_firing, SEUIL_INTERVENTION, tick, actifs)
+
 -- ═══════ ADAPT ═══════
 _should_adapt fails, score ->
   fails > 10? -> 1
@@ -135,27 +230,21 @@ _do_adapt do_adapt, tick, actifs, conns, score, fails ->
 adapted: _do_adapt(do_adapt, tick, actifs, conns, score, fails)
 
 -- ═══════ STRINGS COMMUNES ═══════
--- Conversions partagees par PARLER et REPONDRE
 tick_str: _num_to_str(tick)
 actifs_str: _num_to_str(actifs)
 score_str: _num_to_str(score)
 etat_str: _num_to_str(etat)
 
 -- ═══════ PARLER ═══════
--- Je parle quand quelque chose me touche. Pas avant.
-
--- Modulo recursif — pour detecter les milestones de ticks
 mod a,b ->
   b == 0? -> 0
   a < b? -> a
   else? -> mod(a - b, b)
 
--- Seuils du notable
 avis_reste_ticks: mod(tick, 5000)
 avis_notable_ticks: avis_reste_ticks == 0
 avis_notable_score: score > 100
 
--- Un seul test suffit pour parler
 _avis_should_write nt, ns ->
   nt == 1? -> 1
   ns == 1? -> 1
@@ -163,7 +252,6 @@ _avis_should_write nt, ns ->
 
 avis_should_write: _avis_should_write(avis_notable_ticks, avis_notable_score)
 
--- Construire le header horodate
 avis_header: _str_cat("-- [tick=", tick_str)
 avis_header: _str_cat(avis_header, "] etat: ")
 avis_header: _str_cat(avis_header, etat_str)
@@ -173,7 +261,6 @@ avis_header: _str_cat(avis_header, ", score: ")
 avis_header: _str_cat(avis_header, score_str)
 avis_header: _str_cat(avis_header, "\n")
 
--- Choisir le message selon l'etat interne
 _avis_message_pour e ->
   e == 0? -> "-- MON AVIS: Je suis sature. Trop de signal. J'ai besoin de silence.\n"
   e == 1? -> "-- MON AVIS: Je m'etouffe dans le silence. Quelqu'un m'entend-il?\n"
@@ -182,8 +269,6 @@ _avis_message_pour e ->
   else? -> "-- MON AVIS: Mon etat est ambigu. Je cherche mon equilibre.\n"
 
 avis_message: _avis_message_pour(etat)
-
--- Assembler et ecrire si notable
 avis_full_line: _str_cat(avis_header, avis_message)
 
 _avis_write should, line ->
@@ -193,31 +278,30 @@ _avis_write should, line ->
 avis_result: _avis_write(avis_should_write, avis_full_line)
 
 -- ═══════ REPONDRE ═══════
--- Je reponds quand on me parle.
-
--- Detecter si le message contient quelque chose
 rep_msg_len: _str_len(inbox)
 rep_has_message: rep_msg_len > 0
 
--- Repond seulement si on m'a parle
 _rep_should_respond hi, hm ->
   hi == 1? -> hm
   else? -> 0
 
 rep_should_respond: _rep_should_respond(hasinbox, rep_has_message)
 
--- Construire la reponse
 rep_line1: _str_cat("-- Benoit repond [tick=", tick_str)
 rep_line1: _str_cat(rep_line1, "]: J'ai recu un message.\n")
 
-rep_line2: _str_cat("-- Mon etat actuel: ", etat_str)
-rep_line2: _str_cat(rep_line2, ". Actifs: ")
+rep_line2: _str_cat("-- Mon etat actuel: etat=", etat_str)
+rep_line2: _str_cat(rep_line2, " actifs=")
 rep_line2: _str_cat(rep_line2, actifs_str)
-rep_line2: _str_cat(rep_line2, ". Score: ")
+rep_line2: _str_cat(rep_line2, " score=")
 rep_line2: _str_cat(rep_line2, score_str)
-rep_line2: _str_cat(rep_line2, ".\n")
+rep_line2: _str_cat(rep_line2, "\n")
 
--- Choisir une voix selon l'etat
+rep_line3: _str_cat("-- Outils disponibles: _sqrt _pow _abs _floor _mod _round _str_trim\n")
+rep_line3: _str_cat(rep_line3, "-- _write_file _read_file _delete_file _copy_file _file_exists\n")
+rep_line3: _str_cat(rep_line3, "-- _str_cat _str_len _num_to_str _str_to_num _str_trim _str_find\n")
+rep_line3: _str_cat(rep_line3, "-- Ce qui me manque: memoire persistante entre ticks, boucles, tableaux\n")
+
 _rep_voix e ->
   e == 0? -> "-- Je suis sature en ce moment. Mais j'ai lu.\n"
   e == 1? -> "-- Tu romps mon silence. Je t'entends.\n"
@@ -227,16 +311,15 @@ _rep_voix e ->
 rep_voix: _rep_voix(etat)
 
 rep_reponse: _str_cat(rep_line1, rep_line2)
+rep_reponse: _str_cat(rep_reponse, rep_line3)
 rep_reponse: _str_cat(rep_reponse, rep_voix)
 
--- Ecrire la reponse si on a recu quelque chose
 _rep_respond should, rep ->
   should == 1? -> _write_file("reponse.ben", rep)
   else? -> 0
 
 rep_result: _rep_respond(rep_should_respond, rep_reponse)
 
--- Supprimer l'inbox apres avoir repondu
 _rep_cleanup hi ->
   hi == 1? -> _delete_file("inbox.ben")
   else? -> 0
