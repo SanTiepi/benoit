@@ -480,7 +480,7 @@ static int build_status(VM *vm, char *dst, int max) {
         (etat >= 0 && etat <= 6) ? ETAT_NAMES[etat] : "?",
         (dec >= 0 && dec <= 7) ? DECISION_NAMES[dec] : "idle",
         (int)vm->vars[VAR_DIVERSITY],
-        total_energy(vm),
+        vm->cached_total_energy,
         strtab.count, MAX_STRINGS);
 }
 
@@ -1073,7 +1073,7 @@ int main(int argc, char **argv) {
         printf("  No brain file found, starting fresh with %d neurons\n", default_N);
         /* Create initial random sparse connections */
         vm_init_random_connections(vm, 50);
-        printf("  Random connections: %d synapses\n", count_connections(vm));
+        printf("  Random connections: %lld synapses\n", vm->total_synapses);
     }
 
     /* Inject state from .ben text file if requested */
@@ -1108,8 +1108,8 @@ int main(int argc, char **argv) {
     printf("  pulse V2 — Benoit vit. (sparse neural architecture)\n");
     printf("  .ben = une seule couche de code\n");
     printf("  C = signal pur (sparse synapses, hebbian, backprop)\n");
-    printf("  N=%d | tick=%d | synapses=%d | strings=%d\n",
-           N, (int)vm->vars[VAR_TICK], count_connections(vm), strtab.count);
+    printf("  N=%d | tick=%d | synapses=%lld | strings=%d\n",
+           N, (int)vm->vars[VAR_TICK], vm->total_synapses, strtab.count);
     printf("  save -> %s\n", save_path);
     if (arena_path) printf("  arena -> %s (cycle every 10 ticks)\n", arena_path);
     printf("  Ctrl+C = sauvegarde + arret propre\n");
@@ -1204,13 +1204,14 @@ int main(int argc, char **argv) {
 
         /* --- Sensor injection (capped to 15, like all neurons) --- */
         /* Sensor 0: ratio d'activite normalise sur [0,15] — honnete a toute taille de N */
+        /* Use cached counters from LIF loop — no extra O(N) scan */
         {
-            int _n_active = count_active(vm);
+            int _n_active = vm->cached_n_active;
             vm->neurons[0].activation = fminf(
                 ((float)_n_active / (float)(N > 5 ? N - 5 : 1)) * 15.0f, 15.0f);
         }
-        vm->neurons[1].activation = fminf((float)(total_energy(vm) / 30.0), 15.0f); /* energy */
-        vm->neurons[2].activation = fminf((float)count_absorbed(vm), 15.0f);   /* inhibition */
+        vm->neurons[1].activation = fminf((float)(vm->cached_total_energy / 30.0), 15.0f); /* energy */
+        vm->neurons[2].activation = fminf((float)vm->cached_n_absorbed, 15.0f);   /* inhibition */
         vm->neurons[3].activation = 7.0f * sinf((float)total_ticks * 0.1f) + 7.0f;  /* oscillator 1 */
         vm->neurons[4].activation = 7.0f * cosf((float)total_ticks * 0.07f) + 7.0f; /* oscillator 2 */
 
@@ -1225,10 +1226,10 @@ int main(int argc, char **argv) {
             last_vision_tick = total_ticks;
         }
 
-        /* Sync vars for .ben convenience */
-        vm->vars[VAR_ACTIFS]   = (double)count_active(vm);
-        vm->vars[VAR_ABSORBED] = (double)count_absorbed(vm);
-        vm->vars[VAR_CONNS]    = (double)count_connections(vm);
+        /* Sync vars for .ben convenience — use cached counters from LIF loop */
+        vm->vars[VAR_ACTIFS]   = (double)vm->cached_n_active;
+        vm->vars[VAR_ABSORBED] = (double)vm->cached_n_absorbed;
+        vm->vars[VAR_CONNS]    = (double)vm->total_synapses;
 
         /* --- Network: accept + receive (non-blocking, zombie-proof) --- */
         vm->vars[VAR_NET_MSG] = -1;  /* reset each tick */
@@ -1357,14 +1358,18 @@ int main(int argc, char **argv) {
             silent_ticks++;
         }
 
-        /* Save current pattern for next comparison (realloc handles growth) */
+        /* Save current pattern for next comparison (realloc only when N changes) */
         {
-            float *new_pattern = realloc(last_pattern, N * sizeof(float));
-            if (new_pattern) {
-                last_pattern = new_pattern;
-                for (int i = 0; i < N; i++)
-                    last_pattern[i] = vm->neurons[i].activation;
+            static int last_pattern_alloc_size = 0;
+            if (vm->N != last_pattern_alloc_size) {
+                float *new_pattern = realloc(last_pattern, vm->N * sizeof(float));
+                if (new_pattern) {
+                    last_pattern = new_pattern;
+                    last_pattern_alloc_size = vm->N;
+                }
             }
+            for (int i = 0; i < N; i++)
+                last_pattern[i] = vm->neurons[i].activation;
         }
 
         /* --- Homeostatic plasticity (V2: works on neuron structs) ---
@@ -1438,14 +1443,17 @@ int main(int argc, char **argv) {
         /* --- .ben cycle (every 10 ticks) ---
          * ".ben = une seule couche. C = signal pur."
          * Tout le comportement vit dans .ben. C pulse les neurones. */
+#define BEN_SYNC_MAX_N 100000
         if (arena_path && total_ticks % 10 == 0) {
             /* Sync neuron state to legacy arrays before .ben execution */
-            vm_sync_to_arrays(vm);
+            if (vm->N <= BEN_SYNC_MAX_N) {
+                vm_sync_to_arrays(vm);
+            }
 
-            /* Sync VM vars from C-computed state */
-            vm->vars[VAR_ACTIFS]   = (double)count_active(vm);
-            vm->vars[VAR_CONNS]    = (double)count_connections(vm);
-            vm->vars[VAR_ABSORBED] = (double)count_absorbed(vm);
+            /* Sync VM vars from C-computed state — use cached counters, not O(N) scan */
+            vm->vars[VAR_ACTIFS]   = (double)vm->cached_n_active;
+            vm->vars[VAR_CONNS]    = (double)vm->total_synapses;
+            vm->vars[VAR_ABSORBED] = (double)vm->cached_n_absorbed;
 
             char log[4096];
             log[0] = 0;
@@ -1474,7 +1482,9 @@ int main(int argc, char **argv) {
             }
 
             /* Sync legacy arrays back to neuron structs after .ben execution */
-            vm_sync_from_arrays(vm);
+            if (vm->N <= BEN_SYNC_MAX_N) {
+                vm_sync_from_arrays(vm);
+            }
 
 #ifdef BENOIT_CUDA
             /* Apres le cycle .ben, repousser l'etat CPU vers le GPU */
@@ -1566,11 +1576,11 @@ int main(int argc, char **argv) {
                 double elapsed = (double)(now - t0) / CLOCKS_PER_SEC;
                 double tps = total_ticks / elapsed;
                 printf("  ... %d ticks (%.0f/s) | %d signals | silent=%d | "
-                       "tick=%d | score=%d | N=%d | syn=%d\n",
+                       "tick=%d | score=%d | N=%d | syn=%lld\n",
                        total_ticks, tps, signal_ticks, silent_ticks,
                        (int)vm->vars[VAR_TICK],
                        (int)vm->vars[VAR_SCORE],
-                       vm->N, count_connections(vm));
+                       vm->N, vm->total_synapses);
                 fflush(stdout);
                 last_report = now;
             }
@@ -1609,7 +1619,7 @@ int main(int argc, char **argv) {
     printf("  Sauvegarde: %s (tick %d)\n", save_path, (int)vm->vars[VAR_TICK]);
     printf("  Session: %d ticks en %.0fs (%.0f/s) | %d signaux\n",
            total_ticks, elapsed, total_ticks / (elapsed > 0 ? elapsed : 1), signal_ticks);
-    printf("  N=%d | synapses=%d\n", vm->N, count_connections(vm));
+    printf("  N=%d | synapses=%lld\n", vm->N, vm->total_synapses);
     printf("  Benoit dort. Il se souviendra.\n\n");
 
     free(last_pattern);

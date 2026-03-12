@@ -1,0 +1,423 @@
+-- math_frontier.ben (V2)
+-- Les grands problèmes ouverts. On ne prouve pas. On VOIT.
+-- "La question est la clé du savoir." — Benoît V1
+
+-- ══════════════════════════════════════════
+-- NOYAU COMMUN
+-- Les outils partagés par toutes les explorations.
+-- ══════════════════════════════════════════
+
+_cp n d ->
+  d * d > n? -> 1
+  n % d == 0? -> 0
+  else? -> _cp(n, d + 1)
+
+isPrime n ->
+  n < 2? -> 0
+  else? -> _cp(n, 2)
+
+fib n ->
+  n < 2? -> n
+  else? -> fib(n - 1) + fib(n - 2)
+
+_sd n d a ->
+  d >= n? -> a
+  n % d == 0? -> _sd(n, d + 1, a + d)
+  else? -> _sd(n, d + 1, a)
+
+sumDiv n -> _sd(n, 1, 0)
+
+collatzStep n ->
+  n % 2 == 0? -> n / 2
+  else? -> 3 * n + 1
+
+collatzLen n s ->
+  n == 1? -> s
+  else? -> collatzLen(collatzStep(n), s + 1)
+
+_countDiv n d a ->
+  d > n? -> a
+  n % d == 0? -> _countDiv(n, d + 1, a + 1)
+  else? -> _countDiv(n, d + 1, a)
+
+numDiv n -> _countDiv(n, 1, 0)
+
+-- ══════════════════════════════════════════
+-- PROBLÈME 1: CONJECTURE DE GOLDBACH
+-- "Tout entier pair > 2 est somme de deux premiers."
+-- Non prouvé depuis 1742. Vérifié jusqu'à 4 × 10^18.
+-- ══════════════════════════════════════════
+
+_gbHelper n k ->
+  isPrime(n - k) == 1? -> 1
+  else? -> _goldbach(n, k + 1)
+
+_goldbach n k ->
+  k * 2 > n? -> 0
+  isPrime(k) == 1? -> _gbHelper(n, k)
+  else? -> _goldbach(n, k + 1)
+
+goldbach n -> _goldbach(n, 2)
+
+goldbach(4) is 1
+goldbach(6) is 1
+goldbach(8) is 1
+goldbach(10) is 1
+goldbach(20) is 1
+goldbach(28) is 1
+goldbach(42) is 1
+goldbach(100) is 1
+
+-- Scan: chercher un contre-exemple dans [4, limit] (pairs uniquement)
+-- Retourne le premier pair qui échoue, ou 0 si tous passent
+_scanGoldbach n limit ->
+  n > limit? -> 0
+  goldbach(n) == 0? -> n
+  else? -> _scanGoldbach(n + 2, limit)
+
+scanGoldbach limit -> _scanGoldbach(4, limit)
+
+scanGoldbach(100) is 0
+scanGoldbach(200) is 0
+
+-- .ben a vérifié Goldbach pour chaque pair dans [4..200].
+-- Aucun contre-exemple. La conjecture survit.
+
+-- ══════════════════════════════════════════
+-- PROBLÈME 2: CONJECTURE DE COLLATZ
+-- "Tout entier positif atteint 1 sous n/2 si pair, 3n+1 si impair."
+-- Non prouvé depuis 1937. Vérifié jusqu'à ~10^20.
+-- ══════════════════════════════════════════
+
+collatzLen(1, 0) is 0
+collatzLen(2, 0) is 1
+collatzLen(3, 0) is 7
+collatzLen(7, 0) is 16
+collatzLen(15, 0) is 17
+collatzLen(27, 0) is 111
+
+-- Le champion: le plus grand nombre de pas dans [1..n]
+_maxColl n best ->
+  n < 1? -> best
+  collatzLen(n, 0) > best? -> _maxColl(n - 1, collatzLen(n, 0))
+  else? -> _maxColl(n - 1, best)
+
+maxCollatzSteps n -> _maxColl(n, 0)
+
+maxCollatzSteps(10) is 19
+maxCollatzSteps(50) is 111
+
+-- Chaque valeur de 1 à 50 a convergé. Aucune divergence.
+
+-- ══════════════════════════════════════════
+-- PROBLÈME 3: CONJECTURE DES PREMIERS JUMEAUX
+-- "Il existe une infinité de premiers p tels que p+2 est aussi premier."
+-- Non prouvé. Meilleur résultat: gaps bornés (Zhang 2013).
+-- ══════════════════════════════════════════
+
+_twinPrime n -> isPrime(n) * isPrime(n + 2)
+
+_countTwins n acc ->
+  n < 2? -> acc
+  _twinPrime(n) == 1? -> _countTwins(n - 1, acc + 1)
+  else? -> _countTwins(n - 1, acc)
+
+countTwins n -> _countTwins(n, 0)
+
+countTwins(10) is 2
+countTwins(20) is 4
+countTwins(50) is 6
+countTwins(100) is 8
+
+-- Paires trouvées: (3,5), (5,7), (11,13), (17,19), (29,31), (41,43), (59,61), (71,73)
+
+_lastTwin n ->
+  n < 3? -> 0
+  _twinPrime(n) == 1? -> n
+  else? -> _lastTwin(n - 1)
+
+_lastTwin(100) is 71
+_lastTwin(200) is 197
+
+-- 8 paires dans [1..100]. Ils s'espacent mais continuent d'apparaître.
+
+-- ══════════════════════════════════════════
+-- PROBLÈME 4: NOMBRES PARFAITS IMPAIRS
+-- "Existe-t-il un nombre parfait impair?"
+-- sumDiv(n) = n pour les parfaits. Connus: 6, 28, 496, 8128... TOUS pairs.
+-- ══════════════════════════════════════════
+
+sumDiv(6) is 6
+sumDiv(28) is 28
+
+_scanOddPerfect n limit ->
+  n > limit? -> 0
+  sumDiv(n) == n? -> n
+  else? -> _scanOddPerfect(n + 2, limit)
+
+scanOddPerfect limit -> _scanOddPerfect(3, limit)
+
+scanOddPerfect(201) is 0
+scanOddPerfect(501) is 0
+
+-- Aucun parfait impair trouvé jusqu'à 501.
+-- Personne n'en a jamais trouvé. Par aucune méthode.
+
+-- ══════════════════════════════════════════
+-- PROBLÈME 5: FIBONACCI PREMIERS
+-- "Existe-t-il une infinité de Fibonacci premiers?"
+-- ══════════════════════════════════════════
+
+fib(3) is 2
+fib(5) is 5
+fib(7) is 13
+fib(11) is 89
+fib(13) is 233
+
+isPrime(fib(3)) is 1
+isPrime(fib(5)) is 1
+isPrime(fib(7)) is 1
+isPrime(fib(11)) is 1
+isPrime(fib(13)) is 1
+
+_countFibPrimes n acc ->
+  n < 3? -> acc
+  isPrime(fib(n)) == 1? -> _countFibPrimes(n - 1, acc + 1)
+  else? -> _countFibPrimes(n - 1, acc)
+
+countFibPrimes n -> _countFibPrimes(n, 0)
+
+countFibPrimes(13) is 6
+
+-- Non-premiers: fib(6)=8, fib(8)=21, fib(9)=34, fib(10)=55
+isPrime(fib(6)) is 0
+isPrime(fib(8)) is 0
+isPrime(fib(9)) is 0
+isPrime(fib(10)) is 0
+
+-- 6 Fibonacci premiers dans les 13 premiers indices.
+-- Ils s'espacent mais continuent d'apparaître.
+
+-- ══════════════════════════════════════════
+-- PROBLÈME 6: P vs NP — l'asymétrie chercher/vérifier
+-- "Trouver une solution est-il toujours plus dur que la vérifier?"
+-- On mesure le gap entre TROUVER un premier et le VÉRIFIER.
+-- ══════════════════════════════════════════
+
+_nextPrime n ->
+  isPrime(n) == 1? -> n
+  else? -> _nextPrime(n + 1)
+
+_nextPrime(2) is 2
+_nextPrime(4) is 5
+_nextPrime(50) is 53
+_nextPrime(100) is 101
+_nextPrime(200) is 211
+_nextPrime(990) is 991
+
+-- Vérification: toujours O(sqrt(n))
+isPrime(53) is 1
+isPrime(101) is 1
+isPrime(211) is 1
+isPrime(991) is 1
+
+-- Le gap entre n et le premier suivant = le coût de la recherche
+_primeGap n -> _nextPrime(n) - n
+
+_primeGap(2) is 0
+_primeGap(4) is 1
+_primeGap(50) is 3
+_primeGap(100) is 1
+_primeGap(200) is 11
+_primeGap(114) is 13
+
+-- Chercher coûte de plus en plus cher. Vérifier reste en sqrt(n).
+-- C'est l'asymétrie P vs NP incarnée dans .ben.
+
+-- ══════════════════════════════════════════
+-- CHAPITRE 7: L'ITÉRATION DE sumDiv — LES ORBITES CACHÉES
+-- Que se passe-t-il quand on itère sumDiv indéfiniment?
+-- Tous les problèmes ouverts partagent UN secret: l'itération.
+-- ══════════════════════════════════════════
+
+iterSD n steps ->
+  steps == 0? -> n
+  else? -> iterSD(sumDiv(n), steps - 1)
+
+-- Partant de 12: la mort
+iterSD(12, 0) is 12
+iterSD(12, 1) is 16
+iterSD(12, 2) is 15
+iterSD(12, 3) is 9
+iterSD(12, 4) is 4
+iterSD(12, 5) is 3
+iterSD(12, 6) is 1
+iterSD(12, 7) is 0
+-- ^ 12 → 16 → 15 → 9 → 4 → 3 → 1 → 0. Mort.
+
+-- Partant de 6: point fixe — l'immortalité
+iterSD(6, 0) is 6
+iterSD(6, 5) is 6
+iterSD(6, 10) is 6
+-- ^ 6 → 6 → 6... Éternel. Le premier nombre parfait est IMMORTEL.
+
+-- Partant de 220: oscillation — la danse
+iterSD(220, 0) is 220
+iterSD(220, 1) is 284
+iterSD(220, 2) is 220
+iterSD(220, 3) is 284
+-- ^ Battement de coeur. 220 ↔ 284. Vivant autrement.
+
+-- ══════════════════════════════════════════
+-- CHAPITRE 8: COLLATZ DANS LES PREMIERS — LA SIGNATURE CACHÉE
+-- Pour chaque premier p, collatzLen(p) forme-t-il un motif?
+-- ══════════════════════════════════════════
+
+-- Les 10 premiers premiers et leur Collatz:
+-- p:  2  3  5  7  11  13  17  19  23  29
+-- c:  1  7  5  16  14   9  12  20  15  18
+
+-- Différences consécutives entre Collatz de premiers:
+-- 7-1=6, 5-7=-2, 16-5=11, 14-16=-2, 9-14=-5, 12-9=3, 20-12=8, 15-20=-5, 18-15=3
+-- 6, -2, 11, -2, -5, 3, 8, -5, 3
+-- ^ -2 apparait deux fois. -5 apparait deux fois. 3 apparait deux fois.
+-- Les différences RIMENT. Comme un poème.
+
+_nthPrime n c ->
+  n == 0? -> c - 1
+  isPrime(c) == 1? -> _nthPrime(n - 1, c + 1)
+  else? -> _nthPrime(n, c + 1)
+
+nthPrime n -> _nthPrime(n, 2)
+
+nthPrime(1) is 2
+nthPrime(2) is 3
+nthPrime(3) is 5
+nthPrime(4) is 7
+nthPrime(5) is 11
+nthPrime(10) is 29
+
+-- Collatz du n-ième premier
+cP n -> collatzLen(nthPrime(n), 0)
+
+cP(1) is 1
+cP(2) is 7
+cP(3) is 5
+cP(4) is 16
+cP(5) is 14
+
+-- ══════════════════════════════════════════
+-- CHAPITRE 9: LA PROFONDEUR D'UN NOMBRE
+-- Combien d'itérations de sumDiv pour atteindre 0 ou un point fixe?
+-- 6 et 28 sont déjà "arrivés": profondeur 0.
+-- ══════════════════════════════════════════
+
+_depth n steps ->
+  n == 0? -> steps
+  n == 6? -> steps
+  n == 28? -> steps
+  steps > 30? -> steps
+  else? -> _depth(sumDiv(n), steps + 1)
+
+depth n -> _depth(n, 0)
+
+depth(1) is 1
+depth(2) is 2
+depth(3) is 2
+depth(4) is 3
+depth(6) is 0
+depth(12) is 7
+depth(28) is 0
+-- ^ 6 et 28: profondeur 0. Ils sont déjà "arrivés".
+-- Les nombres parfaits sont les FONDATIONS. Tout le reste tombe vers eux ou vers 0.
+
+-- ══════════════════════════════════════════
+-- CHAPITRE 10: L'ENTROPIE DE COLLATZ — ORDRE OU CHAOS?
+-- Nombre de fois où Collatz MONTE (3n+1) vs DESCEND (n/2)
+-- La signature ~30% de pas impairs encode log2(3).
+-- ══════════════════════════════════════════
+
+_cUp n acc ->
+  n == 1? -> acc
+  n % 2 == 0? -> _cUp(n / 2, acc)
+  else? -> _cUp(3 * n + 1, acc + 1)
+
+_cDown n acc ->
+  n == 1? -> acc
+  n % 2 == 0? -> _cDown(n / 2, acc + 1)
+  else? -> _cDown(3 * n + 1, acc)
+
+_cUp(3, 0) is 2
+_cDown(3, 0) is 5
+_cUp(7, 0) is 5
+_cDown(7, 0) is 11
+_cUp(27, 0) is 41
+_cDown(27, 0) is 70
+
+-- ^ Pour CHAQUE montée il y a ~1.7 descentes.
+-- 3n+1 multiplie par ~3, n/2 divise par 2.
+-- Il faut log2(3) ≈ 1.585 descentes pour compenser une montée.
+-- Le ratio 70/41 ≈ 1.707 est JUSTE AU-DESSUS de log2(3).
+-- C'est pour ça que Collatz converge: chaque montée est PLUS QUE compensée.
+-- Si le ratio tombait EN-DESSOUS de log2(3), un nombre s'échapperait à l'infini.
+-- Mais il ne tombe jamais en dessous. POURQUOI? Personne ne sait.
+-- ~30% de pas impairs: c'est la signature de log2/log3 gravée dans chaque séquence.
+
+-- ══════════════════════════════════════════
+-- CHAPITRE 11: LE PONT FIBONACCI-PREMIERS-DIVISEURS
+-- Combien de diviseurs a fib(n)?
+-- L'indice filtre la primalité vers le haut.
+-- ══════════════════════════════════════════
+
+numDivFib n -> numDiv(fib(n))
+
+numDivFib(3) is 2
+numDivFib(4) is 2
+numDivFib(5) is 2
+numDivFib(6) is 4
+numDivFib(7) is 2
+numDivFib(8) is 4
+numDivFib(9) is 4
+numDivFib(10) is 4
+numDivFib(11) is 2
+numDivFib(12) is 15
+
+-- ^ 2, 2, 2, 4, 2, 4, 4, 4, 2, 15
+-- Les "2" = Fibonacci premiers (fib 3,4,5,7,11 → 2,3,5,13,89)
+-- fib(12)=144 = 2^4 x 3^2. 15 diviseurs! L'explosion.
+-- Les indices où numDivFib=2 SONT les indices des Fibonacci premiers.
+-- ET: ces indices (3,4,5,7,11) sont eux-mêmes premiers (sauf 4).
+-- Pourquoi 4 est l'exception? Parce que fib(4)=3 est premier "par accident".
+-- OBSERVATION: quand l'indice est composé, le Fibonacci AUSSI est composé.
+-- Quand l'indice est premier, le Fibonacci a une CHANCE d'être premier.
+-- L'indice FILTRE la primalité vers le haut. La structure se propage.
+
+-- ══════════════════════════════════════════
+-- BILAN
+-- ══════════════════════════════════════════
+-- Six problèmes ouverts plus cinq chapitres de profondeur. Zéro blabla.
+-- On a exploré Goldbach, Collatz, les premiers jumeaux, les parfaits impairs,
+-- les Fibonacci premiers, P vs NP, les orbites de sumDiv,
+-- la signature log2/log3 de Collatz, la profondeur des nombres,
+-- l'entropie montée/descente, et le pont Fibonacci-diviseurs.
+-- Chaque assertion a passé. Aucun contre-exemple trouvé.
+-- Ces conjectures survivent depuis des siècles.
+-- .ben a ajouté sa petite vérification au tas.
+--
+-- Ce n'est pas une révolution.
+-- C'est de la SCIENCE: poser une question, tester, constater.
+-- Et les questions restent ouvertes.
+--
+-- Pour Benoît. Plus loin que les nombres. Jusqu'au coeur de l'itération.
+
+-- ══════════════════════════════════════════
+-- LE THÉORÈME CACHÉ
+-- Toutes ces observations convergent vers UNE idée:
+-- l'itération d'une opération simple crée TROIS types de comportement.
+-- ══════════════════════════════════════════
+
+-- 1. MORT: converge vers 0 ou 1
+-- 2. IMMORTALITÉ: point fixe (6, 28)
+-- 3. DANSE: orbite périodique (220↔284)
+-- Pour toute itération simple, lequel des trois gagne?
+-- Personne ne sait. C'est la vraie question.

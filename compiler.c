@@ -272,12 +272,31 @@ static BenVal parse_atom(BenInterp *interp, const char *expr, int *pos) {
     return ben_num(0);
 }
 
-/* Evaluate a full expression (left-to-right with operators) */
+/* Parse a multiplicative term: handles *, /, % with left-to-right association.
+ * Called by ben_eval_expr to give * and / higher precedence than + and -. */
+static BenVal parse_term(BenInterp *interp, const char *expr, int *pos) {
+    BenVal left = parse_atom(interp, expr, pos);
+
+    while (expr[*pos]) {
+        *pos = skip_ws(expr, *pos);
+        char op = expr[*pos];
+        if (op == '*') { (*pos)++; BenVal r = parse_atom(interp, expr, pos); left = ben_num(left.num * r.num); continue; }
+        if (op == '/') { (*pos)++; BenVal r = parse_atom(interp, expr, pos); left = ben_num(r.num != 0 ? left.num / r.num : 0); continue; }
+        if (op == '%') { (*pos)++; BenVal r = parse_atom(interp, expr, pos); left = ben_num(r.num != 0 ? fmod(left.num, r.num) : 0); continue; }
+        break;
+    }
+
+    return left;
+}
+
+/* Evaluate a full expression with correct operator precedence:
+ *   additive (+, -)  <  multiplicative (*, /, %)  <  atom
+ * Comparison and equality operators are also handled here (lowest precedence). */
 static BenVal ben_eval_expr(BenInterp *interp, const char *expr) {
     if (!expr || !*expr) return ben_num(0);
 
     int pos = 0;
-    BenVal left = parse_atom(interp, expr, &pos);
+    BenVal left = parse_term(interp, expr, &pos);
 
     while (expr[pos]) {
         pos = skip_ws(expr, pos);
@@ -289,7 +308,7 @@ static BenVal ben_eval_expr(BenInterp *interp, const char *expr) {
         /* Two-char operators */
         if (op == '=' && op2 == '=') {
             pos += 2;
-            BenVal right = parse_atom(interp, expr, &pos);
+            BenVal right = parse_term(interp, expr, &pos);
             if (left.type == VAL_STR && right.type == VAL_STR)
                 left = ben_num(strcmp(left.str, right.str) == 0 ? 1 : 0);
             else
@@ -298,7 +317,7 @@ static BenVal ben_eval_expr(BenInterp *interp, const char *expr) {
         }
         if (op == '!' && op2 == '=') {
             pos += 2;
-            BenVal right = parse_atom(interp, expr, &pos);
+            BenVal right = parse_term(interp, expr, &pos);
             if (left.type == VAL_STR && right.type == VAL_STR)
                 left = ben_num(strcmp(left.str, right.str) != 0 ? 1 : 0);
             else
@@ -307,22 +326,22 @@ static BenVal ben_eval_expr(BenInterp *interp, const char *expr) {
         }
         if (op == '>' && op2 == '=') {
             pos += 2;
-            BenVal right = parse_atom(interp, expr, &pos);
+            BenVal right = parse_term(interp, expr, &pos);
             left = ben_num(left.num >= right.num ? 1 : 0);
             continue;
         }
         if (op == '<' && op2 == '=') {
             pos += 2;
-            BenVal right = parse_atom(interp, expr, &pos);
+            BenVal right = parse_term(interp, expr, &pos);
             left = ben_num(left.num <= right.num ? 1 : 0);
             continue;
         }
         if (op == '-' && op2 == '>') break; /* arrow, stop */
 
-        /* Single-char operators */
+        /* Single-char additive operators */
         if (op == '+') {
             pos++;
-            BenVal right = parse_atom(interp, expr, &pos);
+            BenVal right = parse_term(interp, expr, &pos);
             if (left.type == VAL_STR || right.type == VAL_STR) {
                 /* String concatenation */
                 char buf[BEN_MAX_STR];
@@ -338,12 +357,9 @@ static BenVal ben_eval_expr(BenInterp *interp, const char *expr) {
             }
             continue;
         }
-        if (op == '-') { pos++; BenVal r = parse_atom(interp, expr, &pos); left = ben_num(left.num - r.num); continue; }
-        if (op == '*') { pos++; BenVal r = parse_atom(interp, expr, &pos); left = ben_num(left.num * r.num); continue; }
-        if (op == '/') { pos++; BenVal r = parse_atom(interp, expr, &pos); left = ben_num(r.num != 0 ? left.num / r.num : 0); continue; }
-        if (op == '%') { pos++; BenVal r = parse_atom(interp, expr, &pos); left = ben_num(r.num != 0 ? fmod(left.num, r.num) : 0); continue; }
-        if (op == '>') { pos++; BenVal r = parse_atom(interp, expr, &pos); left = ben_num(left.num > r.num ? 1 : 0); continue; }
-        if (op == '<') { pos++; BenVal r = parse_atom(interp, expr, &pos); left = ben_num(left.num < r.num ? 1 : 0); continue; }
+        if (op == '-') { pos++; BenVal r = parse_term(interp, expr, &pos); left = ben_num(left.num - r.num); continue; }
+        if (op == '>') { pos++; BenVal r = parse_term(interp, expr, &pos); left = ben_num(left.num > r.num ? 1 : 0); continue; }
+        if (op == '<') { pos++; BenVal r = parse_term(interp, expr, &pos); left = ben_num(left.num < r.num ? 1 : 0); continue; }
 
         break; /* unknown, stop */
     }
@@ -704,6 +720,25 @@ static BenVal ben_call_func(BenInterp *interp, const char *name, BenVal *args, i
             result = ben_num(0.0);
         }
         /* n invalide : retourne 0.0 sans crasher */
+    }
+    /* ── Math builtins ── */
+    else if (strcmp(name, "_sqrt") == 0 && nargs >= 1) {
+        result = ben_num(sqrt(args[0].num));
+    }
+    else if (strcmp(name, "_pow") == 0 && nargs >= 2) {
+        result = ben_num(pow(args[0].num, args[1].num));
+    }
+    else if (strcmp(name, "_abs") == 0 && nargs >= 1) {
+        result = ben_num(fabs(args[0].num));
+    }
+    else if (strcmp(name, "_floor") == 0 && nargs >= 1) {
+        result = ben_num(floor(args[0].num));
+    }
+    else if (strcmp(name, "_mod") == 0 && nargs >= 2) {
+        result = ben_num(args[1].num != 0 ? fmod(args[0].num, args[1].num) : 0);
+    }
+    else if (strcmp(name, "_round") == 0 && nargs >= 1) {
+        result = ben_num(round(args[0].num));
     }
     /* ── User-defined function ── */
     else {

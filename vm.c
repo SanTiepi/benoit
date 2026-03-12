@@ -25,6 +25,7 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <stdint.h>
 #ifdef _OPENMP
   #include <omp.h>
 #endif
@@ -98,6 +99,19 @@ typedef struct {
 #define DEFAULT_MAX_SYN_PER_NEURON 200   /* initial synapse capacity per neuron */
 #define HARD_MAX_SYN_PER_NEURON   2000   /* absolute max synapses per neuron */
 #define INITIAL_SYN_ALLOC          32    /* start small, grow as needed */
+
+/* ======= STDP LUT (lookup table replaces expf per synapse) ======= */
+static float stdp_lut_pos[51];  /* index = dt (1..50), causal */
+static float stdp_lut_neg[51];  /* index = |dt| (1..50), anti-causal */
+static int   stdp_lut_ready = 0;
+
+static void stdp_lut_init(void) {
+    for (int i = 1; i <= 50; i++) {
+        stdp_lut_pos[i] = expf(-(float)i / 15.0f);
+        stdp_lut_neg[i] = 0.5f * expf(-(float)i / 15.0f);
+    }
+    stdp_lut_ready = 1;
+}
 
 /* ======= ARRAY IDS (kept for .ben compatibility) ======= */
 /* V2: these are virtual views — A[], SEUIL[], etc. map to neuron fields */
@@ -293,6 +307,15 @@ typedef struct {
 
     /* V2 stats */
     long long total_synapses;
+
+    /* Pre-allocated input buffer (eliminates calloc/free per tick) */
+    float    *input_buf;
+    int       input_buf_size;
+
+    /* Cached per-tick counters (updated inside LIF loop — no extra O(N) scan) */
+    int       cached_n_active;
+    int       cached_n_absorbed;
+    double    cached_total_energy;
 } VM;
 
 /* ======= NEURON MANAGEMENT ======= */
@@ -497,6 +520,14 @@ static VM *vm_create(int N) {
     }
 
     vm->total_synapses = 0;
+
+    /* Pre-allocate input buffer (reused every tick, avoids per-tick calloc) */
+    vm->input_buf = calloc(vm->N_alloc, sizeof(float));
+    vm->input_buf_size = vm->N_alloc;
+
+    /* Init STDP lookup table once (idempotent) */
+    if (!stdp_lut_ready) stdp_lut_init();
+
     return vm;
 }
 
@@ -523,6 +554,15 @@ static int vm_grow(VM *vm, int count) {
             }
         }
         vm->N_alloc = new_alloc;
+
+        /* Grow input_buf alongside neuron array */
+        if (vm->input_buf_size < new_alloc) {
+            float *new_buf = realloc(vm->input_buf, new_alloc * sizeof(float));
+            if (new_buf) {
+                vm->input_buf = new_buf;
+                vm->input_buf_size = new_alloc;
+            }
+        }
     }
 
     /* Initialize new neurons as inter type */
@@ -592,8 +632,9 @@ static int vm_neural_tick(VM *vm, int total_ticks) {
      * Race condition risk: multiple source neurons can target the same neuron.
      * Solution: accumulate into a local float buffer and use #pragma omp atomic
      * so each write to input[t] is serialised at the word level.
-     * The buffer itself is allocated before the parallel region and freed after. */
-    float *input = calloc(N, sizeof(float));
+     * The buffer is pre-allocated in vm->input_buf — no per-tick calloc. */
+    float *input = vm->input_buf;
+    memset(input, 0, N * sizeof(float));
     #pragma omp parallel for schedule(dynamic, 64)
     for (int i = 0; i < N; i++) {
         if (!neurons[i].fired) continue;
@@ -610,7 +651,9 @@ static int vm_neural_tick(VM *vm, int total_ticks) {
     }
 
     /* 3. LIF update for each neuron (fully independent: neuron i only touches neurons[i]) */
-    #pragma omp parallel for schedule(static) reduction(+:firings)
+    int n_active = 0, n_absorbed = 0;
+    double tot_energy = 0.0;
+    #pragma omp parallel for schedule(static) reduction(+:firings,n_active,n_absorbed,tot_energy)
     for (int i = 0; i < N; i++) {
         Neuron *n = &neurons[i];
 
@@ -619,6 +662,10 @@ static int vm_neural_tick(VM *vm, int total_ticks) {
             n->refractory--;
             n->fired = 0;
             n->activation *= 0.5f;  /* rapid decay during refractory */
+            /* still count for stats */
+            if (n->activation > 0)       n_active++;
+            if (n->activation < -1.0f)   n_absorbed++;
+            tot_energy += fabs(n->activation);
             continue;
         }
 
@@ -644,11 +691,20 @@ static int vm_neural_tick(VM *vm, int total_ticks) {
         } else {
             /* Sub-threshold: retain potential but don't fire */
             n->fired = 0;
-            n->activation = membrane > 0 ? membrane : 0;
+            n->activation = fmaxf(membrane, 0.0f);
         }
+
+        /* Accumulate stats in same pass — no extra O(N) scan needed */
+        if (n->activation > 0)       n_active++;
+        if (n->activation < -1.0f)   n_absorbed++;
+        tot_energy += fabs(n->activation);
     }
 
-    free(input);
+    /* Store cached counters on VM — pulse.c reads these instead of rescanning */
+    vm->cached_n_active   = n_active;
+    vm->cached_n_absorbed = n_absorbed;
+    vm->cached_total_energy = tot_energy;
+
     return firings;
 }
 
@@ -662,7 +718,6 @@ static int vm_neural_tick(VM *vm, int total_ticks) {
 static void vm_stdp(VM *vm) {
     int N = vm->N;
     Neuron *neurons = vm->neurons;
-    float tau = 15.0f;
 
     /* Thread safety analysis:
      * - src->last_fire_tick and neurons[j].last_fire_tick are READ-ONLY here
@@ -686,13 +741,13 @@ static void vm_stdp(VM *vm) {
             /* STDP: timing-based plasticity */
             int dt = src->last_fire_tick - neurons[j].last_fire_tick;
 
-            if (dt > 0 && dt < 50) {
+            if (dt > 0 && dt <= 50) {
                 /* Pre fired BEFORE post (causal) → strengthen */
-                float stdp = lr * expf(-(float)dt / tau);
+                float stdp = lr * stdp_lut_pos[dt];
                 syn->weight += sign * stdp;
-            } else if (dt < 0 && dt > -50) {
+            } else if (dt < 0 && -dt <= 50) {
                 /* Post fired BEFORE pre (anti-causal) → weaken */
-                float stdp = lr * 0.5f * expf((float)dt / tau);
+                float stdp = lr * stdp_lut_neg[-dt];
                 syn->weight -= sign * stdp;
             }
 
@@ -820,14 +875,29 @@ static int vm_prune(VM *vm, float threshold) {
  *   "BEN2"          magic (4 bytes)
  *   N               int32
  *   vars[VAR_MAX]   double * VAR_MAX
- *   For each neuron:
+ *   For each neuron (bulk NeuronRecord):
  *     activation, threshold, lr, decay, cap   (5 * float)
- *     type                                     (1 byte)
+ *     refractory                               (int32)
+ *     last_fire_tick                           (int32)
+ *     type                                     (uint8)
+ *   Then for each neuron:
  *     n_syn                                    (int32)
  *     For each synapse:
  *       target       (int32)
  *       weight       (float)
  */
+
+/* Packed record for bulk neuron I/O — matches the per-field order previously written */
+typedef struct __attribute__((packed)) {
+    float    activation;
+    float    threshold;
+    float    lr;
+    float    decay;
+    float    cap;
+    int      refractory;
+    int      last_fire_tick;
+    uint8_t  type;
+} NeuronRecord;
 
 static int vm_save_state(VM *vm, const char *path) {
     FILE *f = fopen(path, "wb");
@@ -843,20 +913,29 @@ static int vm_save_state(VM *vm, const char *path) {
     /* Vars */
     fwrite(vm->vars, sizeof(double), VAR_MAX, f);
 
-    /* Neurons */
+    /* Neurons — bulk write fixed-size fields, then per-neuron synapse lists */
+    NeuronRecord *records = malloc(vm->N * sizeof(NeuronRecord));
+    if (records) {
+        for (int i = 0; i < vm->N; i++) {
+            Neuron *nr = &vm->neurons[i];
+            records[i].activation     = nr->activation;
+            records[i].threshold      = nr->threshold;
+            records[i].lr             = nr->lr;
+            records[i].decay          = nr->decay;
+            records[i].cap            = nr->cap;
+            records[i].refractory     = nr->refractory;
+            records[i].last_fire_tick = nr->last_fire_tick;
+            records[i].type           = nr->type;
+        }
+        fwrite(records, sizeof(NeuronRecord), vm->N, f);
+        free(records);
+    }
+    /* Synapse lists (variable length per neuron, only target+weight — trace is runtime) */
     for (int i = 0; i < vm->N; i++) {
         Neuron *nr = &vm->neurons[i];
-        fwrite(&nr->activation, sizeof(float), 1, f);
-        fwrite(&nr->threshold, sizeof(float), 1, f);
-        fwrite(&nr->lr, sizeof(float), 1, f);
-        fwrite(&nr->decay, sizeof(float), 1, f);
-        fwrite(&nr->cap, sizeof(float), 1, f);
-        fwrite(&nr->refractory, sizeof(int), 1, f);
-        fwrite(&nr->last_fire_tick, sizeof(int), 1, f);
-        fwrite(&nr->type, 1, 1, f);
         fwrite(&nr->n_syn, sizeof(int), 1, f);
         for (int s = 0; s < nr->n_syn; s++) {
-            fwrite(&nr->synapses[s].target, sizeof(int), 1, f);
+            fwrite(&nr->synapses[s].target, sizeof(int),   1, f);
             fwrite(&nr->synapses[s].weight, sizeof(float), 1, f);
         }
     }
@@ -893,19 +972,30 @@ static int vm_load_state(VM *vm, const char *path) {
     /* Vars */
     fread(vm->vars, sizeof(double), VAR_MAX, f);
 
-    /* Neurons */
+    /* Neurons — bulk read fixed-size fields */
     int load_N = saved_N < vm->N ? saved_N : vm->N;
     vm->total_synapses = 0;
+    {
+        NeuronRecord *records = malloc(saved_N * sizeof(NeuronRecord));
+        if (records) {
+            fread(records, sizeof(NeuronRecord), saved_N, f);
+            for (int i = 0; i < load_N; i++) {
+                Neuron *nr = &vm->neurons[i];
+                nr->activation     = records[i].activation;
+                nr->threshold      = records[i].threshold;
+                nr->lr             = records[i].lr;
+                nr->decay          = records[i].decay;
+                nr->cap            = records[i].cap;
+                nr->refractory     = records[i].refractory;
+                nr->last_fire_tick = records[i].last_fire_tick;
+                nr->type           = records[i].type;
+            }
+            free(records);
+        }
+    }
+    /* Synapse lists */
     for (int i = 0; i < load_N; i++) {
         Neuron *nr = &vm->neurons[i];
-        fread(&nr->activation, sizeof(float), 1, f);
-        fread(&nr->threshold, sizeof(float), 1, f);
-        fread(&nr->lr, sizeof(float), 1, f);
-        fread(&nr->decay, sizeof(float), 1, f);
-        fread(&nr->cap, sizeof(float), 1, f);
-        fread(&nr->refractory, sizeof(int), 1, f);
-        fread(&nr->last_fire_tick, sizeof(int), 1, f);
-        fread(&nr->type, 1, 1, f);
 
         int n_syn;
         fread(&n_syn, sizeof(int), 1, f);
@@ -956,6 +1046,7 @@ static void vm_free(VM *vm) {
         if (vm->arrays[a]) free(vm->arrays[a]);
     }
     if (vm->arena_path) free(vm->arena_path);
+    if (vm->input_buf) free(vm->input_buf);
     free(vm);
 }
 

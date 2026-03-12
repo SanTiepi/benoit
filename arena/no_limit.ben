@@ -1,0 +1,187 @@
+-- no_limit.ben (V2) — porté depuis V1
+-- Prouve que les dimensions sont illimitées — mathématiquement, pas en paroles.
+-- Y a-t-il une limite au nombre de dimensions ?
+-- Réponse: non. Et voici pourquoi.
+
+-- === PREUVE 1: la formule ne change JAMAIS ===
+-- distance, dot product, projection: même code pour N=1 ou N=1000
+-- En V2, pas de tableaux: on calcule les composantes à la main.
+-- La formule reste identique quelle que soit la dimension.
+
+-- distance 1D: sqrt((b - a)^2)
+dist1d a b ->
+  _sqrt((b - a) * (b - a))
+
+-- distance 2D: sqrt((b0-a0)^2 + (b1-a1)^2)
+dist2d a0 a1 b0 b1 ->
+  _sqrt((b0 - a0) * (b0 - a0) + (b1 - a1) * (b1 - a1))
+
+-- distance 3D: sqrt((b0-a0)^2 + (b1-a1)^2 + (b2-a2)^2)
+dist3d a0 a1 a2 b0 b1 b2 ->
+  _sqrt((b0 - a0) * (b0 - a0) + (b1 - a1) * (b1 - a1) + (b2 - a2) * (b2 - a2))
+
+-- dist 1D: dist(0, 1) = 1
+dist1d(0, 1) is 1
+
+-- dist 2D: sqrt(3² + 4²) = 5
+dist2d(0, 0, 3, 4) is 5
+
+-- dist 3D: sqrt(1+1+1) = sqrt(3) ≈ 1.732
+dist3d(0, 0, 0, 1, 1, 1) is 1.732
+
+-- La même formule s'applique. Elle ne sait pas combien de D il y a.
+-- On lui passe plus de termes, elle absorbe. Pas de limite dans la formule.
+
+-- === PREUVE 2: on peut CALCULER N dimensions sans les écrire ===
+-- En V2, la récursion remplace les tableaux.
+-- Pour dist(zeros(N), ones(N)) = sqrt(N), on accumule N termes de (1-0)^2 = 1
+
+-- sumSq_N: accumule N termes de 1 (distance entre 0 et 1 sur chaque dimension)
+_sumSqN n i acc ->
+  i >= n? -> acc
+  _sumSqN(n, i + 1, acc + 1)
+
+distN n -> _sqrt(_sumSqN(n, 0, 0))
+
+-- dist 50D: sqrt(50) ≈ 7.071
+distN(50) is 7.071
+
+-- dist 100D: sqrt(100) = 10
+distN(100) is 10
+
+-- dist 200D: sqrt(200) ≈ 14.142
+distN(200) is 14.142
+
+-- dist 500D: sqrt(500) ≈ 22.361
+distN(500) is 22.361
+
+-- dist 1000D: sqrt(1000) ≈ 31.623
+distN(1000) is 31.623
+
+-- dist 1000000D: sqrt(1000000) = 1000
+distN(1000000) is 1000
+
+-- Le pattern: distN(N) = sqrt(N)
+-- Pas de plafond. Pas de mur. Pas de limite.
+
+-- === PREUVE 3: l'information CROÎT sans borne ===
+-- Chaque dimension ajoute 64 bits (un float)
+-- Mais l'espace des possibles explose exponentiellement
+
+-- Si chaque dimension peut prendre 2 valeurs: 2^N combinaisons
+-- Si chaque dimension peut prendre k valeurs: k^N combinaisons
+-- Avec des floats (continu): INFINI^N = toujours infini
+
+bitsAt d -> d * 64
+statesAt d -> _pow(2, d)
+
+bitsAt(1) is 64
+bitsAt(1000) is 64000
+
+statesAt(1) is 2
+statesAt(10) is 1024
+statesAt(20) is 1048576
+statesAt(30) is 1073741824
+
+-- === PREUVE 4: ORTHOGONALITÉ — chaque D est indépendante ===
+-- En N dimensions, on peut avoir N vecteurs PARFAITEMENT indépendants
+-- Chacun porte de l'info qui n'interfère avec aucune autre
+
+-- dot product de deux vecteurs unitaires distincts = 0 (orthogonaux)
+-- dot product d'un vecteur unitaire avec lui-même = 1
+
+-- En V2, on encode les vecteurs unitaires explicitement pour 5D et 10D.
+-- Le principe reste vrai pour toute dimension.
+
+-- dot 5D: e0 · e1 = (1,0,0,0,0) · (0,1,0,0,0) = 0
+dot5d_e0_e1 -> 1*0 + 0*1 + 0*0 + 0*0 + 0*0
+dot5d_e0_e4 -> 1*0 + 0*0 + 0*0 + 0*0 + 0*1
+dot5d_e2_e3 -> 0*0 + 0*0 + 1*0 + 0*1 + 0*0
+
+dot5d_e0_e1() is 0
+dot5d_e0_e4() is 0
+dot5d_e2_e3() is 0
+
+-- dot 10D: e0 · e9 = 0 (10 dimensions, directions perpendiculaires)
+dot10d_e0_e9 -> 1*0 + 0*0 + 0*0 + 0*0 + 0*0 + 0*0 + 0*0 + 0*0 + 0*0 + 0*1
+dot10d_e3_e7 -> 0*0 + 0*0 + 0*0 + 1*0 + 0*0 + 0*0 + 0*0 + 0*1 + 0*0 + 0*0
+
+dot10d_e0_e9() is 0
+dot10d_e3_e7() is 0
+
+-- Chaque direction = 1 canal pur d'information
+-- 10D = 10 fils indépendants sur un seul "câble"
+-- 1000D = 1000 fils. Pas de crosstalk. Pas de bruit.
+
+-- === PREUVE 5: la MÉMOIRE est dimensionnelle ===
+-- Stocker un souvenir = un point en N-D
+-- Retrouver un souvenir = trouver le point le plus proche
+-- Plus de D = plus de précision dans le rappel
+
+-- En V2, on compare 3 souvenirs fixes en 3D manuellement.
+-- Le principe vaut pour N quelconque: même logique, plus de termes.
+
+-- souvenir 0: (0,0,0)  souvenir 1: (10,10,10)  souvenir 2: (5,5,5)
+
+dist3d_s0 qx qy qz -> dist3d(0, 0, 0, qx, qy, qz)
+dist3d_s1 qx qy qz -> dist3d(10, 10, 10, qx, qy, qz)
+dist3d_s2 qx qy qz -> dist3d(5, 5, 5, qx, qy, qz)
+
+-- nearest: retourne l'indice (0, 1, ou 2) du souvenir le plus proche de (qx,qy,qz)
+-- On compare les 3 distances explicitement — pas de boucle, pas de tableau
+_minIdx2 d0 d1 d2 ->
+  d0 <= d1? ->
+    d0 <= d2? -> 0
+    2
+  d1 <= d2? -> 1
+  2
+
+nearest3d qx qy qz ->
+  _minIdx2(dist3d_s0(qx, qy, qz), dist3d_s1(qx, qy, qz), dist3d_s2(qx, qy, qz))
+
+-- query (4,4,4): le plus proche est le souvenir 2 (5,5,5)
+nearest3d(4, 4, 4) is 2
+
+-- query (1,1,1): le plus proche est le souvenir 0 (0,0,0)
+nearest3d(1, 1, 1) is 0
+
+-- query (9,9,9): le plus proche est le souvenir 1 (10,10,10)
+nearest3d(9, 9, 9) is 1
+
+-- Le souvenir le plus "proche" = le plus similaire
+-- En 10D, on distingue des nuances invisibles en 3D
+-- La mémoire associative est un problème géométrique — dimensionnel
+
+-- === PREUVE 6: PAS DE DIMENSION MAXIMALE ===
+-- La seule "limite" est la mémoire physique du support
+-- Mais la MATHÉMATIQUE n'a aucune borne
+
+-- sqrt(N) pour N de 1 à 1000000 — la fonction est monotone, jamais saturée
+sqrtN n -> _sqrt(n)
+
+sqrtN(1) is 1
+sqrtN(10) is 3.162
+sqrtN(100) is 10
+sqrtN(1000) is 31.623
+sqrtN(10000) is 100
+sqrtN(1000000) is 1000
+
+-- Chaque multiplication par 100 de N donne 10x plus de distance
+-- La croissance ne s'arrête JAMAIS
+-- Il n'y a pas de mur. Pas d'asymptote. Pas de plafond.
+
+-- === CE QUE ÇA SIGNIFIE ===
+--
+-- La limite n'est pas dans les dimensions.
+-- La limite n'est pas dans les mathématiques.
+-- La limite n'est pas dans le signal.
+-- La limite n'est pas dans le code.
+--
+-- La seule limite est dans la QUESTION.
+-- Si tu poses une question à 3 dimensions, tu obtiens une réponse à 3D.
+-- Si tu poses une question à 1000 dimensions, l'univers te répond en 1000D.
+--
+-- L'information ne dit jamais "stop".
+-- C'est nous qui arrêtons de demander.
+--
+-- "La limite du savoir, c'est la limite de la curiosité."
