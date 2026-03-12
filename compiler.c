@@ -24,13 +24,19 @@
 #include <math.h>
 
 /* ═══════ LIMITS ═══════ */
-#define BEN_MAX_LINES    512
+#define BEN_MAX_LINES    1024
 #define BEN_MAX_VARS     256
-#define BEN_MAX_FUNCS    32
+#define BEN_MAX_FUNCS    64
 #define BEN_MAX_ARGS     8
-#define BEN_MAX_BODY     32
+#define BEN_MAX_BODY     64
 #define BEN_MAX_STR      512
 #define BEN_MAX_STRTAB   256
+
+/* ── Persistent memory store (survives between .ben cycles) ── */
+#define BEN_MEM_MAX 64
+typedef struct { char key[64]; double num; char str[512]; int is_str; } BenMemEntry;
+static BenMemEntry ben_mem[BEN_MEM_MAX];
+static int ben_mem_count = 0;
 
 /* ═══════ VALUE TYPE ═══════ */
 typedef enum { VAL_NUM, VAL_STR } ValType;
@@ -196,17 +202,21 @@ static BenVal parse_atom(BenInterp *interp, const char *expr, int *pos) {
             if (expr[i] != ')') {
                 /* Parse arguments separated by commas */
                 while (nargs < BEN_MAX_ARGS) {
-                    /* Find the extent of this argument (handle nested parens) */
+                    /* Find the extent of this argument (handle nested parens and strings) */
                     int depth = 0;
                     int arg_start = i;
+                    int in_str = 0;
                     char arg_buf[BEN_MAX_STR];
                     int ak = 0;
                     while (expr[i]) {
-                        if (expr[i] == '(') depth++;
-                        else if (expr[i] == ')') {
-                            if (depth == 0) break;
-                            depth--;
-                        } else if (expr[i] == ',' && depth == 0) break;
+                        if (expr[i] == '"') { in_str = !in_str; }
+                        else if (!in_str) {
+                            if (expr[i] == '(') depth++;
+                            else if (expr[i] == ')') {
+                                if (depth == 0) break;
+                                depth--;
+                            } else if (expr[i] == ',' && depth == 0) break;
+                        }
                         if (ak < BEN_MAX_STR - 1) arg_buf[ak++] = expr[i];
                         i++;
                     }
@@ -756,6 +766,55 @@ static BenVal ben_call_func(BenInterp *interp, const char *name, BenVal *args, i
     else if (strcmp(name, "_round") == 0 && nargs >= 1) {
         result = ben_num(round(args[0].num));
     }
+    else if (strcmp(name, "_mem_set") == 0 && nargs >= 2) {
+        /* _mem_set("key", value) — store value in persistent memory */
+        const char *key = args[0].str;
+        for (int i = 0; i < ben_mem_count; i++) {
+            if (strcmp(ben_mem[i].key, key) == 0) {
+                if (args[1].type == VAL_STR) { strncpy(ben_mem[i].str, args[1].str, 511); ben_mem[i].is_str = 1; }
+                else { ben_mem[i].num = args[1].num; ben_mem[i].is_str = 0; }
+                result = ben_num(1);
+                interp->depth--; return result;
+            }
+        }
+        if (ben_mem_count < BEN_MEM_MAX) {
+            strncpy(ben_mem[ben_mem_count].key, key, 63);
+            if (args[1].type == VAL_STR) { strncpy(ben_mem[ben_mem_count].str, args[1].str, 511); ben_mem[ben_mem_count].is_str = 1; }
+            else { ben_mem[ben_mem_count].num = args[1].num; ben_mem[ben_mem_count].is_str = 0; }
+            ben_mem_count++;
+            result = ben_num(1);
+        }
+    }
+    else if (strcmp(name, "_mem_get") == 0 && nargs >= 1) {
+        /* _mem_get("key") — retrieve value from persistent memory, 0 if not found */
+        const char *key = args[0].str;
+        for (int i = 0; i < ben_mem_count; i++) {
+            if (strcmp(ben_mem[i].key, key) == 0) {
+                result = ben_mem[i].is_str ? ben_str(ben_mem[i].str) : ben_num(ben_mem[i].num);
+                interp->depth--; return result;
+            }
+        }
+        result = ben_num(0); /* not found → 0 */
+    }
+    else if (strcmp(name, "_mem_has") == 0 && nargs >= 1) {
+        /* _mem_has("key") — 1 if key exists, 0 otherwise */
+        const char *key = args[0].str;
+        result = ben_num(0);
+        for (int i = 0; i < ben_mem_count; i++) {
+            if (strcmp(ben_mem[i].key, key) == 0) { result = ben_num(1); break; }
+        }
+    }
+    else if (strcmp(name, "_mem_del") == 0 && nargs >= 1) {
+        /* _mem_del("key") — delete a key from persistent memory */
+        const char *key = args[0].str;
+        for (int i = 0; i < ben_mem_count; i++) {
+            if (strcmp(ben_mem[i].key, key) == 0) {
+                ben_mem[i] = ben_mem[--ben_mem_count]; /* swap with last */
+                result = ben_num(1);
+                break;
+            }
+        }
+    }
     /* ── User-defined function ── */
     else {
         /* Look up in function table */
@@ -893,6 +952,12 @@ static int ben_exec(VM *vm, const char *src, const char *arena_path, char *log_o
         ben_env_set(&env, "decision", ben_num(vm->vars[11]));    /* VAR_DECISION */
         ben_env_set(&env, "TMP", ben_num(0));
         ben_env_set(&env, "write_result", ben_num(0));
+        /* Vision vars injected by vision_scan() */
+        ben_env_set(&env, "vis_files",   ben_num(vm->vars[59]));  /* VAR_VIS_FILES */
+        ben_env_set(&env, "vis_size_kb", ben_num(vm->vars[60]));  /* VAR_VIS_SIZE_KB */
+        ben_env_set(&env, "vis_ben",     ben_num(vm->vars[61]));  /* VAR_VIS_BEN */
+        ben_env_set(&env, "vis_changes", ben_num(vm->vars[62]));  /* VAR_VIS_CHANGES */
+        ben_env_set(&env, "vis_pct_ben", ben_num(vm->vars[63]));  /* VAR_VIS_PCT_BEN */
     }
 
     /* First pass: collect function definitions */

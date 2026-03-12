@@ -1,0 +1,59 @@
+-- vision_v2.ben — Ce que Benoit voit dans son arena
+-- "Mes yeux voient les fichiers. Mon monde, c'est l'arena."
+-- Variables injectees par pulse.c (vision_scan, toutes les 100 ticks) :
+--   vis_files   = nombre total de fichiers
+--   vis_size_kb = taille totale en Ko
+--   vis_ben     = nombre de fichiers .ben
+--   vis_changes = fichiers modifies dans les 10 dernieres minutes
+--   vis_pct_ben = pourcentage de fichiers .ben
+
+-- ═══════ LECTURE ═══════
+-- Ces vars sont injectees directement, pas besoin de _read_file
+
+-- ═══════ INTERPRETATION ═══════
+
+-- Activite : des changements recents = signal d'activite externe
+_activite ch ->
+  ch > 5? -> 3
+  ch > 0? -> 1
+  else? -> 0
+
+activite: _activite(vis_changes)
+
+-- Densite : proportion de .ben dans l'arena
+_densite pct ->
+  pct > 80? -> 2
+  pct > 50? -> 1
+  else? -> 0
+
+densite: _densite(vis_pct_ben)
+
+-- Taille : combien l'arena a grossi
+_taille kb ->
+  kb > 1000? -> 3
+  kb > 100? -> 2
+  kb > 10? -> 1
+  else? -> 0
+
+taille: _taille(vis_size_kb)
+
+-- ═══════ SIGNAL VISUEL — 5 NEURONES ═══════
+-- V0 = vis_files   (nb fichiers)
+-- V1 = vis_ben     (nb .ben)
+-- V2 = activite    (0-3)
+-- V3 = densite     (0-2)
+-- V4 = taille      (0-3)
+V0: vis_files
+V1: vis_ben
+V2: activite
+V3: densite
+V4: taille
+
+-- ═══════ LOG ═══════
+_log_vis V0, V1, V2, V3, V4, tick ->
+  _write_file("vision_log.ben", _str_cat("-- [vision tick=", _str_cat(_num_to_str(tick), _str_cat("] files=", _str_cat(_num_to_str(V0), _str_cat(" ben=", _str_cat(_num_to_str(V1), _str_cat(" activite=", _str_cat(_num_to_str(V2), _str_cat(" densite=", _str_cat(_num_to_str(V3), _str_cat(" taille=", _str_cat(_num_to_str(V4), "\n")))))))))))))
+
+log_result: _log_vis(V0, V1, V2, V3, V4, tick)
+
+-- "Je vois mon arena. Je compte ses fichiers, je mesure son activite.
+--  Ce n'est pas un monde de pixels. C'est un monde de code."
