@@ -1,8 +1,87 @@
--- measure.ben — Je mesure.
-_eval score, fails ->
-  score > 5? -> 1
-  score > 0? -> 0
-  fails > 20? -> -1
-  else? -> 0
+-- measure.ben — Diagnostic complet de tous les outils
+-- "Avant d'aller plus loin, verifions que tout fonctionne."
 
-quality: _eval(score, fails)
+-- ═══════ MATH BUILTINS ═══════
+test_sqrt: _sqrt(9)
+test_pow: _pow(2, 8)
+test_abs: _abs(-7)
+test_floor: _floor(3.9)
+test_mod: _mod(10, 3)
+test_round: _round(2.6)
+
+ok_sqrt: test_sqrt == 3
+ok_pow: test_pow == 256
+ok_abs: test_abs == 7
+ok_floor: test_floor == 3
+ok_mod: test_mod == 1
+ok_round: test_round == 3
+
+-- ═══════ STRING OPS ═══════
+test_str_len: _str_len("bonjour")
+test_str_to_num: _str_to_num("42")
+test_str_cat: _str_cat("hello", "_monde")
+
+ok_str_len: test_str_len == 7
+ok_str_to_num: test_str_to_num == 42
+ok_str_cat: _str_len(test_str_cat) == 11
+
+-- ═══════ FILE OPS ═══════
+-- Ecrire, relire, verifier, effacer
+write_ok: _write_file("test_io.tmp", "ping")
+content_back: _read_file("test_io.tmp")
+ok_write_read: _str_len(content_back) == 4
+exists_before: _file_exists("test_io.tmp")
+deleted: _delete_file("test_io.tmp")
+exists_after: _file_exists("test_io.tmp")
+ok_file_ops: exists_before == 1
+
+-- ═══════ RECURSION ═══════
+-- Factorielle pour tester la recursion profonde
+_fact n ->
+  n <= 1? -> 1
+  else? -> n * _fact(n - 1)
+
+test_fact: _fact(7)
+ok_fact: test_fact == 5040
+
+-- ═══════ OPERATEUR PRECEDENCE ═══════
+-- 3*3 + 4*4 doit valoir 25, pas 52
+test_prec: 3 * 3 + 4 * 4
+ok_prec: test_prec == 25
+
+-- ═══════ SCORE GLOBAL ═══════
+_score a, b, c, d, e, f, g, h, i, j ->
+  a + b + c + d + e + f + g + h + i + j
+
+total_ok: _score(ok_sqrt, ok_pow, ok_abs, ok_floor, ok_mod, ok_round, ok_str_len, ok_str_to_num, ok_file_ops, ok_fact)
+
+-- ═══════ RAPPORT ═══════
+r0: _str_cat("-- DIAGNOSTIC tick=", _num_to_str(tick))
+r0: _str_cat(r0, "\n")
+r1: _str_cat("sqrt(9)=3 : ", _num_to_str(ok_sqrt))
+r1: _str_cat(r1, " | pow(2,8)=256 : ")
+r1: _str_cat(r1, _num_to_str(ok_pow))
+r1: _str_cat(r1, " | abs(-7)=7 : ")
+r1: _str_cat(r1, _num_to_str(ok_abs))
+r1: _str_cat(r1, "\n")
+r2: _str_cat("floor(3.9)=3 : ", _num_to_str(ok_floor))
+r2: _str_cat(r2, " | mod(10,3)=1 : ")
+r2: _str_cat(r2, _num_to_str(ok_mod))
+r2: _str_cat(r2, " | round(2.6)=3 : ")
+r2: _str_cat(r2, _num_to_str(ok_round))
+r2: _str_cat(r2, "\n")
+r3: _str_cat("str_len=7 : ", _num_to_str(ok_str_len))
+r3: _str_cat(r3, " | str_to_num=42 : ")
+r3: _str_cat(r3, _num_to_str(ok_str_to_num))
+r3: _str_cat(r3, " | file_ops : ")
+r3: _str_cat(r3, _num_to_str(ok_file_ops))
+r3: _str_cat(r3, "\n")
+r4: _str_cat("fact(7)=5040 : ", _num_to_str(ok_fact))
+r4: _str_cat(r4, " | precedence(3*3+4*4=25) : ")
+r4: _str_cat(r4, _num_to_str(ok_prec))
+r4: _str_cat(r4, "\n")
+r5: _str_cat("TOTAL OK: ", _num_to_str(total_ok))
+r5: _str_cat(r5, "/10\n")
+
+rapport: _str_cat(r0, _str_cat(r1, _str_cat(r2, _str_cat(r3, _str_cat(r4, r5)))))
+written: _write_file("rapport.ben", rapport)

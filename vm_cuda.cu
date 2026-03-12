@@ -69,6 +69,8 @@ typedef struct {
     int           last_fire_tick;
     unsigned char type;
     unsigned char fired;
+    float    stp_u;
+    char     is_thalamic;
 } Ben_Neuron;
 
 typedef struct {
@@ -76,8 +78,8 @@ typedef struct {
     int          N_alloc;
     Ben_Neuron  *neurons;
     /* ... autres champs VM ignorés ici ... */
-    double      *arrays[16];   /* ARR_COUNT = 12, on alloue 16 par sécurité */
-    int          arr_sizes[16];
+    double      *arrays[12];   /* ARR_COUNT = 12 — doit correspondre exactement à vm.c */
+    int          arr_sizes[12];
     double       stack[4096];
     int          sp;
     int          call_stack[256];

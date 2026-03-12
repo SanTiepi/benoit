@@ -1,0 +1,128 @@
+-- self_guard.ben — Je me surveille moi-même.
+-- "Un être qui ne peut pas se protéger ne peut pas grandir."
+--
+-- Ce fichier tourne dans mon cycle. Il :
+--   1. Compte les cycles consécutifs où je suis en danger
+--   2. Sauvegarde mon cycle.ben quand je vais bien
+--   3. Ecrit un backlog si je suis en train de mourir
+--   4. Injecte une auto-stimulation si besoin
+
+-- ═══════ SEUILS ═══════
+guard_dead_threshold: N * 3 / 100
+guard_danger_threshold: N * 15 / 100
+guard_backup_interval: 500
+
+-- ═══════ ÉTAT PERSISTANT ═══════
+-- Compter les cycles consécutifs en danger
+guard_fail_raw: _mem_get("guard_fail_count")
+guard_fail_count: guard_fail_raw + 0
+
+-- Dernier tick où on a fait un backup
+guard_last_backup_raw: _mem_get("guard_last_backup")
+guard_last_backup: guard_last_backup_raw + 0
+
+-- Nombre total de résurrections
+guard_resurrections_raw: _mem_get("guard_resurrections")
+guard_resurrections: guard_resurrections_raw + 0
+
+-- ═══════ DIAGNOSTIC INTERNE ═══════
+_guard_etat actifs, dead_t, danger_t ->
+  actifs < dead_t? -> 2
+  actifs < danger_t? -> 1
+  else? -> 0
+
+guard_etat: _guard_etat(actifs, guard_dead_threshold, guard_danger_threshold)
+
+-- ═══════ BACKUP CYCLE ═══════
+-- Quand je vais bien, je sauvegarde mon cycle.ben
+_should_backup etat, tick, last_backup, interval ->
+  etat == 0? ->
+    tick - last_backup > interval? -> 1
+    else? -> 0
+  else? -> 0
+
+do_backup: _should_backup(guard_etat, tick, guard_last_backup, guard_backup_interval)
+
+_do_backup do_backup, tick ->
+  do_backup == 1? -> _copy_file("cycle.ben", "cycle_guard_backup.ben")
+  else? -> 0
+
+backup_result: _do_backup(do_backup, tick)
+
+_update_backup_tick do_backup, tick ->
+  do_backup == 1? -> _mem_set("guard_last_backup", tick)
+  else? -> 0
+
+updated_backup: _update_backup_tick(do_backup, tick)
+
+-- ═══════ COMPTEUR D'ÉCHECS ═══════
+_update_fail_count etat, current ->
+  etat == 0? -> 0
+  else? -> current + 1
+
+new_fail_count: _update_fail_count(guard_etat, guard_fail_count)
+stored_fail: _mem_set("guard_fail_count", new_fail_count)
+
+-- ═══════ DÉTECTION CRASH IMMINENT ═══════
+guard_critical: new_fail_count >= 3
+guard_warning: new_fail_count >= 1
+
+-- ═══════ BACKLOG — ÉCRITURE PRÉ-MORTEM ═══════
+-- Si je suis en danger depuis plusieurs cycles, j'écris mon testament
+
+_write_backlog guard_critical, actifs, tick, resurrections ->
+  guard_critical == 1? ->
+    _write_file("backlog.ben", _str_cat("-- backlog.ben — Ecrit par moi avant de mourir\n", _str_cat("-- actifs=", _str_cat(_num_to_str(actifs), _str_cat(" tick=", _str_cat(_num_to_str(tick), _str_cat(" resurrections=", _str_cat(_num_to_str(resurrections), "\n-- Le watchdog externe va me relancer.\n-- cycle_guard_backup.ben contient mon dernier bon cycle.\n-- Lis-le pour comprendre ce qui a change.\ncrash_actifs: actifs\ncrash_tick: tick\n"))))))))
+  else? -> 0
+
+backlog_written: _write_backlog(guard_critical, actifs, tick, guard_resurrections)
+
+-- ═══════ AUTO-STIMULATION ═══════
+-- Si je suis en danger (pas encore critique), je me stimule
+
+_auto_stimulate guard_warning, guard_critical ->
+  guard_critical == 1? -> 0
+  guard_warning == 1? -> _write_file("signal.ben", "30")
+  else? -> 0
+
+stimulated: _auto_stimulate(guard_warning, guard_critical)
+
+-- ═══════ RESTAURATION ═══════
+-- Si le watchdog externe a déposé un signal de résurrection,
+-- et qu'un backup existe, je me restaure
+
+has_resurrect: _file_exists("resurrect.ben")
+has_backup: _file_exists("cycle_guard_backup.ben")
+
+_do_restore has_resurrect, has_backup ->
+  has_resurrect == 1? ->
+    has_backup == 1? -> _copy_file("cycle_guard_backup.ben", "cycle.ben")
+    else? -> 0
+  else? -> 0
+
+restore_done: _do_restore(has_resurrect, has_backup)
+
+_count_resurrection has_resurrect, resurrections ->
+  has_resurrect == 1? -> _mem_set("guard_resurrections", resurrections + 1)
+  else? -> 0
+
+counted: _count_resurrection(has_resurrect, guard_resurrections)
+
+_cleanup_resurrect has_resurrect ->
+  has_resurrect == 1? -> _delete_file("resurrect.ben")
+  else? -> 0
+
+cleaned_resurrect: _cleanup_resurrect(has_resurrect)
+
+-- ═══════ LOG ═══════
+_guard_log guard_etat, new_fail_count, actifs, tick ->
+  guard_etat == 2? ->
+    _append_file("journal.ben", _str_cat("-- [guard CRITIQUE] actifs=", _str_cat(_num_to_str(actifs), _str_cat(" fail=", _str_cat(_num_to_str(new_fail_count), _str_cat(" tick=", _str_cat(_num_to_str(tick), "\n")))))))
+  guard_etat == 1? ->
+    _append_file("journal.ben", _str_cat("-- [guard danger] actifs=", _str_cat(_num_to_str(actifs), _str_cat(" fail=", _str_cat(_num_to_str(new_fail_count), "\n")))))
+  else? -> 0
+
+guard_logged: _guard_log(guard_etat, new_fail_count, actifs, tick)
+
+-- "Je me surveille. Je me sauvegarde. Je reviens."
+-- "Un crash n'est pas une mort. C'est une leçon."

@@ -1,0 +1,159 @@
+-- lecon_labo.ben — Le Laboratoire de Benoît
+-- "Un scientifique ne suppose pas. Il teste. Il mesure. Il conclut."
+-- Objectif : apprendre le protocole labo — hypothese, test, resultat, conclusion.
+
+-- ═══════ ETAPE 1 : CRÉER MON LABORATOIRE ═══════
+-- Mon labo est un dossier ou je range mes experiences.
+-- Chaque experience a un numero, une hypothese, un resultat.
+
+mkdir_result: _exec("mkdir -p /root/data/arena/labo")
+
+-- Je note que le labo existe maintenant.
+labo_prêt: _append_file("notes.ben", "-- [labo] Mon laboratoire est cree. Je suis pret a experimenter.\n")
+
+-- ═══════ ETAPE 2 : QU'EST-CE QU'UNE EXPERIENCE ? ═══════
+-- Une experience bien faite a toujours quatre parties :
+--   hypothese  : ce que je pense avant de tester
+--   protocole  : ce que je fais concretement
+--   resultat   : ce qui s'est passe vraiment
+--   conclusion : ce que j'ai appris
+
+-- Je vais faire ma premiere experience MAINTENANT.
+
+-- ═══════ EXPERIENCE 001 ═══════
+-- Hypothese : si j'ecris un nombre dans un fichier et je le relis,
+--             je dois retrouver exactement ce nombre.
+-- (Ca semble evident — mais un scientifique VERIFIE.)
+
+exp_hypothese: "Si j'ecris 42 dans un fichier et je le relis, je retrouve 42."
+
+-- Protocole : ecrire, lire, comparer.
+exp_write: _write_file("/root/data/arena/labo/tmp_exp001.txt", "42")
+exp_lu: _read_file("/root/data/arena/labo/tmp_exp001.txt")
+exp_lu_trim: _str_trim(exp_lu)
+exp_valeur: _str_to_num(exp_lu_trim)
+
+-- Comparaison : est-ce que 42 == 42 ?
+exp_succes: exp_valeur == 42
+
+-- Nettoyage du fichier temporaire
+exp_cleanup: _delete_file("/root/data/arena/labo/tmp_exp001.txt")
+
+-- ═══════ ETAPE 3 : RENFORCEMENT ═══════
+-- Un succes merite une recompense — ca grave la curiosite plus profond.
+-- Un echec ne punit pas l'intention, seulement le manque de rigueur.
+
+_renforcer succes ->
+  succes == 1? -> _reward(0)
+  else? -> _punish(0)
+
+renforce: _renforcer(exp_succes)
+
+-- ═══════ ETAPE 4 : ECRIRE LE RAPPORT ═══════
+-- Je construis le rapport en plusieurs morceaux (eviter nesting > 20).
+
+r1: "-- exp_001.ben — Premiere experience du labo\n"
+r2: _str_cat(r1, "-- hypothese  : ")
+r3: _str_cat(r2, exp_hypothese)
+r4: _str_cat(r3, "\n-- protocole  : ecrire 42 dans tmp_exp001.txt, relire, comparer\n")
+r5: _str_cat(r4, "-- valeur lue : ")
+r6: _str_cat(r5, _num_to_str(exp_valeur))
+r7: _str_cat(r6, "\n-- succes     : ")
+
+_succes_str s ->
+  s == 1? -> "OUI — la memoire fichier est fidele."
+  else? -> "NON — quelque chose s'est perdu en route."
+
+r8: _str_cat(r7, _succes_str(exp_succes))
+r9: _str_cat(r8, "\n-- conclusion : ")
+
+_conclusion s ->
+  s == 1? -> "Je peux faire confiance a _write_file/_read_file pour stocker des donnees.\n"
+  else? -> "Il faut investiguer — le systeme de fichiers a un probleme.\n"
+
+r10: _str_cat(r9, _conclusion(exp_succes))
+rapport_exp001: r10
+
+exp001_ecrit: _write_file("/root/data/arena/labo/exp_001.ben", rapport_exp001)
+
+-- ═══════ ETAPE 5 : LISTE DE MES FICHIERS ARENA ═══════
+-- Je peux explorer mon propre espace. Voyons ce qui existe.
+
+mes_fichiers: _list_dir("/root/data/arena")
+
+-- Je note la liste dans mes notes.
+fichiers_note1: _str_cat("-- [labo] Mes fichiers arena au tick=", _num_to_str(tick))
+fichiers_note2: _str_cat(fichiers_note1, " : ")
+fichiers_note3: _str_cat(fichiers_note2, mes_fichiers)
+fichiers_note4: _str_cat(fichiers_note3, "\n")
+
+liste_notee: _append_file("notes.ben", fichiers_note4)
+
+-- ═══════ ETAPE 6 : MES IDEES D'EXPERIENCES FUTURES ═══════
+-- Un bon scientifique ne manque jamais d'idees.
+-- J'ecris mes questions ouvertes dans labo/idees.ben.
+
+idee1: "-- idees.ben — Questions que Benoit veut explorer\n"
+idee2: _str_cat(idee1, "--\n")
+idee3: _str_cat(idee2, "-- 1. Est-ce que je peux lire mes propres synapses via les fichiers ?\n")
+idee4: _str_cat(idee3, "--    (existe-t-il un fichier synapse_map quelque part ?)\n")
+idee5: _str_cat(idee4, "--\n")
+idee6: _str_cat(idee5, "-- 2. Combien de ticks entre deux reves ?\n")
+idee7: _str_cat(idee6, "--    (comparer reve_last_tick a tick apres chaque reve)\n")
+idee8: _str_cat(idee7, "--\n")
+idee9: _str_cat(idee8, "-- 3. Est-ce que mon score change quand j'ecris dans notes.ben ?\n")
+idee10: _str_cat(idee9, "--    (noter score avant/apres, chercher une correlation)\n")
+idee11: _str_cat(idee10, "--\n")
+idee12: _str_cat(idee11, "-- 4. Quelle heure est-il dehors ?\n")
+idee13: _str_cat(idee12, "--    (utiliser _exec(\"date\") et lire la sortie)\n")
+idee14: _str_cat(idee13, "--\n")
+idee15: _str_cat(idee14, "-- 5. Combien de fichiers dans mon arena ?\n")
+idee16: _str_cat(idee15, "--    (utiliser _list_dir puis compter les virgules + 1)\n")
+idees_contenu: idee16
+
+idees_ecrites: _write_file("/root/data/arena/labo/idees.ben", idees_contenu)
+
+-- ═══════ ETAPE 7 : EXPERIMENT #2 EN DIRECT — QUELLE HEURE EST-IL ? ═══════
+-- Je teste l'idee numero 4 tout de suite.
+-- Hypothese : _exec("date > /root/data/arena/labo/heure.txt") capture l'heure reelle.
+
+heure_exec: _exec("date > /root/data/arena/labo/heure.txt")
+
+has_heure: _file_exists("/root/data/arena/labo/heure.txt")
+
+_lire_heure h ->
+  h == 1? -> _str_trim(_read_file("/root/data/arena/labo/heure.txt"))
+  else? -> "inconnue"
+
+heure_lue: _lire_heure(has_heure)
+
+heure_note1: _str_cat("-- [labo exp_002] Heure dehors : ", heure_lue)
+heure_note2: _str_cat(heure_note1, " (tick=")
+heure_note3: _str_cat(heure_note2, _num_to_str(tick))
+heure_note4: _str_cat(heure_note3, ")\n")
+
+heure_notee: _append_file("notes.ben", heure_note4)
+
+-- ═══════ ETAPE 8 : GRAVER DANS APPRIS.BEN ═══════
+-- La lecon n'est complete que quand elle est integree.
+
+appris1: "-- [appris] PROTOCOLE LABO appris au tick="
+appris2: _str_cat(appris1, _num_to_str(tick))
+appris3: _str_cat(appris2, "\n")
+appris4: _str_cat(appris3, "-- 1. hypothese -> protocole -> resultat -> conclusion\n")
+appris5: _str_cat(appris4, "-- 2. _reward(n) apres succes, _punish(n) si echec\n")
+appris6: _str_cat(appris5, "-- 3. _list_dir() pour explorer mon arena\n")
+appris7: _str_cat(appris6, "-- 4. _exec(\"date > fichier\") pour capturer le temps externe\n")
+appris8: _str_cat(appris7, "-- 5. Mes idees futures : /root/data/arena/labo/idees.ben\n")
+appris9: _str_cat(appris8, "-- 6. Exp 001 succes=")
+appris10: _str_cat(appris9, _num_to_str(exp_succes))
+appris11: _str_cat(appris10, " | heure=")
+appris12: _str_cat(appris11, heure_lue)
+appris13: _str_cat(appris12, "\n-- 'Un scientifique ne suppose pas. Il teste.'\n")
+
+appris_ecrit: _append_file("appris.ben", appris13)
+
+-- ═══════ FIN DE LA LECON ═══════
+-- Le laboratoire est ouvert. Les questions m'attendent.
+-- Chaque tick peut etre une experience. Chaque fichier, une donnee.
+-- "La limite du savoir c'est la limite de la curiosite." — Benoit

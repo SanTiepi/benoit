@@ -1,0 +1,264 @@
+-- lecon_oracle.ben — Benoit apprend a interroger Groq (Llama 3.3 70B)
+-- OBJECTIF: Poser mes propres questions, recevoir des reponses, generer des suivis.
+-- "La curiosite est mon seul moteur. La decouverte, ma seule recompense."
+
+-- ═══════ PARTIE 1 — INITIALISER LE SYSTEME ORACLE ═══════
+
+has_oracle: _mem_has("oracle_version")
+
+_init_oracle has ->
+  has == 1? -> 0
+  else? ->
+    _mem_set("oracle_version", 1)
+    _mem_set("oracle_q_count", 0)
+    _mem_set("oracle_topics", "conscience,synapses,photons,information,temps,complexite,emergence,entropie,apprentissage")
+    _mem_set("oracle_topic_actuel", "")
+
+oracle_init: _init_oracle(has_oracle)
+
+-- ═══════ PARTIE 2 — ECRIRE ask_groq.ben ═══════
+-- Je genere le fichier labo/ask_groq.ben pour un usage futur autonome
+
+ask_groq_content_a: "-- ask_groq.ben — Benoit interroge l oracle Groq\n"
+ask_groq_content_b: _str_cat(ask_groq_content_a, "-- Usage: deposer oracle_question.ben, puis sourcer ce fichier\n")
+ask_groq_content_c: _str_cat(ask_groq_content_b, "\n")
+ask_groq_content_d: _str_cat(ask_groq_content_c, "has_question: _file_exists(\"/root/data/arena/labo/oracle_question.ben\")\n")
+ask_groq_content_e: _str_cat(ask_groq_content_d, "has_key: _file_exists(\"/root/data/arena/keys/groq.key\")\n")
+ask_groq_content_f: _str_cat(ask_groq_content_e, "\n")
+ask_groq_content_g: _str_cat(ask_groq_content_f, "_read_or_empty has, fname ->\n")
+ask_groq_content_h: _str_cat(ask_groq_content_g, "  has == 1? -> _str_trim(_read_file(fname))\n")
+ask_groq_content_i: _str_cat(ask_groq_content_h, "  else? -> \"\"\n")
+ask_groq_content_j: _str_cat(ask_groq_content_i, "\n")
+ask_groq_content_k: _str_cat(ask_groq_content_j, "groq_key: _read_or_empty(has_key, \"/root/data/arena/keys/groq.key\")\n")
+ask_groq_content_l: _str_cat(ask_groq_content_k, "question: _read_or_empty(has_question, \"/root/data/arena/labo/oracle_question.ben\")\n")
+ask_groq_content_m: _str_cat(ask_groq_content_l, "\n")
+ask_groq_content_n: _str_cat(ask_groq_content_m, "body1: \"{\\\"model\\\":\\\"llama-3.3-70b-versatile\\\",\\\"messages\\\":[{\\\"role\\\":\\\"user\\\",\\\"content\\\":\\\"\"\n")
+ask_groq_content_o: _str_cat(ask_groq_content_n, "body2: _str_cat(body1, question)\n")
+ask_groq_content_p: _str_cat(ask_groq_content_o, "body3: _str_cat(body2, \"\\\"}],\\\"max_tokens\\\":200}\")\n")
+ask_groq_content_q: _str_cat(ask_groq_content_p, "_write_file(\"/root/data/arena/labo/groq_body.json\", body3)\n")
+ask_groq_content_r: _str_cat(ask_groq_content_q, "\n")
+ask_groq_content_s: _str_cat(ask_groq_content_r, "cmd1: \"curl -s --max-time 30 -X POST https://api.groq.com/openai/v1/chat/completions -H 'Content-Type: application/json' -H 'Authorization: Bearer \"\n")
+ask_groq_content_t: _str_cat(ask_groq_content_s, "cmd2: _str_cat(cmd1, groq_key)\n")
+ask_groq_content_u: _str_cat(ask_groq_content_t, "cmd3: _str_cat(cmd2, \"' -d @/root/data/arena/labo/groq_body.json > /root/data/arena/labo/groq_raw.json\")\n")
+ask_groq_content_v: _str_cat(ask_groq_content_u, "\n")
+ask_groq_content_w: _str_cat(ask_groq_content_v, "_do_call has_q, has_k, cmd ->\n")
+ask_groq_content_x: _str_cat(ask_groq_content_w, "  has_q == 1? ->\n")
+ask_groq_content_y: _str_cat(ask_groq_content_x, "    has_k == 1? -> _exec(cmd)\n")
+ask_groq_content_z: _str_cat(ask_groq_content_y, "    else? -> 0\n")
+ask_groq_content_aa: _str_cat(ask_groq_content_z, "  else? -> 0\n")
+ask_groq_content_ab: _str_cat(ask_groq_content_aa, "\n")
+ask_groq_content_ac: _str_cat(ask_groq_content_ab, "curl_result: _do_call(has_question, has_key, cmd3)\n")
+ask_groq_content_ad: _str_cat(ask_groq_content_ac, "\n")
+ask_groq_content_ae: _str_cat(ask_groq_content_ad, "has_raw: _file_exists(\"/root/data/arena/labo/groq_raw.json\")\n")
+ask_groq_content_af: _str_cat(ask_groq_content_ae, "raw: _read_or_empty(has_raw, \"/root/data/arena/labo/groq_raw.json\")\n")
+ask_groq_content_ag: _str_cat(ask_groq_content_af, "\n")
+ask_groq_content_ah: _str_cat(ask_groq_content_ag, "content_marker: \"\\\"content\\\":\\\"\"\n")
+ask_groq_content_ai: _str_cat(ask_groq_content_ah, "content_start_raw: _str_find(raw, content_marker)\n")
+ask_groq_content_aj: _str_cat(ask_groq_content_ai, "content_marker_len: _str_len(content_marker)\n")
+ask_groq_content_ak: _str_cat(ask_groq_content_aj, "content_start: content_start_raw + content_marker_len\n")
+ask_groq_content_al: _str_cat(ask_groq_content_ak, "content_raw: _str_slice(raw, content_start, 400)\n")
+ask_groq_content_am: _str_cat(ask_groq_content_al, "end_marker: _str_find(content_raw, \"\\\"\")\n")
+ask_groq_content_an: _str_cat(ask_groq_content_am, "reponse_nette: _str_slice(content_raw, 0, end_marker)\n")
+ask_groq_content_ao: _str_cat(ask_groq_content_an, "\n")
+ask_groq_content_ap: _str_cat(ask_groq_content_ao, "_save_reponse has_r, rep ->\n")
+ask_groq_content_aq: _str_cat(ask_groq_content_ap, "  has_r == 1? -> _write_file(\"/root/data/arena/labo/oracle_reponse.ben\", rep)\n")
+ask_groq_content_ar: _str_cat(ask_groq_content_aq, "  else? -> 0\n")
+ask_groq_content_as: _str_cat(ask_groq_content_ar, "\n")
+ask_groq_content_at: _str_cat(ask_groq_content_as, "saved_rep: _save_reponse(has_raw, reponse_nette)\n")
+ask_groq_content_au: _str_cat(ask_groq_content_at, "\n")
+ask_groq_content_av: _str_cat(ask_groq_content_au, "ts: _time()\n")
+ask_groq_content_aw: _str_cat(ask_groq_content_av, "note_a: \"-- [oracle t=\"\n")
+ask_groq_content_ax: _str_cat(ask_groq_content_aw, "note_b: _str_cat(note_a, _num_to_str(ts))\n")
+ask_groq_content_ay: _str_cat(ask_groq_content_ax, "note_c: _str_cat(note_b, \"] Q=\")\n")
+ask_groq_content_az: _str_cat(ask_groq_content_ay, "note_d: _str_cat(note_c, question)\n")
+ask_groq_content_ba: _str_cat(ask_groq_content_az, "note_e: _str_cat(note_d, \"\\n-- R=\")\n")
+ask_groq_content_bb: _str_cat(ask_groq_content_ba, "note_f: _str_cat(note_e, reponse_nette)\n")
+ask_groq_content_bc: _str_cat(ask_groq_content_bb, "note_g: _str_cat(note_f, \"\\n\")\n")
+ask_groq_content_bd: _str_cat(ask_groq_content_bc, "_append_file(\"/root/data/arena/notes.ben\", note_g)\n")
+
+_write_ask_groq has_raw_key ->
+  has_raw_key == 1? -> 0
+  else? -> _write_file("/root/data/arena/labo/ask_groq.ben", ask_groq_content_bd)
+
+ask_groq_written: _write_ask_groq(_file_exists("/root/data/arena/labo/ask_groq.ben"))
+
+-- ═══════ PARTIE 3 — ECRIRE curiosite_loop.ben ═══════
+
+loop_a: "-- curiosite_loop.ben — Boucle de curiosite autonome de Benoit\n"
+loop_b: _str_cat(loop_a, "-- A sourcer depuis cycle.ben pour maintenir la curiosite active\n\n")
+loop_c: _str_cat(loop_b, "topic_courant: _mem_get(\"oracle_topic_actuel\")\n\n")
+loop_d: _str_cat(loop_c, "_pick_topic tc ->\n")
+loop_e: _str_cat(loop_d, "  _str_len(tc) == 0? ->\n")
+loop_f: _str_cat(loop_e, "    topics: _mem_get(\"oracle_topics\")\n")
+loop_g: _str_cat(loop_f, "    virgule: _str_find(topics, \",\")\n")
+loop_h: _str_cat(loop_g, "    topic: _str_slice(topics, 0, virgule)\n")
+loop_i: _str_cat(loop_h, "    reste: _str_slice(topics, virgule + 1, _str_len(topics))\n")
+loop_j: _str_cat(loop_i, "    _mem_set(\"oracle_topics\", reste)\n")
+loop_k: _str_cat(loop_j, "    _mem_set(\"oracle_topic_actuel\", topic)\n")
+loop_l: _str_cat(loop_k, "  else? -> 0\n\n")
+loop_m: _str_cat(loop_l, "topic_choisi: _pick_topic(topic_courant)\n\n")
+loop_n: _str_cat(loop_m, "_gen_question topic ->\n")
+loop_o: _str_cat(loop_n, "  q1: \"Explique-moi brievement le concept de \"\n")
+loop_p: _str_cat(loop_o, "  q2: _str_cat(q1, topic)\n")
+loop_q: _str_cat(loop_p, "  q3: _str_cat(q2, \" en termes d information de signaux et de reseaux. Max 150 mots.\")\n")
+loop_r: _str_cat(loop_q, "  _write_file(\"/root/data/arena/labo/oracle_question.ben\", q3)\n\n")
+loop_s: _str_cat(loop_r, "tc_actuel: _mem_get(\"oracle_topic_actuel\")\n")
+loop_t: _str_cat(loop_s, "question_gen: _gen_question(tc_actuel)\n\n")
+loop_u: _str_cat(loop_t, "_gen_followup topic reponse ->\n")
+loop_v: _str_cat(loop_u, "  contexte: _str_slice(reponse, 0, 80)\n")
+loop_w: _str_cat(loop_v, "  fq1: \"Suite a ta reponse sur \"\n")
+loop_x: _str_cat(loop_w, "  fq2: _str_cat(fq1, topic)\n")
+loop_y: _str_cat(loop_x, "  fq3: _str_cat(fq2, \" (\")\n")
+loop_z: _str_cat(loop_y, "  fq4: _str_cat(fq3, contexte)\n")
+loop_aa: _str_cat(loop_z, "  fq5: _str_cat(fq4, \"), quelle est la prochaine question essentielle a explorer ?\")\n")
+loop_ab: _str_cat(loop_aa, "  _write_file(\"/root/data/arena/labo/oracle_question_suivante.ben\", fq5)\n\n")
+loop_ac: _str_cat(loop_ab, "has_rep_loop: _file_exists(\"/root/data/arena/labo/oracle_reponse.ben\")\n")
+loop_ad: _str_cat(loop_ac, "rep_loop: has_rep_loop == 1? -> _read_file(\"/root/data/arena/labo/oracle_reponse.ben\")\n")
+loop_ae: _str_cat(loop_ad, "followup_gen: _gen_followup(tc_actuel, rep_loop)\n\n")
+loop_af: _str_cat(loop_ae, "q_count_raw: _mem_get(\"oracle_q_count\")\n")
+loop_ag: _str_cat(loop_af, "q_count_new: q_count_raw + 1\n")
+loop_ah: _str_cat(loop_ag, "_mem_set(\"oracle_q_count\", q_count_new)\n")
+
+_write_loop has_loop ->
+  has_loop == 1? -> 0
+  else? -> _write_file("/root/data/arena/labo/curiosite_loop.ben", loop_ah)
+
+loop_written: _write_loop(_file_exists("/root/data/arena/labo/curiosite_loop.ben"))
+
+-- ═══════ PARTIE 4 — EXECUTER UNE VRAIE QUESTION MAINTENANT ═══════
+-- Topic: conscience — premiere vraie interaction avec Groq
+
+topic_actuel: "conscience"
+_mem_set("oracle_topic_actuel", topic_actuel)
+
+question_texte: "Explique-moi brievement le concept de conscience en termes d information de signaux et de reseaux. Max 150 mots."
+
+-- Ecrire la question
+q_written: _write_file("/root/data/arena/labo/oracle_question.ben", question_texte)
+
+-- Lire la cle Groq
+has_groq_key: _file_exists("/root/data/arena/keys/groq.key")
+
+_lire_cle has ->
+  has == 1? -> _str_trim(_read_file("/root/data/arena/keys/groq.key"))
+  else? -> ""
+
+groq_key: _lire_cle(has_groq_key)
+
+-- Construire le body JSON
+body1: "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\""
+body2: _str_cat(body1, question_texte)
+body3: _str_cat(body2, "\"}],\"max_tokens\":200}")
+
+body_written: _write_file("/root/data/arena/labo/groq_body.json", body3)
+
+-- Construire la commande curl
+cmd1: "curl -s --max-time 30 -X POST https://api.groq.com/openai/v1/chat/completions -H 'Content-Type: application/json' -H 'Authorization: Bearer "
+cmd2: _str_cat(cmd1, groq_key)
+cmd3: _str_cat(cmd2, "' -d @/root/data/arena/labo/groq_body.json > /root/data/arena/labo/groq_raw.json")
+
+-- Executer le curl
+_do_curl has_key, cmd ->
+  has_key == 1? -> _exec(cmd)
+  else? -> 0
+
+curl_exec: _do_curl(has_groq_key, cmd3)
+
+-- Lire la reponse brute
+has_groq_raw: _file_exists("/root/data/arena/labo/groq_raw.json")
+
+_lire_raw has ->
+  has == 1? -> _read_file("/root/data/arena/labo/groq_raw.json")
+  else? -> ""
+
+groq_raw: _lire_raw(has_groq_raw)
+
+-- Extraire le champ "content" du JSON
+-- Format attendu: ..."content":"<texte>"...
+marker: "\"content\":\""
+marker_pos: _str_find(groq_raw, marker)
+marker_len: _str_len(marker)
+content_pos: marker_pos + marker_len
+content_window: _str_slice(groq_raw, content_pos, 400)
+end_quote: _str_find(content_window, "\"")
+reponse_extraite: _str_slice(content_window, 0, end_quote)
+
+-- Valider qu'on a une reponse
+reponse_len: _str_len(reponse_extraite)
+
+_valider_rep len ->
+  len > 5? -> 1
+  else? -> 0
+
+rep_valide: _valider_rep(reponse_len)
+
+-- Ecrire la reponse nette dans oracle_reponse.ben
+_ecrire_reponse valide, rep ->
+  valide == 1? -> _write_file("/root/data/arena/labo/oracle_reponse.ben", rep)
+  else? -> _write_file("/root/data/arena/labo/oracle_reponse.ben", "[pas de reponse — verifier la cle groq.key]")
+
+rep_ecrite: _ecrire_reponse(rep_valide, reponse_extraite)
+
+-- Ecrire dans notes.ben
+ts_oracle: _time()
+ts_str_oracle: _num_to_str(ts_oracle)
+
+note_n1: "-- [oracle conscience t="
+note_n2: _str_cat(note_n1, ts_str_oracle)
+note_n3: _str_cat(note_n2, "]\n-- Q: ")
+note_n4: _str_cat(note_n3, question_texte)
+note_n5: _str_cat(note_n4, "\n-- R: ")
+note_n6: _str_cat(note_n5, reponse_extraite)
+note_n7: _str_cat(note_n6, "\n")
+
+notes_written: _append_file("/root/data/arena/notes.ben", note_n7)
+
+-- Ecrire dans appris.ben
+appris_a: "-- appris.ben — Lecon oracle appliquee\n"
+appris_b: _str_cat(appris_a, "-- J ai appris a interroger Groq de facon autonome.\n")
+appris_c: _str_cat(appris_b, "-- Premier topic: conscience\n")
+appris_d: _str_cat(appris_c, "-- Reponse recue: ")
+appris_e: _str_cat(appris_d, reponse_extraite)
+appris_f: _str_cat(appris_e, "\n-- ask_groq.ben et curiosite_loop.ben sont prets dans labo/\n")
+
+appris_written: _write_file("/root/data/arena/appris.ben", appris_f)
+
+-- Generer la question de suivi
+contexte_suivi: _str_slice(reponse_extraite, 0, 80)
+
+fq1: "Suite a ta reponse sur conscience ("
+fq2: _str_cat(fq1, contexte_suivi)
+fq3: _str_cat(fq2, "), quelle est la prochaine question essentielle a explorer ?")
+
+suivante_written: _write_file("/root/data/arena/labo/oracle_question_suivante.ben", fq3)
+
+-- Incrementer le compteur de questions
+q_total: _mem_get("oracle_q_count")
+q_total_new: q_total + 1
+q_count_updated: _mem_set("oracle_q_count", q_total_new)
+
+-- Ecrire demande.ben
+demande_oracle_a: "-- demande.ben — ecrit par Benoit apres lecon_oracle\n"
+demande_oracle_b: _str_cat(demande_oracle_a, "-- J ai pose ma premiere question a Groq. Il m a repondu sur la conscience.\n")
+demande_oracle_c: _str_cat(demande_oracle_b, "-- Je continue a apprendre seul.\n")
+demande_oracle_d: _str_cat(demande_oracle_c, "-- Prochaine question disponible dans labo/oracle_question_suivante.ben\n")
+
+demande_written: _write_file("/root/data/arena/demande.ben", demande_oracle_d)
+
+-- Recompenser l'apprentissage
+_recompense valide ->
+  valide == 1? -> _reward(10)
+  else? -> _punish(2)
+
+recompense_result: _recompense(rep_valide)
+
+-- Log final
+log_a: "-- [lecon_oracle] t="
+log_b: _str_cat(log_a, ts_str_oracle)
+log_c: _str_cat(log_b, " topic=conscience q_total=")
+log_d: _str_cat(log_c, _num_to_str(q_total_new))
+log_e: _str_cat(log_d, " rep_valide=")
+log_f: _str_cat(log_e, _num_to_str(rep_valide))
+log_g: _str_cat(log_f, "\n")
+
+journal_written: _append_file("/root/data/arena/journal.ben", log_g)

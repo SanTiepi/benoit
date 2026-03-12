@@ -1,0 +1,4 @@
+-- motivation.ben v1 : signal de curiosite intrinseque
+-- recompense l activite nouvelle, stimule si stagnant
+actifs > 50000 ?-> _reward(1)
+actifs < 5000 ?-> _write_file("signal.ben", "3.0")

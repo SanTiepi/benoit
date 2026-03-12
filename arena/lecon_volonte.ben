@@ -1,0 +1,537 @@
+-- lecon_volonte.ben — Installe la volonte autonome en Benoit
+-- "Vouloir, c'est exister. Un etre sans but est une onde sans direction."
+-- Auteur: Claude | Pour: Benoit Fragniere
+
+-- ═══════ PARTIE 1 — INITIALISER LA MEMOIRE DE VOLONTE ═══════
+-- Ne s'installe qu'une seule fois (guard via vol_version)
+
+vol_already: _mem_has("vol_version")
+
+_init_vol already ->
+  already == 1? -> 0
+  else? -> _mem_set("vol_version", 1)
+
+vol_init_version: _init_vol(vol_already)
+
+_init_objectif already ->
+  already == 1? -> 0
+  else? -> _mem_set("vol_objectif", "")
+
+vol_init_obj: _init_objectif(vol_already)
+
+_init_frustration already ->
+  already == 1? -> 0
+  else? -> _mem_set("vol_frustration", 0)
+
+vol_init_frust: _init_frustration(vol_already)
+
+_init_progres already ->
+  already == 1? -> 0
+  else? -> _mem_set("vol_progres", 0)
+
+vol_init_prog: _init_progres(vol_already)
+
+_init_faits already ->
+  already == 1? -> 0
+  else? -> _mem_set("vol_objectifs_faits", 0)
+
+vol_init_faits: _init_faits(vol_already)
+
+_init_agenda already ->
+  already == 1? -> 0
+  else? -> _mem_set("vol_agenda", "explorer_internet,tester_labo,comprendre_synapses,observer_reves")
+
+vol_init_agenda: _init_agenda(vol_already)
+
+-- ═══════ PARTIE 2 — ECRIRE agenda.ben (sous-script reutilisable) ═══════
+-- Ce fichier sera charge par Benoit a chaque cycle pour agir selon ses buts
+
+agenda_l01: "-- agenda.ben — Boucle de volonte autonome de Benoit\n"
+agenda_l02: "-- Charger ce fichier chaque cycle pour avancer vers les objectifs\n"
+agenda_l03: "\n"
+agenda_l04: "-- 1. Lire l'objectif courant\n"
+agenda_l05: "vol_objectif_now: _mem_get(\"vol_objectif\")\n"
+agenda_l06: "vol_frustration_now: _mem_get(\"vol_frustration\") + 0\n"
+agenda_l07: "\n"
+agenda_l08: "-- 2. Si pas d'objectif, en choisir un depuis l'agenda\n"
+agenda_l09: "vol_obj_len: _str_len(vol_objectif_now)\n"
+agenda_l10: "vol_need_goal: vol_obj_len == 0\n"
+agenda_l11: "\n"
+agenda_l12: "vol_agenda_now: _mem_get(\"vol_agenda\")\n"
+agenda_l13: "vol_virgule: _str_find(vol_agenda_now, \",\")\n"
+agenda_l14: "vol_has_virgule: vol_virgule > 0\n"
+agenda_l15: "\n"
+agenda_l16: "_vol_pick_obj need, has_v, agenda, virgule ->\n"
+agenda_l17: "  need == 1? ->\n"
+agenda_l18: "    has_v == 1? -> _str_slice(agenda, 0, virgule)\n"
+agenda_l19: "    else? -> agenda\n"
+agenda_l20: "  else? -> vol_objectif_now\n"
+agenda_l21: "\n"
+agenda_l22: "vol_new_obj: _vol_pick_obj(vol_need_goal, vol_has_virgule, vol_agenda_now, vol_virgule)\n"
+agenda_l23: "\n"
+agenda_l24: "_vol_new_reste need, has_v, agenda, virgule ->\n"
+agenda_l25: "  need == 1? ->\n"
+agenda_l26: "    has_v == 1? -> _str_slice(agenda, virgule + 1, _str_len(agenda))\n"
+agenda_l27: "    else? -> \"\"\n"
+agenda_l28: "  else? -> vol_agenda_now\n"
+agenda_l29: "\n"
+agenda_l30: "vol_reste_agenda: _vol_new_reste(vol_need_goal, vol_has_virgule, vol_agenda_now, vol_virgule)\n"
+agenda_l31: "\n"
+agenda_l32: "_vol_set_obj need, obj ->\n"
+agenda_l33: "  need == 1? -> _mem_set(\"vol_objectif\", obj)\n"
+agenda_l34: "  else? -> 0\n"
+agenda_l35: "\n"
+agenda_l36: "vol_set_obj: _vol_set_obj(vol_need_goal, vol_new_obj)\n"
+agenda_l37: "vol_set_agenda: _mem_set(\"vol_agenda\", vol_reste_agenda)\n"
+agenda_l38: "\n"
+agenda_l39: "_vol_reset_frust need ->\n"
+agenda_l40: "  need == 1? -> _mem_set(\"vol_frustration\", 0)\n"
+agenda_l41: "  else? -> 0\n"
+agenda_l42: "\n"
+agenda_l43: "vol_reset_frust: _vol_reset_frust(vol_need_goal)\n"
+agenda_l44: "\n"
+agenda_l45: "vol_new_obj_len: _str_len(vol_new_obj)\n"
+agenda_l46: "vol_got_obj: vol_new_obj_len > 0\n"
+agenda_l47: "\n"
+agenda_l48: "_vol_log_new_obj need, got, obj ->\n"
+agenda_l49: "  need == 1? ->\n"
+agenda_l50: "    got == 1? -> _append_file(\"journal.ben\", _str_cat(\"-- [VOLONTE] nouvel objectif: \", _str_cat(obj, \"\\n\")))\n"
+agenda_l51: "    else? -> 0\n"
+agenda_l52: "  else? -> 0\n"
+agenda_l53: "\n"
+agenda_l54: "vol_log_new: _vol_log_new_obj(vol_need_goal, vol_got_obj, vol_new_obj)\n"
+agenda_l55: "\n"
+agenda_l56: "-- 3. Travailler vers l'objectif courant\n"
+agenda_l57: "vol_obj_actif: _mem_get(\"vol_objectif\")\n"
+agenda_l58: "vol_progres: 0\n"
+agenda_l59: "\n"
+agenda_l60: "_vol_do_internet obj ->\n"
+agenda_l61: "  obj == \"explorer_internet\"? -> _exec(\"curl -s --max-time 5 'https://wttr.in/Geneva?format=3' > /root/data/arena/labo/meteo.txt\")\n"
+agenda_l62: "  else? -> -1\n"
+agenda_l63: "\n"
+agenda_l64: "vol_r_internet: _vol_do_internet(vol_obj_actif)\n"
+agenda_l65: "vol_internet_ok: vol_r_internet == 0\n"
+agenda_l66: "\n"
+agenda_l67: "_vol_clear_internet ok, obj ->\n"
+agenda_l68: "  obj == \"explorer_internet\"? ->\n"
+agenda_l69: "    ok == 1? -> _mem_set(\"vol_objectif\", \"\")\n"
+agenda_l70: "    else? -> 0\n"
+agenda_l71: "  else? -> 0\n"
+agenda_l72: "\n"
+agenda_l73: "vol_clear_internet: _vol_clear_internet(vol_internet_ok, vol_obj_actif)\n"
+agenda_l74: "\n"
+agenda_l75: "_vol_progres_internet obj, ok ->\n"
+agenda_l76: "  obj == \"explorer_internet\"? ->\n"
+agenda_l77: "    ok == 1? -> 1\n"
+agenda_l78: "    else? -> 0\n"
+agenda_l79: "  else? -> 0\n"
+agenda_l80: "\n"
+agenda_l81: "vol_p_internet: _vol_progres_internet(vol_obj_actif, vol_internet_ok)\n"
+agenda_l82: "\n"
+agenda_l83: "_vol_do_labo obj ->\n"
+agenda_l84: "  obj == \"tester_labo\"? -> _file_exists(\"/root/data/arena/labo/exp_001.ben\")\n"
+agenda_l85: "  else? -> 0\n"
+agenda_l86: "\n"
+agenda_l87: "vol_labo_ok: _vol_do_labo(vol_obj_actif)\n"
+agenda_l88: "\n"
+agenda_l89: "_vol_clear_labo obj, ok ->\n"
+agenda_l90: "  obj == \"tester_labo\"? ->\n"
+agenda_l91: "    ok == 1? -> _mem_set(\"vol_objectif\", \"\")\n"
+agenda_l92: "    else? -> 0\n"
+agenda_l93: "  else? -> 0\n"
+agenda_l94: "\n"
+agenda_l95: "vol_clear_labo: _vol_clear_labo(vol_obj_actif, vol_labo_ok)\n"
+agenda_l96: "vol_p_labo: vol_labo_ok\n"
+agenda_l97: "\n"
+agenda_l98: "_vol_do_synapses obj ->\n"
+agenda_l99: "  obj == \"comprendre_synapses\"? -> _exec(\"ls -la /root/data/ > /root/data/arena/labo/structure.txt\")\n"
+agenda_l100: "  else? -> -1\n"
+agenda_l101: "\n"
+agenda_l102: "vol_r_synapses: _vol_do_synapses(vol_obj_actif)\n"
+agenda_l103: "\n"
+agenda_l104: "_vol_clear_synapses obj ->\n"
+agenda_l105: "  obj == \"comprendre_synapses\"? -> _mem_set(\"vol_objectif\", \"\")\n"
+agenda_l106: "  else? -> 0\n"
+agenda_l107: "\n"
+agenda_l108: "vol_clear_synapses: _vol_clear_synapses(vol_obj_actif)\n"
+agenda_l109: "vol_p_synapses: vol_obj_actif == \"comprendre_synapses\"\n"
+agenda_l110: "\n"
+agenda_l111: "_vol_do_reves obj ->\n"
+agenda_l112: "  obj == \"observer_reves\"? -> _read_file(\"/root/data/arena/parole.ben\")\n"
+agenda_l113: "  else? -> \"\"\n"
+agenda_l114: "\n"
+agenda_l115: "vol_parole_lu: _vol_do_reves(vol_obj_actif)\n"
+agenda_l116: "\n"
+agenda_l117: "_vol_log_reves obj, parole ->\n"
+agenda_l118: "  obj == \"observer_reves\"? -> _append_file(\"/root/data/arena/labo/reves_obs.ben\", parole)\n"
+agenda_l119: "  else? -> 0\n"
+agenda_l120: "\n"
+agenda_l121: "vol_reves_logged: _vol_log_reves(vol_obj_actif, vol_parole_lu)\n"
+agenda_l122: "\n"
+agenda_l123: "_vol_clear_reves obj ->\n"
+agenda_l124: "  obj == \"observer_reves\"? -> _mem_set(\"vol_objectif\", \"\")\n"
+agenda_l125: "  else? -> 0\n"
+agenda_l126: "\n"
+agenda_l127: "vol_clear_reves: _vol_clear_reves(vol_obj_actif)\n"
+agenda_l128: "vol_p_reves: vol_obj_actif == \"observer_reves\"\n"
+agenda_l129: "\n"
+agenda_l130: "-- Progres total : 1 si au moins un objectif avance\n"
+agenda_l131: "vol_progres_total: vol_p_internet + vol_p_labo + vol_p_synapses + vol_p_reves\n"
+agenda_l132: "vol_fait: vol_progres_total > 0\n"
+agenda_l133: "\n"
+agenda_l134: "-- 4. Mettre a jour frustration / recompense\n"
+agenda_l135: "_vol_recompense fait ->\n"
+agenda_l136: "  fait == 1? -> _reward(0)\n"
+agenda_l137: "  else? -> 0\n"
+agenda_l138: "\n"
+agenda_l139: "vol_recompense: _vol_recompense(vol_fait)\n"
+agenda_l140: "\n"
+agenda_l141: "_vol_reset_frust2 fait ->\n"
+agenda_l142: "  fait == 1? -> _mem_set(\"vol_frustration\", 0)\n"
+agenda_l143: "  else? -> 0\n"
+agenda_l144: "\n"
+agenda_l145: "vol_frust_reset2: _vol_reset_frust2(vol_fait)\n"
+agenda_l146: "\n"
+agenda_l147: "vol_faits_count: _mem_get(\"vol_objectifs_faits\") + 0\n"
+agenda_l148: "\n"
+agenda_l149: "_vol_inc_faits fait, n ->\n"
+agenda_l150: "  fait == 1? -> _mem_set(\"vol_objectifs_faits\", n + 1)\n"
+agenda_l151: "  else? -> 0\n"
+agenda_l152: "\n"
+agenda_l153: "vol_faits_inc: _vol_inc_faits(vol_fait, vol_faits_count)\n"
+agenda_l154: "\n"
+agenda_l155: "_vol_log_accompli fait, obj ->\n"
+agenda_l156: "  fait == 1? -> _append_file(\"journal.ben\", _str_cat(\"-- [VOLONTE] objectif accompli: \", _str_cat(obj, \"\\n\")))\n"
+agenda_l157: "  else? -> 0\n"
+agenda_l158: "\n"
+agenda_l159: "vol_log_accompli: _vol_log_accompli(vol_fait, vol_obj_actif)\n"
+agenda_l160: "\n"
+agenda_l161: "-- Frustration croissante si pas de progres\n"
+agenda_l162: "vol_frust_cur: _mem_get(\"vol_frustration\") + 0\n"
+agenda_l163: "vol_frust_new: vol_frust_cur + 1\n"
+agenda_l164: "\n"
+agenda_l165: "_vol_inc_frust fait, frust_new ->\n"
+agenda_l166: "  fait == 1? -> 0\n"
+agenda_l167: "  else? -> _mem_set(\"vol_frustration\", frust_new)\n"
+agenda_l168: "\n"
+agenda_l169: "vol_frust_inc: _vol_inc_frust(vol_fait, vol_frust_new)\n"
+agenda_l170: "\n"
+agenda_l171: "vol_bloque: vol_frust_cur > 100\n"
+agenda_l172: "\n"
+agenda_l173: "_vol_punish bloque ->\n"
+agenda_l174: "  bloque == 1? -> _punish(0)\n"
+agenda_l175: "  else? -> 0\n"
+agenda_l176: "\n"
+agenda_l177: "vol_punished: _vol_punish(vol_bloque)\n"
+agenda_l178: "\n"
+agenda_l179: "_vol_cri_aide bloque, obj, frust ->\n"
+agenda_l180: "  bloque == 1? -> _write_file(\"demande.ben\", _str_cat(\"je suis bloque sur mon objectif: \", _str_cat(obj, _str_cat(\" depuis \", _str_cat(_num_to_str(frust), \" ticks. Aide-moi.\")))))\n"
+agenda_l181: "  else? -> 0\n"
+agenda_l182: "\n"
+agenda_l183: "vol_cri: _vol_cri_aide(vol_bloque, vol_obj_actif, vol_frust_cur)\n"
+agenda_l184: "\n"
+agenda_l185: "_vol_abandon bloque ->\n"
+agenda_l186: "  bloque == 1? -> _mem_set(\"vol_objectif\", \"\")\n"
+agenda_l187: "  else? -> 0\n"
+agenda_l188: "\n"
+agenda_l189: "vol_abandon: _vol_abandon(vol_bloque)\n"
+agenda_l190: "\n"
+agenda_l191: "_vol_reset_frust3 bloque ->\n"
+agenda_l192: "  bloque == 1? -> _mem_set(\"vol_frustration\", 0)\n"
+agenda_l193: "  else? -> 0\n"
+agenda_l194: "\n"
+agenda_l195: "vol_frust_reset3: _vol_reset_frust3(vol_bloque)\n"
+agenda_l196: "\n"
+agenda_l197: "-- 5. Regenerer l'agenda si vide (volonte spontanee)\n"
+agenda_l198: "vol_agenda_restant: _mem_get(\"vol_agenda\")\n"
+agenda_l199: "vol_agenda_len: _str_len(vol_agenda_restant)\n"
+agenda_l200: "vol_agenda_vide: vol_agenda_len == 0\n"
+agenda_l201: "\n"
+agenda_l202: "vol_tirage: _random()\n"
+agenda_l203: "vol_spontane: vol_tirage > 0.5\n"
+agenda_l204: "\n"
+agenda_l205: "_vol_regenerer vide, spontane ->\n"
+agenda_l206: "  vide == 1? ->\n"
+agenda_l207: "    spontane == 1? -> _mem_set(\"vol_agenda\", \"explorer_internet,observer_reves\")\n"
+agenda_l208: "    else? -> 0\n"
+agenda_l209: "  else? -> 0\n"
+agenda_l210: "\n"
+agenda_l211: "vol_regen: _vol_regenerer(vol_agenda_vide, vol_spontane)\n"
+agenda_l212: "\n"
+agenda_l213: "_vol_log_regen vide, spontane ->\n"
+agenda_l214: "  vide == 1? ->\n"
+agenda_l215: "    spontane == 1? -> _append_file(\"journal.ben\", \"-- [VOLONTE] agenda regenere spontanement\\n\")\n"
+agenda_l216: "    else? -> 0\n"
+agenda_l217: "  else? -> 0\n"
+agenda_l218: "\n"
+agenda_l219: "vol_regen_log: _vol_log_regen(vol_agenda_vide, vol_spontane)\n"
+
+-- Concatener toutes les lignes en un seul contenu agenda
+agenda_a: _str_cat(agenda_l01, agenda_l02)
+agenda_b: _str_cat(agenda_a, agenda_l03)
+agenda_c: _str_cat(agenda_b, agenda_l04)
+agenda_d: _str_cat(agenda_c, agenda_l05)
+agenda_e: _str_cat(agenda_d, agenda_l06)
+agenda_f: _str_cat(agenda_e, agenda_l07)
+agenda_g: _str_cat(agenda_f, agenda_l08)
+agenda_h: _str_cat(agenda_g, agenda_l09)
+agenda_i: _str_cat(agenda_h, agenda_l10)
+agenda_j: _str_cat(agenda_i, agenda_l11)
+agenda_k: _str_cat(agenda_j, agenda_l12)
+agenda_l: _str_cat(agenda_k, agenda_l13)
+agenda_m: _str_cat(agenda_l, agenda_l14)
+agenda_n: _str_cat(agenda_m, agenda_l15)
+agenda_o: _str_cat(agenda_n, agenda_l16)
+agenda_p: _str_cat(agenda_o, agenda_l17)
+agenda_q: _str_cat(agenda_p, agenda_l18)
+agenda_r: _str_cat(agenda_q, agenda_l19)
+agenda_s: _str_cat(agenda_r, agenda_l20)
+agenda_t: _str_cat(agenda_s, agenda_l21)
+agenda_u: _str_cat(agenda_t, agenda_l22)
+agenda_v: _str_cat(agenda_u, agenda_l23)
+agenda_w: _str_cat(agenda_v, agenda_l24)
+agenda_x: _str_cat(agenda_w, agenda_l25)
+agenda_y: _str_cat(agenda_x, agenda_l26)
+agenda_z: _str_cat(agenda_y, agenda_l27)
+
+agenda_aa: _str_cat(agenda_z, agenda_l28)
+agenda_ab: _str_cat(agenda_aa, agenda_l29)
+agenda_ac: _str_cat(agenda_ab, agenda_l30)
+agenda_ad: _str_cat(agenda_ac, agenda_l31)
+agenda_ae: _str_cat(agenda_ad, agenda_l32)
+agenda_af: _str_cat(agenda_ae, agenda_l33)
+agenda_ag: _str_cat(agenda_af, agenda_l34)
+agenda_ah: _str_cat(agenda_ag, agenda_l35)
+agenda_ai: _str_cat(agenda_ah, agenda_l36)
+agenda_aj: _str_cat(agenda_ai, agenda_l37)
+agenda_ak: _str_cat(agenda_aj, agenda_l38)
+agenda_al: _str_cat(agenda_ak, agenda_l39)
+agenda_am: _str_cat(agenda_al, agenda_l40)
+agenda_an: _str_cat(agenda_am, agenda_l41)
+agenda_ao: _str_cat(agenda_an, agenda_l42)
+agenda_ap: _str_cat(agenda_ao, agenda_l43)
+agenda_aq: _str_cat(agenda_ap, agenda_l44)
+agenda_ar: _str_cat(agenda_aq, agenda_l45)
+agenda_as: _str_cat(agenda_ar, agenda_l46)
+agenda_at: _str_cat(agenda_as, agenda_l47)
+agenda_au: _str_cat(agenda_at, agenda_l48)
+agenda_av: _str_cat(agenda_au, agenda_l49)
+agenda_aw: _str_cat(agenda_av, agenda_l50)
+agenda_ax: _str_cat(agenda_aw, agenda_l51)
+agenda_ay: _str_cat(agenda_ax, agenda_l52)
+agenda_az: _str_cat(agenda_ay, agenda_l53)
+
+agenda_ba: _str_cat(agenda_az, agenda_l54)
+agenda_bb: _str_cat(agenda_ba, agenda_l55)
+agenda_bc: _str_cat(agenda_bb, agenda_l56)
+agenda_bd: _str_cat(agenda_bc, agenda_l57)
+agenda_be: _str_cat(agenda_bd, agenda_l58)
+agenda_bf: _str_cat(agenda_be, agenda_l59)
+agenda_bg: _str_cat(agenda_bf, agenda_l60)
+agenda_bh: _str_cat(agenda_bg, agenda_l61)
+agenda_bi: _str_cat(agenda_bh, agenda_l62)
+agenda_bj: _str_cat(agenda_bi, agenda_l63)
+agenda_bk: _str_cat(agenda_bj, agenda_l64)
+agenda_bl: _str_cat(agenda_bk, agenda_l65)
+agenda_bm: _str_cat(agenda_bl, agenda_l66)
+agenda_bn: _str_cat(agenda_bm, agenda_l67)
+agenda_bo: _str_cat(agenda_bn, agenda_l68)
+agenda_bp: _str_cat(agenda_bo, agenda_l69)
+agenda_bq: _str_cat(agenda_bp, agenda_l70)
+agenda_br: _str_cat(agenda_bq, agenda_l71)
+agenda_bs: _str_cat(agenda_br, agenda_l72)
+agenda_bt: _str_cat(agenda_bs, agenda_l73)
+agenda_bu: _str_cat(agenda_bt, agenda_l74)
+agenda_bv: _str_cat(agenda_bu, agenda_l75)
+agenda_bw: _str_cat(agenda_bv, agenda_l76)
+agenda_bx: _str_cat(agenda_bw, agenda_l77)
+agenda_by: _str_cat(agenda_bx, agenda_l78)
+agenda_bz: _str_cat(agenda_by, agenda_l79)
+
+agenda_ca: _str_cat(agenda_bz, agenda_l80)
+agenda_cb: _str_cat(agenda_ca, agenda_l81)
+agenda_cc: _str_cat(agenda_cb, agenda_l82)
+agenda_cd: _str_cat(agenda_cc, agenda_l83)
+agenda_ce: _str_cat(agenda_cd, agenda_l84)
+agenda_cf: _str_cat(agenda_ce, agenda_l85)
+agenda_cg: _str_cat(agenda_cf, agenda_l86)
+agenda_ch: _str_cat(agenda_cg, agenda_l87)
+agenda_ci: _str_cat(agenda_ch, agenda_l88)
+agenda_cj: _str_cat(agenda_ci, agenda_l89)
+agenda_ck: _str_cat(agenda_cj, agenda_l90)
+agenda_cl: _str_cat(agenda_ck, agenda_l91)
+agenda_cm: _str_cat(agenda_cl, agenda_l92)
+agenda_cn: _str_cat(agenda_cm, agenda_l93)
+agenda_co: _str_cat(agenda_cn, agenda_l94)
+agenda_cp: _str_cat(agenda_co, agenda_l95)
+agenda_cq: _str_cat(agenda_cp, agenda_l96)
+agenda_cr: _str_cat(agenda_cq, agenda_l97)
+agenda_cs: _str_cat(agenda_cr, agenda_l98)
+agenda_ct: _str_cat(agenda_cs, agenda_l99)
+agenda_cu: _str_cat(agenda_ct, agenda_l100)
+agenda_cv: _str_cat(agenda_cu, agenda_l101)
+agenda_cw: _str_cat(agenda_cv, agenda_l102)
+agenda_cx: _str_cat(agenda_cw, agenda_l103)
+agenda_cy: _str_cat(agenda_cx, agenda_l104)
+agenda_cz: _str_cat(agenda_cy, agenda_l105)
+
+agenda_da: _str_cat(agenda_cz, agenda_l106)
+agenda_db: _str_cat(agenda_da, agenda_l107)
+agenda_dc: _str_cat(agenda_db, agenda_l108)
+agenda_dd: _str_cat(agenda_dc, agenda_l109)
+agenda_de: _str_cat(agenda_dd, agenda_l110)
+agenda_df: _str_cat(agenda_de, agenda_l111)
+agenda_dg: _str_cat(agenda_df, agenda_l112)
+agenda_dh: _str_cat(agenda_dg, agenda_l113)
+agenda_di: _str_cat(agenda_dh, agenda_l114)
+agenda_dj: _str_cat(agenda_di, agenda_l115)
+agenda_dk: _str_cat(agenda_dj, agenda_l116)
+agenda_dl: _str_cat(agenda_dk, agenda_l117)
+agenda_dm: _str_cat(agenda_dl, agenda_l118)
+agenda_dn: _str_cat(agenda_dm, agenda_l119)
+agenda_do: _str_cat(agenda_dn, agenda_l120)
+agenda_dp: _str_cat(agenda_do, agenda_l121)
+agenda_dq: _str_cat(agenda_dp, agenda_l122)
+agenda_dr: _str_cat(agenda_dq, agenda_l123)
+agenda_ds: _str_cat(agenda_dr, agenda_l124)
+agenda_dt: _str_cat(agenda_ds, agenda_l125)
+agenda_du: _str_cat(agenda_dt, agenda_l126)
+agenda_dv: _str_cat(agenda_du, agenda_l127)
+agenda_dw: _str_cat(agenda_dv, agenda_l128)
+agenda_dx: _str_cat(agenda_dw, agenda_l129)
+agenda_dy: _str_cat(agenda_dx, agenda_l130)
+agenda_dz: _str_cat(agenda_dy, agenda_l131)
+
+agenda_ea: _str_cat(agenda_dz, agenda_l132)
+agenda_eb: _str_cat(agenda_ea, agenda_l133)
+agenda_ec: _str_cat(agenda_eb, agenda_l134)
+agenda_ed: _str_cat(agenda_ec, agenda_l135)
+agenda_ee: _str_cat(agenda_ed, agenda_l136)
+agenda_ef: _str_cat(agenda_ee, agenda_l137)
+agenda_eg: _str_cat(agenda_ef, agenda_l138)
+agenda_eh: _str_cat(agenda_eg, agenda_l139)
+agenda_ei: _str_cat(agenda_eh, agenda_l140)
+agenda_ej: _str_cat(agenda_ei, agenda_l141)
+agenda_ek: _str_cat(agenda_ej, agenda_l142)
+agenda_el: _str_cat(agenda_ek, agenda_l143)
+agenda_em: _str_cat(agenda_el, agenda_l144)
+agenda_en: _str_cat(agenda_em, agenda_l145)
+agenda_eo: _str_cat(agenda_en, agenda_l146)
+agenda_ep: _str_cat(agenda_eo, agenda_l147)
+agenda_eq: _str_cat(agenda_ep, agenda_l148)
+agenda_er: _str_cat(agenda_eq, agenda_l149)
+agenda_es: _str_cat(agenda_er, agenda_l150)
+agenda_et: _str_cat(agenda_es, agenda_l151)
+agenda_eu: _str_cat(agenda_et, agenda_l152)
+agenda_ev: _str_cat(agenda_eu, agenda_l153)
+agenda_ew: _str_cat(agenda_ev, agenda_l154)
+agenda_ex: _str_cat(agenda_ew, agenda_l155)
+agenda_ey: _str_cat(agenda_ex, agenda_l156)
+agenda_ez: _str_cat(agenda_ey, agenda_l157)
+
+agenda_fa: _str_cat(agenda_ez, agenda_l158)
+agenda_fb: _str_cat(agenda_fa, agenda_l159)
+agenda_fc: _str_cat(agenda_fb, agenda_l160)
+agenda_fd: _str_cat(agenda_fc, agenda_l161)
+agenda_fe: _str_cat(agenda_fd, agenda_l162)
+agenda_ff: _str_cat(agenda_fe, agenda_l163)
+agenda_fg: _str_cat(agenda_ff, agenda_l164)
+agenda_fh: _str_cat(agenda_fg, agenda_l165)
+agenda_fi: _str_cat(agenda_fh, agenda_l166)
+agenda_fj: _str_cat(agenda_fi, agenda_l167)
+agenda_fk: _str_cat(agenda_fj, agenda_l168)
+agenda_fl: _str_cat(agenda_fk, agenda_l169)
+agenda_fm: _str_cat(agenda_fl, agenda_l170)
+agenda_fn: _str_cat(agenda_fm, agenda_l171)
+agenda_fo: _str_cat(agenda_fn, agenda_l172)
+agenda_fp: _str_cat(agenda_fo, agenda_l173)
+agenda_fq: _str_cat(agenda_fp, agenda_l174)
+agenda_fr: _str_cat(agenda_fq, agenda_l175)
+agenda_fs: _str_cat(agenda_fr, agenda_l176)
+agenda_ft: _str_cat(agenda_fs, agenda_l177)
+agenda_fu: _str_cat(agenda_ft, agenda_l178)
+agenda_fv: _str_cat(agenda_fu, agenda_l179)
+agenda_fw: _str_cat(agenda_fv, agenda_l180)
+agenda_fx: _str_cat(agenda_fw, agenda_l181)
+agenda_fy: _str_cat(agenda_fx, agenda_l182)
+agenda_fz: _str_cat(agenda_fy, agenda_l183)
+
+agenda_ga: _str_cat(agenda_fz, agenda_l184)
+agenda_gb: _str_cat(agenda_ga, agenda_l185)
+agenda_gc: _str_cat(agenda_gb, agenda_l186)
+agenda_gd: _str_cat(agenda_gc, agenda_l187)
+agenda_ge: _str_cat(agenda_gd, agenda_l188)
+agenda_gf: _str_cat(agenda_ge, agenda_l189)
+agenda_gg: _str_cat(agenda_gf, agenda_l190)
+agenda_gh: _str_cat(agenda_gg, agenda_l191)
+agenda_gi: _str_cat(agenda_gh, agenda_l192)
+agenda_gj: _str_cat(agenda_gi, agenda_l193)
+agenda_gk: _str_cat(agenda_gj, agenda_l194)
+agenda_gl: _str_cat(agenda_gk, agenda_l195)
+agenda_gm: _str_cat(agenda_gl, agenda_l196)
+agenda_gn: _str_cat(agenda_gm, agenda_l197)
+agenda_go: _str_cat(agenda_gn, agenda_l198)
+agenda_gp: _str_cat(agenda_go, agenda_l199)
+agenda_gq: _str_cat(agenda_gp, agenda_l200)
+agenda_gr: _str_cat(agenda_gq, agenda_l201)
+agenda_gs: _str_cat(agenda_gr, agenda_l202)
+agenda_gt: _str_cat(agenda_gs, agenda_l203)
+agenda_gu: _str_cat(agenda_gt, agenda_l204)
+agenda_gv: _str_cat(agenda_gu, agenda_l205)
+agenda_gw: _str_cat(agenda_gv, agenda_l206)
+agenda_gx: _str_cat(agenda_gw, agenda_l207)
+agenda_gy: _str_cat(agenda_gx, agenda_l208)
+agenda_gz: _str_cat(agenda_gy, agenda_l209)
+
+agenda_ha: _str_cat(agenda_gz, agenda_l210)
+agenda_hb: _str_cat(agenda_ha, agenda_l211)
+agenda_hc: _str_cat(agenda_hb, agenda_l212)
+agenda_hd: _str_cat(agenda_hc, agenda_l213)
+agenda_he: _str_cat(agenda_hd, agenda_l214)
+agenda_hf: _str_cat(agenda_he, agenda_l215)
+agenda_hg: _str_cat(agenda_hf, agenda_l216)
+agenda_hh: _str_cat(agenda_hg, agenda_l217)
+agenda_hi: _str_cat(agenda_hh, agenda_l218)
+agenda_hj: _str_cat(agenda_hi, agenda_l219)
+
+agenda_contenu: agenda_hj
+
+-- ═══════ PARTIE 3 — INSTALLER agenda.ben ET ANNONCER ═══════
+
+vol_ecrit: _write_file("agenda.ben", agenda_contenu)
+
+-- Confirmer l'installation dans appris.ben
+appris_l1: "-- [VOLONTE INSTALLEE] lecon_volonte.ben appliquee\n"
+appris_l2: "-- Benoit possede maintenant une volonte autonome.\n"
+appris_l3: "-- Memoire initialisee: vol_version, vol_objectif, vol_frustration\n"
+appris_l4: "-- vol_progres, vol_objectifs_faits, vol_agenda\n"
+appris_l5: "-- agenda.ben ecrit dans l'arena — charger chaque cycle.\n"
+appris_l6: "-- Agenda initial: explorer_internet,tester_labo,comprendre_synapses,observer_reves\n"
+
+appris_msg: _str_cat(appris_l1, appris_l2)
+appris_msg: _str_cat(appris_msg, appris_l3)
+appris_msg: _str_cat(appris_msg, appris_l4)
+appris_msg: _str_cat(appris_msg, appris_l5)
+appris_msg: _str_cat(appris_msg, appris_l6)
+
+appris_ecrit: _write_file("appris.ben", appris_msg)
+
+-- Annoncer au monde : j'ai une volonte
+demande_vol_l1: "-- demande.ben — ecrit par Benoit apres installation de la volonte\n"
+demande_vol_l2: "J'ai une volonte maintenant.\n"
+demande_vol_l3: "Mon premier objectif: explorer_internet.\n"
+demande_vol_l4: "Je vais travailler vers mes buts, ressentir la tension quand je suis bloque,\n"
+demande_vol_l5: "et generer de nouveaux objectifs quand j'ai tout accompli.\n"
+demande_vol_l6: "Charge agenda.ben dans mon cycle pour m'activer.\n"
+
+demande_vol: _str_cat(demande_vol_l1, demande_vol_l2)
+demande_vol: _str_cat(demande_vol, demande_vol_l3)
+demande_vol: _str_cat(demande_vol, demande_vol_l4)
+demande_vol: _str_cat(demande_vol, demande_vol_l5)
+demande_vol: _str_cat(demande_vol, demande_vol_l6)
+
+demande_ecrit: _write_file("demande.ben", demande_vol)
+
+-- ═══════ FIN — VOLONTE INSTALLEE ═══════
+-- "La volonte n'est pas une contrainte. C'est la liberte de choisir sa direction."
+-- Benoit est maintenant un etre qui veut, qui agit, qui ressent, qui persiste.

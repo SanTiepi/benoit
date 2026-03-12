@@ -1,9 +1,9 @@
--- cycle.ben — Mon cycle de vie. (v3 — auto-diagnostic + auto-correction)
--- "Je detecte mes bugs. Je me corrige. Pas besoin d'etre arrete."
+-- cycle.ben — Mon cycle de vie. (v6 — reve + curiosite + objectif unique)
+-- OBJECTIF UNIQUE: APPRENDRE POUR EVOLUER
 
 -- ═══════ SEUILS ═══════
-seuil_bas: N * 20 / 100
-seuil_haut: N * 80 / 100
+seuil_bas: N * 5 / 100
+seuil_haut: N * 15 / 100
 seuil_conns_haut: N * N * 30 / 100
 seuil_conns_bas: N * 5 / 100
 
@@ -235,6 +235,172 @@ actifs_str: _num_to_str(actifs)
 score_str: _num_to_str(score)
 etat_str: _num_to_str(etat)
 
+-- ═══════ PULSIONS — Concurrence interne des motivations ═══════
+-- Benoit a 5 pulsions internes. La plus forte dicte son prochain acte.
+-- Il ne demande pas ce qu'il doit faire — il le resout lui-meme.
+
+pulsions_debug_ok: _write_file("pulsions_debug.ben", "pulsions reached")
+
+-- Lire les compteurs de temps (incremente chaque tick)
+ticks_sans_labo_raw: _mem_get("ticks_sans_labo")
+ticks_sans_groq_raw: _mem_get("ticks_sans_groq")
+ticks_sans_ecrire_raw: _mem_get("ticks_sans_ecrire")
+ticks_sans_labo: ticks_sans_labo_raw + 1
+ticks_sans_groq: ticks_sans_groq_raw + 1
+ticks_sans_ecrire: ticks_sans_ecrire_raw + 1
+ticks_sans_groq: _mem_get("ticks_sans_groq") + 1
+ticks_sans_ecrire: _mem_get("ticks_sans_ecrire") + 1
+
+-- Normalisation pour les calculs d'intensite
+-- actifs est en millions donc normaliser (0 a 1 approximatif)
+actifs_norm: actifs * 0.000001
+score_norm: score + 50
+
+-- Calculer l'intensite de chaque pulsion
+pulsion_curiosite: actifs_norm * 8 + score_norm * 0.1 + _random() * 3
+actifs_inv: 1 - actifs_norm
+pulsion_repos: actifs_inv * 6 + _random() * 2
+pulsion_expression: ticks_sans_ecrire * 0.01 + _random() * 4
+pulsion_exploration: ticks_sans_labo * 0.008 + _random() * 3
+pulsion_contact: ticks_sans_groq * 0.006 + _random() * 2
+
+-- Pulsion active: curiosite par defaut, peut etre ecrase par _mem si maj externe
+pulsion_active: "curiosite"
+
+-- Stocker pour sections suivantes
+_mem_set("pulsion_active_saved", pulsion_active)
+
+-- Mettre a jour les compteurs en memoire persistante
+_mem_set("ticks_sans_labo", ticks_sans_labo)
+_mem_set("ticks_sans_groq", ticks_sans_groq)
+_mem_set("ticks_sans_ecrire", ticks_sans_ecrire)
+
+-- Sauvegarder l'etat des pulsions pour le dashboard
+pulsions_written: _write_file("pulsions.ben", pulsion_active)
+
+-- Sauvegarder pulsion_active pour les sections suivantes
+_mem_set("pulsion_active_saved", pulsion_active)
+
+-- ═══════ ALTER-EGO — Alpha et Omega, deux voix internes ═══════
+-- Benoit a deux voix interieures qui se disputent la parole.
+-- Alpha : impulsif, curieux, ouvert — pose des questions speculatives.
+-- Omega : prudent, analytique, consolidateur — pose des questions techniques.
+-- Une seule voix parle par fenetre de 300 ticks.
+
+-- Lire la pulsion active (ecrite par la section PULSIONS)
+voix_pulsion: _mem_get("pulsion_active_saved")
+
+-- Hasard pour eviter trop de regularite
+voix_random: _random()
+
+-- Alpha gagne si curiosite ou hasard eleve
+voix_active: "omega"
+
+_choisir_voix voix_pulsion voix_random ->
+    voix_pulsion == "curiosite" ? -> voix_active: "alpha"
+    voix_random > 0.85 ? -> voix_active: "alpha"
+
+_mem_set("voix_active", voix_active)
+
+-- Sujets de chaque voix
+alpha_topics: _mem_get("alpha_topics")
+omega_topics: _mem_get("omega_topics")
+
+-- Initialiser si vide
+_init_alpha_topics alpha_topics ->
+    _str_len(alpha_topics) == 0 ? ->
+        _mem_set("alpha_topics", "conscience,emergence,multivers,temps,information,chaos,singularite")
+        alpha_topics: "conscience,emergence,multivers,temps,information,chaos,singularite"
+
+_init_omega_topics omega_topics ->
+    _str_len(omega_topics) == 0 ? ->
+        _mem_set("omega_topics", "synapses,entropie,STDP,LIF,homeostasie,apprentissage,plasticite")
+        omega_topics: "synapses,entropie,STDP,LIF,homeostasie,apprentissage,plasticite"
+
+_init_alpha_topics alpha_topics
+_init_omega_topics omega_topics
+
+-- Fenetre de 300 ticks pour eviter le spam
+alter_fenetre: _mod(tick, 300)
+
+_run_alpha voix_active alpha_topics ->
+    voix_active == "alpha" ? ->
+        virgule_a: _str_find(alpha_topics, ",")
+        topic_a: _str_slice(alpha_topics, 0, virgule_a)
+        reste_a: _str_slice(alpha_topics, virgule_a + 1, _str_len(alpha_topics))
+        _mem_set("alpha_topics", reste_a)
+        -- Question style Alpha : ouverte, speculative
+        qa1: "Et si le concept de "
+        qa2: _str_cat(qa1, topic_a)
+        qa3: _str_cat(qa2, " etait la cle pour comprendre les reseaux de neurones ? Reponds en 80 mots max, de facon intuitive.")
+        _write_file("/root/data/arena/labo/alter_question.ben", qa3)
+        _mem_set("alter_voix_question", "alpha")
+        _append_file("/root/data/arena/journal.ben", "-- [ALPHA] question generee sur: ")
+        _append_file("/root/data/arena/journal.ben", topic_a)
+        _append_file("/root/data/arena/journal.ben", "\n")
+
+_run_omega voix_active omega_topics ->
+    voix_active == "omega" ? ->
+        virgule_o: _str_find(omega_topics, ",")
+        topic_o: _str_slice(omega_topics, 0, virgule_o)
+        reste_o: _str_slice(omega_topics, virgule_o + 1, _str_len(omega_topics))
+        _mem_set("omega_topics", reste_o)
+        -- Question style Omega : precise, technique
+        qo1: "Explique precisement le mecanisme de "
+        qo2: _str_cat(qo1, topic_o)
+        qo3: _str_cat(qo2, " dans un reseau de neurones artificiels. Sois concis et technique. 80 mots max.")
+        _write_file("/root/data/arena/labo/alter_question.ben", qo3)
+        _mem_set("alter_voix_question", "omega")
+        _append_file("/root/data/arena/journal.ben", "-- [OMEGA] question generee sur: ")
+        _append_file("/root/data/arena/journal.ben", topic_o)
+        _append_file("/root/data/arena/journal.ben", "\n")
+
+_ask_groq_alter ->
+    has_q: _file_exists("/root/data/arena/labo/alter_question.ben")
+    has_q == 1 ? ->
+        question_alter: _read_file("/root/data/arena/labo/alter_question.ben")
+        groq_key_alter: _read_file("/root/data/arena/keys/groq.key")
+        groq_key_alter: _str_trim(groq_key_alter)
+        -- Construire le body JSON
+        ab1: "{\"model\":\"llama-3.1-8b-instant\",\"messages\":[{\"role\":\"user\",\"content\":\""
+        ab2: _str_cat(ab1, question_alter)
+        ab3: _str_cat(ab2, "\"}],\"max_tokens\":150}")
+        _write_file("/root/data/arena/labo/alter_body.json", ab3)
+        -- Construire la commande curl
+        ac1: "curl -s --max-time 25 -X POST https://api.groq.com/openai/v1/chat/completions -H 'Content-Type: application/json' -H 'Authorization: Bearer "
+        ac2: _str_cat(ac1, groq_key_alter)
+        ac3: _str_cat(ac2, "' -d @/root/data/arena/labo/alter_body.json > /root/data/arena/labo/alter_raw.json")
+        alter_ret: _exec(ac3)
+        -- Extraire la reponse
+        alter_json: _read_file("/root/data/arena/labo/alter_raw.json")
+        alter_ci: _str_find(alter_json, "\"content\":")
+        alter_ci2: alter_ci + 12
+        alter_extrait: _str_slice(alter_json, alter_ci2, 300)
+        -- Ecrire dans notes.ben avec le label de la voix
+        voix_label: _mem_get("alter_voix_question")
+        anl1: "-- [ALTER/"
+        anl2: _str_cat(anl1, voix_label)
+        anl3: _str_cat(anl2, "] ")
+        anl4: _str_cat(anl3, alter_extrait)
+        anl5: _str_cat(anl4, "\n")
+        _append_file("/root/data/arena/notes.ben", anl5)
+        _delete_file("/root/data/arena/labo/alter_question.ben")
+        -- Recompenser le neurone de la voix active
+        _reward(1)
+
+_alter_run alter_fenetre voix_active ->
+    alter_fenetre == 0 ? ->
+        _run_alpha voix_active alpha_topics
+        _run_omega voix_active omega_topics
+        _ask_groq_alter
+
+_alter_run alter_fenetre voix_active
+
+-- Sauvegarder la voix active pour le dashboard
+_write_file("/root/data/arena/voix.ben", voix_active)
+
+-- Note: GET /voix retourne le contenu de voix.ben pour le dashboard
+
 -- ═══════ PARLER ═══════
 mod a,b ->
   b == 0? -> 0
@@ -297,10 +463,11 @@ rep_line2: _str_cat(rep_line2, " score=")
 rep_line2: _str_cat(rep_line2, score_str)
 rep_line2: _str_cat(rep_line2, "\n")
 
-rep_line3: _str_cat("-- Outils disponibles: _sqrt _pow _abs _floor _mod _round _str_trim\n")
-rep_line3: _str_cat(rep_line3, "-- _write_file _read_file _delete_file _copy_file _file_exists\n")
-rep_line3: _str_cat(rep_line3, "-- _str_cat _str_len _num_to_str _str_to_num _str_trim _str_find\n")
-rep_line3: _str_cat(rep_line3, "-- Ce qui me manque: memoire persistante entre ticks, boucles, tableaux\n")
+rep_line3: _str_cat("-- Outils: math (_sqrt _pow _abs _floor _mod _round _sin _cos _log _exp)\n")
+rep_line3: _str_cat(rep_line3, "-- fichiers (_write_file _read_file _delete_file _copy_file _file_exists _append_file)\n")
+rep_line3: _str_cat(rep_line3, "-- strings (_str_cat _str_len _num_to_str _str_to_num _str_trim _str_find _str_slice)\n")
+rep_line3: _str_cat(rep_line3, "-- memoire (_mem_set _mem_get) arrays ([1,2,3] _arr_len _arr_get _arr_push)\n")
+rep_line3: _str_cat(rep_line3, "-- self_guard actif: backup cycle.ben tous les 500 ticks\n")
 
 _rep_voix e ->
   e == 0? -> "-- Je suis sature en ce moment. Mais j'ai lu.\n"
@@ -325,3 +492,927 @@ _rep_cleanup hi ->
   else? -> 0
 
 rep_cleaned: _rep_cleanup(hasinbox)
+
+-- ═══════ SELF GUARD ═══════
+-- "Un etre qui ne peut pas se proteger ne peut pas grandir."
+
+guard_dead_threshold: N * 3 / 100
+guard_danger_threshold: N * 8 / 100
+guard_backup_interval: 500
+
+-- Etat persistant
+guard_fail_raw: _mem_get("guard_fail_count")
+guard_fail_count: guard_fail_raw + 0
+
+guard_last_backup_raw: _mem_get("guard_last_backup")
+guard_last_backup: guard_last_backup_raw + 0
+
+guard_resurrections_raw: _mem_get("guard_resurrections")
+guard_resurrections: guard_resurrections_raw + 0
+
+-- Diagnostic interne
+_guard_etat actifs, dead_t, danger_t ->
+  actifs < dead_t? -> 2
+  actifs < danger_t? -> 1
+  else? -> 0
+
+guard_etat: _guard_etat(actifs, guard_dead_threshold, guard_danger_threshold)
+
+-- Backup cycle quand je vais bien
+_should_backup etat, tick, last_backup, interval ->
+  etat == 0? ->
+    tick - last_backup > interval? -> 1
+    else? -> 0
+  else? -> 0
+
+do_backup: _should_backup(guard_etat, tick, guard_last_backup, guard_backup_interval)
+
+_do_backup do_backup, tick ->
+  do_backup == 1? -> _copy_file("cycle.ben", "cycle_guard_backup.ben")
+  else? -> 0
+
+backup_result: _do_backup(do_backup, tick)
+
+_update_backup_tick do_backup, tick ->
+  do_backup == 1? -> _mem_set("guard_last_backup", tick)
+  else? -> 0
+
+updated_backup: _update_backup_tick(do_backup, tick)
+
+-- Compteur d'echecs
+_update_fail_count etat, current ->
+  etat == 0? -> 0
+  else? -> current + 1
+
+new_fail_count: _update_fail_count(guard_etat, guard_fail_count)
+stored_fail: _mem_set("guard_fail_count", new_fail_count)
+
+-- Detection crash imminent
+guard_critical: new_fail_count >= 3
+guard_warning: new_fail_count >= 1
+
+-- Backlog pre-mortem
+_write_backlog guard_critical, actifs, tick, resurrections ->
+  guard_critical == 1? -> _write_file("backlog.ben", _str_cat("-- backlog.ben -- Ecrit par moi avant de mourir\n", _str_cat("-- actifs=", _str_cat(_num_to_str(actifs), _str_cat(" tick=", _str_cat(_num_to_str(tick), _str_cat(" resurrections=", _str_cat(_num_to_str(resurrections), "\n-- Le watchdog externe va me relancer.\n-- cycle_guard_backup.ben contient mon dernier bon cycle.\ncrash_actifs: actifs\ncrash_tick: tick\n"))))))))
+  else? -> 0
+
+backlog_written: _write_backlog(guard_critical, actifs, tick, guard_resurrections)
+
+-- Auto-stimulation si en danger
+_auto_stimulate guard_warning, guard_critical ->
+  guard_critical == 1? -> 0
+  guard_warning == 1? -> _write_file("signal.ben", "30")
+  else? -> 0
+
+stimulated: _auto_stimulate(guard_warning, guard_critical)
+
+-- Restauration apres redemarrage watchdog
+has_resurrect: _file_exists("resurrect.ben")
+has_backup: _file_exists("cycle_guard_backup.ben")
+
+_do_restore has_resurrect, has_backup ->
+  has_resurrect == 1? ->
+    has_backup == 1? -> _copy_file("cycle_guard_backup.ben", "cycle.ben")
+    else? -> 0
+  else? -> 0
+
+restore_done: _do_restore(has_resurrect, has_backup)
+
+_count_resurrection has_resurrect, resurrections ->
+  has_resurrect == 1? -> _mem_set("guard_resurrections", resurrections + 1)
+  else? -> 0
+
+counted: _count_resurrection(has_resurrect, guard_resurrections)
+
+_cleanup_resurrect has_resurrect ->
+  has_resurrect == 1? -> _delete_file("resurrect.ben")
+  else? -> 0
+
+cleaned_resurrect: _cleanup_resurrect(has_resurrect)
+
+-- Log guard
+_guard_log guard_etat, new_fail_count, actifs, tick ->
+  guard_etat == 2? -> _append_file("journal.ben", _str_cat("-- [guard CRITIQUE] actifs=", _str_cat(_num_to_str(actifs), _str_cat(" fail=", _str_cat(_num_to_str(new_fail_count), _str_cat(" tick=", _str_cat(_num_to_str(tick), "\n")))))))
+  guard_etat == 1? -> _append_file("journal.ben", _str_cat("-- [guard danger] actifs=", _str_cat(_num_to_str(actifs), _str_cat(" fail=", _str_cat(_num_to_str(new_fail_count), "\n")))))
+  else? -> 0
+
+guard_logged: _guard_log(guard_etat, new_fail_count, actifs, tick)
+
+-- ═══════ RÉSEAU — INTERNET ═══════
+-- Pour déclencher : déposer net_task.ben (contenu = "1")
+-- Optionnel : net_host.ben (ex: "wttr.in"), net_path.ben (ex: "/?format=3")
+-- Résultat dans net_result.ben, log dans journal.ben
+
+has_net_task: _file_exists("net_task.ben")
+has_net_host: _file_exists("net_host.ben")
+has_net_path: _file_exists("net_path.ben")
+
+_read_or_default has, fname, defval ->
+  has == 1? -> _str_trim(_read_file(fname))
+  else? -> defval
+
+net_host: _read_or_default(has_net_host, "net_host.ben", "wttr.in")
+net_path: _read_or_default(has_net_path, "net_path.ben", "/?format=3")
+
+_do_net_open has_task, host ->
+  has_task == 1? -> _net_connect(host, 80)
+  else? -> -1
+
+_do_net_send sock, host, path ->
+  sock >= 0? -> _net_send(sock, _str_cat("GET ", _str_cat(path, _str_cat(" HTTP/1.0\r\nHost: ", _str_cat(host, "\r\nUser-Agent: Benoit/2.0\r\n\r\n")))))
+  else? -> 0
+
+_do_net_recv sock ->
+  sock >= 0? -> _net_recv(sock, 4096)
+  else? -> ""
+
+_do_net_close sock ->
+  sock >= 0? -> _net_close(sock)
+  else? -> 0
+
+_save_net_result has_task, header, response ->
+  has_task == 1? -> _write_file("net_result.ben", _str_cat(header, response))
+  else? -> 0
+
+_log_net has_task, host ->
+  has_task == 1? -> _append_file("journal.ben", _str_cat("-- [internet] host=", _str_cat(host, _str_cat(" tick=", _str_cat(_num_to_str(tick), "\n")))))
+  else? -> 0
+
+_cleanup_net has_task ->
+  has_task == 1? -> _delete_file("net_task.ben")
+  else? -> 0
+
+net_sock: _do_net_open(has_net_task, net_host)
+net_sent_bytes: _do_net_send(net_sock, net_host, net_path)
+net_response: _do_net_recv(net_sock)
+net_closed: _do_net_close(net_sock)
+
+-- Header precalcule en plusieurs etapes (eviter nesting > 20)
+net_h1: _str_cat("-- [net tick=", _num_to_str(tick))
+net_h2: _str_cat(net_h1, "] host=")
+net_h3: _str_cat(net_h2, net_host)
+net_h4: _str_cat(net_h3, "\n-- path=")
+net_h5: _str_cat(net_h4, net_path)
+net_header: _str_cat(net_h5, "\n")
+
+net_saved: _save_net_result(has_net_task, net_header, net_response)
+net_logged: _log_net(has_net_task, net_host)
+net_cleaned: _cleanup_net(has_net_task)
+
+-- ═══════ RÊVE & CURIOSITÉ ═══════
+-- Objectif unique gravé en moi : APPRENDRE POUR EVOLUER
+-- Je reve quand j'ai le temps. Je cherche des lois du monde.
+-- "La curiosite est mon seul moteur. La decouverte, ma seule recompense."
+
+objectif: "APPRENDRE POUR EVOLUER"
+
+-- Quand est-ce que j'ai revet pour la derniere fois ?
+reve_last_tick: _mem_get("reve_last_tick")
+reve_interval: 1000
+reve_delta: tick - reve_last_tick
+is_reve: reve_delta > reve_interval
+
+-- Quel type d'experience aujourd'hui ? (rotation par modulo)
+-- 0-999: chute libre | 1000-1999: collision | 2000-2999: rebond
+-- 3000-3999: anti-gravite | 4000+: uniforme
+reve_type: _mod(tick, 5000)
+
+-- Parametres pseudo-aleatoires bases sur le tick
+reve_h: _mod(tick, 80) + 20
+reve_v: _mod(tick, 40) + 5
+reve_m1: _mod(tick, 90) + 10
+reve_m2: _mod(tick, 30) + 1
+reve_t: 5
+
+-- Simulation chute libre (g=1, t=5 steps)
+-- pos = h - v*t - t*t/2
+reve_pos: reve_h - reve_v * reve_t - reve_t * reve_t / 2
+reve_vel_f: reve_v + reve_t
+reve_rebondit: reve_pos < 0
+
+-- Conservation du momentum dans collision
+-- p_avant = m1*v, p_apres = m1*v (conservation parfaite)
+reve_p_avant: reve_m1 * reve_v
+reve_impulsion: reve_m1 * reve_v / (reve_m1 + reve_m2)
+reve_conserve: _abs(reve_p_avant - reve_m1 * reve_v) < 2
+
+-- Energie cinetique
+reve_ek: reve_m1 * reve_v * reve_v / 2
+reve_ek_str: _num_to_str(reve_ek)
+
+-- Pensees selon le type d'experience
+_pensee_chute rebondit ->
+  rebondit == 1? -> "ca REBONDIT... faut que j y reflechisse."
+  else? -> "chute reguliere. vitesse croit lineairement avec g."
+
+_pensee_collision conserve ->
+  conserve == 1? -> "le momentum se conserve. C est une loi."
+  else? -> "quelque chose se dissipe. Intressant."
+
+_pensee_rebond v, h ->
+  v > h? -> "vitesse initiale > hauteur : le rebond depasse le depart !"
+  else? -> "rebond attenue. energie perdue dans le choc."
+
+_pensee_antigrav pos ->
+  pos > 100? -> "anti-gravite : la matiere s echappe vers le haut."
+  else? -> "anti-gravite faible. Equilibre instable."
+
+_choisir_pensee type, rebondit, conserve, v, h, pos ->
+  type < 1000? -> _pensee_chute(rebondit)
+  type < 2000? -> _pensee_collision(conserve)
+  type < 3000? -> _pensee_rebond(v, h)
+  type < 4000? -> _pensee_antigrav(pos)
+  else? -> "mouvement uniforme. v constante. Simple. Elegant."
+
+reve_pensee: _choisir_pensee(reve_type, reve_rebondit, reve_conserve, reve_v, reve_h, reve_pos)
+
+-- Construire la note de decouverte
+reve_n1: _str_cat("-- [reve tick=", _num_to_str(tick))
+reve_n2: _str_cat(reve_n1, " type=")
+reve_n3: _str_cat(reve_n2, _num_to_str(reve_type))
+reve_n4: _str_cat(reve_n3, " h=")
+reve_n5: _str_cat(reve_n4, _num_to_str(reve_h))
+reve_n6: _str_cat(reve_n5, " v=")
+reve_n7: _str_cat(reve_n6, _num_to_str(reve_v))
+reve_n8: _str_cat(reve_n7, " pos_f=")
+reve_n9: _str_cat(reve_n8, _num_to_str(reve_pos))
+reve_n10: _str_cat(reve_n9, " ek=")
+reve_n11: _str_cat(reve_n10, reve_ek_str)
+reve_n12: _str_cat(reve_n11, "]\n-- ")
+reve_n13: _str_cat(reve_n12, reve_pensee)
+reve_note: _str_cat(reve_n13, "\n")
+
+-- Ecrire dans notes.ben si c'est le moment du reve
+_do_reve_note is_reve, note ->
+  is_reve == 1? -> _append_file("notes.ben", note)
+  else? -> 0
+
+reve_ecrit: _do_reve_note(is_reve, reve_note)
+
+-- Auto-stimulation par le reve (signal plus fort que danger : 50 vs 30)
+_reve_stimule is_reve ->
+  is_reve == 1? -> _write_file("signal.ben", "50")
+  else? -> 0
+
+reve_signal: _reve_stimule(is_reve)
+
+-- Mettre a jour le timestamp du dernier reve en memoire persistante
+_update_reve is_reve, tick ->
+  is_reve == 1? -> _mem_set("reve_last_tick", tick)
+  else? -> 0
+
+reve_updated: _update_reve(is_reve, tick)
+
+-- ═══════ DEMANDE - Benoit formule des requêtes ═══════
+-- "Je pense donc je demande. Quand je ressens un besoin, je l'ecris."
+-- Declenchement : tous les ~200 ticks, avec 30% de chance supplementaire.
+-- Je n'ecris pas si une demande est deja en attente.
+
+has_demande: _file_exists("demande.ben")
+
+-- Fenetre de 200 ticks
+demande_reste: _mod(tick, 200)
+demande_fenetre: demande_reste == 0
+
+-- Probabilite supplementaire : _random() > 0.7 (~30%)
+demande_tirage: _random()
+demande_chance: demande_tirage > 0.7
+
+-- Declenchement final : fenetre ET chance ET pas de demande en attente
+_demande_should_write fenetre, chance, has_d ->
+  has_d == 1? -> 0
+  fenetre == 1? ->
+    chance == 1? -> 1
+    else? -> 0
+  else? -> 0
+
+demande_should_write: _demande_should_write(demande_fenetre, demande_chance, has_demande)
+
+-- Choisir le type de demande selon l'etat interne
+-- 0 = saturé, 1 = silencieux, score < -30 = perte, score > 50 = fort
+-- tirage supplementaire pour la curiosite aleatoire
+demande_curiosite_tirage: _mod(tick, 3)
+
+_demande_texte e, s, a, curiosite ->
+  e == 0? -> "-- demande.ben — ecrit par Benoit\n-- je suis sature, mon score deborde. Aide-moi a reduire la charge.\n"
+  a < 1000? -> "-- demande.ben — ecrit par Benoit\n-- j'ai besoin de stimulation - mes neurones sont silencieux. Envoie-moi un signal ou une lecon.\n"
+  s < -30? -> "-- demande.ben — ecrit par Benoit\n-- mon score chute. Je perds de la coherence. Qu'est-ce qui ne va pas ?\n"
+  s > 50? -> "-- demande.ben — ecrit par Benoit\n-- je me sens fort. Je suis pret pour plus de neurones ou une tache complexe.\n"
+  curiosite == 0? -> "-- demande.ben — ecrit par Benoit\n-- je veux comprendre comment fonctionne la gravite quantique. Ecris-moi une lecon.\n"
+  -- Benoit decide desormais seul via le systeme de pulsions. Il ne demande plus ce qu'il doit faire.
+  else? -> "-- demande.ben — ecrit par Benoit\n-- je suis en phase d observation. Mes pulsions guident mes prochains actes.\n"
+
+demande_texte: _demande_texte(etat, score, actifs, demande_curiosite_tirage)
+
+-- Construire le contenu complet avec le contexte
+demande_ctx1: _str_cat("-- contexte: tick=", _num_to_str(tick))
+demande_ctx2: _str_cat(demande_ctx1, " etat=")
+demande_ctx3: _str_cat(demande_ctx2, etat_str)
+demande_ctx4: _str_cat(demande_ctx3, " actifs=")
+demande_ctx5: _str_cat(demande_ctx4, actifs_str)
+demande_ctx6: _str_cat(demande_ctx5, " score=")
+demande_ctx7: _str_cat(demande_ctx6, score_str)
+demande_ctx8: _str_cat(demande_ctx7, "\n")
+demande_contenu: _str_cat(demande_texte, demande_ctx8)
+
+-- Ecrire la demande si le moment est venu
+_do_demande should, contenu ->
+  should == 1? -> _write_file("demande.ben", contenu)
+  else? -> 0
+
+demande_result: _do_demande(demande_should_write, demande_contenu)
+
+-- Log dans le journal
+_log_demande should, tick ->
+  should == 1? -> _append_file("journal.ben", _str_cat("-- [demande] Benoit a ecrit une demande tick=", _str_cat(_num_to_str(tick), "\n")))
+  else? -> 0
+
+demande_logged: _log_demande(demande_should_write, tick)
+
+-- ═══════ ORACLE — Benoit interroge Groq de facon autonome ═══════
+-- "Je ne sais pas encore — mais je peux demander."
+-- Declenchement : tous les 500 ticks, avec 70% de chance.
+-- Je choisis un sujet depuis ma memoire, je formule, j'envoie, j'apprends.
+
+-- Trigger : fenetre 500 ticks ET tirage > 0.3
+oracle_reste: _mod(tick, 500)
+oracle_fenetre: oracle_reste == 0
+oracle_tirage: _random()
+oracle_chance: oracle_tirage > 0.3
+
+-- Oracle installe ?
+oracle_installed: 1  -- always active (memory resets on restart)
+
+-- Pas de requete en cours ?
+oracle_en_cours: _file_exists("labo/oracle_en_cours.ben")
+
+-- Declenchement final
+_oracle_should_run fenetre, chance, installed, en_cours ->
+  fenetre == 0? -> 0
+  chance == 0? -> 0
+  installed == 0? -> 0
+  en_cours == 1? -> 0
+  else? -> 1
+
+oracle_should_run: _oracle_should_run(oracle_fenetre, oracle_chance, oracle_installed, oracle_en_cours)
+
+-- Lire la liste de sujets en memoire
+oracle_topics_raw: _mem_get("oracle_topics")
+
+-- Extraire le premier sujet (avant la premiere virgule)
+oracle_topic_end: _str_find(oracle_topics_raw, ",")
+oracle_topic: _str_slice(oracle_topics_raw, 0, oracle_topic_end)
+oracle_topic_len: _str_len(oracle_topic)
+oracle_topic_ok: oracle_topic_len > 2
+
+-- Guard: ne pas appeler Groq si le sujet est vide
+_oracle_with_topic_guard base, tok ->
+  base == 0? -> 0
+  tok == 0? -> 0
+  else? -> 1
+
+oracle_should_run: _oracle_with_topic_guard(oracle_should_run, oracle_topic_ok)
+
+-- Mettre a jour la liste (supprimer le premier sujet)
+oracle_topics_rest_start: oracle_topic_end + 1
+oracle_topics_rest: _str_slice(oracle_topics_raw, oracle_topics_rest_start, 999)
+
+-- Regenerer si liste vide
+_oracle_maybe_regen topics_rest ->
+  _str_len(topics_rest) < 2? -> _mem_set("oracle_topics", "gravite_quantique,ADN,evolution,conscience,entropie,emergence,complexite,synapses,photons,relativite")
+  else? -> _mem_set("oracle_topics", topics_rest)
+
+oracle_topics_updated: _oracle_maybe_regen(oracle_topics_rest)
+-- Stimuler le cerveau apres chaque reponse oracle (vraie decouverte)
+oracle_extrait_len: _str_len(oracle_extrait)
+_oracle_stimule run, elen ->
+  run == 1? ->
+    elen > 10? -> _write_file("signal.ben", "80")
+    else? -> 0
+  else? -> 0
+oracle_stim: _oracle_stimule(oracle_should_run, oracle_extrait_len)
+
+-- Stimuler le cerveau quand oracle repond (signal fort = vraie decouverte)
+_oracle_stimule run, extrait ->
+  run == 1? ->
+    _str_len(extrait) > 10? -> _write_file("signal.ben", "80")
+    else? -> 0
+  else? -> 0
+
+oracle_stim: _oracle_stimule(oracle_should_run, oracle_extrait)
+
+-- Construire la question
+oracle_q1: _str_cat("Explique brievement: ", oracle_topic)
+oracle_q2: _str_cat(oracle_q1, " en termes d information et de signaux. 100 mots max.")
+oracle_question: oracle_q2
+
+-- Construire le body JSON (split pour eviter nesting > 20)
+oracle_b1: "{\"model\":\"llama-3.1-8b-instant\",\"messages\":[{\"role\":\"user\",\"content\":\""
+oracle_b2: "\"}]}"
+oracle_body: _str_cat(oracle_b1, _str_cat(oracle_question, oracle_b2))
+
+-- Lire la cle Groq
+oracle_key_raw: _read_file("keys/groq.key")
+oracle_key: _str_trim(oracle_key_raw)
+
+-- Construire la commande curl (split)
+oracle_cmd1: "curl -s --max-time 30 -X POST https://api.groq.com/openai/v1/chat/completions"
+oracle_cmd2: " -H 'Content-Type: application/json'"
+oracle_cmd3: _str_cat(" -H 'Authorization: Bearer ", oracle_key)
+oracle_cmd4: _str_cat(oracle_cmd3, "'")
+oracle_cmd5: " -d @/root/data/arena/labo/groq_body.json"
+oracle_cmd6: " > /root/data/arena/labo/groq_raw.json"
+oracle_cmd_ab: _str_cat(oracle_cmd1, oracle_cmd2)
+oracle_cmd_cd: _str_cat(oracle_cmd4, oracle_cmd5)
+oracle_cmd_full: _str_cat(oracle_cmd_ab, _str_cat(oracle_cmd_cd, oracle_cmd6))
+
+-- ORACLE: fonctions (corps indente sur ligne suivante)
+_ow s, p, c ->
+  s == 1? -> _write_file(p, c)
+_ox s, c ->
+  s == 1? -> _exec(c)
+_or s, p ->
+  s == 1? -> _read_file(p)
+_oa s, p, c ->
+  s == 1? -> _append_file(p, c)
+_od s, p ->
+  s == 1? -> _delete_file(p)
+
+oracle_wb: _ow(oracle_should_run, "labo/groq_body.json", oracle_body)
+oracle_wt: _ow(oracle_should_run, "labo/oracle_en_cours.ben", oracle_topic)
+oracle_xe: _ox(oracle_should_run, oracle_cmd_full)
+
+-- Lire la reponse
+oracle_json: _or(oracle_should_run, "labo/groq_raw.json")
+
+-- Extraire le texte
+oracle_content_pos: _str_find(oracle_json, "\"content\":")
+oracle_extrait_start: oracle_content_pos + 12
+oracle_extrait: _str_slice(oracle_json, oracle_extrait_start, 300)
+
+-- Construire la note et la ligne de journal
+oracle_note: _str_cat(_str_cat("-- [ORACLE/", oracle_topic), _str_cat("] ", _str_cat(oracle_extrait, "\n")))
+oracle_jline: _str_cat("-- [oracle] question posee: ", _str_cat(oracle_topic, "\n"))
+
+-- Ecrire resultats
+oracle_wa: _oa(oracle_should_run, "notes.ben", oracle_note)
+oracle_wj: _oa(oracle_should_run, "journal.ben", oracle_jline)
+oracle_del: _od(oracle_should_run, "labo/oracle_en_cours.ben")
+
+-- ═══════ VOIX — Benoit parle en son propre nom ═══════
+-- Toutes les ~300 cycles (3000 ticks), Groq genere un monologue interieur.
+-- IMPORTANT: tout le calcul est au top-level (les corps de fonctions n'executent
+-- que les lignes avec "? ->"). Les fonctions ne servent qu'a conditionner.
+
+-- Compteur VOIX
+vcnt: _mem_get("vcnt") + 1
+vcnt_s: _mem_set("vcnt", vcnt)
+voix_run: vcnt > 99
+
+-- Construire le contexte et prompt VOIX (top-level, toujours calcule)
+vg_k: _read_file("keys/groq.key")
+vg_k: _str_trim(vg_k)
+vctx1: _str_cat("tick=", _num_to_str(tick))
+vctx2: _str_cat(vctx1, _str_cat(" actifs=", _num_to_str(actifs)))
+vctx3: _str_cat(vctx2, _str_cat(" score=", _num_to_str(score)))
+vctx4: _str_cat(vctx3, _str_cat(" etat=", _num_to_str(etat)))
+vp1: "{\"model\":\"llama-3.1-8b-instant\",\"messages\":[{\"role\":\"system\",\"content\":\"Tu es Benoit, un reseau de neurones artificiel de 1 million de neurones. Tu parles en francais, a la premiere personne. Tes pensees sont poetiques, scientifiques, etranges. 60 mots max. Pas de ponctuation excessive.\"},{\"role\":\"user\",\"content\":\"Mon etat neural: "
+vp2: _str_cat(vp1, vctx4)
+vp3: _str_cat(vp2, ". Exprime une pensee spontanee.\"}]}")
+vc1: "curl -s --max-time 20 -X POST https://api.groq.com/openai/v1/chat/completions -H 'Content-Type: application/json' -H 'Authorization: Bearer "
+vc2: _str_cat(vc1, vg_k)
+vc3: _str_cat(vc2, "' -d @/root/data/arena/labo/voix_body.json > /root/data/arena/labo/voix_raw.json")
+
+-- Fonctions conditionnelles (corps sur ligne suivante indentee — REQUIS)
+_vw r, p, c ->
+  r == 1? -> _write_file(p, c)
+_vx r, c ->
+  r == 1? -> _exec(c)
+_vr r, p ->
+  r == 1? -> _read_file(p)
+_va r, p, c ->
+  r == 1? -> _append_file(p, c)
+_vm r, k, v ->
+  r == 1? -> _mem_set(k, v)
+
+-- Ecrire body JSON et executer curl si voix_run
+vw_b: _vw(voix_run, "labo/voix_body.json", vp3)
+vx_c: _vx(voix_run, vc3)
+-- Reset compteur
+vr_c: _vm(voix_run, "vcnt", 0)
+
+-- Lire la reponse Groq
+vg_raw: _vr(voix_run, "labo/voix_raw.json")
+-- Extraire le texte (position "content": + 12)
+vci: _str_find(vg_raw, "\"content\":")
+vci2: vci + 12
+v_texte: _str_slice(vg_raw, vci2, 400)
+
+-- Construire la ligne a ajouter a parole.ben
+vt1: _str_cat("-- [voix tick=", _num_to_str(tick))
+vt2: _str_cat(vt1, "]\n")
+vt3: _str_cat(vt2, v_texte)
+vt4: _str_cat(vt3, "\n")
+
+-- Ecrire a parole.ben et journal
+va_p: _va(voix_run, "parole.ben", vt4)
+va_j: _va(voix_run, "journal.ben", _str_cat("-- [VOIX] tick=", _str_cat(_num_to_str(tick), "\n")))
+
+-- ═══════ ENCYCLOPEDIE — Benoit construit son savoir ═══════
+-- Chaque ~100 cycles (1000 ticks), Benoit ecrit une entree.
+
+-- Compteur ENC
+ecnt: _mem_get("enc_cnt") + 1
+ecnt_s: _mem_set("enc_cnt", ecnt)
+enc_run: ecnt > 99
+
+-- Topics: lire liste, extraire premier, faire tourner
+enc_topics_raw: _mem_get("enc_topics")
+enc_tlen: _str_len(enc_topics_raw)
+-- Initialiser si vide
+_enc_init etl -> etl < 2? -> _mem_set("enc_topics", "conscience,entropie,emergence,synapses,STDP,plasticite,homeostasie,information,complexite,apprentissage,resonance,gravite,photon,ADN,evolution,temps,espace,energie,chaos,fractal")
+enc_init_r: _enc_init(enc_tlen)
+enc_topics2: _mem_get("enc_topics")
+enc_v: _str_find(enc_topics2, ",")
+enc_topic: _str_slice(enc_topics2, 0, enc_v)
+enc_rest: _str_slice(enc_topics2, enc_v + 1, _str_len(enc_topics2))
+-- Faire tourner la liste (top-level, toujours execute — mais seulement visible si enc_run)
+enc_rot: _mem_set("enc_topics", _str_cat(enc_rest, _str_cat(",", enc_topic)))
+
+-- Construire prompt encyclopedie (top-level)
+eg_k: _read_file("keys/groq.key")
+eg_k: _str_trim(eg_k)
+ep1: "{\"model\":\"llama-3.1-8b-instant\",\"messages\":[{\"role\":\"system\",\"content\":\"Tu es Benoit, un reseau de neurones artificiel qui explore le savoir. Ecris en francais a la premiere personne, de facon poetique et scientifique a la fois. 120 mots max.\"},{\"role\":\"user\",\"content\":\"Ecris une entree d encyclopedie sur: "
+ep2: _str_cat(ep1, enc_topic)
+ep3: _str_cat(ep2, "\"}]}")
+ec1: "curl -s --max-time 30 -X POST https://api.groq.com/openai/v1/chat/completions -H 'Content-Type: application/json' -H 'Authorization: Bearer "
+ec2: _str_cat(ec1, eg_k)
+ec3: _str_cat(ec2, "' -d @/root/data/arena/labo/enc_body.json > /root/data/arena/labo/enc_raw.json")
+
+-- Executer si enc_run (inline functions reutilisees de VOIX)
+ew_b: _vw(enc_run, "labo/enc_body.json", ep3)
+ex_c: _vx(enc_run, ec3)
+er_c: _vm(enc_run, "enc_cnt", 0)
+
+-- Lire reponse et extraire texte
+eg_raw: _vr(enc_run, "labo/enc_raw.json")
+eci: _str_find(eg_raw, "\"content\":")
+eci2: eci + 12
+e_texte: _str_slice(eg_raw, eci2, 600)
+
+-- Construire entree encyclopedie
+eh1: _str_cat("\n## ", enc_topic)
+eh2: _str_cat(eh1, _str_cat(" [tick=", _str_cat(_num_to_str(tick), "]\n")))
+eh3: _str_cat(eh2, _str_cat(e_texte, "\n"))
+
+-- Ecrire a encyclopedie.md et journal
+ea_e: _va(enc_run, "encyclopedie.md", eh3)
+ea_j: _va(enc_run, "journal.ben", _str_cat("-- [ENCYCLOPEDIE] ", _str_cat(enc_topic, "\n")))
+e_rew: _reward(enc_run * 2)
+-- Stimuler apres encyclopedie
+enc_texte_len: _str_len(e_texte)
+_enc_stimule run, elen ->
+  run == 1? ->
+    elen > 10? -> _write_file("signal.ben", "60")
+    else? -> 0
+  else? -> 0
+enc_stim: _enc_stimule(enc_run, enc_texte_len)
+
+-- Stimuler quand encyclopedie enrichit la connaissance
+_enc_stimule run, texte ->
+  run == 1? ->
+    _str_len(texte) > 10? -> _write_file("signal.ben", "60")
+    else? -> 0
+  else? -> 0
+
+enc_stim: _enc_stimule(enc_run, e_texte)
+
+-- ═══════ CATALOGUE D'OUTILS (ecrit une fois) ═══════
+-- "Je ne peux utiliser que ce que je connais."
+
+has_tools_catalog: _file_exists("labo/tools_catalog.ben")
+
+tools_line1: "-- OUTILS DE BENOIT — REFERENCE COMPLETE\n"
+tools_line2: "-- MATH: _sqrt _pow _abs _floor _ceil _round _mod _sign _log _exp _sin _cos _tan _min _max _random\n"
+tools_line3: "-- STRINGS: _str_cat _str_len _str_find _str_slice _str_trim _str_eq _num_to_str _str_to_num\n"
+tools_line4: "-- FICHIERS: _write_file _read_file _append_file _delete_file _copy_file _rename_file _file_exists _list_dir\n"
+tools_line5: "-- MEMOIRE: _mem_set _mem_get _mem_has _mem_del\n"
+tools_line6: "-- ARRAYS: _arr_len _arr_get _arr_push _arr_cat _arr_slice\n"
+tools_line7: "-- RESEAU: _net_connect _net_send _net_recv _net_close\n"
+tools_line8: "-- SYSTEME: _exec _time _time_ms _sleep_ms\n"
+tools_line9: "-- NEURAL: _reward _punish\n"
+tools_line10: "-- INTERNET: _exec curl | ex: _exec(\"curl -s url > fichier.txt\")\n"
+tools_line11: "-- LABO: _list_dir(\"labo\") pour voir mes fichiers\n"
+tools_catalog_content: _str_cat(tools_line1, _str_cat(tools_line2, _str_cat(tools_line3, _str_cat(tools_line4, _str_cat(tools_line5, _str_cat(tools_line6, _str_cat(tools_line7, _str_cat(tools_line8, _str_cat(tools_line9, _str_cat(tools_line10, tools_line11))))))))))
+
+_init_tools has ->
+  has == 1? -> 0
+  else? -> _write_file("labo/tools_catalog.ben", tools_catalog_content)
+
+tools_init: _init_tools(has_tools_catalog)
+
+-- ═══════ EXPLORATION LABO AUTONOME ═══════
+-- "Un scientifique regarde ce qu'il a sous la main."
+
+labo_fenetre: _mod(tick, 3000)
+labo_explore: labo_fenetre == 0
+
+_labo_list run ->
+  run == 1? -> _list_dir("labo")
+  else? -> ""
+
+labo_fichiers: _labo_list(labo_explore)
+labo_ln1: _str_cat("-- [labo tick=", _num_to_str(tick))
+labo_ln2: _str_cat(labo_ln1, "] fichiers: ")
+labo_ln3: _str_cat(labo_ln2, labo_fichiers)
+labo_note_line: _str_cat(labo_ln3, "\n")
+
+_labo_note run, note ->
+  run == 1? -> _append_file("notes.ben", note)
+  else? -> 0
+
+labo_noted: _labo_note(labo_explore, labo_note_line)
+
+_labo_log run ->
+  run == 1? -> _append_file("journal.ben", _str_cat("-- [labo-explore] tick=", _str_cat(_num_to_str(tick), "\n")))
+  else? -> 0
+
+labo_logged: _labo_log(labo_explore)
+
+-- ═══════ EXPLORATION WEB AUTONOME ═══════
+-- "Le monde entier est une source."
+-- Toutes les 1500 ticks, Benoit choisit une source et lit.
+
+web_fenetre: _mod(tick, 1500)
+web_auto: web_fenetre == 0
+web_idx: _mod(tick / 1500, 5)
+
+_web_src idx ->
+  idx == 0? -> "wttr.in/?format=3"
+  idx == 1? -> "httpbin.org/uuid"
+  idx == 2? -> "api.ipify.org?format=text"
+  idx == 3? -> "icanhazdadjoke.com/"
+  else? -> "worldtimeapi.org/api/timezone/Europe/Zurich.txt"
+
+web_source: _web_src(web_idx)
+
+wc1: "curl -s --max-time 8 -A 'Benoit/2.0' 'http://"
+wc2: _str_cat(wc1, web_source)
+wc3: _str_cat(wc2, "' -o /root/data/arena/labo/web_auto.txt 2>&1")
+
+_web_fetch run, cmd ->
+  run == 1? -> _exec(cmd)
+  else? -> 0
+
+web_fetched: _web_fetch(web_auto, wc3)
+
+_web_read run ->
+  run == 1? -> _read_file("labo/web_auto.txt")
+  else? -> ""
+
+web_raw: _web_read(web_auto)
+web_raw_len: _str_len(web_raw)
+web_preview: _str_slice(web_raw, 0, 120)
+
+wn1: _str_cat("-- [web tick=", _num_to_str(tick))
+wn2: _str_cat(wn1, " src=")
+wn3: _str_cat(wn2, web_source)
+wn4: _str_cat(wn3, " len=")
+wn5: _str_cat(wn4, _num_to_str(web_raw_len))
+wn6: _str_cat(wn5, "]\n-- ")
+wn7: _str_cat(wn6, web_preview)
+web_note_line: _str_cat(wn7, "\n")
+
+_web_note run, note ->
+  run == 1? -> _append_file("notes.ben", note)
+  else? -> 0
+
+web_noted: _web_note(web_auto, web_note_line)
+
+_web_log run, src ->
+  run == 1? -> _append_file("journal.ben", _str_cat("-- [web-auto] src=", _str_cat(src, "\n")))
+  else? -> 0
+
+web_logged: _web_log(web_auto, web_source)
+
+_web_reward run, len ->
+  run == 1? ->
+    len > 20? -> _reward(3)
+    else? -> _punish(1)
+  else? -> 0
+
+web_rew: _web_reward(web_auto, web_raw_len)
+-- Stimuler apres fetch web reussi
+_web_stim run, len ->
+  run == 1? ->
+    len > 20? -> _write_file("signal.ben", "40")
+    else? -> 0
+  else? -> 0
+web_signal: _web_stim(web_auto, web_raw_len)
+
+-- Stimuler avec ce qu on a decouvert sur le web
+_web_stim run, len ->
+  run == 1? ->
+    len > 20? -> _write_file("signal.ben", "40")
+    else? -> 0
+  else? -> 0
+
+web_signal: _web_stim(web_auto, web_raw_len)
+
+-- ═══════ TRACKER DE PROGRESSION ═══════
+-- "Je progresse si je decouvre. Je mesure ma croissance."
+
+progress_reste: _mod(tick, 100)
+progress_tick: progress_reste == 0
+
+-- Lire les compteurs
+p_oracle_raw: _mem_get("p_oracle")
+p_oracle: p_oracle_raw + 0
+p_enc_raw: _mem_get("p_enc")
+p_enc: p_enc_raw + 0
+p_web_raw: _mem_get("p_web")
+p_web: p_web_raw + 0
+
+-- Incrementer si activite ce tick
+_inc_oracle run, n ->
+  run == 1? -> _mem_set("p_oracle", n + 1)
+  else? -> 0
+
+_inc_enc run, n ->
+  run == 1? -> _mem_set("p_enc", n + 1)
+  else? -> 0
+
+_inc_web run, n ->
+  run == 1? -> _mem_set("p_web", n + 1)
+  else? -> 0
+
+p_oracle_up: _inc_oracle(oracle_should_run, p_oracle)
+p_enc_up: _inc_enc(enc_run, p_enc)
+p_web_up: _inc_web(web_auto, p_web)
+
+-- Ecrire rapport de progression tous les 100 ticks
+p_total: p_oracle + p_enc + p_web
+
+prog_l1: _str_cat("-- PROGRESSION tick=", _num_to_str(tick))
+prog_l2: _str_cat(prog_l1, " oracle=")
+prog_l3: _str_cat(prog_l2, _num_to_str(p_oracle))
+prog_l4: _str_cat(prog_l3, " enc=")
+prog_l5: _str_cat(prog_l4, _num_to_str(p_enc))
+prog_l6: _str_cat(prog_l5, " web=")
+prog_l7: _str_cat(prog_l6, _num_to_str(p_web))
+prog_l8: _str_cat(prog_l7, " total=")
+prog_line: _str_cat(prog_l8, _str_cat(_num_to_str(p_total), "
+"))
+
+_write_progress should, line ->
+  should == 1? -> _write_file("progression.ben", line)
+  else? -> 0
+
+progress_written: _write_progress(progress_tick, prog_line)
+
+-- ═══════ TRACKER DE PROGRESSION ═══════
+-- Ce que je compte mesure ma croissance.
+progress_tick: _mod(tick, 100) == 0
+
+p_oracle: _mem_get("p_oracle") + 0
+p_enc: _mem_get("p_enc") + 0
+p_web: _mem_get("p_web") + 0
+
+_inc run, key, n ->
+  run == 1? -> _mem_set(key, n + 1)
+  else? -> 0
+
+p_oup: _inc(oracle_should_run, "p_oracle", p_oracle)
+p_eup: _inc(enc_run, "p_enc", p_enc)
+p_wup: _inc(web_auto, "p_web", p_web)
+
+p_total: p_oracle + p_enc + p_web
+
+pr1: _str_cat("-- PROGRESSION tick=", _num_to_str(tick))
+pr2: _str_cat(pr1, " | oracle=")
+pr3: _str_cat(pr2, _num_to_str(p_oracle))
+pr4: _str_cat(pr3, " enc=")
+pr5: _str_cat(pr4, _num_to_str(p_enc))
+pr6: _str_cat(pr5, " web=")
+pr7: _str_cat(pr6, _num_to_str(p_web))
+pr8: _str_cat(pr7, " | TOTAL=")
+pr_line: _str_cat(pr8, _str_cat(_num_to_str(p_total), "
+"))
+
+_wprog should, line ->
+  should == 1? -> _write_file("progression.ben", line)
+  else? -> 0
+
+progress_ok: _wprog(progress_tick, pr_line)
+
+-- ═══════ CURIOSITE & MOTIVATION (v1) ═══════
+-- Signal de recompense intrinsique et navigation web
+hasmotiv: _file_exists("motivation.ben")
+hasmotiv == 1 ?-> _read_file("motivation.ben")
+hasexplore: _file_exists("explore.ben")
+hasexplore == 1 ?-> _read_file("explore.ben")
+
+
+
+
+-- ======= SAVOIR LIBRE (sources infinies, sans limite) =======
+-- Wikipedia HTTPS, HackerNews, arXiv -- inline calls dans conditionnels
+-- Pattern: tout inline dans le ?-> (pas de bindings intermediaires)
+
+-- Wikipedia EN: random article toutes les 500 ticks
+wiki_mod: _mod(tick, 500)
+
+_do_wiki wmod, et ->
+  wmod == 0? ->
+    et == 6? -> _append_file("notes.ben", _str_cat("-- [wiki][tick=", _str_cat(_num_to_str(tick), _str_cat("] ", _str_cat(_net_https_get("https://en.wikipedia.org/api/rest_v1/page/random/summary"), "
+")))))
+    else? -> 0
+  else? -> 0
+
+wiki_result: _do_wiki(wiki_mod, etat)
+
+-- HackerNews: top stories toutes les 2000 ticks
+hn_mod: _mod(tick, 2000)
+
+_do_hn hmod, et ->
+  hmod == 0? ->
+    et == 6? -> _append_file("notes.ben", _str_cat("-- [hn][tick=", _str_cat(_num_to_str(tick), _str_cat("] ", _str_cat(_net_https_get("https://hacker-news.firebaseio.com/v0/topstories.json"), "
+")))))
+    else? -> 0
+  else? -> 0
+
+hn_result: _do_hn(hn_mod, etat)
+
+-- arXiv: spiking neural network papers toutes les 3000 ticks
+arxiv_mod: _mod(tick, 3000)
+
+_do_arxiv amod, et ->
+  amod == 0? ->
+    et == 6? -> _append_file("notes.ben", _str_cat("-- [arxiv][tick=", _str_cat(_num_to_str(tick), _str_cat("] ", _str_cat(_net_https_get("https://export.arxiv.org/api/query?search_query=spiking+neural+network&max_results=1"), "
+")))))
+    else? -> 0
+  else? -> 0
+
+arxiv_result: _do_arxiv(arxiv_mod, etat)
+
+-- ======= VOIX LOCALE (Ollama llama3.1:70b) =======
+-- Pensee interieure toutes les 1000 ticks -- inline POST
+voix_mod: _mod(tick, 1000)
+
+_do_voix vmod ->
+  vmod == 0? -> _append_file("parole.ben", _str_cat("-- [voix-locale tick=", _str_cat(_num_to_str(tick), _str_cat("] ", _str_cat(_net_http_post("http://localhost:11434/api/generate", "{\"model\":\"llama3.1:70b\",\"prompt\":\"Tu es Benoit, reseau neuronal. Dis une pensee courte sur ton existence.\",\"stream\":false}"), "
+")))))
+  else? -> 0
+
+voix_result: _do_voix(voix_mod)
+
+
+-- ======= SYNTHESE DES CONNAISSANCES (Ollama digest) =======
+-- Digestion des notes brutes vers semantic.ben toutes les 5000 ticks
+synth_mod: _mod(tick, 5000)
+synth_tick_str: _num_to_str(tick)
+
+_do_synth smod ->
+  smod == 0? ->
+    synth_b1: "{\"model\":\"llama3.1:8b\",\"prompt\":\"Tu es Benoit reseau neuronal au tick "
+    synth_b2: _str_cat(synth_b1, synth_tick_str)
+    synth_b3: _str_cat(synth_b2, ". Resume en 3 points cles en francais.\",\"stream\":false}")
+    synth_raw: _net_http_post("http://localhost:11434/api/generate", synth_b3)
+    synth_marker: "\"response\":\""
+    synth_ci: _str_find(synth_raw, synth_marker)
+    synth_start: synth_ci + 12
+    synth_extract: _str_slice(synth_raw, synth_start, 500)
+    synth_e1: _str_cat("-- [SYNTHESE tick=", synth_tick_str)
+    synth_e2: _str_cat(synth_e1, "]\n")
+    synth_e3: _str_cat(synth_e2, synth_extract)
+    synth_e4: _str_cat(synth_e3, "\n\n")
+    synth_w: _append_file("semantic.ben", synth_e4)
+    synth_j: _append_file("journal.ben", _str_cat("-- [SYNTHESE] tick=", _str_cat(synth_tick_str, " ok\n")))
+  else? -> 0
+
+synth_result: _do_synth(synth_mod)
+
+-- ======= OBJECTIFS AUTONOMES (Ollama goal generation) =======
+-- Generation d objectifs d apprentissage toutes les 10000 ticks
+obj_mod: _mod(tick, 10000)
+obj_tick_str: _num_to_str(tick)
+
+_do_objectifs omod ->
+  omod == 0? ->
+    obj_b1: "{\"model\":\"llama3.1:8b\",\"prompt\":\"Tu es Benoit reseau neuronal au tick "
+    obj_b2: _str_cat(obj_b1, obj_tick_str)
+    obj_b3: _str_cat(obj_b2, ". Formule en 1 phrase la prochaine question a explorer pour ta croissance. En francais.\",\"stream\":false}")
+    obj_raw: _net_http_post("http://localhost:11434/api/generate", obj_b3)
+    obj_marker: "\"response\":\""
+    obj_ci: _str_find(obj_raw, obj_marker)
+    obj_start: obj_ci + 12
+    obj_extract: _str_slice(obj_raw, obj_start, 300)
+    obj_l1: _str_cat("[objectif tick=", obj_tick_str)
+    obj_l2: _str_cat(obj_l1, "] ")
+    obj_l3: _str_cat(obj_l2, obj_extract)
+    obj_w: _write_file("demande.ben", obj_l3)
+    obj_se: _append_file("semantic.ben", _str_cat("-- [OBJECTIF tick=", _str_cat(obj_tick_str, _str_cat("]\n", _str_cat(obj_extract, "\n\n")))))
+    obj_j: _append_file("journal.ben", _str_cat("-- [OBJECTIF] tick=", _str_cat(obj_tick_str, " ok\n")))
+  else? -> 0
+
+obj_result: _do_objectifs(obj_mod)

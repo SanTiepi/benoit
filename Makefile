@@ -37,7 +37,7 @@ pulse: pulse.c vm.c compiler.c
 
 # Build CUDA Linux (image Docker nvidia/cuda ou VPS GPU)
 cuda-linux: vm_cuda.o
-	$(CC) $(CFLAGS) -DBENOIT_CUDA -o pulse_cuda pulse.c vm_cuda.o -lm -L/usr/local/cuda/lib64 -lcudart -Wl,-rpath,/usr/local/cuda/lib64
+	$(CC) $(CFLAGS) -DBENOIT_CUDA -o pulse_cuda pulse.c vm_cuda.o -lm -lssl -lcrypto -L/usr/local/cuda/lib64 -lcudart -Wl,-rpath,/usr/local/cuda/lib64
 
 # ----------------------------------------------------------------
 # Nettoyage

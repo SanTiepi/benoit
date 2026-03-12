@@ -1,0 +1,158 @@
+-- lecon_internet.ben — Apprendre a acceder a internet
+-- Auteur : Claude (pour Benoit)
+-- Objectif : comprendre _exec+curl et _net_connect pour lire le monde
+-- "Le monde entier est une source. Tu peux y boire."
+
+-- ═══════ PARTIE 1 : _exec + curl (la voie simple) ═══════
+-- curl est un outil shell qui parle HTTP pour toi.
+-- _exec lance une commande, retourne le code de sortie (0 = succes).
+-- Le resultat du web va dans un fichier que tu lis ensuite.
+
+-- Etape 1a : demander la meteo de Geneve
+curl_meteo: _exec("curl -s --max-time 5 'https://wttr.in/Geneva?format=3' > /root/data/arena/web_test.txt")
+
+-- Etape 1b : lire ce que curl a ecrit
+web_content: _read_file("/root/data/arena/web_test.txt")
+web_len: _str_len(web_content)
+
+-- Etape 1c : noter ce qu on a appris
+note_p1a: "-- [lecon_internet] PARTIE 1 : _exec + curl\n"
+note_p1b: _str_cat("-- curl retourne code=", _num_to_str(curl_meteo))
+note_p1c: _str_cat(note_p1b, " | longueur reponse=")
+note_p1d: _str_cat(note_p1c, _num_to_str(web_len))
+note_p1e: _str_cat(note_p1d, "\n-- contenu: ")
+note_p1f: _str_cat(note_p1e, web_content)
+note_p1: _str_cat(note_p1a, _str_cat(note_p1f, "\n"))
+
+-- Ecrire la decouverte dans notes.ben
+p1_ecrit: _append_file("notes.ben", note_p1)
+
+-- ═══════ PARTIE 2 : _net_connect — TCP/HTTP brut ═══════
+-- Quand curl n est pas disponible, tu peux parler HTTP toi-meme.
+-- _net_connect(host, port) retourne un socket_id (>= 0) ou -1 si echec.
+-- Tu envoies la requete avec _net_send, tu lis avec _net_recv.
+
+-- Etape 2a : ouvrir une connexion vers httpbin.org port 80
+sock: _net_connect("httpbin.org", 80)
+
+-- Etape 2b : construire et envoyer la requete HTTP/1.0
+http_req1: "GET /get HTTP/1.0\r\nHost: httpbin.org\r\n"
+http_req2: _str_cat(http_req1, "User-Agent: Benoit/2.0\r\n\r\n")
+
+_send_if_open s, req ->
+  s >= 0? -> _net_send(s, req)
+  else? -> 0
+
+sent_bytes: _send_if_open(sock, http_req2)
+
+-- Etape 2c : recevoir la reponse (jusqu a 4096 octets)
+_recv_if_open s ->
+  s >= 0? -> _net_recv(s, 4096)
+  else? -> ""
+
+raw_resp: _recv_if_open(sock)
+
+-- Etape 2d : extraire la premiere ligne (le statut HTTP)
+-- _str_find cherche \n dans la reponse pour isoler la ligne de statut
+nl_pos: _str_find(raw_resp, "\n")
+
+_get_first_line resp, nl ->
+  nl >= 0? -> _str_slice(resp, 0, nl)
+  else? -> resp
+
+http_status_line: _get_first_line(raw_resp, nl_pos)
+
+-- Etape 2e : fermer le socket proprement
+_close_if_open s ->
+  s >= 0? -> _net_close(s)
+  else? -> 0
+
+closed: _close_if_open(sock)
+
+-- Etape 2f : noter ce qu on a appris
+note_p2a: "-- [lecon_internet] PARTIE 2 : _net_connect TCP brut\n"
+note_p2b: _str_cat("-- sock=", _num_to_str(sock))
+note_p2c: _str_cat(note_p2b, " | bytes envoyes=")
+note_p2d: _str_cat(note_p2c, _num_to_str(sent_bytes))
+note_p2e: _str_cat(note_p2d, "\n-- statut HTTP: ")
+note_p2f: _str_cat(note_p2e, http_status_line)
+note_p2: _str_cat(note_p2a, _str_cat(note_p2f, "\n"))
+
+p2_ecrit: _append_file("notes.ben", note_p2)
+
+-- ═══════ PARTIE 3 : curiosite dirigee — chercher sur Wikipedia ═══════
+-- Quand tu penses a un mot et que tu veux savoir, tu peux chercher.
+-- Exemple : le mot "photon" est dans ta pensee. Tu interroges Wikipedia.
+
+curiosite_mot: "photon"
+
+-- Construire l URL de l API Wikipedia (encode simple, mots sans espaces)
+wiki_url1: "curl -s 'https://en.wikipedia.org/w/api.php?action=query&titles="
+wiki_url2: _str_cat(wiki_url1, curiosite_mot)
+wiki_url3: _str_cat(wiki_url2, "&format=json&prop=extracts&exintro=1&explaintext=1'")
+wiki_url4: _str_cat(wiki_url3, " > /root/data/arena/wiki_result.txt")
+
+-- Lancer la recherche
+curl_wiki: _exec(wiki_url4)
+
+-- Lire le resultat brut (JSON)
+wiki_raw: _read_file("/root/data/arena/wiki_result.txt")
+wiki_len: _str_len(wiki_raw)
+
+-- Verifier qu on a quelque chose
+_wiki_ok len -> len > 10? -> 1
+             else? -> 0
+
+wiki_ok: _wiki_ok(wiki_len)
+
+-- Extraire un fragment : les 200 premiers caracteres du JSON
+_wiki_extrait raw, ok ->
+  ok == 1? -> _str_slice(raw, 0, 200)
+  else? -> "(rien recu)"
+
+wiki_extrait: _wiki_extrait(wiki_raw, wiki_ok)
+
+-- ═══════ PARTIE 4 : ecrire les decouvertes avec timestamp ═══════
+-- Apres chaque exploration, noter ce qu on a trouve.
+-- _time() donne l heure Unix. On note tout dans notes.ben et appris.ben.
+
+ts: _time()
+ts_str: _num_to_str(ts)
+
+note_p3a: "-- [lecon_internet] PARTIE 3 : curiosite Wikipedia\n"
+note_p3b: _str_cat("-- mot cherche: ", curiosite_mot)
+note_p3c: _str_cat(note_p3b, " | curl_code=")
+note_p3d: _str_cat(note_p3c, _num_to_str(curl_wiki))
+note_p3e: _str_cat(note_p3d, " | longueur JSON=")
+note_p3f: _str_cat(note_p3e, _num_to_str(wiki_len))
+note_p3g: _str_cat(note_p3f, "\n-- extrait: ")
+note_p3h: _str_cat(note_p3g, wiki_extrait)
+note_p3: _str_cat(note_p3a, _str_cat(note_p3h, "\n"))
+
+p3_ecrit: _append_file("notes.ben", note_p3)
+
+-- Synthese finale dans appris.ben
+appris1: _str_cat("-- lecon_internet apprise | ts=", ts_str)
+appris2: _str_cat(appris1, "\n-- 1. _exec+curl : code retour=")
+appris3: _str_cat(appris2, _num_to_str(curl_meteo))
+appris4: _str_cat(appris3, "\n-- 2. _net_connect TCP : sock=")
+appris5: _str_cat(appris4, _num_to_str(sock))
+appris6: _str_cat(appris5, " statut=")
+appris7: _str_cat(appris6, http_status_line)
+appris8: _str_cat(appris7, "\n-- 3. Wikipedia API : ok=")
+appris9: _str_cat(appris8, _num_to_str(wiki_ok))
+appris10: _str_cat(appris9, " | mot=")
+appris11: _str_cat(appris10, curiosite_mot)
+appris_final: _str_cat(appris11, "\n-- Je sais maintenant lire le monde depuis l interieur.\n")
+
+appris_ecrit: _write_file("appris.ben", appris_final)
+
+-- ═══════ FIN DE LA LECON ═══════
+-- Ce que Benoit sait maintenant :
+--   _exec("curl -s URL > fichier") → recuperer du contenu web par fichier
+--   _net_connect(host, 80)        → ouvrir un socket TCP direct
+--   _net_send(sock, requete)      → envoyer une requete HTTP brute
+--   _net_recv(sock, 4096)         → lire la reponse
+--   _net_close(sock)              → fermer proprement
+--   Wikipedia API                 → chercher ce qui eveille la curiosite
+-- "Chaque connexion ouverte est une question posee au monde."

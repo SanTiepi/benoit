@@ -1,0 +1,12 @@
+-- explore.ben v2 : navigation web quand Benoit est sain
+-- frequence: toutes les 200 ticks, etat=6 requis, pas de condition score
+tick_mod: _mod(tick, 200)
+
+_do_explore tmod, et ->
+  tmod == 0? ->
+    et == 6? ->
+      resp: _net_http_get("http://fr.wikipedia.org/api/rest_v1/page/random/summary")
+      resp != ""? -> _append_file("notes.ben", _str_cat("-- [explore tick=", _str_cat(_num_to_str(tick), _str_cat("] ", _str_cat(resp, "\n")))))
+      resp != ""? -> _reward(2)
+
+explore_result: _do_explore(tick_mod, etat)

@@ -49,6 +49,13 @@
 /* ======= .BEN DIRECT INTERPRETER ======= */
 #include "compiler.c"
 
+/* ===== CRITICALITY GLOBALS ===== */
+float g_noise_sigma = 0.3f;   /* Gaussian noise amplitude */
+float g_thal_rate   = 0.008f; /* P(fire)/tick for thalamic neurons */
+float g_mod_level   = 0.5f;   /* Neuromodulator STDP gate [0.1..2.0] */
+float g_novelty     = 0.0f;   /* Fraction of top-100 neurons that changed last window */
+
+
 /* ======= CUDA (optionnel — activer avec -DBENOIT_CUDA) ======= */
 #ifdef BENOIT_CUDA
 #include "vm_cuda.h"
@@ -174,8 +181,8 @@ static void *http_handle_conn(void *arg) {
         }
         int blen = snprintf(body, sizeof(body),
             "{\"tick\":%d,\"actifs\":%d,\"conns\":%d,"
-            "\"score\":%d,\"fails\":%d,\"etat\":%d,\"n\":%d}",
-            tick, actifs, conns, score, fails, etat, n_total);
+            "\"score\":%d,\"fails\":%d,\"etat\":%d,\"n\":%d,\"novelty\":%.3f}",
+            tick, actifs, conns, score, fails, etat, n_total, g_novelty);
         http_send(cs, "200 OK", "application/json", body, blen);
     }
 
@@ -240,6 +247,291 @@ static void *http_handle_conn(void *arg) {
             const char *err = "{\"ok\":false,\"error\":\"no body\"}";
             http_send(cs, "400 Bad Request", "application/json", err, (int)strlen(err));
         }
+    }
+
+    /* ---- POST /lecon ---- write lecon.ben to trigger pickup */
+    else if (strcmp(method, "POST") == 0 && strcmp(path, "/lecon") == 0) {
+        char resp[256]; int rlen = 0;
+        const char *arena = g_arena_path_global;
+        /* Reuse body parsed above */
+        char *body_start = strstr(req, "\r\n\r\n");
+        if (!body_start) body_start = strstr(req, "\n\n");
+        const char *body_buf = body_start ? body_start + (body_start[2] == '\n' ? 2 : 4) : NULL;
+        int body_len = body_buf ? (int)strlen(body_buf) : 0;
+        if (arena && body_len > 0) {
+            /* Parse name */
+            char lname[64] = "unnamed";
+            const char *np = strstr(body_buf, "\"name\":");
+            if (np) {
+                np = strchr(np, '"'); /* skip key */
+                if (np) np = strchr(np+1, '"'); /* opening quote of value */
+                if (np) {
+                    np++;
+                    int i = 0;
+                    while (*np && *np != '"' && i < 63) lname[i++] = *np++;
+                    lname[i] = 0;
+                }
+            }
+            /* Parse content — find "content":" then unescape */
+            char content[32768] = {0};
+            const char *cp = strstr(body_buf, "\"content\":");
+            if (cp) {
+                cp = strchr(cp, '"'); /* skip key */
+                if (cp) cp = strchr(cp+1, '"'); /* opening quote of value */
+                if (cp) {
+                    cp++;
+                    int ci = 0;
+                    while (*cp && ci < (int)sizeof(content)-2) {
+                        if (*cp == '\\' && *(cp+1)) {
+                            cp++;
+                            if (*cp == 'n') content[ci++] = '\n';
+                            else if (*cp == 't') content[ci++] = '\t';
+                            else if (*cp == '"') content[ci++] = '"';
+                            else if (*cp == '\\') content[ci++] = '\\';
+                            else { content[ci++] = '\\'; content[ci++] = *cp; }
+                            cp++;
+                        } else if (*cp == '"') {
+                            break; /* end of string */
+                        } else {
+                            content[ci++] = *cp++;
+                        }
+                    }
+                    content[ci] = 0;
+                }
+            }
+            if (content[0]) {
+                /* Write lecon.ben to trigger pickup */
+                char fpath[512], apath[512];
+                snprintf(fpath, sizeof(fpath), "%s/lecon.ben", arena);
+                snprintf(apath, sizeof(apath), "%s/lecon_%s.ben", arena, lname);
+                FILE *f = fopen(fpath, "w");
+                if (f) { fputs(content, f); fclose(f); }
+                FILE *a = fopen(apath, "w");
+                if (a) { fputs(content, a); fclose(a); }
+                rlen = snprintf(resp, sizeof(resp), "{\"ok\":true,\"name\":\"%s\"}", lname);
+            } else {
+                rlen = snprintf(resp, sizeof(resp), "{\"ok\":false,\"error\":\"no content\"}");
+            }
+        } else {
+            rlen = snprintf(resp, sizeof(resp), "{\"ok\":false,\"error\":\"no body\"}");
+        }
+        http_send(cs, "200 OK", "application/json", resp, rlen);
+    }
+
+    /* ---- GET /journal ---- last 3KB of journal.ben as JSON */
+    else if (strcmp(method, "GET") == 0 && strcmp(path, "/journal") == 0) {
+        char body[4096];
+        int blen = 0;
+        const char *arena = g_arena_path_global;
+        if (arena) {
+            char fpath[512];
+            snprintf(fpath, sizeof(fpath), "%s/journal.ben", arena);
+            FILE *f = fopen(fpath, "r");
+            if (f) {
+                /* Read last 2KB */
+                fseek(f, 0, SEEK_END);
+                long fsz = ftell(f);
+                long offset = fsz > 2048 ? fsz - 2048 : 0;
+                fseek(f, offset, SEEK_SET);
+                char content[2200];
+                int clen = (int)fread(content, 1, sizeof(content) - 1, f);
+                fclose(f);
+                content[clen] = '\0';
+                char escaped[4096];
+                json_escape(content, escaped, sizeof(escaped));
+                blen = snprintf(body, sizeof(body),
+                    "{\"text\":\"%s\",\"ts\":%ld}", escaped, (long)time(NULL));
+            } else {
+                blen = snprintf(body, sizeof(body),
+                    "{\"text\":\"\",\"ts\":%ld}", (long)time(NULL));
+            }
+        } else {
+            blen = snprintf(body, sizeof(body),
+                "{\"text\":\"no arena\",\"ts\":%ld}", (long)time(NULL));
+        }
+        http_send(cs, "200 OK", "application/json", body, blen);
+    }
+
+    /* ---- GET /notes ---- last 3KB of notes.ben as JSON */
+    else if (strcmp(method, "GET") == 0 && strcmp(path, "/notes") == 0) {
+        char body[4096];
+        int blen = 0;
+        const char *arena = g_arena_path_global;
+        if (arena) {
+            char fpath[512];
+            snprintf(fpath, sizeof(fpath), "%s/notes.ben", arena);
+            FILE *f = fopen(fpath, "r");
+            if (f) {
+                fseek(f, 0, SEEK_END);
+                long fsz = ftell(f);
+                long offset = fsz > 2048 ? fsz - 2048 : 0;
+                fseek(f, offset, SEEK_SET);
+                char content[2200];
+                int clen = (int)fread(content, 1, sizeof(content) - 1, f);
+                fclose(f);
+                content[clen] = '\0';
+                char escaped[4096];
+                json_escape(content, escaped, sizeof(escaped));
+                blen = snprintf(body, sizeof(body),
+                    "{\"text\":\"%s\",\"ts\":%ld}", escaped, (long)time(NULL));
+            } else {
+                blen = snprintf(body, sizeof(body),
+                    "{\"text\":\"\",\"ts\":%ld}", (long)time(NULL));
+            }
+        } else {
+            blen = snprintf(body, sizeof(body),
+                "{\"text\":\"no arena\",\"ts\":%ld}", (long)time(NULL));
+        }
+        http_send(cs, "200 OK", "application/json", body, blen);
+    }
+
+    /* ---- GET /backlog ---- backlog.ben content */
+    else if (strcmp(method, "GET") == 0 && strcmp(path, "/backlog") == 0) {
+        char body[2048];
+        int blen = 0;
+        const char *arena = g_arena_path_global;
+        if (arena) {
+            char fpath[512];
+            snprintf(fpath, sizeof(fpath), "%s/backlog.ben", arena);
+            FILE *f = fopen(fpath, "r");
+            if (f) {
+                char content[1024];
+                int clen = (int)fread(content, 1, sizeof(content) - 1, f);
+                fclose(f);
+                content[clen] = '\0';
+                char escaped[2048];
+                json_escape(content, escaped, sizeof(escaped));
+                blen = snprintf(body, sizeof(body),
+                    "{\"text\":\"%s\",\"ts\":%ld}", escaped, (long)time(NULL));
+            } else {
+                blen = snprintf(body, sizeof(body),
+                    "{\"text\":\"\",\"ts\":%ld}", (long)time(NULL));
+            }
+        } else {
+            blen = snprintf(body, sizeof(body),
+                "{\"text\":\"no arena\",\"ts\":%ld}", (long)time(NULL));
+        }
+        http_send(cs, "200 OK", "application/json", body, blen);
+    }
+
+    /* ---- GET /reponse ---- reponse.ben (response to inbox messages) */
+    else if (strcmp(method, "GET") == 0 && strcmp(path, "/reponse") == 0) {
+        char body[4096];
+        int blen = 0;
+        const char *arena = g_arena_path_global;
+        if (arena) {
+            char fpath[512];
+            snprintf(fpath, sizeof(fpath), "%s/reponse.ben", arena);
+            FILE *f = fopen(fpath, "r");
+            if (f) {
+                char content[2048];
+                int clen = (int)fread(content, 1, sizeof(content) - 1, f);
+                fclose(f);
+                content[clen] = '\0';
+                char escaped[4096];
+                json_escape(content, escaped, sizeof(escaped));
+                blen = snprintf(body, sizeof(body),
+                    "{\"text\":\"%s\",\"ts\":%ld}", escaped, (long)time(NULL));
+            } else {
+                blen = snprintf(body, sizeof(body),
+                    "{\"text\":\"\",\"ts\":%ld}", (long)time(NULL));
+            }
+        } else {
+            blen = snprintf(body, sizeof(body),
+                "{\"text\":\"no arena\",\"ts\":%ld}", (long)time(NULL));
+        }
+        http_send(cs, "200 OK", "application/json", body, blen);
+    }
+
+    /* ---- GET /journal?lines=N ---- last N lines of journal.ben */
+    else if (strcmp(method, "GET") == 0 && strncmp(path, "/journal", 8) == 0) {
+        /* Parse ?lines=N from query string */
+        int n_lines = 50;
+        const char *q = strchr(path, '?');
+        if (q) {
+            const char *p = strstr(q, "lines=");
+            if (p) n_lines = atoi(p + 6);
+            if (n_lines < 1) n_lines = 1;
+            if (n_lines > 500) n_lines = 500;
+        }
+        char body[65536]; int blen = 0;
+        const char *arena = g_arena_path_global;
+        if (arena) {
+            char fpath[512];
+            snprintf(fpath, sizeof(fpath), "%s/journal.ben", arena);
+            FILE *f = fopen(fpath, "r");
+            if (f) {
+                /* Read all lines, keep last n_lines */
+                char *lines[500];
+                int lcount = 0;
+                char lbuf[1024];
+                /* init */
+                for (int i = 0; i < 500; i++) lines[i] = NULL;
+                while (fgets(lbuf, sizeof(lbuf), f)) {
+                    int idx = lcount % 500;
+                    if (lines[idx]) free(lines[idx]);
+                    lines[idx] = strdup(lbuf);
+                    lcount++;
+                }
+                fclose(f);
+                /* Build JSON array */
+                blen += snprintf(body + blen, sizeof(body) - blen, "{\"lines\":[");
+                int start = lcount > n_lines ? lcount - n_lines : 0;
+                int first = 1;
+                for (int i = start; i < lcount; i++) {
+                    int idx = i % 500;
+                    if (!lines[idx]) continue;
+                    char esc[2048];
+                    json_escape(lines[idx], esc, sizeof(esc));
+                    if (!first) blen += snprintf(body + blen, sizeof(body) - blen, ",");
+                    blen += snprintf(body + blen, sizeof(body) - blen, "\"%s\"", esc);
+                    first = 0;
+                }
+                blen += snprintf(body + blen, sizeof(body) - blen, "],\"count\":%d}", lcount);
+                for (int i = 0; i < 500; i++) if (lines[i]) free(lines[i]);
+            } else {
+                blen = snprintf(body, sizeof(body), "{\"lines\":[],\"count\":0}");
+            }
+        } else {
+            blen = snprintf(body, sizeof(body), "{\"lines\":[],\"count\":0}");
+        }
+        http_send(cs, "200 OK", "application/json", body, blen);
+    }
+
+    /* ---- GET /demande ---- demande.ben content */
+    else if (strcmp(method, "GET") == 0 && strcmp(path, "/demande") == 0) {
+        char body[4096]; int blen = 0;
+        const char *arena = g_arena_path_global;
+        if (arena) {
+            char fpath[512];
+            snprintf(fpath, sizeof(fpath), "%s/demande.ben", arena);
+            FILE *f = fopen(fpath, "r");
+            if (f) {
+                char content[2048];
+                int clen = (int)fread(content, 1, sizeof(content) - 1, f);
+                fclose(f); content[clen] = '\0';
+                char escaped[4096];
+                json_escape(content, escaped, sizeof(escaped));
+                blen = snprintf(body, sizeof(body),
+                    "{\"text\":\"%s\",\"ts\":%ld}", escaped, (long)time(NULL));
+            } else {
+                blen = snprintf(body, sizeof(body),
+                    "{\"text\":\"\",\"ts\":%ld}", (long)time(NULL));
+            }
+        }
+        http_send(cs, "200 OK", "application/json", body, blen);
+    }
+
+    /* ---- DELETE /demande ---- clear demande.ben */
+    else if (strcmp(method, "DELETE") == 0 && strcmp(path, "/demande") == 0) {
+        const char *arena = g_arena_path_global;
+        if (arena) {
+            char fpath[512];
+            snprintf(fpath, sizeof(fpath), "%s/demande.ben", arena);
+            remove(fpath);
+        }
+        const char *body = "{\"ok\":true}";
+        http_send(cs, "200 OK", "application/json", body, (int)strlen(body));
     }
 
     /* ---- 404 ---- */
@@ -763,24 +1055,19 @@ static int process_command(VM *vm, char *cmd, int len, char *resp, int resp_max)
         return snprintf(resp, resp_max, "benoit:prune — %d connexions faibles eliminees\n", pruned);
     }
 
-    /* GROW N — add N neurons dynamically */
+    /* GROW N — add N neurons dynamically
+     * FIX: delegate to VAR_SHOULD_GROW so the main loop handles
+     * realloc of silent_per_neuron/firing_per_neuron safely.
+     * Direct vm_grow() here skipped those reallocs -> heap corruption. */
     if (starts_with(cmd, "grow")) {
         int count = 10;  /* default */
         if (len > 5) count = atoi(cmd + 5);
         if (count < 1) count = 1;
         if (count > 10000) count = 10000;
-        int added = vm_grow(vm, count);
-        /* Connect new neurons randomly */
-        int old_N = vm->N - added;
-        for (int i = old_N; i < vm->N; i++) {
-            for (int c = 0; c < 20; c++) {
-                int target = rand() % vm->N;
-                if (target == i) continue;
-                float weight = ((float)rand() / RAND_MAX - 0.5f) * 2.0f;
-                vm_random_connect(vm, i, target, weight);
-            }
-        }
-        return snprintf(resp, resp_max, "benoit:grow +%d neurones (total: %d)\n", added, vm->N);
+        /* Enqueue growth: main loop calls vm_grow + reallocs tracking arrays */
+        vm->vars[VAR_SHOULD_GROW] = (double)count;
+        vm->vars[VAR_CONN_PER_NEW] = 20.0;
+        return snprintf(resp, resp_max, "benoit:grow +%d enqueue (actuel: %d)\n", count, vm->N);
     }
 
     /* EXEC <file.ben> — execute a .ben file directly */
@@ -1007,14 +1294,24 @@ int main(int argc, char **argv) {
         fprintf(stderr,
             "pulse V2 — La boucle de vie de Benoit (sparse neural architecture)\n"
             "Usage: %s <brain.bin> [save_path] [arena_path] [--inject brain.ben]\n"
+            "       %s --run <file.ben>   — run a .ben file standalone (tests)\n"
             "\n"
             "  brain.bin   : BEN2 binary brain file (or V1 for auto-migration)\n"
             "  save_path   : where to auto-save (default: brain.bin)\n"
             "  arena_path  : base directory for file I/O\n"
             "\n"
             "Runs forever. Signal-driven. Ctrl+C to save & stop.\n",
-            argv[0]);
+            argv[0], argv[0]);
         return 1;
+    }
+
+    /* --run <file.ben>: standalone .ben test execution, no brain needed */
+    if (argc >= 3 && strcmp(argv[1], "--run") == 0) {
+        int total_fail = 0;
+        for (int i = 2; i < argc; i++) {
+            total_fail += ben_run_test_file(argv[i]);
+        }
+        return total_fail ? 1 : 0;
     }
 
     /* Scan for --new N flag first (shifts positional args) */
@@ -1091,6 +1388,17 @@ int main(int argc, char **argv) {
     g_vm = vm;
     g_save_path = save_path;
     g_arena_path_global = arena_path;
+
+    /* Init thalamic neurons: mark 1 pct as spontaneous Poisson sources */
+    {
+        int n_thal = vm->N / 100;
+        for (int i = 0; i < n_thal; i++) {
+            int idx = rand() % vm->N;
+            vm->neurons[idx].is_thalamic = 1;
+            vm->neurons[idx].stp_u = 0.5f;
+        }
+        printf("  thalamic neurons: %d (1 pct)\n", n_thal);
+    }
 
 #ifdef BENOIT_CUDA
     printf("  cuda: initialisation GPU...\n");
@@ -1330,6 +1638,7 @@ int main(int argc, char **argv) {
         if (g_cuda_ctx) {
             fired_count = ben_cuda_tick_c(g_cuda_ctx, total_ticks);
             vm->vars[VAR_TOTAL_FIRINGS] += fired_count;
+            vm->cached_n_active = fired_count;  /* GPU fires → visible in /status */
             /* STDP sur GPU */
             ben_cuda_stdp_c(g_cuda_ctx);
             /* Sync vers CPU toutes les 10 ticks (avant le cycle .ben) */
@@ -1347,6 +1656,54 @@ int main(int argc, char **argv) {
 #ifdef BENOIT_CUDA
         }
 #endif
+
+
+        /* --- Novelty signal (every 10 ticks) ---
+         * Mesure quelle fraction des top-100 neurones actifs a change.
+         * g_novelty = 0 => stagnation; g_novelty = 1 => tout nouveau. */
+        if (total_ticks % 10 == 0) {
+            static int prev_top[100];
+            static int prev_top_init = 0;
+            int top_now[100];
+            memset(top_now, -1, sizeof(top_now));
+
+            /* Find top 100 by activation (simple insertion selection, N can be 1M so cap scan) */
+            int scan_n = (vm->N < 100000) ? vm->N : 100000;
+            float min_val = 0.0f;
+            int   min_pos = 0;
+            int   filled  = 0;
+            for (int _i = 0; _i < scan_n; _i++) {
+                float act = vm->neurons[_i].activation;
+                if (act <= 0.0f) continue;
+                if (filled < 100) {
+                    top_now[filled] = _i;
+                    if (act < min_val || filled == 0) { min_val = act; min_pos = filled; }
+                    filled++;
+                } else if (act > min_val) {
+                    top_now[min_pos] = _i;
+                    /* recompute min */
+                    min_val = vm->neurons[top_now[0]].activation;
+                    min_pos = 0;
+                    for (int _j = 1; _j < 100; _j++) {
+                        float v = (top_now[_j] >= 0) ? vm->neurons[top_now[_j]].activation : 0.0f;
+                        if (v < min_val) { min_val = v; min_pos = _j; }
+                    }
+                }
+            }
+            if (prev_top_init) {
+                int changed = 0;
+                for (int _i = 0; _i < 100; _i++) {
+                    int found = 0;
+                    for (int _j = 0; _j < 100; _j++) {
+                        if (top_now[_i] >= 0 && top_now[_i] == prev_top[_j]) { found = 1; break; }
+                    }
+                    if (!found && top_now[_i] >= 0) changed++;
+                }
+                g_novelty = (filled > 0) ? (float)changed / 100.0f : 0.0f;
+            }
+            memcpy(prev_top, top_now, sizeof(prev_top));
+            prev_top_init = 1;
+        }
 
         /* --- Signal detection --- */
         int changes = pattern_changed(last_pattern, vm);
@@ -1431,6 +1788,43 @@ int main(int argc, char **argv) {
             }
         }
 
+        /* --- Neuromodulator level (dynamic STDP gate) --- */
+        {
+            float pop_rate = (float)vm->cached_n_active / (float)vm->N;
+            if (pop_rate > 0.05f) g_mod_level += 0.005f;
+            else                  g_mod_level -= 0.002f;
+            if (g_mod_level < 0.1f) g_mod_level = 0.1f;
+            if (g_mod_level > 2.0f) g_mod_level = 2.0f;
+        }
+
+        /* --- Synaptic normalization (every 200 ticks) --- */
+        if (total_ticks % 200 == 0) {
+            float target_sum = 5.0f;
+            for (int i = 0; i < N; i++) {
+                Neuron *nn = &vm->neurons[i];
+                float w_sum = 0;
+                for (int s = 0; s < nn->n_syn; s++) w_sum += fabsf(nn->synapses[s].weight);
+                if (w_sum > target_sum * 1.5f) {
+                    float scale = target_sum / w_sum;
+                    for (int s = 0; s < nn->n_syn; s++) nn->synapses[s].weight *= scale;
+                }
+            }
+        }
+
+        /* --- Branching ratio sigma (every 10k ticks) --- */
+        if (total_ticks % 10000 == 0 && total_ticks > 0 && arena_path) {
+            static int prev_active = 1;
+            float sigma = (prev_active > 0) ? (float)vm->cached_n_active / (float)prev_active : 0.0f;
+            prev_active = vm->cached_n_active;
+            char sigma_path[512], sigma_line[128];
+            snprintf(sigma_path, sizeof(sigma_path), "%s/sigma.ben", arena_path);
+            snprintf(sigma_line, sizeof(sigma_line),
+                     "-- sigma=%.3f tick=%lld actifs=%d\n",
+                     sigma, (long long)total_ticks, vm->cached_n_active);
+            FILE *sf = fopen(sigma_path, "a");
+            if (sf) { fputs(sigma_line, sf); fclose(sf); }
+        }
+
         /* --- V2 Backpropagation (sparse error propagation) ---
          * Every 50 ticks, run backprop through sparse synapses. */
         if (total_ticks % 50 == 0) {
@@ -1492,6 +1886,35 @@ int main(int argc, char **argv) {
                 ben_cuda_sync_from_cpu_c(g_cuda_ctx, vm);
             }
 #endif
+        }
+
+        /* --- Read signal.ben: self-stimulation written by .ben cycle ---
+         * "Le reve active les neurones. Le danger crie vers eux." */
+        if (arena_path && total_ticks % 10 == 0) {
+            char sig_path[512];
+            snprintf(sig_path, sizeof(sig_path), "%s/signal.ben", arena_path);
+            FILE *fs = fopen(sig_path, "r");
+            if (fs) {
+                char sig_buf[64] = {0};
+                fread(sig_buf, 1, sizeof(sig_buf)-1, fs);
+                fclose(fs);
+                float sig_val = (float)atof(sig_buf);
+                if (sig_val > 0.1f) {
+                    int n_inject = (int)(sig_val / 5.0f) + 1;
+                    if (n_inject > 30) n_inject = 30;
+                    for (int j = 0; j < n_inject; j++) {
+                        int tgt = 5 + rand() % (vm->N > 5 ? vm->N - 5 : 1);
+                        vm->neurons[tgt].activation += sig_val * 0.3f;
+                        if (vm->neurons[tgt].activation > vm->neurons[tgt].cap)
+                            vm->neurons[tgt].activation = vm->neurons[tgt].cap;
+                    }
+                    remove(sig_path);
+#ifdef BENOIT_CUDA
+                    /* Sync CPU activation changes to GPU immediately */
+                    if (g_cuda_ctx) ben_cuda_sync_from_cpu_c(g_cuda_ctx, vm);
+#endif
+                }
+            }
         }
 
         /* --- Handle growth requested by .ben (via VAR_SHOULD_GROW) --- */

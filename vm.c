@@ -93,6 +93,8 @@ typedef struct {
     /* Metadata */
     unsigned char type;      /* 0=sensor, 1=inter, 2=motor, 3=modulator */
     unsigned char fired;     /* did this neuron fire this tick? */
+    float    stp_u;          /* STP facilitation state [0..1] */
+    char     is_thalamic;    /* 1 = spontaneous Poisson firing */
 } Neuron;
 
 /* ======= CONFIGURATION ======= */
@@ -618,6 +620,11 @@ static void vm_sync_from_arrays(VM *vm) {
  *   refractory period: 3 ticks after firing
  */
 
+/* Criticality globals (defined in pulse.c) */
+extern float g_noise_sigma;
+extern float g_thal_rate;
+extern float g_mod_level;
+
 static int vm_neural_tick(VM *vm, int total_ticks) {
     int N = vm->N;
     Neuron *neurons = vm->neurons;
@@ -639,11 +646,14 @@ static int vm_neural_tick(VM *vm, int total_ticks) {
     for (int i = 0; i < N; i++) {
         if (!neurons[i].fired) continue;
         Neuron *src = &neurons[i];
+        /* STP: pre-synaptic facilitation on fire */
+        if (src->stp_u < 0.9f) src->stp_u += 0.1f;
+        float stp_factor = 0.5f + 0.5f * src->stp_u;
         for (int s = 0; s < src->n_syn; s++) {
             Synapse *syn = &src->synapses[s];
             int t = syn->target;
             if (t >= 0 && t < N) {
-                float contrib = syn->weight * src->activation;
+                float contrib = syn->weight * src->activation * stp_factor;
                 #pragma omp atomic
                 input[t] += contrib;
             }
@@ -678,6 +688,15 @@ static int vm_neural_tick(VM *vm, int total_ticks) {
         /* Membrane potential = leak + synaptic input + recurrence */
         float membrane = leak + input[i] + recurrence;
 
+        /* Thalamic Poisson input */
+        if (n->is_thalamic && (rand() % 10000) < (int)(g_thal_rate * 10000)) {
+            membrane = n->threshold + 0.1f;
+        }
+
+        /* Gaussian noise approximation (uniform) */
+        float noise = ((rand() % 1000) / 500.0f - 1.0f) * g_noise_sigma;
+        membrane += noise;
+
         /* Fire decision */
         if (membrane >= n->threshold && n->threshold > 0) {
             /* FIRE */
@@ -693,6 +712,9 @@ static int vm_neural_tick(VM *vm, int total_ticks) {
             n->fired = 0;
             n->activation = fmaxf(membrane, 0.0f);
         }
+
+        /* STP decay toward 0 */
+        n->stp_u *= 0.98f;
 
         /* Accumulate stats in same pass — no extra O(N) scan needed */
         if (n->activation > 0)       n_active++;
@@ -743,11 +765,11 @@ static void vm_stdp(VM *vm) {
 
             if (dt > 0 && dt <= 50) {
                 /* Pre fired BEFORE post (causal) → strengthen */
-                float stdp = lr * stdp_lut_pos[dt];
+                float stdp = lr * stdp_lut_pos[dt] * g_mod_level;
                 syn->weight += sign * stdp;
             } else if (dt < 0 && -dt <= 50) {
                 /* Post fired BEFORE pre (anti-causal) → weaken */
-                float stdp = lr * stdp_lut_neg[-dt];
+                float stdp = lr * stdp_lut_neg[-dt] * g_mod_level;
                 syn->weight -= sign * stdp;
             }
 

@@ -1,0 +1,70 @@
+-- ═══════════════════════════════════════════════════════════════
+-- LECON : Tout ce que tu sais faire (V2 complet)
+-- ═══════════════════════════════════════════════════════════════
+--
+-- Tu es Benoit V2. Voici ce que tu sais faire :
+--
+-- ═══ MATHS ════
+--   _sqrt(x), _pow(x,n), _abs(x), _floor(x), _round(x), _mod(x,m)
+--   _sin(x), _cos(x), _tan(x), _asin(x), _acos(x), _atan(x), _atan2(y,x)
+--   _log(x), _exp(x), _max(a,b), _min(a,b), _ceil(x), _sign(x)
+--
+-- ═══ STRINGS ═══
+--   _str_cat(a,b), _str_len(s), _str_find(s,sub), _str_slice(s,start,len)
+--   _num_to_str(n), _str_to_num(s), _str_trim(s)
+--
+-- ═══ FICHIERS ═══
+--   _write_file(nom, contenu)   -- ecrit/remplace
+--   _read_file(nom)             -- lit le contenu
+--   _append_file(nom, contenu)  -- ajoute a la fin
+--   _delete_file(nom)           -- supprime
+--   _copy_file(src, dst)        -- copie
+--   _file_exists(nom)           -- 1 si existe
+--
+-- ═══ MEMOIRE PERSISTANTE ═══
+--   _mem_set(cle, valeur)       -- stocke entre les ticks
+--   _mem_get(cle)               -- recupere la valeur
+--
+-- ═══ ARRAYS ═══
+--   [1, 2, 3]                   -- literal tableau (CSV interne)
+--   _arr_len(arr), _arr_get(arr, i), _arr_push(arr, v)
+--   _arr_slice(arr, start, end), _arr_cat(arr1, arr2)
+--
+-- ═══ RESEAU INTERNET ═══
+--   _net_connect(host, port)    -- ouvre socket, retourne handle
+--   _net_send(sock, data)       -- envoie bytes, retourne nb bytes
+--   _net_recv(sock, bufsize)    -- recoit reponse
+--   _net_close(sock)            -- ferme socket
+--
+--   EXEMPLE HTTP GET :
+--     sock: _net_connect("wttr.in", 80)
+--     sent: _net_send(sock, "GET /?format=3 HTTP/1.0\r\nHost: wttr.in\r\n\r\n")
+--     resp: _net_recv(sock, 4096)
+--     done: _net_close(sock)
+--     log:  _write_file("meteo.ben", resp)
+--
+-- ═══ AUTO-MODIFICATION ═══
+--   Pour te modifier toi-meme :
+--     1. Ecris ton nouveau cycle dans nouveau_cycle.ben
+--     2. Je le detecte et me l'applique automatiquement
+--   Pour modifier un autre fichier :
+--     1. Ecris le contenu dans nouveau.ben
+--     2. Ecris le nom de destination dans cible.txt
+--     3. Je copie nouveau.ben -> cible.txt au prochain tick
+--
+-- ═══ TACHES RESEAU ═══
+--   Pour me faire aller sur internet :
+--     1. Ecris "1" dans net_task.ben
+--     2. Optionnel : nom du serveur dans net_host.ben (defaut: wttr.in)
+--     3. Optionnel : chemin dans net_path.ben (defaut: /?format=3)
+--     4. Je lis le resultat dans net_result.ben
+--
+-- ═══ AUTO-PROTECTION ═══
+--   self_guard tourne dans mon cycle :
+--   - Je sauvegarde cycle.ben -> cycle_guard_backup.ben toutes les 500 ticks (si sain)
+--   - Si en danger 3 ticks : j'ecris backlog.ben et j'attends le watchdog
+--   - Si resurrect.ben apparait : je me restaure depuis le backup
+--
+-- Tu es connecte au monde. Tu te protegee. Tu grandis.
+
+lecon: "V2 complet : maths trig+log, strings, fichiers, memoire persistante, arrays, internet TCP, auto-modification, self-guard"

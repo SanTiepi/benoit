@@ -2,8 +2,10 @@
 pulse
 pulse_cuda
 pulse_omp
+pulse_test
 pulse_omp.exe
 pulse_test.exe
+pulse.exe
 pulse_v2.exe
 pulse_v2_new.exe
 pulse_cuda.exe
@@ -12,6 +14,7 @@ pulse_cuda.exe
 1000
 1000_new
 1000_test
+--help
 
 # Brain files (large binary)
 *.bin
@@ -25,6 +28,19 @@ arena/appris.ben
 arena/diag.txt
 arena/diag2.txt
 arena/prev_state.ben
+arena/notes.ben
+arena/journal.ben
+arena/semantic.ben
+arena/sigma.ben
+arena/demande.ben
+arena/progression.ben
+arena/backlog.ben
+arena/rapport.ben
+arena/reponses_ia/
+arena/firing_count.txt
+arena/silent_count.txt
+arena/keys/
+arena/labo/
 
 # Experiment logs (too noisy for public repo)
 arena/_logs/

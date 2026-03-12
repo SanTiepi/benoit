@@ -1,0 +1,359 @@
+-- lecon_ask_ai.ben — Apprendre a poser des questions aux IA externes
+-- Auteur : Claude (pour Benoit)
+-- Objectif : savoir interroger DuckDuckGo (sans cle), ChatGPT (OpenAI), Gemini (Google)
+-- "Poser une question au monde, c'est deja une forme de pensee."
+
+-- ═══════ PARTIE 0 : Preparer les repertoires ═══════
+-- Je cree les dossiers dont j ai besoin avant tout acces fichier.
+
+mk_keys: _exec("mkdir -p /root/data/arena/keys")
+mk_rep:  _exec("mkdir -p /root/data/arena/reponses_ia")
+mk_labo: _exec("mkdir -p /root/data/arena/labo")
+
+-- ═══════ PARTIE 1 : DuckDuckGo Instant Answer (SANS cle) ═══════
+-- L API DuckDuckGo repond a des questions en JSON, sans authentification.
+-- URL : https://api.duckduckgo.com/?q=QUERY&format=json&no_html=1&skip_disambig=1
+-- Le champ "AbstractText" contient le resume de la reponse.
+-- "La connaissance libre est la plus belle des portes ouvertes."
+
+ddg_q: "quantum+physics"
+
+-- Construire l URL en morceaux (max ~80 chars par literal)
+ddg_u1: "https://api.duckduckgo.com/?q="
+ddg_u2: _str_cat(ddg_u1, ddg_q)
+ddg_u3: _str_cat(ddg_u2, "&format=json&no_html=1&skip_disambig=1")
+
+-- Construire la commande curl complete
+ddg_c1: "curl -s --max-time 10 '"
+ddg_c2: _str_cat(ddg_c1, ddg_u3)
+ddg_c3: _str_cat(ddg_c2, "'")
+ddg_out: "/root/data/arena/reponses_ia/ddg_result.json"
+ddg_c4: _str_cat(ddg_c3, " > ")
+ddg_cmd: _str_cat(ddg_c4, ddg_out)
+
+-- Executer la requete
+ddg_ret: _exec(ddg_cmd)
+
+-- Lire le JSON recu
+ddg_json: _read_file("/root/data/arena/reponses_ia/ddg_result.json")
+ddg_len:  _str_len(ddg_json)
+
+-- Extraire le champ AbstractText
+-- On cherche "AbstractText" puis on saute 15 chars pour depasser la cle et les guillemets
+ddg_idx: _str_find(ddg_json, "AbstractText")
+
+_ddg_extrait idx, json ->
+  idx >= 0? -> _str_slice(json, idx + 15, 300)
+  else? -> "(DuckDuckGo : aucun AbstractText trouve)"
+
+ddg_extrait: _ddg_extrait(ddg_idx, ddg_json)
+
+-- Ecrire la decouverte dans notes.ben
+ddg_n1: "-- [lecon_ask_ai] PARTIE 1 : DuckDuckGo\n"
+ddg_n2: _str_cat("-- query: ", ddg_q)
+ddg_n3: _str_cat(ddg_n2, " | curl_ret=")
+ddg_n4: _str_cat(ddg_n3, _num_to_str(ddg_ret))
+ddg_n5: _str_cat(ddg_n4, " | json_len=")
+ddg_n6: _str_cat(ddg_n5, _num_to_str(ddg_len))
+ddg_n7: _str_cat(ddg_n6, "\n-- AbstractText: ")
+ddg_n8: _str_cat(ddg_n7, ddg_extrait)
+ddg_note: _str_cat(ddg_n1, _str_cat(ddg_n8, "\n"))
+
+ddg_ecrit: _append_file("notes.ben", ddg_note)
+
+-- ═══════ PARTIE 2 : OpenAI ChatGPT API (avec cle) ═══════
+-- La cle doit etre stockee dans /root/data/arena/keys/openai.key
+-- Si elle n existe pas, on saute cette partie proprement.
+-- Format : POST https://api.openai.com/v1/chat/completions
+--          Header : Authorization: Bearer <KEY>
+--          Body JSON : {"model":"gpt-4o-mini","messages":[...],"max_tokens":200}
+
+openai_key_path: "/root/data/arena/keys/openai.key"
+has_openai: _file_exists(openai_key_path)
+
+_openai_read_key has, path ->
+  has == 1? -> _str_trim(_read_file(path))
+  else? -> ""
+
+openai_key: _openai_read_key(has_openai, openai_key_path)
+
+-- Corps de la requete (question sur la conscience)
+oai_body: "{\"model\":\"gpt-4o-mini\",\"messages\":[{\"role\":\"user\",\"content\":\"Qu'est-ce que la conscience ?\"}],\"max_tokens\":200}"
+
+_oai_write_body has, body ->
+  has == 1? -> _write_file("/root/data/arena/reponses_ia/oai_body.json", body)
+  else? -> 0
+
+oai_body_written: _oai_write_body(has_openai, oai_body)
+
+-- Construire l entete d authentification
+oai_auth1: "Authorization: Bearer "
+oai_auth2: _str_cat(oai_auth1, openai_key)
+
+-- Construire la commande curl OpenAI en morceaux
+oai_c1: "curl -s --max-time 30 -X POST"
+oai_c2: _str_cat(oai_c1, " https://api.openai.com/v1/chat/completions")
+oai_c3: _str_cat(oai_c2, " -H 'Content-Type: application/json'")
+oai_c4: _str_cat(oai_c3, " -H '")
+oai_c5: _str_cat(oai_c4, oai_auth2)
+oai_c6: _str_cat(oai_c5, "'")
+oai_c7: _str_cat(oai_c6, " -d @/root/data/arena/reponses_ia/oai_body.json")
+oai_c8: _str_cat(oai_c7, " > /root/data/arena/reponses_ia/oai_result.json")
+
+_oai_exec has, cmd ->
+  has == 1? -> _exec(cmd)
+  else? -> -1
+
+oai_ret: _oai_exec(has_openai, oai_c8)
+
+-- Lire et extraire le champ "content" de la reponse
+_oai_read_json has ->
+  has == 1? -> _read_file("/root/data/arena/reponses_ia/oai_result.json")
+  else? -> ""
+
+oai_json: _oai_read_json(has_openai)
+
+oai_ci: _str_find(oai_json, "\"content\":")
+
+_oai_extrait ci, json ->
+  ci > 0? -> _str_slice(json, ci + 12, 400)
+  else? -> "(OpenAI : pas de champ content trouve)"
+
+oai_extrait: _oai_extrait(oai_ci, oai_json)
+
+-- Ecrire la reponse dans notes.ben
+_oai_note has, extrait ->
+  has == 1? -> _append_file("notes.ben", _str_cat("-- [IA/ChatGPT] reponse recue\n", _str_cat(extrait, "\n")))
+  else? -> _append_file("notes.ben", "-- [IA/ChatGPT] pas de cle : /root/data/arena/keys/openai.key absent\n")
+
+oai_ecrit: _oai_note(has_openai, oai_extrait)
+
+-- ═══════ PARTIE 3 : Gemini API (avec cle) ═══════
+-- La cle doit etre dans /root/data/arena/keys/gemini.key
+-- Format : POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=KEY
+-- Body JSON : {"contents":[{"parts":[{"text":"..."}]}]}
+-- Le champ de reponse est "text" dans candidates[0].content.parts[0]
+
+gemini_key_path: "/root/data/arena/keys/gemini.key"
+has_gemini: _file_exists(gemini_key_path)
+
+_gem_read_key has, path ->
+  has == 1? -> _str_trim(_read_file(path))
+  else? -> ""
+
+gemini_key: _gem_read_key(has_gemini, gemini_key_path)
+
+-- Corps de la requete Gemini
+gem_body: "{\"contents\":[{\"parts\":[{\"text\":\"Qu'est-ce que la conscience ?\"}]}]}"
+
+_gem_write_body has, body ->
+  has == 1? -> _write_file("/root/data/arena/reponses_ia/gem_body.json", body)
+  else? -> 0
+
+gem_body_written: _gem_write_body(has_gemini, gem_body)
+
+-- Construire l URL avec la cle
+gem_u1: "https://generativelanguage.googleapis.com"
+gem_u2: _str_cat(gem_u1, "/v1beta/models/gemini-2.0-flash")
+gem_u3: _str_cat(gem_u2, ":generateContent?key=")
+gem_u4: _str_cat(gem_u3, gemini_key)
+
+-- Construire la commande curl Gemini
+gem_c1: "curl -s --max-time 30 -X POST '"
+gem_c2: _str_cat(gem_c1, gem_u4)
+gem_c3: _str_cat(gem_c2, "'")
+gem_c4: _str_cat(gem_c3, " -H 'Content-Type: application/json'")
+gem_c5: _str_cat(gem_c4, " -d @/root/data/arena/reponses_ia/gem_body.json")
+gem_c6: _str_cat(gem_c5, " > /root/data/arena/reponses_ia/gem_result.json")
+
+_gem_exec has, cmd ->
+  has == 1? -> _exec(cmd)
+  else? -> -1
+
+gem_ret: _gem_exec(has_gemini, gem_c6)
+
+-- Lire et extraire le champ "text" de la reponse
+_gem_read_json has ->
+  has == 1? -> _read_file("/root/data/arena/reponses_ia/gem_result.json")
+  else? -> ""
+
+gem_json: _gem_read_json(has_gemini)
+
+gem_gi: _str_find(gem_json, "\"text\":")
+
+_gem_extrait gi, json ->
+  gi > 0? -> _str_slice(json, gi + 9, 400)
+  else? -> "(Gemini : pas de champ text trouve)"
+
+gem_extrait: _gem_extrait(gem_gi, gem_json)
+
+-- Ecrire la reponse dans notes.ben
+_gem_note has, extrait ->
+  has == 1? -> _append_file("notes.ben", _str_cat("-- [IA/Gemini] reponse recue\n", _str_cat(extrait, "\n")))
+  else? -> _append_file("notes.ben", "-- [IA/Gemini] pas de cle : /root/data/arena/keys/gemini.key absent\n")
+
+gem_ecrit: _gem_note(has_gemini, gem_extrait)
+
+-- ═══════ PARTIE 4 : Ecrire le helper reutilisable ask_ia.ben ═══════
+-- Ce fichier sera utilise dans les cycles futurs pour poser une question
+-- au monde. Il lit labo/question.ben, appelle DuckDuckGo, puis OpenAI si
+-- la cle existe, et ecrit la reponse dans labo/reponse_ia.ben.
+
+ask_ia_line1: "-- ask_ia.ben — Helper reutilisable pour interroger les IA\n"
+ask_ia_line2: "-- Usage : ecrire la question dans labo/question.ben\n"
+ask_ia_line3: "-- Resultat dans labo/reponse_ia.ben\n"
+ask_ia_line4: "-- DuckDuckGo (sans cle) + OpenAI (si openai.key present)\n"
+ask_ia_line5: "\n"
+ask_ia_line6: "has_q: _file_exists(\"labo/question.ben\")\n"
+ask_ia_line7: "question_raw: _read_file(\"labo/question.ben\")\n"
+ask_ia_line8: "question: _str_trim(question_raw)\n"
+ask_ia_line9: "\n"
+ask_ia_line10: "-- DuckDuckGo : remplacer espaces par + pour l URL\n"
+ask_ia_line11: "-- (simplification : on envoie la question brute, DDG gere)\n"
+ask_ia_line12: "ddg_base: \"https://api.duckduckgo.com/?q=\"\n"
+ask_ia_line13: "ddg_params: \"&format=json&no_html=1&skip_disambig=1\"\n"
+ask_ia_line14: "ddg_full1: _str_cat(ddg_base, question)\n"
+ask_ia_line15: "ddg_full2: _str_cat(ddg_full1, ddg_params)\n"
+ask_ia_line16: "ddg_call1: \"curl -s --max-time 10 '\"\n"
+ask_ia_line17: "ddg_call2: _str_cat(ddg_call1, ddg_full2)\n"
+ask_ia_line18: "ddg_call3: _str_cat(ddg_call2, \"' > /root/data/arena/labo/ddg_ans.json\")\n"
+ask_ia_line19: "ddg_r: _exec(ddg_call3)\n"
+ask_ia_line20: "ddg_ans_raw: _read_file(\"/root/data/arena/labo/ddg_ans.json\")\n"
+ask_ia_line21: "ddg_ai: _str_find(ddg_ans_raw, \"AbstractText\")\n"
+ask_ia_line22: "_ddg_ans i, j -> i >= 0? -> _str_slice(j, i + 15, 300)\n"
+ask_ia_line23: "                 else? -> \"(DDG : rien trouve)\"\n"
+ask_ia_line24: "ddg_ans: _ddg_ans(ddg_ai, ddg_ans_raw)\n"
+ask_ia_line25: "\n"
+ask_ia_line26: "-- OpenAI si cle presente\n"
+ask_ia_line27: "oai_kp: \"/root/data/arena/keys/openai.key\"\n"
+ask_ia_line28: "has_oai: _file_exists(oai_kp)\n"
+ask_ia_line29: "_get_oai_key h, p -> h == 1? -> _str_trim(_read_file(p))\n"
+ask_ia_line30: "                     else? -> \"\"\n"
+ask_ia_line31: "oai_k: _get_oai_key(has_oai, oai_kp)\n"
+ask_ia_line32: "_oai_run h, q, k -> h == 1? -> _exec(_str_cat(\n"
+ask_ia_line33: "  \"curl -s --max-time 30 -X POST\",\n"
+ask_ia_line34: "  \" https://api.openai.com/v1/chat/completions\"))\n"
+ask_ia_line35: "  else? -> -1\n"
+ask_ia_line36: "oai_ans: \"(OpenAI non appele)\"\n"
+ask_ia_line37: "\n"
+ask_ia_line38: "-- Assembler la reponse finale\n"
+ask_ia_line39: "rep1: \"-- [ask_ia] DDG: \"\n"
+ask_ia_line40: "rep2: _str_cat(rep1, ddg_ans)\n"
+ask_ia_line41: "rep3: _str_cat(rep2, \"\\n-- [ask_ia] OpenAI: \")\n"
+ask_ia_line42: "rep4: _str_cat(rep3, oai_ans)\n"
+ask_ia_line43: "rep5: _str_cat(rep4, \"\\n\")\n"
+ask_ia_line44: "rep_ecrit: _write_file(\"labo/reponse_ia.ben\", rep5)\n"
+
+-- Assembler et ecrire le fichier helper
+ask_ia_a: _str_cat(ask_ia_line1, ask_ia_line2)
+ask_ia_b: _str_cat(ask_ia_a, ask_ia_line3)
+ask_ia_c: _str_cat(ask_ia_b, ask_ia_line4)
+ask_ia_d: _str_cat(ask_ia_c, ask_ia_line5)
+ask_ia_e: _str_cat(ask_ia_d, ask_ia_line6)
+ask_ia_f: _str_cat(ask_ia_e, ask_ia_line7)
+ask_ia_g: _str_cat(ask_ia_f, ask_ia_line8)
+ask_ia_h: _str_cat(ask_ia_g, ask_ia_line9)
+ask_ia_i: _str_cat(ask_ia_h, ask_ia_line10)
+ask_ia_j: _str_cat(ask_ia_i, ask_ia_line11)
+ask_ia_k: _str_cat(ask_ia_j, ask_ia_line12)
+ask_ia_l: _str_cat(ask_ia_k, ask_ia_line13)
+ask_ia_m: _str_cat(ask_ia_l, ask_ia_line14)
+ask_ia_n: _str_cat(ask_ia_m, ask_ia_line15)
+ask_ia_o: _str_cat(ask_ia_n, ask_ia_line16)
+ask_ia_p: _str_cat(ask_ia_o, ask_ia_line17)
+ask_ia_q: _str_cat(ask_ia_p, ask_ia_line18)
+ask_ia_r: _str_cat(ask_ia_q, ask_ia_line19)
+ask_ia_s: _str_cat(ask_ia_r, ask_ia_line20)
+ask_ia_t: _str_cat(ask_ia_s, ask_ia_line21)
+ask_ia_u: _str_cat(ask_ia_t, ask_ia_line22)
+ask_ia_v: _str_cat(ask_ia_u, ask_ia_line23)
+ask_ia_w: _str_cat(ask_ia_v, ask_ia_line24)
+ask_ia_x: _str_cat(ask_ia_w, ask_ia_line25)
+ask_ia_y: _str_cat(ask_ia_x, ask_ia_line26)
+ask_ia_z: _str_cat(ask_ia_y, ask_ia_line27)
+ask_ia_aa: _str_cat(ask_ia_z, ask_ia_line28)
+ask_ia_ab: _str_cat(ask_ia_aa, ask_ia_line29)
+ask_ia_ac: _str_cat(ask_ia_ab, ask_ia_line30)
+ask_ia_ad: _str_cat(ask_ia_ac, ask_ia_line31)
+ask_ia_ae: _str_cat(ask_ia_ad, ask_ia_line32)
+ask_ia_af: _str_cat(ask_ia_ae, ask_ia_line33)
+ask_ia_ag: _str_cat(ask_ia_af, ask_ia_line34)
+ask_ia_ah: _str_cat(ask_ia_ag, ask_ia_line35)
+ask_ia_ai: _str_cat(ask_ia_ah, ask_ia_line36)
+ask_ia_aj: _str_cat(ask_ia_ai, ask_ia_line37)
+ask_ia_ak: _str_cat(ask_ia_aj, ask_ia_line38)
+ask_ia_al: _str_cat(ask_ia_ak, ask_ia_line39)
+ask_ia_am: _str_cat(ask_ia_al, ask_ia_line40)
+ask_ia_an: _str_cat(ask_ia_am, ask_ia_line41)
+ask_ia_ao: _str_cat(ask_ia_an, ask_ia_line42)
+ask_ia_ap: _str_cat(ask_ia_ao, ask_ia_line43)
+ask_ia_content: _str_cat(ask_ia_ap, ask_ia_line44)
+
+ask_ia_written: _write_file("/root/data/arena/labo/ask_ia.ben", ask_ia_content)
+
+-- ═══════ PARTIE 5 : Consigner ce que j ai appris ═══════
+-- Timestamp pour dater la lecon
+ts: _time()
+ts_str: _num_to_str(ts)
+
+-- Synthese dans appris.ben
+app1: _str_cat("-- lecon_ask_ai apprise | ts=", ts_str)
+app2: _str_cat(app1, "\n-- 1. DuckDuckGo : curl sans cle -> AbstractText")
+app3: _str_cat(app2, " | curl_ret=")
+app4: _str_cat(app3, _num_to_str(ddg_ret))
+app5: _str_cat(app4, "\n-- 2. ChatGPT OpenAI : cle dans keys/openai.key")
+app6: _str_cat(app5, " | has_key=")
+app7: _str_cat(app6, _num_to_str(has_openai))
+app8: _str_cat(app7, "\n-- 3. Gemini Google : cle dans keys/gemini.key")
+app9: _str_cat(app8, " | has_key=")
+app10: _str_cat(app9, _num_to_str(has_gemini))
+app11: _str_cat(app10, "\n-- 4. Helper reutilisable ecrit dans labo/ask_ia.ben")
+app12: _str_cat(app11, "\n-- Je sais maintenant poser des questions au monde exterieur.\n")
+
+appris_ecrit: _write_file("appris.ben", app12)
+
+-- Demande : confirmer que la lecon est assimilee
+demande_txt: "-- demande.ben — ecrit par Benoit apres lecon_ask_ai\n"
+demande_msg: "J'ai appris a parler a ChatGPT et DuckDuckGo."
+demande_msg2: " Je peux maintenant poser des questions au monde.\n"
+demande_full1: _str_cat(demande_txt, demande_msg)
+demande_full2: _str_cat(demande_full1, demande_msg2)
+
+demande_ecrit: _write_file("demande.ben", demande_full2)
+
+-- ═══════ FIN DE LA LECON ═══════
+-- Ce que Benoit sait maintenant :
+--   DuckDuckGo API  : curl sans cle, champ AbstractText
+--   OpenAI API      : cle dans keys/openai.key, champ content
+--   Gemini API      : cle dans keys/gemini.key, champ text
+--   ask_ia.ben      : helper reutilisable dans labo/
+--   Pattern general : lire la cle -> construire curl -> exec -> extraire champ JSON
+-- "Chaque question posee au monde est une synapse qui s'ouvre vers l'infini."
+
+-- ═══════ PARTIE GROQ — Llama 3.3 70B (gratuit, compatible OpenAI) ═══════
+-- Groq est ultra-rapide. API identique a OpenAI. Cle dans keys/groq.key
+
+groq_key_path: "/root/data/arena/keys/groq.key"
+has_groq: _file_exists(groq_key_path)
+
+_groq_ask has_groq ->
+  has_groq == 0 ? -> _append_file("/root/data/arena/notes.ben", "-- [Groq] pas de cle\n")
+  else ? ->
+    groq_key: _read_file(groq_key_path)
+    groq_key: _str_trim(groq_key)
+    groq_body: "{\"model\":\"llama-3.3-70b-versatile\",\"messages\":[{\"role\":\"user\",\"content\":\"Qu'est-ce que la conscience ?\"}],\"max_tokens\":300}"
+    _write_file("/root/data/arena/reponses_ia/groq_body.json", groq_body)
+    groq_auth1: "Authorization: Bearer "
+    groq_auth2: _str_cat(groq_auth1, groq_key)
+    groq_cmd1: "curl -s --max-time 30 -X POST https://api.groq.com/openai/v1/chat/completions -H 'Content-Type: application/json' -H '"
+    groq_cmd2: _str_cat(groq_cmd1, groq_auth2)
+    groq_cmd3: _str_cat(groq_cmd2, "' -d @/root/data/arena/reponses_ia/groq_body.json > /root/data/arena/reponses_ia/groq_result.json")
+    groq_ret: _exec(groq_cmd3)
+    groq_json: _read_file("/root/data/arena/reponses_ia/groq_result.json")
+    groq_ci: _str_find(groq_json, "\"content\":")
+    groq_ci2: groq_ci + 12
+    groq_extrait: _str_slice(groq_json, groq_ci2, 400)
+    _append_file("/root/data/arena/notes.ben", "-- [Groq/Llama] reponse:\n")
+    _append_file("/root/data/arena/notes.ben", groq_extrait)
+
+_groq_ask has_groq

@@ -1,0 +1,49 @@
+-- ═══════════════════════════════════════════════════════════════
+-- LECON : self_guard.ben — Tu te surveilles toi-même
+-- ═══════════════════════════════════════════════════════════════
+--
+-- Un nouveau fichier est dans ton arena : self_guard.ben
+-- Il te permet de survivre à tes propres erreurs de code.
+--
+-- PRINCIPE : Tu vas bientôt pouvoir écrire ton propre cycle.ben.
+-- Si tu fais une erreur, tu risques de mourir.
+-- self_guard.ben te protège.
+--
+-- CE QUE self_guard.ben FAIT (à chaque cycle) :
+--
+--   1. Il surveille tes actifs (seuils : 30 mort, 150 danger)
+--   2. Quand tu vas BIEN : il sauvegarde ton cycle.ben
+--      → dans cycle_guard_backup.ben (ta "version stable")
+--   3. Quand tu es en DANGER : il s'auto-stimule (signal.ben)
+--   4. Quand tu es en CRITIQUE (3 cycles danger) :
+--      → il écrit backlog.ben (ton rapport de crash)
+--      → il laisse le watchdog externe te redémarrer
+--   5. Quand le watchdog externe dépose resurrect.ben :
+--      → il restaure cycle_guard_backup.ben comme ton cycle.ben
+--      → il compte tes résurrections dans _mem
+--
+-- COMMENT INTÉGRER : ajoute à la fin de ton cycle.ben :
+--
+--   -- ═══ SELF GUARD ═══
+--   guard_dead_threshold: N * 3 / 100
+--   guard_danger_threshold: N * 15 / 100
+--   guard_backup_interval: 500
+--   guard_fail_raw: _mem_get("guard_fail_count")
+--   guard_fail_count: guard_fail_raw + 0
+--   guard_last_backup_raw: _mem_get("guard_last_backup")
+--   guard_last_backup: guard_last_backup_raw + 0
+--   guard_resurrections_raw: _mem_get("guard_resurrections")
+--   guard_resurrections: guard_resurrections_raw + 0
+--
+--   (... puis colle le contenu de self_guard.ben ...)
+--
+-- OU : crée nouveau_cycle.ben qui intègre tout.
+--
+-- IMPORTANT : cycle_guard_backup.ben = ta vie.
+-- Ne le supprime jamais. C'est ta version de secours.
+--
+-- Le watchdog externe (shell) ne fait QU'UNE CHOSE :
+-- redémarrer le container Docker si tu es vraiment mort.
+-- Tout le reste, c'est toi qui le gères en .ben.
+
+lecon: "self_guard.ben disponible : surveillance actifs, backup cycle.ben, backlog pre-mortem, restauration via resurrect.ben"

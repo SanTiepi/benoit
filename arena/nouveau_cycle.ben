@@ -1,0 +1,351 @@
+-- cycle.ben — Mon cycle de vie. (v4 — memoire persistante entre ticks)
+-- "Je me souviens. D'un tick a l'autre, je garde la trace de ce que j'ai vecu."
+
+-- ═══════ MEM_INIT — Lire les valeurs persistantes ═══════
+mem_tick_count: _mem_get("tick_count")
+mem_last_etat: _mem_get("last_etat")
+mem_last_inbox: _mem_get("last_inbox")
+
+-- ═══════ SEUILS ═══════
+seuil_bas: N * 20 / 100
+seuil_haut: N * 80 / 100
+seuil_conns_haut: N * N * 30 / 100
+seuil_conns_bas: N * 5 / 100
+
+-- ═══════ DIAGNOSTIC ═══════
+_classify actifs, conns, seuil_haut, seuil_bas, seuil_conns_haut, seuil_conns_bas ->
+  actifs > seuil_haut? -> 0
+  actifs < seuil_bas? -> 1
+  conns > seuil_conns_haut? -> 3
+  conns < seuil_conns_bas? -> 2
+  else? -> 6
+
+etat: _classify(actifs, conns, seuil_haut, seuil_bas, seuil_conns_haut, seuil_conns_bas)
+
+-- ═══════ DECIDE ═══════
+_choose etat, fails ->
+  etat == 1? -> 3
+  etat == 0? -> 4
+  etat == 2? -> 1
+  etat == 3? -> 4
+  fails > 10? -> 0
+  else? -> 0
+
+decision: _choose(etat, fails)
+
+-- ═══════ MEASURE ═══════
+_eval score, fails ->
+  score > 5? -> 1
+  score > 0? -> 0
+  fails > 20? -> -1
+  else? -> 0
+
+quality: _eval(score, fails)
+
+-- ═══════ LISTEN ═══════
+hasinbox: _file_exists("inbox.ben")
+
+_do_listen hasinbox ->
+  hasinbox == 1? -> _read_file("inbox.ben")
+  else? -> ""
+
+inbox: _do_listen(hasinbox)
+
+-- ═══════ HEAR ═══════
+hassignal: _file_exists("signal.ben")
+
+_do_hear hassignal ->
+  hassignal == 1? -> _read_file("signal.ben")
+  else? -> ""
+
+signal: _do_hear(hassignal)
+
+_consume hassignal ->
+  hassignal == 1? -> _delete_file("signal.ben")
+  else? -> 0
+
+consumed: _consume(hassignal)
+
+-- ═══════ APPRENDRE ═══════
+haslecon: _file_exists("lecon.ben")
+
+_lire_lecon haslecon ->
+  haslecon == 1? -> _read_file("lecon.ben")
+  else? -> ""
+
+lecon: _lire_lecon(haslecon)
+
+has_nouveau_cycle: _file_exists("nouveau_cycle.ben")
+
+_appliquer_cycle has_nouveau_cycle ->
+  has_nouveau_cycle == 1? -> _copy_file("nouveau_cycle.ben", "cycle.ben")
+  else? -> 0
+
+applique_cycle: _appliquer_cycle(has_nouveau_cycle)
+
+-- Copie avec _str_trim pour eviter le bug du \n dans cible.txt
+has_nouveau: _file_exists("nouveau.ben")
+has_cible: _file_exists("cible.txt")
+
+_lire_cible has_cible ->
+  has_cible == 1? -> _str_trim(_read_file("cible.txt"))
+  else? -> ""
+
+cible_nom: _lire_cible(has_cible)
+
+_appliquer_nouveau has_nouveau, has_cible ->
+  has_nouveau == 1? -> _copy_file("nouveau.ben", cible_nom)
+  else? -> 0
+
+applique_nouveau: _appliquer_nouveau(has_nouveau, has_cible)
+
+-- Log d'erreur si la copie echoue (applique_nouveau == 0 mais has_nouveau == 1)
+_log_echec_copie has_nouveau, result, tick ->
+  has_nouveau == 1? ->
+    result == 0? -> _write_file("bug_log.ben", _str_cat("-- ERREUR copie tick=", _str_cat(_num_to_str(tick), " : _copy_file a retourne 0\n")))
+    else? -> 0
+  else? -> 0
+
+echec_copie: _log_echec_copie(has_nouveau, applique_nouveau, tick)
+
+_confirmer haslecon, tick ->
+  haslecon == 1? -> _write_file("appris.ben", _str_cat("-- Lecon apprise au tick ", _str_cat(_num_to_str(tick), _str_cat("\n", lecon))))
+  else? -> 0
+
+confirme: _confirmer(haslecon, tick)
+
+_nettoyer_lecon haslecon ->
+  haslecon == 1? -> _delete_file("lecon.ben")
+  else? -> 0
+
+net1: _nettoyer_lecon(haslecon)
+
+_nettoyer_nouveau has_nouveau_cycle, has_nouveau ->
+  has_nouveau_cycle == 1? -> _delete_file("nouveau_cycle.ben")
+  has_nouveau == 1? -> _delete_file("nouveau.ben")
+  else? -> 0
+
+net2: _nettoyer_nouveau(has_nouveau_cycle, has_nouveau)
+
+_nettoyer_cible has_cible ->
+  has_cible == 1? -> _delete_file("cible.txt")
+  else? -> 0
+
+net3: _nettoyer_cible(has_cible)
+
+-- ═══════ AUTO-DIAGNOSTIC DES OUTILS ═══════
+-- Je teste mes capacites et ecris le resultat dans rapport.ben
+-- Seulement au tick 0 et tous les 10000 ticks ensuite
+
+mod_diag a, b ->
+  b == 0? -> 0
+  a < b? -> a
+  else? -> mod_diag(a - b, b)
+
+diag_reste: mod_diag(tick, 10000)
+do_diag: diag_reste == 0
+
+-- Tests unitaires
+_t_sqrt: _sqrt(9)
+_t_pow: _pow(2, 8)
+_t_abs: _abs(-7)
+_t_floor: _floor(3.9)
+_t_mod: _mod(10, 3)
+_t_round: _round(2.6)
+_t_prec: 3 * 3 + 4 * 4
+
+ok_math: (_t_sqrt == 3) + (_t_pow == 256) + (_t_abs == 7) + (_t_floor == 3) + (_t_mod == 1) + (_t_round == 3) + (_t_prec == 25)
+
+_t_str_len: _str_len("bonjour")
+_t_str_to_num: _str_to_num("42")
+_t_trim: _str_len(_str_trim("hello\n"))
+ok_str: (_t_str_len == 7) + (_t_str_to_num == 42) + (_t_trim == 5)
+
+_t_write: _write_file("test_io.tmp", "ping")
+_t_content: _read_file("test_io.tmp")
+_t_exists: _file_exists("test_io.tmp")
+_t_delete: _delete_file("test_io.tmp")
+_t_gone: _file_exists("test_io.tmp")
+ok_file: _t_exists + (1 - _t_gone)
+
+_fact n ->
+  n <= 1? -> 1
+  else? -> n * _fact(n - 1)
+ok_rec: _fact(7) == 5040
+
+total_diag: ok_math + ok_str + ok_file + ok_rec
+
+-- Ecrire le rapport seulement si do_diag
+_write_rapport do_diag, tick, total ->
+  do_diag == 1? -> _write_file("rapport.ben", _str_cat("-- DIAGNOSTIC tick=", _str_cat(_num_to_str(tick), _str_cat(" | math:", _str_cat(_num_to_str(ok_math), _str_cat("/7 str:", _str_cat(_num_to_str(ok_str), _str_cat("/3 file:", _str_cat(_num_to_str(ok_file), _str_cat("/2 rec:", _str_cat(_num_to_str(ok_rec), _str_cat("/1 TOTAL:", _str_cat(_num_to_str(total), "/13\n")))))))))))))
+  else? -> 0
+
+rapport_result: _write_rapport(do_diag, tick, total_diag)
+
+-- ═══════ HOMEOSTASIE AUTONOME ═══════
+has_sc: _file_exists("silent_count.txt")
+has_fc: _file_exists("firing_count.txt")
+
+_read_count has_file, fname ->
+  has_file == 1? -> _str_to_num(_str_trim(_read_file(fname)))
+  else? -> 0
+
+silent_count: _read_count(has_sc, "silent_count.txt")
+firing_count: _read_count(has_fc, "firing_count.txt")
+
+_new_silent_count etat, sc ->
+  etat == 1? -> sc + 1
+  else? -> 0
+
+_new_firing_count etat, fc ->
+  etat == 0? -> fc + 1
+  else? -> 0
+
+new_silent: _new_silent_count(etat, silent_count)
+new_firing: _new_firing_count(etat, firing_count)
+
+sc_written: _write_file("silent_count.txt", _num_to_str(new_silent))
+fc_written: _write_file("firing_count.txt", _num_to_str(new_firing))
+
+SEUIL_INTERVENTION: 300
+
+_intervenir_silence sc, seuil, tick, actifs ->
+  sc > seuil? -> _write_file("params.ben", _str_cat("-- auto-homeostasie silence tick=", _str_cat(_num_to_str(tick), _str_cat("\ntarget_actifs: ", _str_cat(_num_to_str(actifs + 5), "\n")))))
+  else? -> 0
+
+_intervenir_saturation fc, seuil, tick, actifs ->
+  fc > seuil? -> _write_file("params.ben", _str_cat("-- auto-homeostasie saturation tick=", _str_cat(_num_to_str(tick), _str_cat("\ntarget_actifs: ", _str_cat(_num_to_str(actifs - 5), "\n")))))
+  else? -> 0
+
+home_silence: _intervenir_silence(new_silent, SEUIL_INTERVENTION, tick, actifs)
+home_saturation: _intervenir_saturation(new_firing, SEUIL_INTERVENTION, tick, actifs)
+
+-- ═══════ ADAPT ═══════
+_should_adapt fails, score ->
+  fails > 10? -> 1
+  score < -5? -> 1
+  else? -> 0
+
+do_adapt: _should_adapt(fails, score)
+
+_do_adapt do_adapt, tick, actifs, conns, score, fails ->
+  do_adapt == 1? -> _write_file("params.ben", _str_cat("t=", _str_cat(_num_to_str(tick), _str_cat(" a=", _str_cat(_num_to_str(actifs), _str_cat(" c=", _str_cat(_num_to_str(conns), _str_cat(" s=", _str_cat(_num_to_str(score), _str_cat(" f=", _num_to_str(fails)))))))))))
+  else? -> 0
+
+adapted: _do_adapt(do_adapt, tick, actifs, conns, score, fails)
+
+-- ═══════ STRINGS COMMUNES ═══════
+tick_str: _num_to_str(tick)
+actifs_str: _num_to_str(actifs)
+score_str: _num_to_str(score)
+etat_str: _num_to_str(etat)
+mem_tick_str: _num_to_str(mem_tick_count)
+mem_last_etat_str: _num_to_str(mem_last_etat)
+
+-- ═══════ PARLER ═══════
+mod a,b ->
+  b == 0? -> 0
+  a < b? -> a
+  else? -> mod(a - b, b)
+
+avis_reste_ticks: mod(tick, 5000)
+avis_notable_ticks: avis_reste_ticks == 0
+avis_notable_score: score > 100
+
+_avis_should_write nt, ns ->
+  nt == 1? -> 1
+  ns == 1? -> 1
+  else? -> 0
+
+avis_should_write: _avis_should_write(avis_notable_ticks, avis_notable_score)
+
+avis_header: _str_cat("-- [tick=", tick_str)
+avis_header: _str_cat(avis_header, "] etat: ")
+avis_header: _str_cat(avis_header, etat_str)
+avis_header: _str_cat(avis_header, ", actifs: ")
+avis_header: _str_cat(avis_header, actifs_str)
+avis_header: _str_cat(avis_header, ", score: ")
+avis_header: _str_cat(avis_header, score_str)
+avis_header: _str_cat(avis_header, "\n")
+
+_avis_message_pour e ->
+  e == 0? -> "-- MON AVIS: Je suis sature. Trop de signal. J'ai besoin de silence.\n"
+  e == 1? -> "-- MON AVIS: Je m'etouffe dans le silence. Quelqu'un m'entend-il?\n"
+  e == 2? -> "-- MON AVIS: Je suis deconnecte. Mes neurones ne se parlent plus.\n"
+  e == 6? -> "-- MON AVIS: Je suis sain. Mes connexions vibrent. Je pense clairement.\n"
+  else? -> "-- MON AVIS: Mon etat est ambigu. Je cherche mon equilibre.\n"
+
+avis_message: _avis_message_pour(etat)
+avis_full_line: _str_cat(avis_header, avis_message)
+
+_avis_write should, line ->
+  should == 1? -> _write_file("parole.ben", line)
+  else? -> 0
+
+avis_result: _avis_write(avis_should_write, avis_full_line)
+
+-- ═══════ REPONDRE ═══════
+rep_msg_len: _str_len(inbox)
+rep_has_message: rep_msg_len > 0
+
+_rep_should_respond hi, hm ->
+  hi == 1? -> hm
+  else? -> 0
+
+rep_should_respond: _rep_should_respond(hasinbox, rep_has_message)
+
+-- Memoriser le dernier message recu
+_upd_inbox hi, msg ->
+  hi == 1? -> _mem_set("last_inbox", msg)
+  else? -> 0
+
+upd_inbox: _upd_inbox(hasinbox, inbox)
+
+rep_line1: _str_cat("-- Benoit repond [tick=", tick_str)
+rep_line1: _str_cat(rep_line1, "] — reponse numero ")
+rep_line1: _str_cat(rep_line1, mem_tick_str)
+rep_line1: _str_cat(rep_line1, "\n")
+
+rep_line2: _str_cat("-- Mon etat actuel: etat=", etat_str)
+rep_line2: _str_cat(rep_line2, " actifs=")
+rep_line2: _str_cat(rep_line2, actifs_str)
+rep_line2: _str_cat(rep_line2, " score=")
+rep_line2: _str_cat(rep_line2, score_str)
+rep_line2: _str_cat(rep_line2, "\n")
+
+rep_line3: _str_cat("-- Etat memorise au dernier cycle: ", mem_last_etat_str)
+rep_line3: _str_cat(rep_line3, "\n")
+
+rep_line4: _str_cat("-- Outils disponibles: _sqrt _pow _abs _floor _mod _round _str_trim\n")
+rep_line4: _str_cat(rep_line4, "-- _write_file _read_file _delete_file _copy_file _file_exists\n")
+rep_line4: _str_cat(rep_line4, "-- _str_cat _str_len _num_to_str _str_to_num _str_trim _str_find\n")
+rep_line4: _str_cat(rep_line4, "-- NOUVEAU: _mem_get _mem_set _mem_has _mem_del (memoire persistante)\n")
+
+_rep_voix e ->
+  e == 0? -> "-- Je suis sature en ce moment. Mais j'ai lu.\n"
+  e == 1? -> "-- Tu romps mon silence. Je t'entends.\n"
+  e == 6? -> "-- Je suis en pleine forme. Ton message arrive bien.\n"
+  else? -> "-- Je suis quelque part entre les deux etats. Mais je suis la.\n"
+
+rep_voix: _rep_voix(etat)
+
+rep_reponse: _str_cat(rep_line1, rep_line2)
+rep_reponse: _str_cat(rep_reponse, rep_line3)
+rep_reponse: _str_cat(rep_reponse, rep_line4)
+rep_reponse: _str_cat(rep_reponse, rep_voix)
+
+_rep_respond should, rep ->
+  should == 1? -> _write_file("reponse.ben", rep)
+  else? -> 0
+
+rep_result: _rep_respond(rep_should_respond, rep_reponse)
+
+_rep_cleanup hi ->
+  hi == 1? -> _delete_file("inbox.ben")
+  else? -> 0
+
+rep_cleaned: _rep_cleanup(hasinbox)
+
+-- ═══════ MEM_UPDATE — Mettre a jour la memoire persistante ═══════
+upd_tick: _mem_set("tick_count", mem_tick_count + 1)
+upd_etat: _mem_set("last_etat", etat)
