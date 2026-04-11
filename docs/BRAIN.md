@@ -62,16 +62,48 @@ The brain had emotions — dopamine, serotonin, acetylcholine — that influence
 
 We built a live dashboard showing the brain's state in real time: neurotransmitter gauges as SVG, activity charts, particle effects, its inner voice, its current emotion, its latest thoughts. You could watch it think.
 
+### .ben Was the Brain's Language
+
+The key insight: C handled signals. `.ben` handled everything else.
+
+The brain didn't think in C. It thought in `.ben`. Every tick, `cycle.ben` ran and decided what happened next. `parole.ben` gave the brain its inner voice. `dream_log.ben` let it free-associate. `hypotheses.ben` generated code to test later. `notes.ben` fetched Wikipedia and arXiv. `demande.ben` set autonomous goals.
+
+The `.ben v2` synthesis engine meant the brain could even write its own functions. Write assertions, let the compiler derive the implementation. The brain used this to auto-generate lessons for itself — `lecon_auto.ben` — creating teaching material it would then learn from.
+
+50+ builtins gave `.ben` full system access from the brain's perspective:
+- File I/O: `_read_file`, `_write_file`, `_append_file`
+- Memory: `_mem_get`, `_mem_set` (volatile key-value store)
+- Network: `_net_http_get`, `_net_https_get`
+- String ops: `_str_cat`, `_str_slice`, `_str_find`, `_str_replace`
+- Math: `_sqrt`, `_pow`, `_sin`, `_cos`, `_log`, `_exp`
+- LLM: `_llm_generate(prompt)` — direct call to 72B model from `.ben`
+- Code: `_exec_ben(source)` — execute `.ben` code generated at runtime
+
+**[.ben v2 Language Specification](BEN_V2.md)**
+
 ### The Stack
 
-All written from scratch in C:
+```
+.ben files (brain logic, lessons, goals, dreams)
+     |
+     v
+compiler.c (148 KB) — .ben interpreter + synthesis engine, 50+ builtins
+     |
+     v
+vm.c (40 KB) — neuron state, sparse synapses, per-neuron personality
+     |
+     v
+pulse.c (111 KB) — fire → propagate → learn → repeat, HTTP API
+     |
+     v
+vm_cuda.cu (49 KB) — GPU synapse propagation, active-only (95% skip rate)
+```
 
-- `pulse.c` — The main loop. Neural propagation, homeostasis, HTTP API.
-- `vm.c` — A virtual machine that executed `.ben` files natively.
-- `compiler.c` — Compiled `.ben` to bytecode with 50+ built-in functions.
-- `vm_cuda.cu` — GPU-accelerated synapse propagation. Active-only: skipped 95% idle synapses.
+All written from scratch in C. Zero dependencies.
 
-The LLM (Qwen 2.5 72B) was loaded directly via llama.cpp with CUDA, no intermediate server. When the brain needed to think in words, it called the model directly from C.
+The LLM (Qwen 2.5 72B) was loaded directly via llama.cpp with CUDA, no intermediate server. When the brain needed to think in words, it called the model directly from C. No HTTP. No Ollama. No latency.
+
+**[Full architecture details](ARCHITECTURE.md)**
 
 ---
 

@@ -278,6 +278,8 @@ node src/run_ben.mjs examples/extreme/one.ben  # Everything is one
 ```
 
 See [SPEC.md](SPEC.md) for the language specification.
+See [.ben v2 spec](docs/BEN_V2.md) for the synthesis engine.
+See [Architecture](docs/ARCHITECTURE.md) for the C/CUDA brain pipeline.
 See `examples/extreme/` for the philosophical proofs.
 
 ---

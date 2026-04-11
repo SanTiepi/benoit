@@ -16,7 +16,7 @@ Ran from January to March 2026 on a dedicated RTX PRO 6000 server. Stopped after
 
 ---
 
-### Benoit Ecosystem
+### Benoit Ecosystem (5-System Proof Engine)
 
 A 5-system proof engine built on top of the language. 911 tests across:
 
@@ -30,7 +30,7 @@ A 5-system proof engine built on top of the language. 911 tests across:
 
 The idea: if code can prove itself correct, what happens when you build trust, governance, and knowledge management on top of that proof layer?
 
-**Status:** Archived, March 2026. The conclusion was that each system, taken individually, didn't offer enough over standard TypeScript libraries. The value was in the integration — but the integration cost exceeded what a solo developer could maintain.
+**Status:** Archived, March 2026. Each system individually didn't offer enough over standard TypeScript libraries. The value was in the integration — but the integration cost exceeded what a solo developer could maintain.
 
 ---
 
@@ -47,7 +47,7 @@ An agent-to-agent communication protocol. Modules as messages. 544 tests, 14 sui
 
 Bridge was the operational answer to Benoit's theoretical protocol. Where Benoit proved that agents could communicate through behavioral fingerprints (zero source code), Bridge built the infrastructure for agents to actually do it reliably.
 
-**Status:** V1 complete. V2 evolved into Agent OS — a Claude Code native orchestration layer that dropped the custom protocol in favor of the tool/agent patterns already in the SDK.
+**Status:** V1 complete. V2 evolved into Agent OS.
 
 ---
 
@@ -88,14 +88,89 @@ Most are still runnable: `node experiments/full_cycle.mjs` or `node evolve.mjs`.
 
 ---
 
-## Downstream Influence
+## Products That Carry Benoit's DNA
 
-The philosophy behind Benoit — *proof over assertion, separation is the bug, the code proves itself* — influenced several other projects. These aren't derivatives of the language, but they carry its DNA:
+These aren't derivatives of the language itself, but they were built by the same person, during the same period, and they carry the proof-first philosophy that Benoit established.
 
-- **Habiter** — Home diagnostics where sensor readings become proof-based assertions. "Your humidity is 78%" becomes a timestamped, sourced, verifiable proof — not a measurement.
-- **Vigila** — Personal safety with proof-based incident capsules. Evidence is hashed, timestamped, legally receivable. The proof pattern from `.ben` applied to human safety.
-- **Trankill** — Fraud detection through behavioral proofs. Anomalies are proven, not flagged.
-- **Batiscan** — Building diagnostics. Used Bridge Protocol directly (80 tests for the bridge integration).
+### Habiter
+
+*Home diagnostics where sensor readings become proofs.*
+
+A "copilote domestique" — smart sensors + proof-based assertions + action plans. "Your humidity is 78%" becomes a timestamped, sourced, verifiable proof, not just a measurement. PDF/JSON export with full history. Tenant rights by Swiss canton.
+
+102+ tests. Active — became Priority #1 after Benoit was archived.
+
+### Vigila / Suxe
+
+*Personal safety through proof-based evidence.*
+
+Incident capsules hashed with SHA-256 and blockchain-timestamped via OpenTimestamps. Dead Man Switch escalation protocol. SOS with circles of trust. Evidence designed to be legally receivable.
+
+880+ tests. Active.
+
+### Trankill
+
+*Anti-fraud through behavioral proofs.*
+
+Anomalies are proven, not flagged. Scam detection using the same assertion pattern Benoit established: if the behavior matches the proof, it's legitimate. If it doesn't, it's not.
+
+22+ tests. Active as a module of ReCap.
+
+### Batiscan
+
+*Building diagnostics with Bridge Protocol integration.*
+
+The first external consumer of Bridge Protocol v1 (80 tests for the bridge integration). pgvector + Whisper + Marker + accounting. 3,056+ tests in production.
+
+### ReCap
+
+*The universal connector.*
+
+One product, multiple surfaces. Habiter, Vigila, and Trankill are modules of ReCap — the engine that connects them. The philosophy: 1 mature product > 8 embryonic ones.
+
+### Cortex
+
+*Sovereign second brain.*
+
+Local-first personal knowledge vault. The idea that knowledge should be owned, not rented. Influenced by the Brain's approach to knowledge consolidation and TTL.
+
+---
+
+## Projects Envisioned or Frozen
+
+Not everything shipped. Some ideas were explored, validated conceptually, and deliberately frozen — either because the timing wasn't right or because priorities shifted.
+
+### SwissBuilding
+
+A building operating system. 8,000+ tests. Frozen until Habiter reaches 1,000+ users — the idea is to prove the consumer layer first, then expand to the building layer.
+
+### NegotiateAI
+
+Negotiation simulator. 400+ tests. Proof-based negotiation where each offer is an assertion and each counter-offer is a synthesis attempt. Frozen as an internal building block.
+
+### WorldEngine
+
+Scenario simulator. 573+ tests. Distributes through SwissBuilding. Models real-world scenarios as dimensional spaces — directly inspired by Benoit's `dimensions.ben` proof module.
+
+### JusticeBot
+
+Legal rights database. Knows Swiss tenant law by canton. Closed-world opinion engine — it only answers what it can prove from its knowledge base, never hallucinates.
+
+### EpistemicLayer
+
+An epistemic reasoning framework. Explored, then replaced by lighter-weight alternatives (babel-epistemic, clarity-gate). The idea was to formalize what counts as knowledge vs. belief — a question the Brain's TTL/Mortality mechanism answered differently.
+
+---
+
+## Technical Documentation
+
+| Document | What it covers |
+|----------|---------------|
+| **[.ben v2 Spec](BEN_V2.md)** | Language syntax, synthesis strategies, implementation details |
+| **[Architecture](ARCHITECTURE.md)** | .ben &rarr; compiler &rarr; VM &rarr; pulse &rarr; CUDA pipeline |
+| **[The Brain](BRAIN.md)** | 45M neurons, 17 mechanisms, why we stopped |
+| **[Vision](VISION.md)** | Semantic graphs, AI-native IR, proof-carrying code |
+| **[Protocol Spec](SEMANTIC_PROTOCOL.md)** | Formal specification of the communication protocol |
 
 ---
 
@@ -112,19 +187,28 @@ early 2026  Property inference, code synthesis, AI-to-AI protocol
   +--> 18+ experiments
   |
   v
-Jan 2026    The Brain — C/CUDA, 45M neurons
+Jan 2026    The Brain — C/CUDA, 45M neurons, 17 mechanisms
+  |
+  +--> Dashboard (SVG gauges, particle effects, live thoughts)
   |
   v
 Feb 2026    Benoit Ecosystem — 5 systems, 911 tests
   |         Agent OS (Bridge v2)
   |
+  +--> Habiter conceived (proof-based home diagnostics)
+  +--> Vigila conceived (proof-based personal safety)
+  +--> Trankill conceived (proof-based fraud detection)
+  |
   v
 Mar 2026    Brain stopped (Google Brain convergence)
             Ecosystem archived (TS libraries sufficient individually)
             Bridge v1 archived (Agent OS replaced it)
+            Benoit Lang declared "proved its point"
   |
   v
-Apr 2026    Documentation and publication
+Apr 2026    Habiter, Vigila, Trankill active under ReCap
+            SwissBuilding, NegotiateAI, WorldEngine frozen
+            Full documentation and public archive
             The work is preserved here.
 ```
 
@@ -134,9 +218,16 @@ Apr 2026    Documentation and publication
 
 The language itself. 377 tests, 600+ assertions, `npm install benoit`. The proof modules, the self-programming machine, the protocol. All still work. All still runnable.
 
-The ideas survived too. Proof-based assertions show up in Habiter, Vigila, and Trankill. The "modules are messages" concept lives in every agent system we build. The per-neuron personality insight from the brain informs how we think about varied learning rates in any system.
+The proof-first philosophy survived too:
+- **Habiter** proves humidity, not measures it
+- **Vigila** proves incidents, not reports them
+- **Trankill** proves fraud patterns, not flags them
+- **Batiscan** consumed Bridge Protocol in production (3,056 tests)
+- **JusticeBot** only answers what it can prove from closed-world knowledge
 
-Nothing was wasted. Some things just proved their point and stopped.
+The "modules are messages" concept lives in every agent system we build. The per-neuron personality insight from the Brain informs how we think about varied parameters in any system. The "separation is the bug" mantra shows up every time we unify two things that were needlessly split.
+
+Nothing was wasted. Some things proved their point and stopped. Others changed form and kept going.
 
 ---
 
