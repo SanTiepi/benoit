@@ -245,6 +245,18 @@ node evolve.mjs
 
 ---
 
+## Beyond the Language
+
+Benoit didn't stay a language. It became a research program.
+
+We built a **[neural brain](docs/BRAIN.md)** in C and CUDA — 45 million neurons learning by executing `.ben` assertions. We built a **[5-system proof engine](docs/ECOSYSTEM.md)** with trust ledgers, governance, and knowledge management. We built **[Bridge Protocol](docs/ECOSYSTEM.md#bridge-protocol)** for reliable agent-to-agent communication (544 tests). We built a genetic programming machine that discovers code from specifications alone.
+
+Some of these projects ran their course. The brain was stopped after converging independently on ideas that Google Brain was exploring at 1000x scale. The ecosystem was archived when its individual systems didn't justify the integration cost. But nothing was wasted — the proof-based philosophy now lives in other projects, and the work is documented here.
+
+**[Read the full ecosystem story &rarr;](docs/ECOSYSTEM.md)**
+
+---
+
 ## The Motto
 
 > **"Il n'y a pas de mauvaise reponse, que des mauvaises dimensions."**
