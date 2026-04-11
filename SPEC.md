@@ -1,4 +1,4 @@
-# Benoit Protocol Specification v0.7.0
+# Benoit Protocol Specification v0.8.0
 
 *Formal specification of the Benoit Communication Protocol, Intent Engine, and Contract System.*
 
